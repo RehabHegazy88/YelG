@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{07C2787E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YelG.LegacyImport", "tools\YelG.LegacyImport\YelG.LegacyImport.csproj", "{FB786CA4-8D13-48CF-845E-CFBA6F30A61A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YelG.WebSite", "YelG.WebSite\YelG.WebSite.csproj", "{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,18 @@ Global
 		{FB786CA4-8D13-48CF-845E-CFBA6F30A61A}.Release|x64.Build.0 = Release|Any CPU
 		{FB786CA4-8D13-48CF-845E-CFBA6F30A61A}.Release|x86.ActiveCfg = Release|Any CPU
 		{FB786CA4-8D13-48CF-845E-CFBA6F30A61A}.Release|x86.Build.0 = Release|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Debug|x64.Build.0 = Debug|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Release|x64.ActiveCfg = Release|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Release|x64.Build.0 = Release|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{90CB6661-4BC5-44A5-9D25-BE5A6EAE73CA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

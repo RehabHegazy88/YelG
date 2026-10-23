@@ -1,0 +1,1750 @@
+{
+ "site": {
+  "tagline": {
+   "ar": "رعاية مالية بلا حدود. خدمات المحاسبة والإدارة المالية والاستشارات الاستثمارية للشركات الصغيرة والمتوسطة والكبيرة منذ 2017.",
+   "en": "Infinite Financial Care. Accounting, finance and investment advisory for SMEs and large-sized companies — since 2017."
+  },
+  "contactEmail": "info@yelgadvisory.com",
+  "phone": "+20 10 0667 7363",
+  "websiteUrl": "https://www.yelgadvisory.com",
+  "linkedInUrl": "https://www.linkedin.com/company/yelg-advisory/",
+  "careersEmail": "careers@co.yelgadvisory.com",
+  "seoTitle": {
+   "ar": "YelG Advisory — خبرة مالية متكاملة",
+   "en": "YelG Advisory — Integrated financial expertise"
+  },
+  "seoDescription": {
+   "ar": "من المحاسبة والتقارير المالية إلى إدارة الخزينة والاستشارات الاستثمارية وإدارة المخاطر، نوفّر لشركتك الخبرة المالية التي تحتاجها لتعمل بثقة وتنمو باستدامة.",
+   "en": "From accounting and financial reporting to treasury management, investment advisory and risk management, YelG Advisory provides the financial expertise your business needs to operate confidently and grow sustainably."
+  },
+  "copyright": {
+   "ar": "© {year} YelG Advisory. جميع الحقوق محفوظة.",
+   "en": "© {year} YelG Advisory. All rights reserved."
+  }
+ },
+ "hero": {
+  "eyebrow": {
+   "ar": "رعاية مالية بلا حدود · Infinite Financial Care",
+   "en": "Infinite Financial Care"
+  },
+  "heading": {
+   "ar": "خبرة مالية متكاملة،\n*قرارات أوضح* ونمو أقوى",
+   "en": "Integrated financial expertise. *Clearer decisions.* Stronger growth."
+  },
+  "hideHeadingBreakOnMobile": false,
+  "lead": {
+   "ar": "من المحاسبة والتقارير المالية إلى إدارة الخزينة والاستشارات الاستثمارية وإدارة المخاطر، نوفّر لشركتك الخبرة المالية التي تحتاجها لتعمل بثقة وتنمو باستدامة.",
+   "en": "From accounting and financial reporting to treasury management, investment advisory and risk management, YelG Advisory provides the financial expertise your business needs to operate confidently and grow sustainably."
+  },
+  "primaryCtaLabel": {
+   "ar": "احجز استشارة",
+   "en": "Book a consultation"
+  },
+  "primaryCtaTarget": "#consult",
+  "secondaryCtaLabel": {
+   "ar": "تعرّف على خدماتنا",
+   "en": "Explore our services"
+  },
+  "secondaryCtaTarget": "#services",
+  "selfCheckLinkText": {
+   "ar": "غير متأكد من أين تبدأ؟ جرّب الفحص المالي السريع في دقيقتين ←",
+   "en": "Not sure where to start? Take the 2-minute financial self-check →"
+  },
+  "image": "meeting.jpg",
+  "imageAlt": {
+   "ar": "مستشارون يراجعون النتائج المالية مع أحد العملاء",
+   "en": "Advisors reviewing financial results with a client"
+  },
+  "badgeRingText": "INFINITE FINANCIAL CARE • SINCE 2017 •"
+ },
+ "heroStats": [
+  {
+   "kind": "Number",
+   "value": "2017",
+   "screenReaderLabel": {
+    "ar": "سنة التأسيس",
+    "en": "Established"
+   },
+   "caption": {
+    "ar": "عام انطلاق نشاط YelG Advisory.",
+    "en": "Year YelG Advisory commenced its activities."
+   },
+   "chipCodes": ""
+  },
+  {
+   "kind": "Number",
+   "value": "+10",
+   "screenReaderLabel": {
+    "ar": "القطاعات",
+    "en": "Sectors"
+   },
+   "caption": {
+    "ar": "قطاعات في مصر تضمها محفظة عملائنا.",
+    "en": "Sectors across Egypt in our client portfolio."
+   },
+   "chipCodes": ""
+  },
+  {
+   "kind": "Chips",
+   "value": "",
+   "screenReaderLabel": {
+    "ar": "المؤهلات",
+    "en": "Qualifications"
+   },
+   "chipCodes": "CMA,CIC,CWM",
+   "caption": {
+    "ar": "كفاءات حاصلة على شهادات مهنية",
+    "en": "Certified professionals"
+   }
+  }
+ ],
+ "marquee": {
+  "screenReaderText": {
+   "ar": "خدماتنا: المحاسبة ومسك الدفاتر، والاستشارات والتقارير المالية، وإدارة الخزينة، والموازنات والرقابة على التكاليف، والاستشارات الضريبية، والاستشارات الاستثمارية، وتطبيق أنظمة ERP وSaaS، والمراجعة وإدارة المخاطر، والتدريب وتطوير المهارات.",
+   "en": "Our services: Accounting and Bookkeeping, Financial Advisory and Reporting, Treasury Management, Budgeting and Cost Control, Tax Consultation, Investment Advisory, ERP and SaaS Implementation, Audit and Risk Management, Training and Up-Skilling."
+  },
+  "items": [
+   {
+    "ar": "المحاسبة ومسك الدفاتر",
+    "en": "Accounting & Bookkeeping"
+   },
+   {
+    "ar": "الاستشارات والتقارير المالية",
+    "en": "Financial Advisory & Reporting"
+   },
+   {
+    "ar": "إدارة الخزينة",
+    "en": "Treasury Management"
+   },
+   {
+    "ar": "الموازنات والتكاليف",
+    "en": "Budgeting & Cost Control"
+   },
+   {
+    "ar": "الاستشارات الضريبية",
+    "en": "Tax Consultation"
+   },
+   {
+    "ar": "الاستشارات الاستثمارية",
+    "en": "Investment Advisory"
+   },
+   {
+    "ar": "أنظمة ERP وSaaS",
+    "en": "ERP & SaaS"
+   },
+   {
+    "ar": "المراجعة والمخاطر",
+    "en": "Audit & Risk"
+   },
+   {
+    "ar": "التدريب وتطوير المهارات",
+    "en": "Training & Up-Skilling"
+   }
+  ]
+ },
+ "about": {
+  "eyebrow": {
+   "ar": "من نحن",
+   "en": "About YelG Advisory"
+  },
+  "heading": {
+   "ar": "شريكك المالي\n*على المدى الطويل*",
+   "en": "A trusted finance partner, *not a vendor for one task.*"
+  },
+  "hideHeadingBreakOnMobile": false,
+  "lead": {
+   "ar": "انطلقت YelG Advisory عام 2017 برؤية واضحة: أن تكون شركة إقليمية موثوقة في تقديم خدمات التعهيد المالي المتكاملة. نتولّى أعمال المحاسبة والإدارة المالية للشركات الصغيرة والمتوسطة والكبيرة، معتمدين على أحدث التقنيات وأفضل الممارسات، وفريق يلتزم بالدقة وسرعة الإنجاز والتكلفة المناسبة.",
+   "en": "YelG Advisory commenced its activities in 2017 with a clear vision: to be a reputable regional company providing full-fledged financial outsourcing services. We deliver comprehensive accounting and finance outsourcing to SMEs and large-sized companies — combining modern technology, market best practices and a team committed to precise, timely and cost-effective work."
+  },
+  "credentialsLabel": {
+   "ar": "مؤهلات فريق العمل",
+   "en": "Qualifications across our team"
+  },
+  "image1": "meeting.jpg",
+  "image1Alt": {
+   "ar": "فريق YelG Advisory خلال اجتماع مع أحد العملاء",
+   "en": "YelG Advisory team working with a client"
+  },
+  "image2": "desk.jpg",
+  "image2Alt": {
+   "ar": "قوائم مالية وآلة حاسبة على مكتب",
+   "en": "Financial statements and a calculator on a desk"
+  },
+  "badgeRingText": "INFINITE FINANCIAL CARE • SINCE 2017 •"
+ },
+ "aboutValues": [
+  {
+   "ar": "النزاهة",
+   "en": "Integrity"
+  },
+  {
+   "ar": "السرية",
+   "en": "Confidentiality"
+  },
+  {
+   "ar": "الشفافية",
+   "en": "Transparency"
+  },
+  {
+   "ar": "الخبرة",
+   "en": "Expertise"
+  }
+ ],
+ "credentials": [
+  {
+   "code": "CMA",
+   "description": {
+    "ar": "محاسب إداري معتمد",
+    "en": "Certified Management Accountant"
+   }
+  },
+  {
+   "code": "CIC",
+   "description": {
+    "ar": "مستشار استثمار معتمد",
+    "en": "Certified Investment Consultant"
+   }
+  },
+  {
+   "code": "CWM",
+   "description": {
+    "ar": "مدير ثروات معتمد",
+    "en": "Chartered Wealth Manager"
+   }
+  },
+  {
+   "code": "MBA",
+   "description": {
+    "ar": "ماجستير إدارة الأعمال",
+    "en": "MBA holders"
+   }
+  },
+  {
+   "code": "PhD",
+   "description": {
+    "ar": "دكتوراه في التمويل والاستثمار",
+    "en": "Doctorate in Finance & Investment"
+   }
+  }
+ ],
+ "founder": {
+  "eyebrow": {
+   "ar": "كلمة المؤسس",
+   "en": "From our founder"
+  },
+  "quote": {
+   "ar": "«في ظل التغيّر السريع وحالة عدم اليقين، لم يعد بالإمكان بناء مركز مالي قوي بالتنبؤ بالمستقبل، لكن استشرافه يظل ممكنًا متى حللنا الماضي بعمق وفهمنا الحاضر جيدًا.»",
+   "en": "“Achieving a solid financial position through predicting the future is no longer possible. Yet anticipating it remains within reach — provided we conduct a thorough analysis of the past and develop a deep understanding of the present.”"
+  },
+  "supportingLine": {
+   "ar": "ويرى أن النزاهة والسرية هما «حجر الأساس في مهنتنا»، وهما المبدآن اللذان يحكمان كل تعاقد مع YelG.",
+   "en": "Integrity and confidentiality are, in his words, “the very bedrock of our profession” — the principles behind every YelG engagement."
+  },
+  "name": {
+   "ar": "د. ياسر الجمل",
+   "en": "Dr. Yasser El Gamal"
+  },
+  "title": {
+   "ar": "المؤسس والرئيس التنفيذي",
+   "en": "Founder & CEO, YelG Advisory"
+  },
+  "photo": "dr-yasser-cutout.png",
+  "photoAlt": {
+   "ar": "د. ياسر الجمل، مؤسس YelG Advisory ورئيسها التنفيذي",
+   "en": "Dr. Yasser El Gamal, Founder and CEO of YelG Advisory"
+  },
+  "avatar": "dr-yasser-avatar.jpg"
+ },
+ "servicesSection": {
+  "eyebrow": {
+   "ar": "خدماتنا",
+   "en": "Our services"
+  },
+  "heading": {
+   "ar": "تسع خدمات مالية متكاملة\n*وشريك واحد مسؤول*",
+   "en": "Nine integrated financial services, *one accountable partner.*"
+  },
+  "hideHeadingBreakOnMobile": true,
+  "lead": {
+   "ar": "اختر المجال، ثم افتح الخدمة للتعرّف على نطاقها ومخرجاتها.",
+   "en": "Choose a category, then open any service to see exactly what we deliver."
+  },
+  "allTabLabel": {
+   "ar": "جميع الخدمات",
+   "en": "All services"
+  },
+  "cardLinkLabel": {
+   "ar": "تفاصيل الخدمة",
+   "en": "Explore service"
+  },
+  "scopeHeading": {
+   "ar": "نطاق الخدمة",
+   "en": "What we deliver"
+  },
+  "discussCtaLabel": {
+   "ar": "ناقش هذه الخدمة",
+   "en": "Discuss this service"
+  }
+ },
+ "serviceCategories": [
+  {
+   "key": "ops",
+   "name": {
+    "ar": "العمليات المالية",
+    "en": "Financial operations"
+   }
+  },
+  {
+   "key": "adv",
+   "name": {
+    "ar": "الاستشارات والنمو",
+    "en": "Advisory & growth"
+   }
+  },
+  {
+   "key": "dig",
+   "name": {
+    "ar": "التحول الرقمي",
+    "en": "Digital transformation"
+   }
+  },
+  {
+   "key": "risk",
+   "name": {
+    "ar": "المخاطر وبناء القدرات",
+    "en": "Risk & capability"
+   }
+  }
+ ],
+ "services": [
+  {
+   "key": "acc",
+   "iconKey": "acc",
+   "category": "ops",
+   "name": {
+    "ar": "المحاسبة ومسك الدفاتر",
+    "en": "Accounting & Bookkeeping"
+   },
+   "shortDescription": {
+    "ar": "سجلات دقيقة في موعدها وضوابط محكمة، لتُبنى قراراتك على أرقام موثوقة.",
+    "en": "Accurate, timely records and strong controls — so every decision starts from numbers you can trust."
+   },
+   "longDescription": {
+    "ar": "خدمات متكاملة لمسك الدفاتر والمحاسبة تضمن دقة السجلات المالية ودعم القرار. نبني أنظمة محاسبية بضوابط وإجراءات مالية محكمة تنظّم جميع المعاملات الداخلية والخارجية، ونصمّم الهيكل المحاسبي بما يتوافق مع نشاط الشركة وأهدافها الاستراتيجية.",
+    "en": "Comprehensive bookkeeping and accounting services that keep your financial records accurate for informed decision-making. We establish strong accounting systems with robust financial controls and procedures, and tailor accounting structures to your activities and strategic goals."
+   },
+   "deliverables": [
+    {
+     "ar": "دليل الحسابات وهيكل التكاليف",
+     "en": "Chart of accounts & costing structure"
+    },
+    {
+     "ar": "حسابات الموردين والعملاء",
+     "en": "Accounts payable & receivable"
+    },
+    {
+     "ar": "تسويات البنوك وبطاقات الائتمان",
+     "en": "Bank & credit-card reconciliations"
+    },
+    {
+     "ar": "الرواتب وتبويب المصروفات",
+     "en": "Payroll processing & expense classification"
+    },
+    {
+     "ar": "دفتر الأستاذ العام والميزانية الشهرية",
+     "en": "Monthly general ledger & balance sheet"
+    },
+    {
+     "ar": "إعداد القوائم المالية ومراجعتها",
+     "en": "Financial statements preparation & review"
+    },
+    {
+     "ar": "إدارة المخزون والأصول الثابتة",
+     "en": "Inventory & fixed-asset management"
+    },
+    {
+     "ar": "عمولات المبيعات",
+     "en": "Sales commissions"
+    }
+   ]
+  },
+  {
+   "key": "treas",
+   "iconKey": "treas",
+   "category": "ops",
+   "name": {
+    "ar": "إدارة الخزينة",
+    "en": "Treasury Management"
+   },
+   "shortDescription": {
+    "ar": "تحكّم أفضل في السيولة والمديونية ومخاطر العملات مع نمو أعمالك.",
+    "en": "Keep cash, debt and currency exposure under control as your business grows."
+   },
+   "longDescription": {
+    "ar": "إدارة خزينة تتابع السيولة يومًا بيوم وتخطط للمستقبل، لتتوافر للشركة النقدية التي تحتاجها وتُستخدم مواردها المالية بكفاءة.",
+    "en": "A treasury function that manages liquidity day to day and plans ahead — so the business always has the cash it needs and its financial resources are used effectively."
+   },
+   "deliverables": [
+    {
+     "ar": "إدارة التدفقات النقدية",
+     "en": "Cash-flow management"
+    },
+    {
+     "ar": "إدارة السيولة",
+     "en": "Liquidity management"
+    },
+    {
+     "ar": "إدارة المديونية",
+     "en": "Debt management"
+    },
+    {
+     "ar": "إدارة الاستثمارات",
+     "en": "Investment management"
+    },
+    {
+     "ar": "إدارة العملات الأجنبية",
+     "en": "Foreign-exchange management"
+    }
+   ]
+  },
+  {
+   "key": "bud",
+   "iconKey": "bud",
+   "category": "ops",
+   "name": {
+    "ar": "الموازنات والرقابة على التكاليف",
+    "en": "Budgeting & Cost Control"
+   },
+   "shortDescription": {
+    "ar": "خطط تنسّق أعمال الشركة، وتكشف مواطن الاختناق، وتضبط التكاليف.",
+    "en": "Plans that coordinate the business, expose bottlenecks and keep costs in check."
+   },
+   "longDescription": {
+    "ar": "تجمع الموازنة المعلومات المالية والتشغيلية لتحديد الأهداف وتنسيق الأنشطة واكتشاف مواطن الاختناق والتخطيط بفعالية، مدعومة بإدارة التكاليف والموازنة الرأسمالية.",
+    "en": "Budgeting collects and communicates financial and operational information to define goals, coordinate activities, identify bottlenecks and plan effectively — supported by cost management and capital budgeting."
+   },
+   "deliverables": [
+    {
+     "ar": "موازنات المبيعات والإنتاج وتكلفة المبيعات والمصروفات",
+     "en": "Sales, production, COGS & SG&A budgets"
+    },
+    {
+     "ar": "الموازنة النقدية والقوائم المالية التقديرية",
+     "en": "Cash budgets & pro-forma financial statements"
+    },
+    {
+     "ar": "تحليل الانحرافات والحساسية",
+     "en": "Variance & sensitivity analyses"
+    },
+    {
+     "ar": "نظام محاسبة التكاليف واستراتيجيات خفضها",
+     "en": "Cost accounting system & cost-reduction strategies"
+    },
+    {
+     "ar": "دراسات الجدوى وتقييم المشروعات",
+     "en": "Feasibility studies & project evaluations"
+    },
+    {
+     "ar": "قياس العائد وفترة الاسترداد",
+     "en": "Rate-of-return & payback assessment"
+    },
+    {
+     "ar": "تحسين هيكل رأس المال",
+     "en": "Capital-structure optimisation"
+    },
+    {
+     "ar": "تقييم الأعمال",
+     "en": "Business valuations"
+    }
+   ]
+  },
+  {
+   "key": "tax",
+   "iconKey": "tax",
+   "category": "ops",
+   "name": {
+    "ar": "الاستشارات الضريبية",
+    "en": "Tax Consultation"
+   },
+   "shortDescription": {
+    "ar": "التزام كامل، ومخاطر ضريبية أقل، وفرص توفير مشروعة.",
+    "en": "Stay compliant, reduce tax risk and identify legitimate savings."
+   },
+   "longDescription": {
+    "ar": "يُجري فريقنا تحليلات دقيقة، ويحدد فرص التوفير، ويصمّم حلولًا تتوافق مع أهدافك، مع متابعة مستمرة للتغيرات في القوانين واللوائح الضريبية.",
+    "en": "Our team conducts thorough analyses, identifies saving opportunities and customises solutions aligned with your goals — with ongoing support as tax laws and regulations change."
+   },
+   "deliverables": [
+    {
+     "ar": "الاستشارات والتوجيه في المسائل الضريبية",
+     "en": "Tax consultation & guidance on tax matters"
+    },
+    {
+     "ar": "تخطيط مالي يراعي الأثر الضريبي",
+     "en": "Tax-aware financial planning"
+    },
+    {
+     "ar": "إدارة المخاطر لتخفيف العبء الضريبي",
+     "en": "Risk management to minimise tax liability"
+    },
+    {
+     "ar": "تحديد فرص التوفير",
+     "en": "Identification of saving opportunities"
+    },
+    {
+     "ar": "دعم مستمر مع تغيّر اللوائح",
+     "en": "Ongoing support on changing regulations"
+    }
+   ]
+  },
+  {
+   "key": "fin",
+   "iconKey": "fin",
+   "category": "adv",
+   "name": {
+    "ar": "الاستشارات والتقارير المالية",
+    "en": "Financial Advisory & Reporting"
+   },
+   "shortDescription": {
+    "ar": "تحليلات توضّح للإدارة العليا محركات الأداء ومواطن التدخل.",
+    "en": "Analysis that shows top management what drives performance — and where to act."
+   },
+   "longDescription": {
+    "ar": "نستخدم أدوات التحليل المالي، كالتحليل الرأسي والأفقي والنسب المالية وتحليل التعادل والرافعة وتحليل السيناريوهات والحساسية، لنمنح الإدارة العليا رؤية واضحة تدعم تحقيق أهداف الشركة.",
+    "en": "Using financial analysis tools such as common-size and trend analysis, financial ratios, breakeven, leverage and scenario analysis, we give top management the insight needed to achieve the company's core objectives."
+   },
+   "deliverables": [
+    {
+     "ar": "التحليل الرأسي وتحليل الاتجاهات",
+     "en": "Common-size & trend analysis"
+    },
+    {
+     "ar": "نسب السيولة والنشاط والمديونية",
+     "en": "Liquidity, activity & debt ratios"
+    },
+    {
+     "ar": "نسب الربحية ومؤشرات السوق",
+     "en": "Profitability & market ratios"
+    },
+    {
+     "ar": "تحليل التعادل والرافعة",
+     "en": "Breakeven & leverage analysis"
+    },
+    {
+     "ar": "تحليل السيناريوهات والحساسية",
+     "en": "Scenario & sensitivity analysis"
+    },
+    {
+     "ar": "تحليل التكاليف",
+     "en": "Cost analysis"
+    },
+    {
+     "ar": "لوحة مؤشرات مالية",
+     "en": "Financial dashboard"
+    }
+   ]
+  },
+  {
+   "key": "inv",
+   "iconKey": "inv",
+   "category": "adv",
+   "name": {
+    "ar": "الاستشارات الاستثمارية",
+    "en": "Investment Advisory"
+   },
+   "shortDescription": {
+    "ar": "تقييم وتوجيه استثماري للقرارات التي ترسم مستقبل شركتك.",
+    "en": "Valuation and investment guidance for the decisions that shape your company's future."
+   },
+   "longDescription": {
+    "ar": "استشارات تراعي أهدافك الاستثمارية ودرجة تقبّلك للمخاطر، وتقييم دقيق لقيمة الشركة، وتوجيه متخصص في مفاوضات الاندماج والاستحواذ وبيع الحصص للوصول إلى أفضل الشروط.",
+    "en": "Advice tailored to your investment objectives and risk tolerance, accurate corporate valuation, and expert guidance through mergers, acquisitions and stake-sale negotiations — to secure the best possible terms."
+   },
+   "deliverables": [
+    {
+     "ar": "استشارات وفق الأهداف ودرجة تقبّل المخاطر",
+     "en": "Investment advisory aligned to objectives & risk tolerance"
+    },
+    {
+     "ar": "تقييم الشركات",
+     "en": "Corporate valuation"
+    },
+    {
+     "ar": "دعم مفاوضات الاندماج والاستحواذ وبيع الحصص",
+     "en": "M&A and stake-sale negotiation support"
+    },
+    {
+     "ar": "تطوير الاستراتيجية الاستثمارية",
+     "en": "Investment strategy development"
+    },
+    {
+     "ar": "تحديد فرص تعظيم قيمة الشركة",
+     "en": "Identifying areas to increase business value"
+    }
+   ]
+  },
+  {
+   "key": "erp",
+   "iconKey": "erp",
+   "category": "dig",
+   "name": {
+    "ar": "تطبيق أنظمة ERP وSaaS",
+    "en": "ERP & SaaS Implementation"
+   },
+   "shortDescription": {
+    "ar": "النظام المناسب بتطبيق سليم، ولغة مشتركة بين الإدارة المالية والمطوّرين.",
+    "en": "The right system, implemented properly — with finance and developers speaking the same language."
+   },
+   "longDescription": {
+    "ar": "نقيّم احتياجات الشركة، ونقارن حلول ERP المتاحة، ونقود عملية التطبيق. وللشركات الصغيرة، نوفّر نظام SaaS بتكلفة مناسبة يضم وحدات ERP الأساسية دون استثمار مبدئي كبير.",
+    "en": "We assess business needs, evaluate ERP solutions and lead implementation — and for small companies we offer a cost-effective SaaS system with the necessary ERP modules, without a substantial upfront investment."
+   },
+   "deliverables": [
+    {
+     "ar": "تقييم الاحتياجات ومقارنة الموردين",
+     "en": "Needs assessment & ERP vendor evaluation"
+    },
+    {
+     "ar": "توصيات للإدارة",
+     "en": "Recommendations to management"
+    },
+    {
+     "ar": "إدارة مشروع تطبيق النظام",
+     "en": "Project management for ERP installation"
+    },
+    {
+     "ar": "نقل البيانات وربط الأنظمة",
+     "en": "Data migration & system integration"
+    },
+    {
+     "ar": "إعداد دليل الحسابات",
+     "en": "Chart-of-accounts creation"
+    },
+    {
+     "ar": "مواءمة متطلبات العميل مع فرق التطوير",
+     "en": "Bridging client needs and developer understanding"
+    },
+    {
+     "ar": "نظام SaaS اقتصادي للشركات الصغيرة",
+     "en": "Cost-effective SaaS ERP for small companies"
+    }
+   ]
+  },
+  {
+   "key": "audit",
+   "iconKey": "audit",
+   "category": "risk",
+   "name": {
+    "ar": "المراجعة وإدارة المخاطر",
+    "en": "Audit & Risk Management"
+   },
+   "shortDescription": {
+    "ar": "رقابة وامتثال وتقييم للمخاطر يحمي سلامة أموالك.",
+    "en": "Controls, compliance and risk assessment that protect the integrity of your finances."
+   },
+   "longDescription": {
+    "ar": "وظيفة مراجعة وإدارة مخاطر تحافظ على النزاهة والاستقرار المالي للمؤسسة، من الضوابط ومتابعة الامتثال إلى منع الاحتيال وضمان دقة التقارير.",
+    "en": "An audit and risk function that safeguards the financial integrity and stability of the organisation — from controls and compliance monitoring to fraud prevention and reliable reporting."
+   },
+   "deliverables": [
+    {
+     "ar": "الضوابط المالية",
+     "en": "Financial controls"
+    },
+    {
+     "ar": "متابعة الامتثال",
+     "en": "Compliance monitoring"
+    },
+    {
+     "ar": "تقييم المخاطر",
+     "en": "Risk assessment"
+    },
+    {
+     "ar": "المراجعة الداخلية والخارجية",
+     "en": "Internal & external audits"
+    },
+    {
+     "ar": "اكتشاف الاحتيال ومنعه",
+     "en": "Fraud detection & prevention"
+    },
+    {
+     "ar": "التقارير والتحليل المالي",
+     "en": "Financial reporting & analysis"
+    }
+   ]
+  },
+  {
+   "key": "train",
+   "iconKey": "train",
+   "category": "risk",
+   "name": {
+    "ar": "التدريب وتطوير المهارات",
+    "en": "Training & Up-Skilling"
+   },
+   "shortDescription": {
+    "ar": "برامج تمكّن المديرين والفرق المالية من فهم المعلومات المالية وتوظيفها.",
+    "en": "Programs that help managers and finance teams understand and use financial information."
+   },
+   "longDescription": {
+    "ar": "يحتاج كل مدير إلى فهم المالية ليسهم في تحقيق أهداف مؤسسته. نقدّم برامج في المالية والبنوك والمحاسبة والاقتصاد والتمويل الدولي.",
+    "en": "Every manager needs to understand finance to help the organisation achieve its objectives. We deliver programs in finance, banking, accounting, economics and international finance."
+   },
+   "deliverables": [
+    {
+     "ar": "المالية لغير الماليين",
+     "en": "Finance for non-financials"
+    },
+    {
+     "ar": "تحليل القوائم المالية والتحليلات المالية",
+     "en": "Financial statements analysis & financial analytics"
+    },
+    {
+     "ar": "تمويل الشركات",
+     "en": "Corporate finance"
+    },
+    {
+     "ar": "الموازنات والرقابة على التكاليف",
+     "en": "Budgeting & cost control"
+    },
+    {
+     "ar": "إدارة البنوك وتحليل قوائمها المالية",
+     "en": "Banking management & bank financial-statement analysis"
+    },
+    {
+     "ar": "التمويل الدولي والأسواق والعملات والمشتقات",
+     "en": "International finance, markets, FX & derivatives"
+    },
+    {
+     "ar": "التفكير والتخطيط الاستراتيجي",
+     "en": "Strategic thinking & planning"
+    }
+   ]
+  }
+ ],
+ "why": {
+  "eyebrow": {
+   "ar": "لماذا YelG؟",
+   "en": "Why YelG"
+  },
+  "heading": {
+   "ar": "الإدارة المالية أكبر\nمن *تسجيل ما حدث*",
+   "en": "Finance should *do more* than record what happened."
+  },
+  "hideHeadingBreakOnMobile": true,
+  "lead": {
+   "ar": "نساعد الإدارة على فهم أسباب النتائج، واستشراف ما هو قادم، واتخاذ القرار المناسب في الوقت المناسب.",
+   "en": "We help management understand why results happened, what is coming next, and what to do about it."
+  },
+  "image": "post-from-numbers-to-smiles.jpg",
+  "imageAlt": {
+   "ar": "مستشارو YelG Advisory يعرضون النتائج على إدارة أحد العملاء",
+   "en": "YelG Advisory consultants presenting results to a client's management team"
+  },
+  "floatingCardText": {
+   "ar": "من الأرقام إلى قرارات أوضح",
+   "en": "From numbers to clearer decisions."
+  }
+ },
+ "whyCards": [
+  {
+   "title": {
+    "ar": "خبرات معتمدة",
+    "en": "Qualified expertise"
+   },
+   "text": {
+    "ar": "حاملو شهادات CMA وCIC وCWM وماجستير إدارة الأعمال، ودكتوراه في التمويل والاستثمار.",
+    "en": "CMA, CIC and CWM holders, MBAs and a doctorate in Finance & Investment."
+   },
+   "isHighlighted": false
+  },
+  {
+   "title": {
+    "ar": "حلول تناسب شركتك",
+    "en": "Tailored to your business"
+   },
+   "text": {
+    "ar": "لكل شركة طبيعتها، لذلك نصمّم كل تعاقد وفق احتياجاتها.",
+    "en": "Every company is different, so every engagement is shaped around its needs."
+   },
+   "isHighlighted": false
+  },
+  {
+   "title": {
+    "ar": "جودة وامتثال",
+    "en": "Quality & compliance"
+   },
+   "text": {
+    "ar": "دقة في العمل، والتزام بالمواعيد، وامتثال للوائح المعمول بها.",
+    "en": "Accuracy, timeliness and compliance with applicable regulations."
+   },
+   "isHighlighted": false
+  },
+  {
+   "title": {
+    "ar": "أمان وسرية",
+    "en": "Security & confidentiality"
+   },
+   "text": {
+    "ar": "بروتوكولات سرية صارمة لحماية بياناتك المالية.",
+    "en": "Strict confidentiality protocols protect your financial information."
+   },
+   "isHighlighted": false
+  },
+  {
+   "title": {
+    "ar": "تقنيات حديثة",
+    "en": "Technology-enabled"
+   },
+   "text": {
+    "ar": "برمجيات متطورة تبسّط الإجراءات وتتيح الوصول إلى البيانات المالية.",
+    "en": "Modern software to streamline processes and give access to financial data."
+   },
+   "isHighlighted": false
+  },
+  {
+   "title": {
+    "ar": "قريبون منك وملتزمون",
+    "en": "Accessible & committed"
+   },
+   "text": {
+    "ar": "فريق متاح طوال أيام الأسبوع، ويلتزم بمواعيد التسليم.",
+    "en": "A team you can reach throughout the week, delivering on time."
+   },
+   "isHighlighted": true
+  }
+ ],
+ "how": {
+  "eyebrow": {
+   "ar": "منهجية العمل",
+   "en": "How we work"
+  },
+  "heading": {
+   "ar": "منهجية واضحة تحفظ السرية\n*من أول لقاء حتى النتائج*",
+   "en": "A clear, confidential process *from first call to lasting results.*"
+  },
+  "hideHeadingBreakOnMobile": true,
+  "lead": {
+   "ar": "يسير كل تعاقد وفق هيكل عمل منضبط، ويُحدَّد نطاقه بالاتفاق معك قبل البدء.",
+   "en": "Every engagement follows the same disciplined structure — scoped to your needs and agreed with you before work begins."
+  }
+ },
+ "howSteps": [
+  {
+   "title": {
+    "ar": "دراسة الاحتياجات",
+    "en": "Discovery & needs assessment"
+   },
+   "text": {
+    "ar": "تقييمات ومقابلات واستفسارات لتحديد فرص تطوير الإدارة المالية.",
+    "en": "Assessments, interviews and inquiries to pinpoint where your finance function can improve."
+   },
+   "isHighlighted": false
+  },
+  {
+   "title": {
+    "ar": "السرية وتحديد النطاق",
+    "en": "Confidentiality & scope"
+   },
+   "text": {
+    "ar": "اتفاقية عدم إفصاح، ونطاق عمل متفق عليه، وفريق متخصص يناسب احتياجاتك.",
+    "en": "A non-disclosure agreement, an agreed scope and the right specialists matched to your needs."
+   },
+   "isHighlighted": false
+  },
+  {
+   "title": {
+    "ar": "تصميم الحلول وتنفيذها",
+    "en": "Solution design & implementation"
+   },
+   "text": {
+    "ar": "سياسات وإجراءات وأنظمة وتقارير، مع مراجعة للجودة وتوثيق كامل.",
+    "en": "Policies, procedures, systems and reports put in place — with quality checks and full documentation."
+   },
+   "isHighlighted": false
+  },
+  {
+   "title": {
+    "ar": "المتابعة ونقل المعرفة",
+    "en": "Reporting, knowledge transfer & improvement"
+   },
+   "text": {
+    "ar": "تقارير دورية، وتدريب وتوجيه لفريقك، وتحسين مستمر.",
+    "en": "Ongoing reporting, training and mentoring for your team, and continuous refinement."
+   },
+   "isHighlighted": true
+  }
+ ],
+ "purpose": {
+  "eyebrow": {
+   "ar": "رسالتنا ورؤيتنا",
+   "en": "Our purpose"
+  },
+  "heading": {
+   "ar": "نمكّن الشركات من النمو والازدهار",
+   "en": "Empowering businesses to thrive"
+  },
+  "hideHeadingBreakOnMobile": false,
+  "lead": {
+   "ar": "",
+   "en": ""
+  },
+  "missionTabLabel": {
+   "ar": "الرسالة",
+   "en": "Mission"
+  },
+  "visionTabLabel": {
+   "ar": "الرؤية",
+   "en": "Vision"
+  },
+  "goalsTabLabel": {
+   "ar": "الأهداف",
+   "en": "Goals"
+  },
+  "mission": {
+   "ar": "أن نكون الشريك الموثوق الذي يمكّن الشركات من الازدهار في بيئة اقتصادية متغيّرة، من خلال إدارة مالية احترافية وخدمات محاسبة وتعهيد مالي متكاملة للشركات الصغيرة والمتوسطة والكبيرة.",
+   "en": "Serve as a trusted partner, empowering businesses to thrive in today's dynamic economic landscape through expert financial management — providing top-notch, comprehensive accounting and finance outsourcing services to SMEs and large-sized companies."
+  },
+  "vision": {
+   "ar": "أن نكون شركة إقليمية موثوقة في تقديم خدمات التعهيد المالي المتكاملة.",
+   "en": "Being a regional reputable company providing full-fledged financial outsourcing services."
+  },
+  "video": "yelg-brand-film.webm",
+  "poster": "yelg-brand-film-poster.jpg",
+  "videoLabel": {
+   "ar": "فيلم الهوية البصرية لـ YelG Advisory (14 ثانية، دون تعليق صوتي)",
+   "en": "YelG Advisory brand film (14 seconds, no narration)"
+  }
+ },
+ "purposeGoals": [
+  {
+   "ar": "رضا العملاء",
+   "en": "Client satisfaction"
+  },
+  {
+   "ar": "نمو الأعمال",
+   "en": "Business growth"
+  },
+  {
+   "ar": "الكفاءة التشغيلية",
+   "en": "Operational efficiency"
+  },
+  {
+   "ar": "تطوير الخبرات",
+   "en": "Expertise development"
+  },
+  {
+   "ar": "الابتكار",
+   "en": "Innovation"
+  },
+  {
+   "ar": "التوسع في الأسواق",
+   "en": "Market expansion"
+  }
+ ],
+ "engage": {
+  "eyebrow": {
+   "ar": "نماذج التعاون",
+   "en": "Ways to work with us"
+  },
+  "heading": {
+   "ar": "دعم مستمر، أو مشروع محدد،\n*أو تطوير لفريقك*",
+   "en": "Ongoing support, focused projects *or team development.*"
+  },
+  "hideHeadingBreakOnMobile": true,
+  "lead": {
+   "ar": "",
+   "en": ""
+  }
+ },
+ "engagementModels": [
+  {
+   "iconKey": "acc",
+   "title": {
+    "ar": "تعهيد المحاسبة والإدارة المالية",
+    "en": "Finance & accounting outsourcing"
+   },
+   "text": {
+    "ar": "دعم مستمر لإدارتك المالية، من مسك الدفاتر والتسويات إلى التقارير والخزينة والضرائب.",
+    "en": "Ongoing support for your finance function — from bookkeeping and reconciliations to reporting, treasury and tax."
+   },
+   "bullets": [
+    {
+     "ar": "سجلات مالية دقيقة في موعدها",
+     "en": "Accurate, timely financial records"
+    },
+    {
+     "ar": "ضوابط وإجراءات مستدامة",
+     "en": "Controls and procedures that last"
+    },
+    {
+     "ar": "تقارير دورية للإدارة",
+     "en": "Regular management reporting"
+    }
+   ],
+   "ctaLabel": {
+    "ar": "ناقش خدمات التعهيد",
+    "en": "Discuss outsourcing"
+   },
+   "preselectService": "acc",
+   "preselectNotSure": false,
+   "isHighlighted": false
+  },
+  {
+   "iconKey": "inv",
+   "title": {
+    "ar": "الاستشارات والمشروعات",
+    "en": "Advisory & projects"
+   },
+   "text": {
+    "ar": "دعم متخصص لقرار أو مرحلة بعينها: التقييم، ودراسات الجدوى، والموازنات، واختيار أنظمة ERP وتطبيقها، ودعم صفقات الاندماج والاستحواذ.",
+    "en": "Focused support for a decision or milestone — valuation, feasibility studies, budgeting, ERP selection and implementation, or M&A support."
+   },
+   "bullets": [
+    {
+     "ar": "نطاق ومخرجات محددة",
+     "en": "Defined scope and deliverables"
+    },
+    {
+     "ar": "تحليلات قابلة للتنفيذ",
+     "en": "Analysis management can act on"
+    },
+    {
+     "ar": "دعم في التفاوض والتنفيذ",
+     "en": "Expert negotiation and implementation support"
+    }
+   ],
+   "ctaLabel": {
+    "ar": "ناقش مشروعك",
+    "en": "Discuss a project"
+   },
+   "preselectService": null,
+   "preselectNotSure": true,
+   "isHighlighted": true
+  },
+  {
+   "iconKey": "train",
+   "title": {
+    "ar": "التدريب وتطوير المهارات",
+    "en": "Training & up-skilling"
+   },
+   "text": {
+    "ar": "برامج في المالية والبنوك والمحاسبة والاقتصاد والتمويل الدولي، للفرق المالية وللمديرين من غير المتخصصين.",
+    "en": "Programs in finance, banking, accounting, economics and international finance — for finance teams and non-financial managers."
+   },
+   "bullets": [
+    {
+     "ar": "المالية لغير الماليين",
+     "en": "Finance for non-financials"
+    },
+    {
+     "ar": "تحليل القوائم المالية",
+     "en": "Financial statement analysis"
+    },
+    {
+     "ar": "الموازنات والرقابة على التكاليف",
+     "en": "Budgeting and cost control"
+    }
+   ],
+   "ctaLabel": {
+    "ar": "استفسر عن التدريب",
+    "en": "Ask about training"
+   },
+   "preselectService": "train",
+   "preselectNotSure": false,
+   "isHighlighted": false
+  }
+ ],
+ "industries": {
+  "eyebrow": {
+   "ar": "القطاعات والعملاء",
+   "en": "Industries & client experience"
+  },
+  "heading": {
+   "ar": "خبرة تمتد إلى\n*أكثر من 10 قطاعات* في مصر",
+   "en": "Experience across *10+ sectors* in Egypt."
+  },
+  "hideHeadingBreakOnMobile": true,
+  "lead": {
+   "ar": "يضم عملاؤنا شركات صناعية وخدمية ومؤسسات مالية وتعليمية، لكلٍّ منها متطلباته في التقارير والتكاليف والرقابة.",
+   "en": "Our clientele spans industrial and service businesses, financial institutions and education — each with its own reporting, cost and control needs."
+  },
+  "approvalNote": {
+   "ar": "لا ننشر أسماء العملاء أو شعاراتهم إلا بموافقة كتابية مسبقة منهم.",
+   "en": "Client names and logos are published only with each client's written approval."
+  }
+ },
+ "sectors": [
+  {
+   "label": {
+    "ar": "الصناعة",
+    "en": "Industrial"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "المقاولات",
+    "en": "Construction"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "الألومنيوم والمعادن",
+    "en": "Aluminum & metals"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "الجلود",
+    "en": "Leather"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "النقل",
+    "en": "Transportation"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "السياحة",
+    "en": "Tourism"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "الصناعات الغذائية",
+    "en": "Food industry"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "المطاعم",
+    "en": "Restaurants"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "وكالات التسويق",
+    "en": "Marketing agencies"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "الأسمنت والطوب",
+    "en": "Cement & bricks"
+   },
+   "isEmphasized": false
+  },
+  {
+   "label": {
+    "ar": "وقطاعات أخرى",
+    "en": "and more"
+   },
+   "isEmphasized": true
+  }
+ ],
+ "clientCategories": [
+  {
+   "iconKey": "bank",
+   "colorVariant": "blue",
+   "title": {
+    "ar": "البنوك",
+    "en": "Banks"
+   },
+   "text": {
+    "ar": "تضم محفظة عملائنا عددًا من المؤسسات المالية.",
+    "en": "Financial institutions are part of our client portfolio."
+   }
+  },
+  {
+   "iconKey": "edu",
+   "colorVariant": "coral",
+   "title": {
+    "ar": "الجامعات والمؤسسات التعليمية",
+    "en": "Universities & educational institutes"
+   },
+   "text": {
+    "ar": "تضم محفظة عملائنا جهات أكاديمية وتعليمية.",
+    "en": "Academic and educational institutions are part of our client portfolio."
+   }
+  },
+  {
+   "iconKey": "corp",
+   "colorVariant": "cyan",
+   "title": {
+    "ar": "الشركات بمختلف أحجامها",
+    "en": "Corporates & SMEs"
+   },
+   "text": {
+    "ar": "شركات صغيرة ومتوسطة وكبيرة في القطاعات الصناعية والخدمية.",
+    "en": "SMEs and large-sized companies across industrial and service sectors."
+   }
+  }
+ ],
+ "selfCheck": {
+  "eyebrow": {
+   "ar": "الفحص المالي السريع",
+   "en": "Financial self-check"
+  },
+  "heading": {
+   "ar": "ما مدى جاهزية إدارتك المالية؟\n*اعرف خلال دقيقتين*",
+   "en": "How strong is your finance function? *Find out in 2 minutes.*"
+  },
+  "hideHeadingBreakOnMobile": true,
+  "lead": {
+   "ar": "عشرة أسئلة سريعة عن السجلات والتقارير والتخطيط والرقابة والأنظمة، تحصل بعدها على نتيجة استرشادية وأكثر الخدمات ارتباطًا باحتياجاتك.",
+   "en": "Ten quick questions on records, reporting, planning, controls and systems. You'll get an indicative score and the services most relevant to your gaps."
+  },
+  "disclaimer1": {
+   "ar": "أداة استرشادية، وليست تقييمًا مهنيًا أو استشارة مالية.",
+   "en": "An indicative self-check — not a professional assessment or financial advice."
+  },
+  "disclaimer2": {
+   "ar": "تبقى إجاباتك على هذه الصفحة فقط، ولا يتم حفظها أو إرسالها.",
+   "en": "Your answers stay on this page. Nothing is stored or sent."
+  },
+  "pickHint": {
+   "ar": "اختر إجابة للمتابعة",
+   "en": "Choose an answer to continue"
+  },
+  "backLabel": {
+   "ar": "→ السؤال السابق",
+   "en": "← Previous"
+  },
+  "resultLabel": {
+   "ar": "نتيجتك الاسترشادية",
+   "en": "Your indicative result"
+  },
+  "recommendationsLabel": {
+   "ar": "خدمات مرتبطة بإجاباتك",
+   "en": "Services related to your answers"
+  },
+  "methodNote": {
+   "ar": "طريقة الاحتساب: «نعم» = 2، و«جزئيًا» = 1، و«ليس بعد» = 0 لكل سؤال. النتيجة مؤشر أولي للنقاش، وليست تشخيصًا مهنيًا.",
+   "en": "Scoring: Yes = 2, Partly = 1, Not yet = 0 for each of the 10 questions. This is a simple indicator for discussion, not a professional diagnosis."
+  },
+  "discussCtaLabel": {
+   "ar": "ناقش نتيجتك معنا",
+   "en": "Discuss my results"
+  },
+  "restartLabel": {
+   "ar": "إعادة الفحص",
+   "en": "Start again"
+  },
+  "prefillTemplate": {
+   "ar": "نتيجتي في الفحص المالي السريع: {score} من 20 ({band}). أودّ مناقشة: ",
+   "en": "My financial self-check score was {score}/20 ({band}). I would like to discuss: "
+  }
+ },
+ "selfCheckQuestions": [
+  {
+   "area": {
+    "ar": "السجلات",
+    "en": "Records"
+   },
+   "text": {
+    "ar": "هل تُقفَل الحسابات وتُجرى التسويات البنكية وتسويات العملاء والموردين شهريًا؟",
+    "en": "Are your books closed and reconciled — bank, receivables and payables — every month?"
+   },
+   "linkedService": "acc"
+  },
+  {
+   "area": {
+    "ar": "السجلات",
+    "en": "Records"
+   },
+   "text": {
+    "ar": "هل تحصل على قوائم مالية دقيقة بعد نهاية كل شهر بوقت قصير؟",
+    "en": "Do you receive accurate financial statements soon after each month ends?"
+   },
+   "linkedService": "acc"
+  },
+  {
+   "area": {
+    "ar": "التقارير",
+    "en": "Reporting"
+   },
+   "text": {
+    "ar": "هل تراجع الإدارة لوحة مؤشرات أو تقريرًا ماليًا بصفة منتظمة؟",
+    "en": "Does management review a regular financial dashboard or KPI report?"
+   },
+   "linkedService": "fin"
+  },
+  {
+   "area": {
+    "ar": "التخطيط",
+    "en": "Planning"
+   },
+   "text": {
+    "ar": "هل لديكم موازنة سنوية تُقارَن بها النتائج الفعلية؟",
+    "en": "Do you set an annual budget and compare actual results against it?"
+   },
+   "linkedService": "bud"
+  },
+  {
+   "area": {
+    "ar": "التكاليف",
+    "en": "Costs"
+   },
+   "text": {
+    "ar": "هل تعرف التكلفة والهامش الحقيقيين لأهم منتجاتك أو خدماتك؟",
+    "en": "Do you know the true cost and margin of your main products or services?"
+   },
+   "linkedService": "bud"
+  },
+  {
+   "area": {
+    "ar": "السيولة",
+    "en": "Cash"
+   },
+   "text": {
+    "ar": "هل تتوقعون التدفقات النقدية لثلاثة أشهر قادمة على الأقل؟",
+    "en": "Do you forecast your cash flow at least three months ahead?"
+   },
+   "linkedService": "treas"
+  },
+  {
+   "area": {
+    "ar": "الضرائب",
+    "en": "Tax"
+   },
+   "text": {
+    "ar": "هل يُخطَّط للالتزامات الضريبية وتُراجَع بواسطة متخصص بدلًا من إنجازها في اللحظة الأخيرة؟",
+    "en": "Are your tax obligations planned and reviewed by a specialist, rather than handled at the last minute?"
+   },
+   "linkedService": "tax"
+  },
+  {
+   "area": {
+    "ar": "الرقابة",
+    "en": "Controls"
+   },
+   "text": {
+    "ar": "هل الضوابط المالية وصلاحيات الاعتماد والسياسات موثّقة ومطبّقة فعليًا؟",
+    "en": "Are financial controls, approvals and policies documented and followed?"
+   },
+   "linkedService": "audit"
+  },
+  {
+   "area": {
+    "ar": "الأنظمة",
+    "en": "Systems"
+   },
+   "text": {
+    "ar": "هل يوفّر نظام المحاسبة أو ERP التقارير التي تحتاجونها دون جهد يدوي كبير؟",
+    "en": "Does your accounting or ERP system produce the reports you need without heavy manual work?"
+   },
+   "linkedService": "erp"
+  },
+  {
+   "area": {
+    "ar": "الفريق",
+    "en": "People"
+   },
+   "text": {
+    "ar": "هل يحصل فريقكم المالي على تدريب منتظم يواكب المستجدات؟",
+    "en": "Does your finance team receive regular training to keep its skills current?"
+   },
+   "linkedService": "train"
+  }
+ ],
+ "selfCheckOptions": [
+  {
+   "label": {
+    "ar": "نعم",
+    "en": "Yes"
+   },
+   "score": 2
+  },
+  {
+   "label": {
+    "ar": "جزئيًا",
+    "en": "Partly"
+   },
+   "score": 1
+  },
+  {
+   "label": {
+    "ar": "ليس بعد",
+    "en": "Not yet"
+   },
+   "score": 0
+  }
+ ],
+ "selfCheckBands": [
+  {
+   "minScore": 16,
+   "title": {
+    "ar": "أساس متين",
+    "en": "Solid foundations"
+   },
+   "text": {
+    "ar": "تغطي إدارتك المالية معظم الأساسيات، ويمكن أن تركّز المراجعة على تحليل أعمق أو التقييم أو التخطيط للنمو.",
+    "en": "Your finance function covers most essentials. A review could focus on deeper analysis, valuation or planning for growth."
+   }
+  },
+  {
+   "minScore": 9,
+   "title": {
+    "ar": "فرص واضحة للتطوير",
+    "en": "Room to strengthen"
+   },
+   "text": {
+    "ar": "تتوافر لديك ممارسات أساسية، لكن بعض الفجوات قد تحدّ من وضوح الرؤية أو الرقابة أو التخطيط. ومعالجتها تجعل القرار أسرع وأكثر أمانًا.",
+    "en": "Several core practices are in place, but gaps may be limiting your visibility, control or planning. Addressing them could make decisions faster and safer."
+   }
+  },
+  {
+   "minScore": 0,
+   "title": {
+    "ar": "البداية من الأساسيات",
+    "en": "Foundations first"
+   },
+   "text": {
+    "ar": "بعض الممارسات الجوهرية غائبة أو غير منظّمة. تعزيز السجلات والرقابة والتخطيط أولًا يمنح الإدارة أرقامًا يمكن الاعتماد عليها.",
+    "en": "Key practices are missing or informal. Strengthening records, controls and planning first will give management numbers it can rely on."
+   }
+  }
+ ],
+ "faq": {
+  "eyebrow": {
+   "ar": "الأسئلة الشائعة",
+   "en": "FAQ"
+  },
+  "heading": {
+   "ar": "إجابات عن أكثر\nالأسئلة تكرارًا",
+   "en": "Common questions, answered"
+  },
+  "hideHeadingBreakOnMobile": true,
+  "lead": {
+   "ar": "لم تجد إجابة سؤالك؟ [أرسل استفسارك](#consult) وسيتواصل معك أحد المتخصصين.",
+   "en": "Can't find what you need? [Send us your question](#consult) and a specialist will reply."
+  }
+ },
+ "faqItems": [
+  {
+   "question": {
+    "ar": "ما الشركات التي تعملون معها؟",
+    "en": "Which companies do you work with?"
+   },
+   "answer": {
+    "ar": "نعمل مع الشركات الصغيرة والمتوسطة والكبيرة، وتمتد محفظة عملائنا إلى أكثر من 10 قطاعات في مصر، منها الصناعة والمقاولات والمعادن والنقل والسياحة والصناعات الغذائية، إلى جانب البنوك والمؤسسات التعليمية.",
+    "en": "SMEs and large-sized companies. Our client portfolio spans 10+ sectors in Egypt — including industrial, construction, metals, transportation, tourism and food — as well as banks and educational institutions."
+   },
+   "isOpenByDefault": true
+  },
+  {
+   "question": {
+    "ar": "هل يمكن إسناد الإدارة المالية بالكامل إليكم؟",
+    "en": "Can we outsource our whole finance function?"
+   },
+   "answer": {
+    "ar": "نعم. نقدّم خدمات تعهيد متكاملة للمحاسبة والإدارة المالية، من مسك الدفاتر والتسويات والرواتب إلى التقارير المالية والخزينة والموازنات والضرائب، ويمكننا كذلك تغطية مجالات محددة فقط.",
+    "en": "Yes. We provide comprehensive accounting and finance outsourcing — from bookkeeping, reconciliations and payroll to financial reporting, treasury, budgeting and tax — or we can support selected areas only."
+   },
+   "isOpenByDefault": false
+  },
+  {
+   "question": {
+    "ar": "كيف تحافظون على سرية بياناتنا؟",
+    "en": "How do you protect our confidential information?"
+   },
+   "answer": {
+    "ar": "السرية من قيمنا الأساسية؛ فهيكل عملنا يتضمن اتفاقية عدم إفصاح، ونطبّق بروتوكولات سرية وإجراءات أمان صارمة على جميع البيانات المالية لعملائنا.",
+    "en": "Confidentiality is a core value. Our work structure includes a non-disclosure agreement, and we apply strict confidentiality protocols and security measures to all client financial information."
+   },
+   "isOpenByDefault": false
+  },
+  {
+   "question": {
+    "ar": "هل تساعدون في اختيار أنظمة ERP وتطبيقها؟",
+    "en": "Do you help select and implement ERP systems?"
+   },
+   "answer": {
+    "ar": "نعم، بدءًا من تقييم الاحتياجات ومقارنة الموردين، مرورًا بإدارة المشروع ونقل البيانات وربط الأنظمة، وصولًا إلى إعداد دليل الحسابات. ونوفّر للشركات الصغيرة حل SaaS بتكلفة مناسبة.",
+    "en": "Yes — from needs assessment and vendor evaluation to project management, data migration, system integration and chart-of-accounts design. For small companies, we also offer a cost-effective SaaS option."
+   },
+   "isOpenByDefault": false
+  },
+  {
+   "question": {
+    "ar": "هل تقدّمون برامج تدريبية لفريقنا؟",
+    "en": "Do you offer training for our team?"
+   },
+   "answer": {
+    "ar": "نعم. نقدّم برامج في المالية والبنوك والمحاسبة والاقتصاد والتمويل الدولي، منها: المالية لغير الماليين، وتحليل القوائم المالية، والموازنات والرقابة على التكاليف.",
+    "en": "Yes. We deliver programs in finance, banking, accounting, economics and international finance — for example Finance for Non-Financials, Financial Statements Analysis, and Budgeting & Cost Control."
+   },
+   "isOpenByDefault": false
+  },
+  {
+   "question": {
+    "ar": "كيف يبدأ التعاون معكم؟",
+    "en": "How does an engagement start?"
+   },
+   "answer": {
+    "ar": "يبدأ بلقاء تعريفي وتقييم للاحتياجات، ثم نتفق على نطاق العمل وشروط السرية قبل البدء. [احجز استشارتك](#consult) لنبدأ.",
+    "en": "With a conversation and a needs assessment. We then agree the scope and confidentiality terms before any work begins. [Book a consultation](#consult) to get started."
+   },
+   "isOpenByDefault": false
+  }
+ ],
+ "consult": {
+  "eyebrow": {
+   "ar": "احجز استشارة",
+   "en": "Book a consultation"
+  },
+  "heading": {
+   "ar": "لنراجع معًا\n*أداء إدارتك المالية*",
+   "en": "Let's review your *finance function* together."
+  },
+  "hideHeadingBreakOnMobile": true,
+  "lead": {
+   "ar": "أخبرنا عن شركتك واحتياجاتها، وسيتواصل معك أحد المتخصصين لتحديد موعد مناسب، دون أي التزام.",
+   "en": "Tell us about your business and what you need. A specialist from our team will get back to you to arrange a conversation — with no obligation."
+  },
+  "directContactLabel": {
+   "ar": "تفضّل التواصل المباشر؟",
+   "en": "Prefer to reach us directly?"
+  },
+  "formTitle": {
+   "ar": "طلب استشارة",
+   "en": "Consultation enquiry"
+  },
+  "requiredNote": {
+   "ar": "الحقول المميزة بعلامة \\* إلزامية.",
+   "en": "Fields marked \\* are required."
+  },
+  "consentText": {
+   "ar": "أوافق على أن تستخدم YelG Advisory هذه البيانات للرد على طلبي فقط، دون استخدامها لأي غرض آخر.",
+   "en": "I agree that YelG Advisory may use these details to respond to my enquiry. They won't be used for anything else."
+  },
+  "notSureLabel": {
+   "ar": "غير متأكد بعد — أحتاج إلى توجيه",
+   "en": "Not sure yet — I'd like advice"
+  },
+  "submitLabel": {
+   "ar": "تجهيز الطلب",
+   "en": "Prepare my enquiry"
+  },
+  "successTitle": {
+   "ar": "",
+   "en": ""
+  },
+  "successText": {
+   "ar": "",
+   "en": ""
+  },
+  "failureText": {
+   "ar": "",
+   "en": ""
+  }
+ },
+ "consultSteps": [
+  {
+   "title": {
+    "ar": "شاركنا احتياجاتك",
+    "en": "Share your needs"
+   },
+   "text": {
+    "ar": "معلومات موجزة عن شركتك وأهدافك.",
+    "en": "A few details about your company and goals."
+   }
+  },
+  {
+   "title": {
+    "ar": "تقييم الاحتياجات",
+    "en": "Needs assessment"
+   },
+   "text": {
+    "ar": "نناقش فرص تطوير إدارتك المالية.",
+    "en": "We discuss where your finance function can improve."
+   }
+  },
+  {
+   "title": {
+    "ar": "نطاق العمل المقترح",
+    "en": "Proposed scope"
+   },
+   "text": {
+    "ar": "نطاق واضح نتفق عليه في إطار من السرية.",
+    "en": "A clear scope, agreed under confidentiality."
+   }
+  }
+ ],
+ "validation": {
+  "ar": {
+   "name": "يرجى إدخال الاسم الكامل.",
+   "email": "يرجى إدخال بريد إلكتروني صحيح، مثل name@company.com.",
+   "company": "يرجى إدخال اسم الشركة.",
+   "phone": "يرجى إدخال رقم هاتف صحيح، أو ترك الحقل فارغًا.",
+   "service": "يرجى اختيار الخدمة، أو اختيار «غير متأكد بعد».",
+   "message": "يرجى توضيح طلبك بشكل أكبر (20 حرفًا على الأقل).",
+   "consent": "يرجى الموافقة على استخدام بياناتك للرد على طلبك."
+  },
+  "en": {
+   "name": "Please enter your full name.",
+   "email": "Please enter a valid email address, e.g. name@company.com.",
+   "company": "Please enter your company name.",
+   "phone": "Please enter a valid phone number, or leave this blank.",
+   "service": "Please choose a service, or select “Not sure yet”.",
+   "message": "Please tell us a little more (at least 20 characters).",
+   "consent": "Please confirm we may use your details to respond."
+  }
+ },
+ "notSureValue": {
+  "ar": "غير متأكد بعد",
+  "en": "Not sure yet"
+ },
+ "insights": {
+  "eyebrow": {
+   "ar": "المقالات",
+   "en": "Insights"
+  },
+  "heading": {
+   "ar": "أحدث ما نشرناه",
+   "en": "Latest from YelG Advisory"
+  },
+  "hideHeadingBreakOnMobile": false,
+  "lead": {
+   "ar": "",
+   "en": ""
+  },
+  "followLinkLabel": {
+   "ar": "تابعنا على LinkedIn",
+   "en": "Follow us on LinkedIn"
+  },
+  "followLinkUrl": "https://www.linkedin.com/company/yelg-advisory/posts/"
+ },
+ "insightPosts": [
+  {
+   "image": "post-insight-to-action.jpg",
+   "imageAlt": {
+    "ar": "تصميم منشور: من الرؤية إلى التنفيذ",
+    "en": "From Insight to Action — YelG Advisory post graphic"
+   },
+   "categoryLabel": {
+    "ar": "رؤية",
+    "en": "Insight"
+   },
+   "source": "LinkedIn",
+   "categoryColor": "blue",
+   "publishedOn": "2026-09-01",
+   "title": {
+    "ar": "من الرؤية إلى التنفيذ: منظور مالي واحد لكل خدماتنا",
+    "en": "From insight to action: one financial perspective across every service"
+   },
+   "externalUrl": "https://www.linkedin.com/company/yelg-advisory/posts/"
+  },
+  {
+   "image": "post-infinite-financial-care.jpg",
+   "imageAlt": {
+    "ar": "تصميم منشور من سلسلة Infinite Financial Care",
+    "en": "Infinite Financial Care series — post graphic"
+   },
+   "categoryLabel": {
+    "ar": "سلسلة",
+    "en": "Series"
+   },
+   "source": "LinkedIn",
+   "categoryColor": "coral",
+   "publishedOn": "2026-09-01",
+   "title": {
+    "ar": "ما المعنى الحقيقي لـ Infinite Financial Care؟",
+    "en": "What does Infinite Financial Care really mean?"
+   },
+   "externalUrl": "https://www.linkedin.com/company/yelg-advisory/posts/"
+  },
+  {
+   "image": "post-finance-should-do-more.jpg",
+   "imageAlt": {
+    "ar": "تصميم منشور: الإدارة المالية أكبر من التسجيل",
+    "en": "Finance should do more — post graphic"
+   },
+   "categoryLabel": {
+    "ar": "قصتنا",
+    "en": "Our story"
+   },
+   "source": "LinkedIn",
+   "categoryColor": "blue",
+   "publishedOn": "2026-08-01",
+   "title": {
+    "ar": "بدأنا من قناعة بسيطة: الإدارة المالية قادرة على تقديم المزيد",
+    "en": "It started with a simple belief: finance should do more"
+   },
+   "externalUrl": "https://www.linkedin.com/company/yelg-advisory/posts/"
+  }
+ ],
+ "careers": {
+  "eyebrow": {
+   "ar": "الوظائف",
+   "en": "Careers"
+  },
+  "heading": {
+   "ar": "انضم إلى فريق مالي ينمو باستمرار",
+   "en": "Grow with a growing finance team"
+  },
+  "hideHeadingBreakOnMobile": false,
+  "lead": {
+   "ar": "اعمل مع شركات وقطاعات ونماذج أعمال متنوعة. نعلن عن الوظائف المتاحة عبر صفحتنا على LinkedIn.",
+   "en": "Work across many companies, sectors and business models. Open roles are announced on our LinkedIn page."
+  },
+  "image": "post-hiring.jpg",
+  "imageAlt": {
+   "ar": "إعلان توظيف من YelG Advisory",
+   "en": "YelG Advisory hiring announcement"
+  },
+  "sendCvLabel": {
+   "ar": "أرسل سيرتك الذاتية",
+   "en": "Send your CV"
+  },
+  "cvEmailSubject": "CV — YelG Advisory",
+  "jobsLinkLabel": {
+   "ar": "الوظائف المتاحة",
+   "en": "Open roles"
+  },
+  "jobsUrl": "https://www.linkedin.com/company/yelg-advisory/jobs/"
+ },
+ "portal": {
+  "badgeLabel": {
+   "ar": "قريبًا",
+   "en": "Coming soon"
+  },
+  "title": {
+   "ar": "بوابة العملاء",
+   "en": "Client portal"
+  },
+  "text": {
+   "ar": "نعمل على تجهيز مساحة آمنة تتيح لعملائنا الاطلاع على تقاريرهم وبياناتهم المالية. وحتى إطلاقها، يمكن لعملائنا التواصل مباشرة مع فريق YelG.",
+   "en": "A secure space for clients to access their reports and financial data is in preparation. Existing clients can continue to contact their YelG team directly."
+  },
+  "status": "ComingSoon",
+  "signInLabel": {
+   "ar": "",
+   "en": ""
+  },
+  "portalUrl": null
+ },
+ "media": [
+  "desk.jpg",
+  "dr-yasser-avatar.jpg",
+  "dr-yasser-cutout.png",
+  "meeting.jpg",
+  "post-finance-should-do-more.jpg",
+  "post-from-numbers-to-smiles.jpg",
+  "post-hiring.jpg",
+  "post-infinite-financial-care.jpg",
+  "post-insight-to-action.jpg",
+  "yelg-brand-film-poster.jpg",
+  "yelg-brand-film.webm"
+ ]
+}
