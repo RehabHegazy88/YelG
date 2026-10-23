@@ -12,6 +12,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- interface wording generated from the prototypes by tools/website/extract-seed.py -->
+    <EmbeddedResource Include="Resources\ui-strings.json" />
+    <Content Remove="Resources\ui-strings.json" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>

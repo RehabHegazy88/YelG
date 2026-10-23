@@ -1,0 +1,28 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var site = c.Site;
+    var hasServices = c.HasAnchor("#services");
+}
+<footer id="contact" class="foot-sec">
+<div aria-hidden="true" class="foot-glow"></div>
+<div class="wrap foot">
+<div class="foot-grid">
+<div class="foot-brand">
+<span class="lat foot-logo" dir="ltr"><span class="logo-main">YelG</span><span class="logo-sub">ADVISORY</span></span>
+@if (!site.Tagline.IsEmpty){<p class="foot-tagline">@Model.R(site.Tagline)</p>}
+@if (!string.IsNullOrEmpty(site.LinkedInUrl))
+{
+<a href="@site.LinkedInUrl" target="_blank" rel="noopener" aria-label="@Model.S("linkedInLabel")" class="foot-social"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9V21h-4z"></path></svg></a>
+}
+</div>
+<nav aria-label="@Model.S("footerCompanyLabel")" class="foot-col"><strong>@Model.S("footerCompany")</strong>@foreach (var link in Model.Ui.Links("footerCompanyLinks").Where(l => c.HasAnchor(l.Href))){<a href="@link.Href">@link.For(Model.Lang)</a>}</nav>
+@if (hasServices || c.HasSelfCheck)
+{
+<nav aria-label="@Model.S("footerServicesLabel")" class="foot-col"><strong>@Model.S("footerServices")</strong>@if (hasServices){foreach (var cat in c.ServiceCategories){<a href="#services" data-footer-cat="@cat.Key">@Model.T(cat.Name)</a>}}@if (c.HasSelfCheck){<a href="#health">@Model.S("footerSelfCheck")</a>}</nav>
+}
+<div class="foot-col"><strong>@Model.S("footerContact")</strong>@if (!string.IsNullOrEmpty(site.ContactEmail)){<a href="mailto:@site.ContactEmail" dir="ltr" class="lat">@site.ContactEmail</a>}@if (!string.IsNullOrEmpty(site.Phone)){<a href="@HomePageModel.TelHref(site.Phone)" dir="ltr" class="lat">@site.Phone</a>}@if (!string.IsNullOrEmpty(site.WebsiteUrl)){<a href="@site.WebsiteUrl" target="_blank" rel="noopener" dir="ltr" class="lat">@HomePageModel.DisplayUrl(site.WebsiteUrl)</a>}@if (c.HasAnchor("#consult")){<a href="#consult" class="foot-book">@Model.S("footerBook")</a>}</div>
+</div>
+<div class="foot-bottom"><span>@Model.R(new YelG.WebSite.Domain.Common.LocalizedText(site.Copyright.Ar.Replace("{year}", Model.Year), site.Copyright.En.Replace("{year}", Model.Year)))</span><a href="#top">@Model.S("backToTop")</a></div>
+</div>
+</footer>

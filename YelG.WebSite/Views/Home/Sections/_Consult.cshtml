@@ -1,0 +1,65 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var con = c.Consult!;
+    var site = c.Site;
+    var n = 0;
+    // the client-side checks show the same messages the server will use
+    var messages = Model.Ui.Validation(Model.Lang);
+}
+<section id="consult" class="sec consult" aria-labelledby="consultTitle">
+<div class="wrap consult-wrap">
+<div class="consult-panel">
+<div aria-hidden="true" class="consult-glow"></div>
+<div class="consult-inner">
+<span class="eyebrow on-dark">@Model.R(con.Eyebrow)</span>
+<h2 id="consultTitle" class="h2 light">@Model.Heading(con)</h2>
+@if (!con.Lead.IsEmpty){<p class="consult-lead">@Model.R(con.Lead)</p>}
+@if (c.ConsultSteps.Count > 0)
+{
+<ol class="consult-steps">
+@foreach (var step in c.ConsultSteps)
+{
+    n++;
+<li><span aria-hidden="true" class="consult-num@(n == 1 ? " consult-num-on" : "")">@n</span><span class="consult-step"><strong>@Model.R(step.Title)</strong><br>@Model.R(step.Text)</span></li>
+}
+</ol>
+}
+@if (!string.IsNullOrEmpty(site.ContactEmail) || !string.IsNullOrEmpty(site.Phone))
+{
+<div class="consult-direct">
+<span class="consult-direct-label">@Model.R(con.DirectContactLabel)</span>
+@if (!string.IsNullOrEmpty(site.ContactEmail)){<a href="mailto:@site.ContactEmail" dir="ltr" class="lat">@site.ContactEmail</a>}
+@if (!string.IsNullOrEmpty(site.Phone)){<a href="@HomePageModel.TelHref(site.Phone)" dir="ltr" class="lat">@site.Phone</a>}
+</div>
+}
+</div>
+</div>
+<form id="consultForm" novalidate aria-labelledby="formTitle" class="cform" data-messages="@System.Text.Json.JsonSerializer.Serialize(messages)" data-error-summary="@Model.S("formErrorSummary")">
+<div class="cform-head">
+<h3 id="formTitle" class="h3">@Model.R(con.FormTitle)</h3>
+<p class="cform-note">@Model.R(con.RequiredNote, markStar: true)</p>
+</div>
+<div class="alert alert-err" role="alert" data-error-summary-box hidden><strong></strong></div>
+<div class="fgrid">
+<div class="fld"><label for="fName">@Model.S("formName") <i>*</i></label><input id="fName" name="name" class="in" type="text" autocomplete="name" aria-invalid="false" aria-describedby="eName" aria-required="true"><p id="eName" class="err" hidden></p></div>
+<div class="fld"><label for="fEmail">@Model.S("formEmail") <i>*</i></label><input id="fEmail" name="email" dir="@(Model.IsArabic ? "ltr" : null)" placeholder="@(Model.S("formEmailPlaceholder") is { Length: > 0 } pe ? pe : null)" class="in" type="email" autocomplete="email" aria-invalid="false" aria-describedby="eEmail" aria-required="true"><p id="eEmail" class="err" hidden></p></div>
+<div class="fld"><label for="fCompany">@Model.S("formCompany") <i>*</i></label><input id="fCompany" name="company" class="in" type="text" autocomplete="organization" aria-invalid="false" aria-describedby="eCompany" aria-required="true"><p id="eCompany" class="err" hidden></p></div>
+<div class="fld"><label for="fPhone">@Model.S("formPhone") <span class="hint">@Model.S("formOptional")</span></label><input id="fPhone" name="phone" dir="@(Model.IsArabic ? "ltr" : null)" placeholder="@(Model.S("formPhonePlaceholder") is { Length: > 0 } pp ? pp : null)" class="in" type="tel" autocomplete="tel" aria-invalid="false" aria-describedby="ePhone"><p id="ePhone" class="err" hidden></p></div>
+<div class="fld fld-full"><label for="fService">@Model.S("formService") <i>*</i></label>
+<select id="fService" name="service" class="in" aria-invalid="false" aria-describedby="eService" aria-required="true">
+<option value="">@Model.S("formServicePick")</option>
+@foreach (var svc in c.ServiceList)
+{
+<option value="@svc.Key">@Model.T(svc.Name)</option>
+}
+<option value="not-sure">@Model.T(con.NotSureLabel)</option>
+</select>
+<p id="eService" class="err" hidden></p></div>
+<div class="fld fld-full"><label for="fMsg">@Model.S("formMessage") <i>*</i></label><textarea id="fMsg" name="message" class="in" rows="5" aria-invalid="false" aria-describedby="eMsg hMsg" aria-required="true"></textarea><span id="hMsg" class="hint">@Model.S("formMessageHint")</span><p id="eMsg" class="err" hidden></p></div>
+<div class="fld fld-full"><label class="consent" for="fConsent"><input id="fConsent" name="consent" type="checkbox" value="true" aria-invalid="false" aria-describedby="eConsent"><span>@Model.R(con.ConsentText)</span></label><p id="eConsent" class="err" hidden></p></div>
+</div>
+<button type="submit" class="btn btn-blue cform-submit">@Model.T(con.SubmitLabel)<span class="ar">@Model.ArrowIcon</span></button>
+</form>
+</div>
+</section>

@@ -1,0 +1,21 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var how = c.How!;
+    var n = 0;
+}
+<section id="how" class="sec how-sec">
+<div class="wrap how-wrap">
+<div class="head"><span class="eyebrow">@Model.R(how.Eyebrow)</span><h2 class="h2">@Model.Heading(how)</h2>@if (!how.Lead.IsEmpty){<p class="lead">@Model.R(how.Lead)</p>}</div>
+@if (c.HowSteps.Count > 0)
+{
+<ol class="steps">
+@foreach (var step in c.HowSteps)
+{
+    n++;
+<li class="step"><span class="dot@(step.IsHighlighted ? " dot-on" : "")" aria-hidden="true">@n.ToString("00")</span><div class="card"><h3 class="h3">@Model.R(step.Title)</h3><p>@Model.R(step.Text)</p></div></li>
+}
+</ol>
+}
+</div>
+</section>

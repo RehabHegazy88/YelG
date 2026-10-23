@@ -1,0 +1,54 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var ind = c.Industries!;
+}
+<section id="industries" class="sec industries">
+<div class="wrap ind-wrap">
+<div class="ind-top">
+<div class="head ind-head"><span class="eyebrow">@Model.R(ind.Eyebrow)</span><h2 class="h2">@Model.Heading(ind)</h2>@if (!ind.Lead.IsEmpty){<p class="lead">@Model.R(ind.Lead)</p>}</div>
+@if (c.Sectors.Count > 0)
+{
+<ul aria-label="@Model.S("sectorsLabel")" class="ind-sectors">
+@foreach (var sector in c.Sectors){<li class="chip@(sector.IsEmphasized ? " chip-on" : "")">@Model.R(sector.Label)</li>}
+</ul>
+}
+</div>
+@if (c.ClientCategories.Count > 0)
+{
+<div class="ind-grid">
+@foreach (var cat in c.ClientCategories)
+{
+<div class="ind-card">
+<span aria-hidden="true" class="ind-ico ind-ico-@cat.ColorVariant">@switch (cat.IconKey)
+{
+    case "bank":
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"></path></svg>
+        break;
+    case "edu":
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 9l10-5 10 5-10 5z"></path><path d="M6 11v5c3 2 9 2 12 0v-5"></path></svg>
+        break;
+    default:
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="10" height="18" rx="1"></rect><path d="M14 9h6v12h-6M7 7h4M7 11h4M7 15h4"></path></svg>
+        break;
+}</span>
+<span class="ind-card-text"><h3 class="h3">@Model.R(cat.Title)</h3><span>@Model.R(cat.Text)</span></span>
+</div>
+}
+</div>
+}
+@if (c.ClientLogos.Count > 0)
+{
+<ul class="ind-logos">
+@foreach (var logo in c.ClientLogos)
+{
+<li>@if (!string.IsNullOrEmpty(logo.WebsiteUrl)){<a href="@logo.WebsiteUrl" target="_blank" rel="noopener"><img src="@logo.Logo!.Path" alt="@Model.T(logo.Name)" loading="lazy"></a>}else{<img src="@logo.Logo!.Path" alt="@Model.T(logo.Name)" loading="lazy">}</li>
+}
+</ul>
+}
+@if (!ind.ApprovalNote.IsEmpty)
+{
+<p class="ind-note">@Model.R(ind.ApprovalNote)</p>
+}
+</div>
+</section>

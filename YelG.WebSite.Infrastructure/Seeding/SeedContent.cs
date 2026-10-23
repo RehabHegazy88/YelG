@@ -103,7 +103,7 @@ namespace YelG.WebSite.Infrastructure.Seeding
     public sealed class HeroStatSeed
     {
         public Domain.Sections.HeroStatKind Kind { get; set; }
-        public string Value { get; set; } = string.Empty;
+        public LocalizedText Value { get; set; } = new();
         public LocalizedText Caption { get; set; } = new();
         public LocalizedText ScreenReaderLabel { get; set; } = new();
         public string ChipCodes { get; set; } = string.Empty;

@@ -1,0 +1,87 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var ins = c.Insights;
+    var car = c.Careers;
+    var portal = c.Portal;
+    var site = c.Site;
+}
+<section id="@(ins is not null ? "insights" : null)" class="sec more" aria-labelledby="@(ins is not null ? "insTitle" : null)">
+<div class="wrap more-wrap">
+@if (ins is not null)
+{
+<div class="sec-headrow">
+<div class="head"><span class="eyebrow">@Model.R(ins.Eyebrow)</span><h2 id="insTitle" class="h2">@Model.Heading(ins)</h2>@if (!ins.Lead.IsEmpty){<p class="lead">@Model.R(ins.Lead)</p>}</div>
+@if (!string.IsNullOrEmpty(ins.FollowLinkUrl))
+{
+<a href="@ins.FollowLinkUrl" target="_blank" rel="noopener" class="tlink">@Model.R(ins.FollowLinkLabel) <span aria-hidden="true">@Model.ArrowExternal</span><span class="sr">@Model.S("opensNewTab")</span></a>
+}
+</div>
+@if (c.InsightPosts.Count > 0)
+{
+<div class="posts">
+@foreach (var post in c.InsightPosts)
+{
+<a href="@post.ExternalUrl" target="_blank" rel="noopener" class="post"><span class="photo photo-flat post-photo @HomePageModel.FocusClass(post.Image)">@if (post.Image is { } img){<img src="@img.Path" alt="@Model.T(post.ImageAlt)" loading="lazy">}</span><span class="post-meta post-meta-@post.CategoryColor">@Model.R(post.CategoryLabel) · @Model.Iso(post.Source) · @Model.MonthYear(post.PublishedOn)</span><span class="post-title">@Model.R(post.Title)</span><span class="sr">@Model.S("opensNewTab")</span></a>
+}
+</div>
+}
+}
+@if (car is not null || portal is not null)
+{
+<div class="more-grid">
+@if (car is not null)
+{
+<div id="careers" class="careers">
+<span class="photo photo-flat careers-photo @HomePageModel.FocusClass(car.Image)">@if (car.Image is { } img){<img src="@img.Path" alt="@Model.T(car.ImageAlt)" loading="lazy">}</span>
+<div class="careers-body">
+<span class="eyebrow">@Model.R(car.Eyebrow)</span>
+<h3 class="h3">@Model.R(car.Heading)</h3>
+@if (!car.Lead.IsEmpty){<p class="careers-p">@Model.R(car.Lead)</p>}
+@if (c.CareerRoles.Count > 0)
+{
+<ul class="roles">
+@foreach (var role in c.CareerRoles)
+{
+    var apply = !string.IsNullOrEmpty(role.ApplyUrl) ? role.ApplyUrl : !string.IsNullOrEmpty(role.ApplyEmail) ? "mailto:" + role.ApplyEmail : null;
+<li class="role">
+<strong class="role-title">@if (apply is not null){<a href="@apply" target="@(apply.StartsWith("http") ? "_blank" : null)" rel="@(apply.StartsWith("http") ? "noopener" : null)">@Model.R(role.Title)</a>}else{@Model.R(role.Title)}</strong>
+<span class="role-meta">@Model.R(role.Location)@if (!role.Location.IsEmpty && !role.Experience.IsEmpty){<text> · </text>}@Model.R(role.Experience)</span>
+@if (role.Tags.Count > 0){<span class="role-tags">@foreach (var tag in role.Tags){<span class="chip">@Model.R(tag.Label)</span>}</span>}
+</li>
+}
+</ul>
+}
+<div class="careers-links">
+@if (!string.IsNullOrEmpty(site.CareersEmail))
+{
+<a href="mailto:@site.CareersEmail?subject=@Uri.EscapeDataString(car.CvEmailSubject)" class="tlink">@Model.R(car.SendCvLabel) <span aria-hidden="true">@Model.ArrowNext</span></a>
+}
+@if (!string.IsNullOrEmpty(car.JobsUrl))
+{
+<a href="@car.JobsUrl" target="_blank" rel="noopener" class="tlink">@Model.R(car.JobsLinkLabel) <span aria-hidden="true">@Model.ArrowExternal</span><span class="sr">@Model.SR("jobsOpensNewTab")</span></a>
+}
+</div>
+</div>
+</div>
+}
+@if (portal is not null)
+{
+<div id="portal" class="portal">
+<div aria-hidden="true" class="portal-glow"></div>
+@if (portal.Status == PortalStatus.ComingSoon && !portal.BadgeLabel.IsEmpty)
+{
+<span class="portal-badge">@Model.R(portal.BadgeLabel)</span>
+}
+<h3 class="h3 portal-title">@Model.R(portal.Title)</h3>
+<p class="portal-p">@Model.R(portal.Text)</p>
+@if (portal.ShowsSignIn)
+{
+<a href="@portal.PortalUrl" class="btn btn-cyan portal-cta">@Model.T(portal.SignInLabel)<span class="ar">@Model.ArrowIcon</span></a>
+}
+</div>
+}
+</div>
+}
+</div>
+</section>

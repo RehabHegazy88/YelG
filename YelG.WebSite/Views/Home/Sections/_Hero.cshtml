@@ -1,0 +1,100 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var hero = c.Hero;
+    var ctaLabel = hero is not null ? Model.T(hero.PrimaryCtaLabel) : Model.T(c.Consult?.Eyebrow);
+    var otherLang = Model.OtherLang;
+}
+<section id="top" class="heroB" aria-label="@Model.S("heroLabel")">
+<div aria-hidden="true" class="heroB-pat"></div>
+<header class="hd">
+<div class="wrap hd-bar">
+<a href="#top" class="hd-logo" aria-label="@Model.S("homeLabel")">
+@if (c.Site.Logo is { } logo)
+{
+<img src="@logo.Path" alt="" class="hd-logo-img">
+}
+else
+{
+<svg aria-hidden="true" width="44" height="44" viewBox="0 0 64 64">@HomePageModel.MarkPath<circle cx="42" cy="19" r="13" fill="url(#lgBE2)"></circle></svg>
+<span class="lat logo-word" dir="ltr"><span class="logo-main">YelG</span><span class="logo-sub">ADVISORY</span></span>
+}
+</a>
+<nav aria-label="@Model.S("mainNavLabel")" class="mnav">
+@foreach (var link in Model.Ui.Links("nav").Where(l => c.HasAnchor(l.Href)))
+{
+<a href="@link.Href">@link.For(Model.Lang)</a>
+}
+</nav>
+<div class="hd-actions">
+<a href="/@otherLang" class="hd-lang" lang="@otherLang" hreflang="@otherLang" dir="@(otherLang == SiteLanguage.Arabic ? "rtl" : "ltr")" aria-label="@Model.S("langSwitchLabel")" data-lang-switch>@Model.S("langSwitchText")</a>
+@if (c.HasAnchor("#consult"))
+{
+<a href="#consult" class="btn btn-cyan hide-sm hd-cta">@ctaLabel<span class="ar">@Model.ArrowIcon</span></a>
+}
+<button type="button" class="menuBtn" aria-label="@Model.S("menuOpen")" aria-controls="mobileNav" aria-expanded="false"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+</div>
+</div>
+</header>
+<nav id="mobileNav" aria-label="@Model.S("mobileNavLabel")" class="mobNav" hidden><div class="wrap">@foreach (var link in Model.Ui.Links("mobileNav").Where(l => c.HasAnchor(l.Href))){<a href="@link.Href" class="@(link.Href == "#consult" ? "mcta" : null)">@link.For(Model.Lang)</a>}</div></nav>
+@if (hero is not null)
+{
+<div class="wrap heroGrid">
+<div class="hero-copy">
+<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.R(hero.Eyebrow)</span>
+<h1 class="@(Model.IsArabic ? "h1ar" : "h1en")">@Model.Heading(hero)</h1>
+<p class="hero-lead">@Model.R(hero.Lead)</p>
+<div class="heroCtas">
+<a href="@hero.PrimaryCtaTarget" class="btn btn-cyan">@Model.T(hero.PrimaryCtaLabel)<span class="ar">@Model.ArrowIcon</span></a>
+<a href="@hero.SecondaryCtaTarget" class="btn btn-line">@Model.T(hero.SecondaryCtaLabel)</a>
+</div>
+@if (c.HasSelfCheck && !hero.SelfCheckLinkText.IsEmpty)
+{
+<a href="#health" class="hero-check">@Model.R(hero.SelfCheckLinkText)</a>
+}
+</div>
+<div class="heroArch">
+<div aria-hidden="true" class="arch-ring1"></div>
+<div aria-hidden="true" class="arch-ring2"></div>
+<div class="photo arch-photo">@if (hero.Image is { } img){<img src="@img.Path" alt="@Model.T(hero.ImageAlt)" fetchpriority="high">}</div>
+@if (!string.IsNullOrEmpty(hero.BadgeRingText))
+{
+<div class="heroBadge" aria-hidden="true">
+<svg class="spin ring-svg" viewBox="0 0 150 150"><defs><path id="circHE" d="M75 75 m-54 0 a54 54 0 1 1 108 0 a54 54 0 1 1 -108 0"></path></defs><text font-family="Sora, sans-serif" font-size="13" font-weight="600" letter-spacing="3" fill="#FFFFFF"><textPath href="#circHE">@hero.BadgeRingText</textPath></text></svg>
+<svg width="36" height="36" viewBox="0 0 64 64">@HomePageModel.MarkPath</svg>
+</div>
+}
+</div>
+@if (c.HeroStats.Count > 0)
+{
+<dl class="heroStats">
+@foreach (var stat in c.HeroStats)
+{
+<div class="stat"><dt class="sr">@Model.T(stat.ScreenReaderLabel)</dt>
+@if (stat.Kind == HeroStatKind.Number)
+{
+<dd class="stat-dd"><div class="num stat-num">@if (Model.IsArabic){<bdi dir="ltr">@Model.T(stat.Value)</bdi>}else{@Model.T(stat.Value)}</div><p class="stat-caption">@Model.R(stat.Caption)</p></dd>
+}
+else
+{
+<dd class="stat-dd stat-chips"><span class="stat-chips-caption">@Model.R(stat.Caption)</span><span class="stat-chip-row">@foreach (var code in stat.ChipCodes.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)){<span class="stat-chip">@code</span>}</span></dd>
+}
+</div>
+}
+</dl>
+}
+</div>
+}
+@if (c.Marquee is not null && c.MarqueeItems.Count > 0)
+{
+<div class="strip">
+<p class="sr">@Model.R(c.Marquee.ScreenReaderText)</p>
+<div class="marquee@(Model.IsArabic ? " mq-rtl" : "") strip-track" aria-hidden="true">
+@for (var copy = 0; copy < 2; copy++)
+{
+<span class="strip-group">@foreach (var item in c.MarqueeItems){<span>@Model.R(item.Label)</span><span>✦</span>}</span>
+}
+</div>
+</div>
+}
+</section>

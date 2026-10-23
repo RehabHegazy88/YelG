@@ -1,0 +1,48 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var p = c.Purpose!;
+    // the tabs that have something to show, in the design's order
+    var tabs = new List<(string Label, string Kind)>();
+    if (!p.Mission.IsEmpty) tabs.Add((Model.T(p.MissionTabLabel), "mission"));
+    if (!p.Vision.IsEmpty) tabs.Add((Model.T(p.VisionTabLabel), "vision"));
+    if (c.PurposeGoals.Count > 0) tabs.Add((Model.T(p.GoalsTabLabel), "goals"));
+}
+<section class="on-dark sec purpose" aria-labelledby="purposeTitle">
+<div aria-hidden="true" class="purpose-glow"></div>
+<div class="wrap purpose-wrap">
+<div class="purpose-film">@if (p.Video is { } video){<video src="@video.Path" controls muted playsinline preload="none" poster="@p.Poster?.Path" aria-label="@Model.T(p.VideoLabel)"></video>}</div>
+<div class="purpose-text">
+<span class="eyebrow on-dark">@Model.R(p.Eyebrow)</span>
+<h2 id="purposeTitle" class="h2">@Model.Heading(p)</h2>
+@if (tabs.Count > 0)
+{
+<div role="tablist" aria-label="@Model.S("purposeTabsLabel")" class="purpose-tabs">
+@for (var i = 0; i < tabs.Count; i++)
+{
+<button type="button" role="tab" id="pt@(i)" aria-controls="pp" aria-selected="@(i == 0 ? "true" : "false")" class="tabbtn@(i == 0 ? " tabbtn-on" : "")" data-tab="@i" tabindex="@(i == 0 ? "0" : "-1")">@tabs[i].Label</button>
+}
+</div>
+<div id="pp" role="tabpanel" aria-labelledby="pt0" class="purpose-panel">
+@for (var i = 0; i < tabs.Count; i++)
+{
+<div data-tab-panel="@i" @(i == 0 ? null : "hidden")>
+@switch (tabs[i].Kind)
+{
+    case "mission":
+        <p class="purpose-p">@Model.R(p.Mission)</p>
+        break;
+    case "vision":
+        <p class="purpose-p">@Model.R(p.Vision)</p>
+        break;
+    default:
+        <div class="purpose-goals">@foreach (var goal in c.PurposeGoals){<span>@Model.R(goal.Label)</span>}</div>
+        break;
+}
+</div>
+}
+</div>
+}
+</div>
+</div>
+</section>

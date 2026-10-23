@@ -1,0 +1,31 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var why = c.Why!;
+}
+<section id="why" class="sec why-sec">
+<div class="wrap why-wrap">
+<div class="why-main">
+<div class="head"><span class="eyebrow">@Model.R(why.Eyebrow)</span><h2 class="h2">@Model.Heading(why)</h2>@if (!why.Lead.IsEmpty){<p class="lead">@Model.R(why.Lead)</p>}</div>
+@if (c.WhyCards.Count > 0)
+{
+<div class="why-grid">
+@foreach (var card in c.WhyCards)
+{
+<div class="why@(card.IsHighlighted ? " why-on" : "")"><b>@Model.R(card.Title)</b><span>@Model.R(card.Text)</span></div>
+}
+</div>
+}
+</div>
+<div class="why-media">
+<div class="photo why-photo @HomePageModel.FocusClass(why.Image)">@if (why.Image is { } img){<img src="@img.Path" alt="@Model.T(why.ImageAlt)" loading="lazy">}</div>
+@if (!why.FloatingCardText.IsEmpty)
+{
+<div class="why-float">
+<span aria-hidden="true" class="why-float-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"></path><path d="M14 7h7v7"></path></svg></span>
+<span class="why-float-text">@Model.R(why.FloatingCardText)</span>
+</div>
+}
+</div>
+</div>
+</section>

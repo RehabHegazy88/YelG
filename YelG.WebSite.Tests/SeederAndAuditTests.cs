@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using YelG.WebSite.Application;
 using YelG.WebSite.Application.Abstractions;
 using YelG.WebSite.Domain.Sections;
 using YelG.WebSite.Infrastructure;
@@ -33,6 +34,7 @@ namespace YelG.WebSite.Tests
             var services = new ServiceCollection();
             services.AddLogging();
             services.AddSingleton<ICurrentUser>(user);
+            services.AddWebSiteApplication();
             services.AddWebSiteInfrastructure(ConnectionString);
             services.AddIdentityCore<AdminUser>(IdentityPolicy.Configure)
                 .AddRoles<AdminRole>()

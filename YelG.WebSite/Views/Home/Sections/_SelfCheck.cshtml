@@ -1,0 +1,83 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var sc = c.SelfCheck!;
+    var q0 = c.SelfCheckQuestions[0];
+    var total = c.SelfCheckQuestions.Count;
+    var top = c.SelfCheckOptions.Max(o => o.Score);
+    var max = total * top;
+    // what the self-check needs, read by site.js (the design's QUIZ / OPTS lists and band rules)
+    var data = new
+    {
+        questions = c.SelfCheckQuestions.Select(q => new
+        {
+            area = q.Area.For(Model.Lang),
+            text = q.Text.For(Model.Lang),
+            service = q.LinkedService?.Name.For(Model.Lang)
+        }),
+        options = c.SelfCheckOptions.Select(o => new { label = o.Label.For(Model.Lang), score = o.Score }),
+        top,
+        max,
+        bands = c.SelfCheckBands.OrderByDescending(b => b.MinScore).Select(b => new { min = b.MinScore, title = b.Title.For(Model.Lang), text = b.Text.For(Model.Lang) }),
+        progress = Model.S("quizProgress"),
+        prefill = sc.PrefillTemplate.For(Model.Lang)
+    };
+}
+<section id="health" class="sec health">
+<div class="wrap health-wrap">
+<div class="head health-head">
+<span class="eyebrow">@Model.R(sc.Eyebrow)</span>
+<h2 class="h2">@Model.Heading(sc)</h2>
+@if (!sc.Lead.IsEmpty){<p class="lead">@Model.R(sc.Lead)</p>}
+@if (!sc.Disclaimer1.IsEmpty || !sc.Disclaimer2.IsEmpty)
+{
+<ul class="health-notes">
+@foreach (var note in new[] { sc.Disclaimer1, sc.Disclaimer2 }.Where(n => !n.IsEmpty))
+{
+<li><span aria-hidden="true">●</span>@Model.R(note)</li>
+}
+</ul>
+}
+</div>
+<div class="quiz health-quiz" data-quiz>
+<div class="quiz-run" data-quiz-run>
+<div class="quiz-top">
+<div class="quiz-meta"><span data-quiz="progress">@Model.S("quizProgress").Replace("{n}", "1").Replace("{total}", total.ToString())</span><span data-quiz="area">@Model.Data(q0.Area)</span></div>
+<div class="bar" role="progressbar" aria-label="@Model.S("quizProgressLabel")" aria-valuemin="0" aria-valuemax="@total" aria-valuenow="0"><i data-quiz="bar"></i></div>
+</div>
+<fieldset class="quiz-fieldset">
+<legend class="quiz-q" data-quiz="question">@Model.Data(q0.Text)</legend>
+<div class="opts">
+@foreach (var option in c.SelfCheckOptions)
+{
+<button type="button" class="opt" aria-pressed="false" data-score="@option.Score">@Model.Data(option.Label)</button>
+}
+</div>
+</fieldset>
+<div class="quiz-foot">
+<button type="button" class="tlink quiz-back" data-quiz="back" disabled>@Model.R(sc.BackLabel)</button>
+<span class="quiz-hint">@Model.R(sc.PickHint)</span>
+</div>
+</div>
+<div role="status" aria-live="polite" class="quiz-result" data-quiz-done hidden>
+<span class="quiz-result-label">@Model.R(sc.ResultLabel)</span>
+<div class="score" dir="ltr"><span data-quiz="score">0</span><small>@Model.S("quizScoreOf").Replace("{max}", max.ToString())</small></div>
+<h3 class="quiz-band" data-quiz="band"></h3>
+<p class="quiz-band-text" data-quiz="bandText"></p>
+<div class="quiz-recs" data-quiz="recsBlock" hidden>
+<span class="lbl">@Model.R(sc.RecommendationsLabel)</span>
+<div class="quiz-recs-row" data-quiz="recs"></div>
+</div>
+<p class="quiz-method">@Model.R(sc.MethodNote)</p>
+<div class="quiz-ctas">
+@if (c.HasAnchor("#consult"))
+{
+<a href="#consult" class="btn btn-blue" data-quiz="discuss">@Model.T(sc.DiscussCtaLabel)<span class="ar">@Model.ArrowIcon</span></a>
+}
+<button type="button" class="btn btn-ghost" data-quiz="restart">@Model.T(sc.RestartLabel)</button>
+</div>
+</div>
+</div>
+</div>
+<script type="application/json" id="quizData">@Json.Serialize(data)</script>
+</section>

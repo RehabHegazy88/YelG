@@ -19,7 +19,11 @@ namespace YelG.WebSite.Infrastructure.Maps
             builder.Entity<HeroStat>(b =>
             {
                 b.ToTable("HeroStats");
-                b.Property(x => x.Value).HasMaxLength(20);
+                b.ComplexProperty(x => x.Value, v =>
+                {
+                    v.Property(t => t.Ar).HasMaxLength(20);
+                    v.Property(t => t.En).HasMaxLength(20);
+                });
                 b.Property(x => x.ChipCodes).HasMaxLength(120);
             });
             builder.Entity<MarqueeSettings>(b => b.ToTable("MarqueeSettings"));

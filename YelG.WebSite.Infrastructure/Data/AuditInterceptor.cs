@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using YelG.WebSite.Application.Abstractions;
+using YelG.WebSite.Application.Content;
 using YelG.WebSite.Domain.Audit;
 using YelG.WebSite.Domain.Common;
 using YelG.WebSite.Domain.Enquiries;
@@ -13,7 +14,8 @@ namespace YelG.WebSite.Infrastructure.Data
     /// <summary>
     /// On every save: stamps the base entity fields (UTC dates, the signed-in user), turns deletes of
     /// soft-deleted types into Deleted = true, and records an <see cref="AuditLog"/> row for each change made
-    /// by a signed-in user. Changes without a user (the seeder) are not audited row by row.
+    /// by a signed-in user. Changes without a user (the seeder) are not audited row by row. After a save that
+    /// touched site content, the content version is bumped so the cached public page is rebuilt.
     /// </summary>
     public sealed class AuditInterceptor : SaveChangesInterceptor
     {
@@ -41,12 +43,15 @@ namespace YelG.WebSite.Infrastructure.Data
 
         private readonly ICurrentUser _currentUser;
         private readonly TimeProvider _clock;
+        private readonly IContentVersion _contentVersion;
         private List<Pending>? _pending;
+        private bool _contentChanged;
 
-        public AuditInterceptor(ICurrentUser currentUser, TimeProvider clock)
+        public AuditInterceptor(ICurrentUser currentUser, TimeProvider clock, IContentVersion contentVersion)
         {
             _currentUser = currentUser;
             _clock = clock;
+            _contentVersion = contentVersion;
         }
 
         public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
@@ -64,6 +69,7 @@ namespace YelG.WebSite.Infrastructure.Data
 
         public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
         {
+            ContentSaved();
             if (WriteAudit(eventData.Context)) eventData.Context!.SaveChanges();
             return base.SavedChanges(eventData, result);
         }
@@ -71,6 +77,7 @@ namespace YelG.WebSite.Infrastructure.Data
         public override async ValueTask<int> SavedChangesAsync(
             SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken = default)
         {
+            ContentSaved();
             if (WriteAudit(eventData.Context)) await eventData.Context!.SaveChangesAsync(cancellationToken);
             return await base.SavedChangesAsync(eventData, result, cancellationToken);
         }
@@ -78,12 +85,14 @@ namespace YelG.WebSite.Infrastructure.Data
         public override void SaveChangesFailed(DbContextErrorEventData eventData)
         {
             _pending = null;
+            _contentChanged = false;
             base.SaveChangesFailed(eventData);
         }
 
         public override Task SaveChangesFailedAsync(DbContextErrorEventData eventData, CancellationToken cancellationToken = default)
         {
             _pending = null;
+            _contentChanged = false;
             return base.SaveChangesFailedAsync(eventData, cancellationToken);
         }
 
@@ -97,6 +106,7 @@ namespace YelG.WebSite.Infrastructure.Data
             foreach (var entry in context.ChangeTracker.Entries().ToList())
             {
                 if (entry.State is EntityState.Unchanged or EntityState.Detached || entry.Entity is AuditLog) continue;
+                if (entry.Entity is BaseEntity and not (Enquiry or EnquiryNote)) _contentChanged = true;
                 var action = entry.State switch
                 {
                     EntityState.Added => "Created",
@@ -135,6 +145,13 @@ namespace YelG.WebSite.Infrastructure.Data
             }
 
             _pending = audit is { Count: > 0 } ? audit : null;
+        }
+
+        private void ContentSaved()
+        {
+            if (!_contentChanged) return;
+            _contentChanged = false;
+            _contentVersion.Bump();
         }
 
         /// <summary>Adds the audit rows once the keys of new rows are known. True when there is something to save.</summary>

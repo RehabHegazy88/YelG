@@ -1,0 +1,20 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var faq = c.Faq!;
+}
+<section id="faq" class="sec faq-sec">
+<div class="wrap faq-wrap">
+<div class="head faq-head">
+<span class="eyebrow">@Model.R(faq.Eyebrow)</span>
+<h2 class="h2">@Model.Heading(faq)</h2>
+@if (!faq.Lead.IsEmpty){<p class="lead">@Model.R(faq.Lead)</p>}
+</div>
+<div class="faq-list">
+@foreach (var item in c.FaqItems)
+{
+<details class="faq" @(item.IsOpenByDefault ? "open" : null)><summary>@Model.R(item.Question)<span class="pm" aria-hidden="true">+</span></summary><p>@Model.R(item.Answer)</p></details>
+}
+</div>
+</div>
+</section>

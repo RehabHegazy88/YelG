@@ -5,8 +5,9 @@ using System.Text.RegularExpressions;
 namespace YelG.WebSite.Tests
 {
     /// <summary>
-    /// The seed must not invent or reword any copy: every text in seed-content.json has to appear, character
-    /// for character, in the approved prototype of its language (docs/design/B-Ar.dc.html, B-En.dc.html).
+    /// The seed must not invent or reword any copy: every text in seed-content.json (editable content) and in
+    /// ui-strings.json (interface wording) has to appear, character for character, in the approved prototype
+    /// of its language (docs/design/B-Ar.dc.html, B-En.dc.html).
     /// </summary>
     public class SeedContentFidelityTests
     {
@@ -44,8 +45,9 @@ namespace YelG.WebSite.Tests
         {
             if (node.ValueKind == JsonValueKind.Object)
             {
-                if (node.TryGetProperty("ar", out var ar) && node.TryGetProperty("en", out var en) && node.EnumerateObject().Count() == 2
-                    && ar.ValueKind == JsonValueKind.String)
+                // {"ar","en"}, or a menu entry {"href","ar","en"}
+                if (node.TryGetProperty("ar", out var ar) && node.TryGetProperty("en", out var en)
+                    && ar.ValueKind == JsonValueKind.String && en.ValueKind == JsonValueKind.String)
                 {
                     yield return (path, ar.GetString()!, en.GetString()!);
                     yield break;
@@ -64,9 +66,16 @@ namespace YelG.WebSite.Tests
         }
 
         [Fact]
-        public void Every_seeded_text_appears_in_the_prototype_of_its_language()
+        public void Every_seeded_text_appears_in_the_prototype_of_its_language() =>
+            AssertAllInPrototypes(Path.Combine("YelG.WebSite.Infrastructure", "Seeding", "Data", "seed-content.json"), minimum: 400);
+
+        [Fact]
+        public void Every_interface_text_appears_in_the_prototype_of_its_language() =>
+            AssertAllInPrototypes(Path.Combine("YelG.WebSite", "Resources", "ui-strings.json"), minimum: 60);
+
+        private static void AssertAllInPrototypes(string relativePath, int minimum)
         {
-            var json = File.ReadAllText(Path.Combine(Root, "YelG.WebSite.Infrastructure", "Seeding", "Data", "seed-content.json"));
+            var json = File.ReadAllText(Path.Combine(Root, relativePath));
             using var doc = JsonDocument.Parse(json);
             var arabic = Haystack("B-Ar.dc.html");
             var english = Haystack("B-En.dc.html");
@@ -75,12 +84,12 @@ namespace YelG.WebSite.Tests
             var checkedCount = 0;
             foreach (var (path, ar, en) in Pairs(doc.RootElement, "$"))
             {
-                // Values the seed builds rather than copies: the copyright year placeholder and the prefill template.
+                // Placeholders are filled when rendering: the copyright year, the prefill template, counters.
                 foreach (var (lang, value, haystack) in new[] { ("ar", ar, arabic), ("en", en, english) })
                 {
                     if (string.IsNullOrWhiteSpace(value)) continue;
                     var text = value.Replace("{year}", "2026");
-                    var parts = text.Split(new[] { "{score}", "{band}" }, StringSplitOptions.None);
+                    var parts = text.Split(new[] { "{score}", "{band}", "{n}", "{total}", "{max}", "{count}" }, StringSplitOptions.None);
                     foreach (var part in parts.Where(x => !string.IsNullOrWhiteSpace(x)))
                     {
                         checkedCount++;
@@ -90,7 +99,7 @@ namespace YelG.WebSite.Tests
                 }
             }
 
-            Assert.True(checkedCount > 400, $"Only {checkedCount} texts checked; the seed looks incomplete.");
+            Assert.True(checkedCount > minimum, $"Only {checkedCount} texts checked in {relativePath}; it looks incomplete.");
             Assert.True(missing.Count == 0, "Texts not found in the prototypes:\n" + string.Join("\n", missing));
         }
 

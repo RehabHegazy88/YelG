@@ -40,8 +40,11 @@ namespace YelG.WebSite.Domain.Sections
     {
         public HeroStatKind Kind { get; set; }
 
-        /// <summary>For Number: the figure, shown left-to-right ("2017", "+10").</summary>
-        public string Value { get; set; } = string.Empty;
+        /// <summary>
+        /// For Number: the figure per language, shown left-to-right. The design writes it differently by
+        /// language ("+10" in Arabic, "10+" in English).
+        /// </summary>
+        public LocalizedText Value { get; set; } = new();
 
         public LocalizedText Caption { get; set; } = new();
 

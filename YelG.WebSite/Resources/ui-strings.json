@@ -1,0 +1,301 @@
+{
+ "skip": {
+  "ar": "الانتقال إلى المحتوى",
+  "en": "Skip to content"
+ },
+ "heroLabel": {
+  "ar": "الواجهة الرئيسية",
+  "en": "Introduction"
+ },
+ "homeLabel": {
+  "ar": "الصفحة الرئيسية لـ YelG Advisory",
+  "en": "YelG Advisory — home"
+ },
+ "mainNavLabel": {
+  "ar": "القائمة الرئيسية",
+  "en": "Main"
+ },
+ "mobileNavLabel": {
+  "ar": "قائمة الهاتف",
+  "en": "Mobile"
+ },
+ "menuOpen": {
+  "ar": "فتح القائمة",
+  "en": "Open menu"
+ },
+ "langSwitchText": {
+  "ar": "EN",
+  "en": "عربي"
+ },
+ "langSwitchLabel": {
+  "ar": "English version",
+  "en": "العربية — Arabic version"
+ },
+ "serviceTabsLabel": {
+  "ar": "مجالات الخدمات",
+  "en": "Service categories"
+ },
+ "serviceDetailClose": {
+  "ar": "إغلاق تفاصيل الخدمة",
+  "en": "Close service details"
+ },
+ "purposeTabsLabel": {
+  "ar": "الرسالة والرؤية والأهداف",
+  "en": "Mission, vision and goals"
+ },
+ "sectorsLabel": {
+  "ar": "القطاعات التي نخدمها",
+  "en": "Sectors served"
+ },
+ "quizProgress": {
+  "ar": "السؤال {n} من {total}",
+  "en": "Question {n} of {total}"
+ },
+ "quizProgressLabel": {
+  "ar": "مدى التقدّم في الفحص",
+  "en": "Self-check progress"
+ },
+ "quizScoreOf": {
+  "ar": "/ {max}",
+  "en": "/ {max}"
+ },
+ "formErrorSummary": {
+  "ar": "يرجى مراجعة الحقول المحددة أدناه ({count}).",
+  "en": "Please check {count} highlighted field(s) below."
+ },
+ "formName": {
+  "ar": "الاسم الكامل",
+  "en": "Full name"
+ },
+ "formEmail": {
+  "ar": "البريد الإلكتروني للعمل",
+  "en": "Work email"
+ },
+ "formEmailPlaceholder": {
+  "ar": "name@company.com",
+  "en": ""
+ },
+ "formCompany": {
+  "ar": "اسم الشركة",
+  "en": "Company"
+ },
+ "formPhone": {
+  "ar": "رقم الهاتف",
+  "en": "Phone"
+ },
+ "formOptional": {
+  "ar": "(اختياري)",
+  "en": "(optional)"
+ },
+ "formPhonePlaceholder": {
+  "ar": "+20 1X XXXX XXXX",
+  "en": ""
+ },
+ "formService": {
+  "ar": "الخدمة المطلوبة",
+  "en": "Service of interest"
+ },
+ "formServicePick": {
+  "ar": "اختر الخدمة",
+  "en": "Select a service"
+ },
+ "formMessage": {
+  "ar": "كيف يمكننا مساعدتك؟",
+  "en": "How can we help?"
+ },
+ "formMessageHint": {
+  "ar": "نبذة قصيرة عن شركتك وما تحتاجه.",
+  "en": "A sentence or two about your company and what you need."
+ },
+ "opensNewTab": {
+  "ar": "(يفتح في نافذة جديدة)",
+  "en": "(opens in a new tab)"
+ },
+ "jobsOpensNewTab": {
+  "ar": "(LinkedIn، يفتح في نافذة جديدة)",
+  "en": "(LinkedIn, opens in a new tab)"
+ },
+ "linkedInLabel": {
+  "ar": "YelG Advisory على LinkedIn (يفتح في نافذة جديدة)",
+  "en": "YelG Advisory on LinkedIn (opens in a new tab)"
+ },
+ "footerCompany": {
+  "ar": "الشركة",
+  "en": "Company"
+ },
+ "footerCompanyLabel": {
+  "ar": "الشركة",
+  "en": "Company"
+ },
+ "footerServices": {
+  "ar": "الخدمات",
+  "en": "Services"
+ },
+ "footerServicesLabel": {
+  "ar": "الخدمات",
+  "en": "Services"
+ },
+ "footerContact": {
+  "ar": "تواصل معنا",
+  "en": "Contact"
+ },
+ "footerBook": {
+  "ar": "احجز استشارة ←",
+  "en": "Book a consultation →"
+ },
+ "backToTop": {
+  "ar": "العودة إلى الأعلى ↑",
+  "en": "Back to top ↑"
+ },
+ "nav": [
+  {
+   "href": "#about",
+   "ar": "من نحن",
+   "en": "About"
+  },
+  {
+   "href": "#services",
+   "ar": "الخدمات",
+   "en": "Services"
+  },
+  {
+   "href": "#how",
+   "ar": "منهجية العمل",
+   "en": "How we work"
+  },
+  {
+   "href": "#industries",
+   "ar": "القطاعات",
+   "en": "Industries"
+  },
+  {
+   "href": "#health",
+   "ar": "الفحص المالي",
+   "en": "Self-check"
+  },
+  {
+   "href": "#insights",
+   "ar": "المقالات",
+   "en": "Insights"
+  },
+  {
+   "href": "#careers",
+   "ar": "الوظائف",
+   "en": "Careers"
+  }
+ ],
+ "mobileNav": [
+  {
+   "href": "#about",
+   "ar": "من نحن",
+   "en": "About"
+  },
+  {
+   "href": "#services",
+   "ar": "الخدمات",
+   "en": "Services"
+  },
+  {
+   "href": "#how",
+   "ar": "منهجية العمل",
+   "en": "How we work"
+  },
+  {
+   "href": "#industries",
+   "ar": "القطاعات",
+   "en": "Industries"
+  },
+  {
+   "href": "#health",
+   "ar": "الفحص المالي السريع",
+   "en": "Financial self-check"
+  },
+  {
+   "href": "#faq",
+   "ar": "الأسئلة الشائعة",
+   "en": "FAQ"
+  },
+  {
+   "href": "#insights",
+   "ar": "المقالات",
+   "en": "Insights"
+  },
+  {
+   "href": "#careers",
+   "ar": "الوظائف",
+   "en": "Careers"
+  },
+  {
+   "href": "#consult",
+   "ar": "احجز استشارة",
+   "en": "Book a consultation"
+  }
+ ],
+ "footerCompanyLinks": [
+  {
+   "href": "#about",
+   "ar": "من نحن",
+   "en": "About"
+  },
+  {
+   "href": "#how",
+   "ar": "منهجية العمل",
+   "en": "How we work"
+  },
+  {
+   "href": "#industries",
+   "ar": "القطاعات",
+   "en": "Industries"
+  },
+  {
+   "href": "#careers",
+   "ar": "الوظائف",
+   "en": "Careers"
+  },
+  {
+   "href": "#insights",
+   "ar": "المقالات",
+   "en": "Insights"
+  }
+ ],
+ "footerSelfCheck": {
+  "ar": "الفحص المالي السريع",
+  "en": "Financial self-check"
+ },
+ "arrowNext": {
+  "ar": "←",
+  "en": "→"
+ },
+ "arrowExternal": {
+  "ar": "↖",
+  "en": "↗"
+ },
+ "validation.name": {
+  "ar": "يرجى إدخال الاسم الكامل.",
+  "en": "Please enter your full name."
+ },
+ "validation.email": {
+  "ar": "يرجى إدخال بريد إلكتروني صحيح، مثل name@company.com.",
+  "en": "Please enter a valid email address, e.g. name@company.com."
+ },
+ "validation.company": {
+  "ar": "يرجى إدخال اسم الشركة.",
+  "en": "Please enter your company name."
+ },
+ "validation.phone": {
+  "ar": "يرجى إدخال رقم هاتف صحيح، أو ترك الحقل فارغًا.",
+  "en": "Please enter a valid phone number, or leave this blank."
+ },
+ "validation.service": {
+  "ar": "يرجى اختيار الخدمة، أو اختيار «غير متأكد بعد».",
+  "en": "Please choose a service, or select “Not sure yet”."
+ },
+ "validation.message": {
+  "ar": "يرجى توضيح طلبك بشكل أكبر (20 حرفًا على الأقل).",
+  "en": "Please tell us a little more (at least 20 characters)."
+ },
+ "validation.consent": {
+  "ar": "يرجى الموافقة على استخدام بياناتك للرد على طلبك.",
+  "en": "Please confirm we may use your details to respond."
+ }
+}

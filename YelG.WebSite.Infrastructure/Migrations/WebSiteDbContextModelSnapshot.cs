@@ -2168,11 +2168,6 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.ComplexProperty<Dictionary<string, object>>("Caption", "YelG.WebSite.Domain.Sections.HeroStat.Caption#LocalizedText", b1 =>
                         {
                             b1.IsRequired();
@@ -2197,6 +2192,21 @@ namespace YelG.WebSite.Infrastructure.Migrations
                             b1.Property<string>("En")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Value", "YelG.WebSite.Domain.Sections.HeroStat.Value#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)");
                         });
 
                     b.HasKey("Id");

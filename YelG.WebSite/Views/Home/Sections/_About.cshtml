@@ -1,0 +1,67 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var about = c.About;
+    var founder = c.Founder;
+}
+<section id="about" class="sec about">
+<div class="wrap about-wrap">
+@if (about is not null)
+{
+<div class="about-row">
+<div class="collage">
+<div class="photo collage-1 @HomePageModel.FocusClass(about.Image1)">@if (about.Image1 is { } i1){<img src="@i1.Path" alt="@Model.T(about.Image1Alt)" loading="lazy">}</div>
+<div class="photo collage-2 @HomePageModel.FocusClass(about.Image2)">@if (about.Image2 is { } i2){<img src="@i2.Path" alt="@Model.T(about.Image2Alt)" loading="lazy">}</div>
+@if (!string.IsNullOrEmpty(about.BadgeRingText))
+{
+<div class="badge" aria-hidden="true">
+<svg class="spin ring-svg" viewBox="0 0 150 150"><defs><path id="circBE" d="M75 75 m-56 0 a56 56 0 1 1 112 0 a56 56 0 1 1 -112 0"></path></defs><text font-family="Sora, sans-serif" font-size="12.5" font-weight="600" letter-spacing="3.2" fill="#FFFFFF"><textPath href="#circBE">@about.BadgeRingText</textPath></text></svg>
+<svg width="40" height="40" viewBox="0 0 64 64">@HomePageModel.MarkPath</svg>
+</div>
+}
+</div>
+<div class="about-text">
+<span class="eyebrow">@Model.R(about.Eyebrow)</span>
+<h2 class="h2">@Model.Heading(about)</h2>
+<p class="p">@Model.R(about.Lead)</p>
+@if (c.AboutValues.Count > 0)
+{
+<div class="about-values">
+@foreach (var value in c.AboutValues)
+{
+<span class="chk"><i><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.4"><path d="M20 6 9 17l-5-5"></path></svg></i>@Model.R(value.Label)</span>
+}
+</div>
+}
+@if (c.Credentials.Count > 0)
+{
+<div class="creds">
+<span class="lbl">@Model.R(about.CredentialsLabel)</span>
+<div class="creds-row">
+@foreach (var cred in c.Credentials)
+{
+<span class="cred"><b>@cred.Code</b><span>@Model.R(cred.Description)</span></span>
+}
+</div>
+</div>
+}
+</div>
+</div>
+}
+@if (founder is not null)
+{
+<figure class="founder">
+<div class="yasserArch founder-photo">@if (founder.Photo is { } photo){<img src="@photo.Path" alt="@Model.T(founder.PhotoAlt)" loading="lazy">}</div>
+<div class="founder-text">
+<span class="eyebrow on-dark">@Model.R(founder.Eyebrow)</span>
+<blockquote class="founder-quote">@Model.R(founder.Quote)</blockquote>
+<p class="founder-line">@Model.R(founder.SupportingLine)</p>
+<figcaption class="founder-cap">
+<span class="i-avatar founder-avatar" aria-hidden="true">@if (founder.Avatar is { } avatar){<img src="@avatar.Path" alt="" loading="lazy">}</span>
+<span class="founder-who"><strong>@Model.R(founder.Name)</strong><span>@Model.R(founder.Title)</span></span>
+</figcaption>
+</div>
+</figure>
+}
+</div>
+</section>

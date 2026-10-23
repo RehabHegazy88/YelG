@@ -60,7 +60,10 @@
  "heroStats": [
   {
    "kind": "Number",
-   "value": "2017",
+   "value": {
+    "ar": "2017",
+    "en": "2017"
+   },
    "screenReaderLabel": {
     "ar": "سنة التأسيس",
     "en": "Established"
@@ -73,7 +76,10 @@
   },
   {
    "kind": "Number",
-   "value": "+10",
+   "value": {
+    "ar": "+10",
+    "en": "10+"
+   },
    "screenReaderLabel": {
     "ar": "القطاعات",
     "en": "Sectors"
@@ -86,7 +92,10 @@
   },
   {
    "kind": "Chips",
-   "value": "",
+   "value": {
+    "ar": "",
+    "en": ""
+   },
    "screenReaderLabel": {
     "ar": "المؤهلات",
     "en": "Qualifications"

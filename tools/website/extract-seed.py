@@ -4,7 +4,8 @@ Builds the website seed (seed-content.json) from the two approved prototypes, so
   python -I tools/website/extract-seed.py
 
 Reads  YelG.WebSite/docs/design/B-Ar.dc.html and B-En.dc.html (never modified)
-Writes YelG.WebSite.Infrastructure/Seeding/Data/seed-content.json
+Writes YelG.WebSite.Infrastructure/Seeding/Data/seed-content.json (editable content)
+   and YelG.WebSite/Resources/ui-strings.json (fixed interface wording: menus, labels, messages)
 
 Both files have the same markup structure, so each text is read from the same element in both and paired
 as {"ar": ..., "en": ...}. Inline formatting becomes the site's small markup:
@@ -25,6 +26,7 @@ from lxml import html
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 DESIGN = os.path.join(ROOT, 'YelG.WebSite', 'docs', 'design')
 OUT = os.path.join(ROOT, 'YelG.WebSite.Infrastructure', 'Seeding', 'Data', 'seed-content.json')
+UI_OUT = os.path.join(ROOT, 'YelG.WebSite', 'Resources', 'ui-strings.json')
 
 # CSS image classes of the design -> files in wwwroot/assets
 IMAGE_CLASSES = {
@@ -194,13 +196,14 @@ def main():
         dd_a, dd_e = a.xpath('./dd')[0], e.xpath('./dd')[0]
         dt = {'ar': plain(a.xpath('./dt')[0]), 'en': plain(e.xpath('./dt')[0])}
         if dd_a.xpath('./div[contains(@class,"num")]'):
-            stats.append({'kind': 'Number', 'value': plain(dd_a.xpath('./div')[0]), 'screenReaderLabel': dt,
+            stats.append({'kind': 'Number', 'value': {'ar': plain(dd_a.xpath('./div')[0]), 'en': plain(dd_e.xpath('./div')[0])},
+                          'screenReaderLabel': dt,
                           'caption': {'ar': markup(dd_a.xpath('./p')[0]), 'en': markup(dd_e.xpath('./p')[0])}, 'chipCodes': ''})
         else:
             chips_a = [plain(s) for s in dd_a.xpath('./span[2]/span')]
             chips_e = [plain(s) for s in dd_e.xpath('./span[2]/span')]
             assert chips_a == chips_e, (chips_a, chips_e)
-            stats.append({'kind': 'Chips', 'value': '', 'screenReaderLabel': dt, 'chipCodes': ','.join(chips_a),
+            stats.append({'kind': 'Chips', 'value': {'ar': '', 'en': ''}, 'screenReaderLabel': dt, 'chipCodes': ','.join(chips_a),
                           'caption': {'ar': plain(dd_a.xpath('./span[1]')[0]), 'en': plain(dd_e.xpath('./span[1]')[0])}})
     seed['heroStats'] = stats
 
@@ -459,6 +462,81 @@ def main():
     with open(OUT, 'w', encoding='utf-8') as f:
         json.dump(seed, f, ensure_ascii=False, indent=1)
     print('written', os.path.relpath(OUT, ROOT), '-', sum(1 for _ in json.dumps(seed)), 'chars')
+
+    strings = ui_strings(p, logic_ar, logic_en)
+    os.makedirs(os.path.dirname(UI_OUT), exist_ok=True)
+    with open(UI_OUT, 'w', encoding='utf-8') as f:
+        json.dump(strings, f, ensure_ascii=False, indent=1)
+    print('written', os.path.relpath(UI_OUT, ROOT), '-', len(strings), 'strings')
+
+
+def ui_strings(p, logic_ar, logic_en):
+    """
+    The fixed interface wording (menus, screen-reader labels, form labels, validation messages) that is not
+    editable content. Placeholders: {n}, {total}, {max}, {count}, {name}.
+    """
+    t = lambda xp: p.one(xp, fn=plain)
+    a = lambda xp, name='aria-label': p.attr(xp, name)
+    text_only = lambda el: squash(el.text or '')   # the label without its arrow / screen-reader spans
+    sr = lambda xp: p.one(xp + '/span[contains(@class,"sr")]', fn=plain)
+
+    def templ(xp, *pairs):
+        v = p.one(xp, fn=lambda el: squash(el.text_content()))
+        for old, new in pairs:
+            v = {k: x.replace(old, new) for k, x in v.items()}
+        return v
+
+    s = {
+        'skip': t('//a[@class="skip"]'),
+        'heroLabel': a('//section[@id="top"]'),
+        'homeLabel': a('//header//a[@href="#top"]'),
+        'mainNavLabel': a('//nav[contains(@class,"mnav")]'),
+        'mobileNavLabel': a('//nav[@id="mobileNav"]'),
+        'menuOpen': a('//button[contains(@class,"menuBtn")]'),
+        'langSwitchText': t('//header//a[@hreflang]'),
+        'langSwitchLabel': a('//header//a[@hreflang]'),
+        'serviceTabsLabel': a('//div[@role="tablist" and contains(@class,"ctabs")]'),
+        'serviceDetailClose': a('//button[contains(@class,"xbtn")]'),
+        'purposeTabsLabel': a('//section[@aria-labelledby="purposeTitle"]//div[@role="tablist"]'),
+        'sectorsLabel': a('//section[@id="industries"]//ul'),
+        'quizProgress': templ('//section[@id="health"]//div[@class="quiz"]//span[contains(text(),"{{qNum}}")]',
+                              ('{{qNum}}', '{n}'), ('10', '{total}')),
+        'quizProgressLabel': a('//div[contains(@class,"bar")]'),
+        'quizScoreOf': templ('//div[contains(@class,"score")]/small', ('20', '{max}')),
+        'formErrorSummary': templ('//div[contains(@class,"alert-err")]/strong', ('{{errCount}}', '{count}')),
+        'formName': p.one('//label[@for="fName"]', fn=text_only),
+        'formEmail': p.one('//label[@for="fEmail"]', fn=text_only),
+        'formEmailPlaceholder': a('//input[@id="fEmail"]', 'placeholder'),
+        'formCompany': p.one('//label[@for="fCompany"]', fn=text_only),
+        'formPhone': p.one('//label[@for="fPhone"]', fn=text_only),
+        'formOptional': t('//label[@for="fPhone"]/span[contains(@class,"hint")]'),
+        'formPhonePlaceholder': a('//input[@id="fPhone"]', 'placeholder'),
+        'formService': p.one('//label[@for="fService"]', fn=text_only),
+        'formServicePick': t('//select[@id="fService"]/option[1]'),
+        'formMessage': p.one('//label[@for="fMsg"]', fn=text_only),
+        'formMessageHint': t('//span[@id="hMsg"]'),
+        'opensNewTab': sr('//section[@id="insights"]/div/div[1]/a'),
+        'jobsOpensNewTab': sr('//div[@id="careers"]//a[contains(@href,"/jobs/")]'),
+        'linkedInLabel': a('//footer//a[contains(@href,"linkedin.com")]'),
+        'footerCompany': t('(//footer//nav)[1]/strong'),
+        'footerCompanyLabel': a('(//footer//nav)[1]'),
+        'footerServices': t('(//footer//nav)[2]/strong'),
+        'footerServicesLabel': a('(//footer//nav)[2]'),
+        'footerContact': t('//footer//div[strong][not(self::nav)]/strong'),
+        'footerBook': t('//footer//a[@href="#consult"]'),
+        'backToTop': t('//footer//a[@href="#top"]'),
+    }
+    # menus: the anchor of each entry is kept so the site can hide an entry with its section
+    s['nav'] = [{'href': x.get('href'), 'ar': plain(x), 'en': plain(y)} for x, y in p.nodes('//nav[contains(@class,"mnav")]/a')]
+    s['mobileNav'] = [{'href': x.get('href'), 'ar': plain(x), 'en': plain(y)} for x, y in p.nodes('//nav[@id="mobileNav"]//a')]
+    s['footerCompanyLinks'] = [{'href': x.get('href'), 'ar': plain(x), 'en': plain(y)} for x, y in p.nodes('(//footer//nav)[1]/a')]
+    s['footerSelfCheck'] = t('(//footer//nav)[2]/a[@href="#health"]')
+    # the arrow after "Explore service" points the reading direction; the "external" one up and out
+    s['arrowNext'] = p.one('//article/a[contains(@class,"tlink")]/span[@aria-hidden="true"]', fn=plain)
+    s['arrowExternal'] = p.one('//section[@id="insights"]/div/div[1]/a/span[@aria-hidden="true"]', fn=plain)
+    for key, msg in logic_ar['validation'].items():
+        s['validation.' + key] = {'ar': msg, 'en': logic_en['validation'][key]}
+    return s
 
 
 if __name__ == '__main__':

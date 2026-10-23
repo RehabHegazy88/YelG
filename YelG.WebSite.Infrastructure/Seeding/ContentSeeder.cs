@@ -9,6 +9,7 @@ using YelG.WebSite.Domain.Media;
 using YelG.WebSite.Domain.Sections;
 using YelG.WebSite.Domain.Settings;
 using YelG.WebSite.Infrastructure.Data;
+using YelG.WebSite.Infrastructure.Media;
 using YelG.WebSite.Infrastructure.Identity;
 
 namespace YelG.WebSite.Infrastructure.Seeding
@@ -214,9 +215,9 @@ namespace YelG.WebSite.Infrastructure.Seeding
             foreach (var file in seed.Media)
             {
                 var path = "/assets/" + file;
+                var onDisk = options.WebRootPath is null ? null : new FileInfo(Path.Combine(options.WebRootPath, "assets", file));
                 if (!existing.TryGetValue(path, out var asset))
                 {
-                    var onDisk = options.WebRootPath is null ? null : new FileInfo(Path.Combine(options.WebRootPath, "assets", file));
                     asset = new MediaAsset
                     {
                         Kind = file.EndsWith(".webm", StringComparison.OrdinalIgnoreCase) ? MediaKind.Video : MediaKind.Image,
@@ -225,6 +226,12 @@ namespace YelG.WebSite.Infrastructure.Seeding
                     };
                     _db.MediaAssets.Add(asset);
                     Count("MediaAssets");
+                }
+                // the pixel size decides how a picture is cropped on the page; rows seeded before it was recorded get it now
+                if (asset.Kind == MediaKind.Image && asset.Width is null && onDisk is { Exists: true } && ImageSize.Read(onDisk.FullName) is { } size)
+                {
+                    asset.Width = size.Width;
+                    asset.Height = size.Height;
                 }
                 result[file] = asset;
             }

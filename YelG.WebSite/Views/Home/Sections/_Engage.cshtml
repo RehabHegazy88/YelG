@@ -1,0 +1,40 @@
+@model HomePageModel
+@{
+    var c = Model.Content;
+    var e = c.Engage!;
+}
+<section id="engage" class="sec engage">
+<div class="wrap engage-wrap">
+<div class="head head-center"><span class="eyebrow">@Model.R(e.Eyebrow)</span><h2 class="h2">@Model.Heading(e)</h2>@if (!e.Lead.IsEmpty){<p class="lead">@Model.R(e.Lead)</p>}</div>
+<div class="engage-grid">
+@foreach (var m in c.EngagementModels)
+{
+    var prefill = m.PreselectNotSure ? "not-sure" : m.PreselectService?.Key;
+<div class="way@(m.IsHighlighted ? " way-dark" : "")">
+<span class="ico ic-@m.IconKey" aria-hidden="true"></span>
+<h3 class="h3">@Model.R(m.Title)</h3>
+@if (m.IsHighlighted)
+{
+<p class="way-p-dark">@Model.R(m.Text)</p>
+}
+else
+{
+<p class="p way-p">@Model.R(m.Text)</p>
+}
+@if (m.Bullets.Count > 0)
+{
+<ul>@foreach (var b in m.Bullets){<li>@Model.R(b.Text)</li>}</ul>
+}
+@if (m.IsHighlighted)
+{
+<a href="#consult" class="btn btn-cyan" data-prefill="@prefill">@Model.T(m.CtaLabel)<span class="ar">@Model.ArrowIcon</span></a>
+}
+else
+{
+<a href="#consult" class="btn btn-ghost" data-prefill="@prefill">@Model.T(m.CtaLabel)</a>
+}
+</div>
+}
+</div>
+</div>
+</section>
