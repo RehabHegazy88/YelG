@@ -1,0 +1,211 @@
+@model QuestionBankPageViewModel
+@{
+    ViewData["Title"] = "الأوزان";
+    ViewData["Tab"] = "Weights";
+    var editor = Model.Editor;
+    string Disabled() => editor.IsEditable ? "" : "disabled";
+}
+<partial name="_VersionBar" model="Model" />
+
+<div class="guide">
+    <span class="step">الخطوة ١</span>
+    <div>
+        <h3>تأثير كل فئة وسؤال على النتيجة</h3>
+        <p>وزن الفئة × معامل النشاط يحدد نصيبها من درجة الثقة. أوزان الأسئلة (0 – 5) تحدد تأثيرها داخل الفئة في محاور الثقة وسير العمل والتسعير؛ الصفر يعني أن السؤال لا يدخل في المحور.</p>
+    </div>
+</div>
+
+<div class="eval-shell">
+    <nav class="eval-index" aria-label="فئات الأوزان">
+        <div class="nav-label">فئات الأوزان</div>
+        @for (var i = 0; i < editor.Categories.Count; i++)
+        {
+            var c = editor.Categories[i];
+            <button type="button" class="eval-index-btn @(i == 0 ? "on" : "")" data-cat-btn="@i">
+                <span class="k">@c.Code</span><span class="label">@c.Title</span>
+                <span class="count" data-weight-label="@i">@c.BaseWeight.ToString("0.##")%</span>
+            </button>
+        }
+    </nav>
+
+    <main>
+        @for (var i = 0; i < editor.Categories.Count; i++)
+        {
+            var c = editor.Categories[i];
+            <section data-cat="@i" data-category-id="@c.Id" @(i == 0 ? "" : "hidden")>
+                <div class="eval-cat-head">
+                    <div class="small fw-bold text-primary">الفئة @c.Code</div>
+                    <h3>@c.Title</h3>
+                </div>
+
+                <div class="panel mb-3">
+                    <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                        <div>
+                            <h4 class="h6 mb-0">وزن الفئة الأساسي</h4>
+                            <span class="small text-secondary">نسبة مساهمة الفئة في التقييم الكلي. مجموع كل الفئات يجب أن يساوي 100%.</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input class="form-control num" style="width:120px" type="number" min="0" max="100" step="0.0001"
+                                   data-base-weight value="@c.BaseWeight.ToString("0.####", System.Globalization.CultureInfo.InvariantCulture)" @Disabled() />
+                            <span class="num fw-bold text-secondary">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel mb-3">
+                    <h4 class="h6 mb-1">معاملات النشاط</h4>
+                    <p class="small text-secondary">1.0 يحافظ على الوزن، والقيمة الأعلى تزيد أهمية الفئة لهذا النشاط، والصفر يستبعدها.</p>
+                    <div class="row g-2">
+                        @foreach (var a in editor.Activities)
+                        {
+                            var factor = c.Factors.TryGetValue(a.Id, out var f) ? f : 1m;
+                            <div class="col-6 col-lg-4">
+                                <label class="small text-secondary d-block text-truncate" title="@a.Name">@a.Name</label>
+                                <input class="form-control num" type="number" min="0" max="3" step="0.1" data-factor="@a.Id"
+                                       value="@factor.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)" @Disabled() />
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="panel mb-3">
+                    <h4 class="h6 mb-2">أوزان الأسئلة <span class="chip">@c.Questions.Count سؤال</span></h4>
+                    <div class="table-wrap">
+                        <table class="table-y">
+                            <thead><tr><th>الكود</th><th class="text-start">السؤال</th><th>الثقة</th><th>سير العمل</th><th>التسعير</th><th>حرج</th></tr></thead>
+                            <tbody>
+                                @foreach (var q in c.Questions)
+                                {
+                                    <tr data-question-code="@q.Code" class="@(q.IsActive ? "" : "opacity-50")">
+                                        <td class="code">@q.Code</td>
+                                        <td style="min-width:240px">@q.Text <span class="chip">@Labels.Of(q.Kind)</span></td>
+                                        @for (var w = 0; w < 3; w++)
+                                        {
+                                            <td><input class="form-control form-control-sm num text-center" style="width:72px" type="number" min="0" max="5" step="0.5"
+                                                       data-w="@w" value="@q.Weights[w].ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)" @Disabled() /></td>
+                                        }
+                                        <td class="text-center"><input class="form-check-input" type="checkbox" data-critical @(q.IsCritical ? "checked" : "") @Disabled() /></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="eval-pager">
+                    <button type="button" class="btn btn-ghost" data-prev @(i == 0 ? "disabled" : "")>الفئة السابقة</button>
+                    <span class="num small fw-bold text-secondary">@(i + 1) / @editor.Categories.Count</span>
+                    <button type="button" class="btn btn-primary" data-next @(i == editor.Categories.Count - 1 ? "disabled" : "")>الفئة التالية</button>
+                </div>
+            </section>
+        }
+    </main>
+
+    <aside class="eval-aside">
+        <div class="panel">
+            <h4 class="h6">ملخص الأوزان</h4>
+            <div class="stat"><span>مجموع أوزان الفئات</span><b id="sidebarSum">@editor.TotalBaseWeight.ToString("0.##")%</b></div>
+            <div class="bar"><i id="sumBar" style="width:@Math.Min(100, editor.TotalBaseWeight)%"></i></div>
+            <div class="stat"><span>عدد الفئات</span><b>@editor.Categories.Count</b></div>
+        </div>
+        @if (editor.IsEditable)
+        {
+            <div class="panel d-flex flex-column gap-2">
+                <button type="button" class="btn btn-primary" id="saveWeights">حفظ أوزان هذه الفئة</button>
+                <button type="button" class="btn btn-ghost" id="equalWeights">توزيع الأوزان بالتساوي</button>
+                <span class="save-state" id="weightsState">كل التغييرات محفوظة.</span>
+            </div>
+        }
+    </aside>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const versionId = @editor.VersionId;
+            const editable = @(editor.IsEditable ? "true" : "false");
+            const sections = [...document.querySelectorAll('[data-cat]')];
+            const buttons = [...document.querySelectorAll('[data-cat-btn]')];
+            let current = 0;
+            const dirty = new Set();
+
+            function show(index) {
+                current = index;
+                sections.forEach(s => s.hidden = +s.dataset.cat !== index);
+                buttons.forEach(b => b.classList.toggle('on', +b.dataset.catBtn === index));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            buttons.forEach(b => b.addEventListener('click', () => show(+b.dataset.catBtn)));
+            sections.forEach(s => {
+                s.querySelector('[data-prev]')?.addEventListener('click', () => show(+s.dataset.cat - 1));
+                s.querySelector('[data-next]')?.addEventListener('click', () => show(+s.dataset.cat + 1));
+            });
+
+            function refreshSum() {
+                const sum = sections.reduce((total, s) => total + (+s.querySelector('[data-base-weight]').value || 0), 0);
+                const ok = Math.abs(sum - 100) <= 0.5;
+                const text = sum.toFixed(2).replace(/\.?0+$/, '') + '%';
+                document.getElementById('sidebarSum').textContent = text;
+                document.getElementById('sidebarSum').className = ok ? 'text-success' : 'text-danger';
+                document.getElementById('sumBar').style.width = Math.min(100, sum) + '%';
+                const top = document.getElementById('weightSum');
+                if (top) { top.textContent = text; top.className = 'num ' + (ok ? 'text-success' : 'text-danger'); }
+                sections.forEach(s => {
+                    const label = document.querySelector(`[data-weight-label="${s.dataset.cat}"]`);
+                    label.textContent = (+s.querySelector('[data-base-weight]').value || 0).toFixed(2).replace(/\.?0+$/, '') + '%';
+                });
+            }
+
+            if (!editable) return;
+
+            const state = document.getElementById('weightsState');
+            sections.forEach(s => s.addEventListener('input', () => {
+                dirty.add(s);
+                state.textContent = `توجد تغييرات غير محفوظة في ${dirty.size} فئة.`;
+                state.classList.add('dirty');
+                refreshSum();
+            }));
+
+            async function save(section) {
+                const factors = {};
+                section.querySelectorAll('[data-factor]').forEach(input => factors[input.dataset.factor] = +input.value || 0);
+                const questions = {};
+                section.querySelectorAll('[data-question-code]').forEach(row => {
+                    const w = [...row.querySelectorAll('[data-w]')].map(input => +input.value || 0);
+                    questions[row.dataset.questionCode] = { confidence: w[0], workflow: w[1], pricing: w[2], isCritical: row.querySelector('[data-critical]').checked };
+                });
+                await window.yelg.api(`/QuestionBank/SaveWeights/${versionId}?categoryId=${section.dataset.categoryId}`, {
+                    baseWeight: +section.querySelector('[data-base-weight]').value || 0, factors, questions
+                });
+                dirty.delete(section);
+            }
+
+            document.getElementById('saveWeights').addEventListener('click', async e => {
+                // Save every category with changes, so a re-balanced total is stored together.
+                const pending = dirty.size ? [...dirty] : [sections[current]];
+                window.yelg.setBusy(e.currentTarget, true);
+                try {
+                    for (const section of pending) await save(section);
+                    state.textContent = 'تم الحفظ.';
+                    state.classList.remove('dirty');
+                    window.yelg.toast(`تم حفظ أوزان ${pending.length} فئة.`);
+                } catch (err) {
+                    window.yelg.toast(err.message, true);
+                } finally {
+                    window.yelg.setBusy(e.currentTarget, false);
+                    if (dirty.size) { state.textContent = `توجد تغييرات غير محفوظة في ${dirty.size} فئة.`; state.classList.add('dirty'); }
+                }
+            });
+
+            document.getElementById('equalWeights').addEventListener('click', () => {
+                const share = Math.round(100 / sections.length * 10000) / 10000;
+                sections.forEach(s => { s.querySelector('[data-base-weight]').value = share; dirty.add(s); });
+                state.textContent = `توجد تغييرات غير محفوظة في ${dirty.size} فئة.`;
+                state.classList.add('dirty');
+                refreshSum();
+            });
+
+            window.addEventListener('beforeunload', e => { if (dirty.size) { e.preventDefault(); e.returnValue = ''; } });
+        })();
+    </script>
+}

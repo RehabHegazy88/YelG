@@ -1,0 +1,25 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "تسجيل الدخول";
+    Layout = "_AuthLayout";
+}
+<form class="login-card" asp-action="Login" method="post" novalidate>
+    <div class="brand">YELG Lens</div>
+    <h2>مرحبًا بك</h2>
+    <p>كل حساب يفتح تقييماته فقط. الـAdmin يرى كل التقييمات ويراجعها ويعتمدها، ويدير الشركات والمستخدمين.</p>
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" role="alert"></div>
+    <input type="hidden" asp-for="ReturnUrl" />
+
+    <div class="mb-3">
+        <label asp-for="UserName" class="form-label fw-semibold"></label>
+        <input asp-for="UserName" class="form-control form-control-lg" autocomplete="username" autofocus />
+        <span asp-validation-for="UserName" class="text-danger small"></span>
+    </div>
+    <div class="mb-4">
+        <label asp-for="Password" class="form-label fw-semibold"></label>
+        <input asp-for="Password" class="form-control form-control-lg" autocomplete="current-password" />
+        <span asp-validation-for="Password" class="text-danger small"></span>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg w-100">دخول إلى الأداة</button>
+</form>

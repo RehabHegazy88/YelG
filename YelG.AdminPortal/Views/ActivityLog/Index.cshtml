@@ -1,0 +1,154 @@
+@model ActivityLogPage
+@{
+    ViewData["Title"] = "سجل النشاط";
+    var filter = ViewData["Filter"] as ActivityLogFilter ?? new ActivityLogFilter(null, null, null, null, null);
+    var today = Labels.CairoToday(DateTimeOffset.UtcNow);
+    var filtered = filter.From is not null || filter.To is not null || filter.UserId is not null
+        || !string.IsNullOrEmpty(filter.Group) || !string.IsNullOrWhiteSpace(filter.Search);
+
+    // Query values of the current filter, so paging, presets and export keep it.
+    Dictionary<string, string> Route(int? page = null, DateOnly? from = null, DateOnly? to = null, bool dates = false)
+    {
+        var values = new Dictionary<string, string>();
+        var (f, t) = dates ? (from, to) : (filter.From, filter.To);
+        if (f is { } a) values["From"] = a.ToString("yyyy-MM-dd");
+        if (t is { } b) values["To"] = b.ToString("yyyy-MM-dd");
+        if (filter.UserId is { } userId) values["UserId"] = userId.ToString();
+        if (!string.IsNullOrEmpty(filter.Group)) values["Group"] = filter.Group;
+        if (!string.IsNullOrWhiteSpace(filter.Search)) values["Search"] = filter.Search;
+        if (page is > 1) values["Page"] = page.Value.ToString();
+        return values;
+    }
+    bool IsRange(int days) => filter.From == today.AddDays(1 - days) && filter.To == today;
+}
+<div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
+    <div>
+        <h2 class="page-title">سجل النشاط</h2>
+        <p class="lead-text">كل عملية مؤثرة في النظام: الدخول، حفظ التقييمات وإرسالها واعتمادها، تعديلات بنك الأسئلة والمكتبة والمستخدمين، والتصدير. السجل للقراءة فقط ولا يمكن تعديله.</p>
+    </div>
+    @if (Model.Total > 0)
+    {
+        <a class="btn btn-ghost" asp-controller="Export" asp-action="ActivityLog" asp-all-route-data="Route()"
+           title="نفس الفلاتر الحالية">تصدير Excel</a>
+    }
+</div>
+
+<div class="metrics">
+    <div class="metric"><div class="l">عمليات اليوم</div><div class="v">@Model.Stats.Today</div></div>
+    <div class="metric"><div class="l">مستخدمون نشطون — 7 أيام</div><div class="v">@Model.Stats.ActiveUsersLast7Days</div></div>
+    <div class="metric"><div class="l">محاولات دخول فاشلة — 7 أيام</div><div class="v @(Model.Stats.FailedLoginsLast7Days > 0 ? "warn" : "")">@Model.Stats.FailedLoginsLast7Days</div></div>
+    <div class="metric"><div class="l">ملفات مصدّرة — 30 يومًا</div><div class="v">@Model.Stats.ExportsLast30Days</div></div>
+</div>
+
+<form class="panel mb-3" method="get" asp-action="Index">
+    <div class="row g-2 align-items-end">
+        <div class="col-6 col-md-2">
+            <label class="form-label small fw-semibold" for="from">من</label>
+            <input class="form-control" type="date" id="from" name="From" value="@filter.From?.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-6 col-md-2">
+            <label class="form-label small fw-semibold" for="to">إلى</label>
+            <input class="form-control" type="date" id="to" name="To" value="@filter.To?.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-6 col-md-2">
+            <label class="form-label small fw-semibold" for="user">المستخدم</label>
+            <select class="form-select" id="user" name="UserId">
+                <option value="">الكل</option>
+                @foreach (var u in Model.Users)
+                {
+                    <option value="@u.Id" selected="@(u.Id == filter.UserId)">@u.DisplayName</option>
+                }
+            </select>
+        </div>
+        <div class="col-6 col-md-2">
+            <label class="form-label small fw-semibold" for="group">نوع العملية</label>
+            <select class="form-select" id="group" name="Group">
+                <option value="">الكل</option>
+                @foreach (var g in ActivityActions.Groups)
+                {
+                    <option selected="@(g == filter.Group)">@g</option>
+                }
+            </select>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="form-label small fw-semibold" for="search">بحث في التفاصيل</label>
+            <div class="d-flex gap-2">
+                <input class="form-control" id="search" name="Search" maxlength="100" value="@filter.Search" placeholder="اسم شركة، كود مهمة، اسم مستخدم…" />
+                <button type="submit" class="btn btn-primary">بحث</button>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex gap-2 flex-wrap align-items-center mt-2">
+        <span class="small text-secondary">الفترة:</span>
+        <a class="btn btn-sm @(IsRange(1) ? "btn-primary" : "btn-ghost")" asp-action="Index" asp-all-route-data="Route(from: today, to: today, dates: true)">اليوم</a>
+        <a class="btn btn-sm @(IsRange(7) ? "btn-primary" : "btn-ghost")" asp-action="Index" asp-all-route-data="Route(from: today.AddDays(-6), to: today, dates: true)">آخر 7 أيام</a>
+        <a class="btn btn-sm @(IsRange(30) ? "btn-primary" : "btn-ghost")" asp-action="Index" asp-all-route-data="Route(from: today.AddDays(-29), to: today, dates: true)">آخر 30 يومًا</a>
+        @if (filtered)
+        {
+            <a class="btn btn-sm btn-ghost ms-auto" asp-action="Index">إلغاء الفلاتر</a>
+        }
+    </div>
+</form>
+
+@if (Model.Total == 0)
+{
+    <div class="empty">@(filtered ? "لا توجد عمليات تطابق الفلاتر الحالية." : "لا توجد عمليات مسجلة بعد.")</div>
+}
+else
+{
+    <div class="d-flex justify-content-between align-items-center mb-2 small text-secondary">
+        <span><b class="num">@Model.Total</b> عملية @(filtered ? "مطابقة" : "")</span>
+        <span>الأوقات بتوقيت القاهرة</span>
+    </div>
+    <div class="table-wrap">
+        <table class="table-y">
+            <thead><tr><th>الوقت</th><th>المستخدم</th><th>العملية</th><th class="text-start">التفاصيل</th></tr></thead>
+            <tbody>
+                @foreach (var row in Model.Rows)
+                {
+                    <tr>
+                        <td class="num text-nowrap">@Labels.Date(row.OccurredAt)</td>
+                        <td class="text-nowrap">
+                            @if (row.UserId is not null)
+                            {
+                                <a class="text-decoration-none" asp-action="Index" asp-route-UserId="@row.UserId">@row.UserName</a>
+                            }
+                            else
+                            {
+                                @row.UserName
+                            }
+                        </td>
+                        <td class="text-nowrap">
+                            <span class="@StatusCss.OfAction(row.Action)" title="@row.Action">@row.ActionLabel</span>
+                            <div class="small text-secondary mt-1">@row.Group</div>
+                        </td>
+                        <td style="min-width:260px">@row.Details</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (Model.PageCount > 1)
+    {
+        <nav class="eval-pager mt-3" aria-label="صفحات السجل">
+            @if (Model.Page > 1)
+            {
+                <a class="btn btn-ghost" asp-action="Index" asp-all-route-data="Route(Model.Page - 1)">الأحدث</a>
+            }
+            else
+            {
+                <span class="btn btn-ghost disabled" aria-disabled="true">الأحدث</span>
+            }
+            <span class="num small fw-bold text-secondary">صفحة @Model.Page من @Model.PageCount</span>
+            @if (Model.Page < Model.PageCount)
+            {
+                <a class="btn btn-primary" asp-action="Index" asp-all-route-data="Route(Model.Page + 1)">الأقدم</a>
+            }
+            else
+            {
+                <span class="btn btn-primary disabled" aria-disabled="true">الأقدم</span>
+            }
+        </nav>
+    }
+}

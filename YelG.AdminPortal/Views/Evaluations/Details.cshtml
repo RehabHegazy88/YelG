@@ -1,0 +1,205 @@
+@model EvaluationPageViewModel
+@{
+    var e = Model.Evaluation;
+    var p = e.Permissions;
+    var visible = Model.Initial.VisibleCodes.ToHashSet();
+    var progress = Model.Initial.Progress.ToDictionary(x => x.Code);
+    var score = Model.Initial.Score;
+    ViewData["Title"] = e.CompanyName;
+
+    IReadOnlyList<string> AnswerOf(string code) => e.Answers.TryGetValue(code, out var v) ? v : Array.Empty<string>();
+    string Disabled() => p.CanEdit ? "" : "disabled";
+}
+<div class="eval-top">
+    <a class="btn btn-ghost btn-sm" asp-action="@(User.IsAdmin() && e.ReviewerId != User.UserId() ? "All" : "Index")">رجوع</a>
+    <h2>@e.CompanyName</h2>
+    <span class="activity">@e.ActivityName</span>
+    @if (e.ReviewerId != User.UserId())
+    {
+        <span class="chip">المقيم: @e.ReviewerName</span>
+    }
+    <span class="@StatusCss.Of(e.Status) ms-auto" id="statusBadge">@Labels.Of(e.Status)</span>
+    <a class="btn btn-ghost btn-sm" asp-controller="Scope" asp-action="Index" asp-route-id="@e.Id">نطاق العمل</a>
+</div>
+
+@if (p.LockMessage is not null)
+{
+    <div class="notice"><b>صلاحية العرض</b><span>@p.LockMessage</span></div>
+}
+
+<div class="eval-shell">
+    <nav class="eval-index" aria-label="فئات التقييم">
+        <div class="nav-label">فئات التقييم</div>
+        @for (var i = 0; i < Model.Form.Categories.Count; i++)
+        {
+            var c = Model.Form.Categories[i];
+            var pr = progress[c.Code];
+            <button type="button" class="eval-index-btn @(i == 0 ? "on" : "") @(pr.Visible > 0 && pr.Visible == pr.Answered ? "done" : "")"
+                    data-cat-btn="@i" aria-current="@(i == 0 ? "step" : null)">
+                <span class="k">@c.Code</span><span class="label">@c.Title</span>
+                <span class="count" data-count="@c.Code">@pr.Answered/@pr.Visible</span>
+            </button>
+        }
+    </nav>
+
+    <main>
+        @for (var i = 0; i < Model.Form.Categories.Count; i++)
+        {
+            var c = Model.Form.Categories[i];
+            <section class="eval-cat" data-cat="@i" @(i == 0 ? "" : "hidden")>
+                <div class="eval-cat-head">
+                    <div class="small fw-bold text-primary">الفئة @c.Code
+                        @if (c.Status.StartsWith("مقترح")) { <span class="chip ms-1">مقترحة للاعتماد</span> }
+                    </div>
+                    <h3>@c.Title</h3>
+                    <p>استوفي البنود بحسب واقع الشركة. تظهر الأسئلة المتفرعة تلقائيًا وفق الإجابات السابقة.</p>
+                </div>
+                <div class="eval-stream">
+                    @foreach (var q in c.Questions)
+                    {
+                        var answer = AnswerOf(q.Code);
+                        var isMulti = q.AnswerType == AnswerType.Multi;
+                        <div class="eval-q @(q.ParentCode is null ? "" : "child") @(answer.Count > 0 ? "answered" : "")"
+                             data-code="@q.Code" data-multi="@(isMulti ? "1" : "0")" data-critical="@(q.IsCritical ? "1" : "0")"
+                             @(visible.Contains(q.Code) ? "" : "hidden")>
+                            <div class="code pt-1">@q.Code</div>
+                            <div>
+                                <p class="q-text">@q.Text</p>
+                                <div class="controls">
+                                    @if (q.Options.Count > 0)
+                                    {
+                                        foreach (var o in q.Options)
+                                        {
+                                            var selected = answer.Contains(o.Text);
+                                            <button type="button" class="opt @(selected ? "sel" : "") @(selected && o.Score < 0.5 ? "risk" : "")"
+                                                    data-option="@o.Text" data-score="@(o.Score?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")"
+                                                    aria-pressed="@(selected ? "true" : "false")" @Disabled()>@o.Text</button>
+                                        }
+                                        foreach (var custom in answer.Where(v => q.Options.All(o => o.Text != v)))
+                                        {
+                                            <button type="button" class="opt sel" data-option="@custom" data-custom="1" data-score=""
+                                                    aria-pressed="true" @Disabled()>@custom ×</button>
+                                        }
+                                        @if (isMulti)
+                                        {
+                                            <div class="w-100 small text-secondary">يمكن اختيار أكثر من إجابة. اضغطي على الاختيار مرة أخرى لإزالته.</div>
+                                        }
+                                        @if (isMulti && q.AllowCustomAnswer)
+                                        {
+                                            <div class="custom-add">
+                                                <input type="text" class="form-control" maxlength="120" data-custom-input
+                                                       placeholder="أضيفي اختيارًا غير موجود في القائمة" @Disabled() />
+                                                <button type="button" class="btn btn-ghost btn-sm" data-custom-add @Disabled()>إضافة</button>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        var type = q.AnswerType == AnswerType.Date ? "date" : "text";
+                                        var css = q.AnswerType == AnswerType.Number || q.Kind == QuestionKind.Numeric ? "eval-input number" : "eval-input";
+                                        <input type="@type" class="@css" data-input maxlength="1000"
+                                               inputmode="@(q.AnswerType == AnswerType.Number ? "decimal" : "text")"
+                                               value="@(answer.FirstOrDefault() ?? "")"
+                                               placeholder="@(q.AnswerType == AnswerType.Number ? "0" : q.AnswerType == AnswerType.Date ? "" : "اكتبي الإجابة هنا")" @Disabled() />
+                                    }
+                                </div>
+                                <div class="meta">
+                                    <span class="chip">@Labels.Of(q.Kind)</span>
+                                    @if (q.IsCritical) { <span class="chip crit">بند حرج</span> }
+                                    @if (q.ParentCode is not null) { <span class="chip">سؤال متفرع من @q.ParentCode</span> }
+                                </div>
+                                <div class="answer-note" data-risk-note hidden></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="eval-pager">
+                    <button type="button" class="btn btn-ghost" data-prev @(i == 0 ? "disabled" : "")>الفئة السابقة</button>
+                    <span class="num small fw-bold text-secondary">@(i + 1) / @Model.Form.Categories.Count</span>
+                    <button type="button" class="btn btn-primary" data-next @(i == Model.Form.Categories.Count - 1 ? "disabled" : "")>الفئة التالية</button>
+                </div>
+            </section>
+        }
+
+        <section class="panel mt-4">
+            <h3 class="h5">النتائج بالفئة</h3>
+            <div class="table-wrap">
+                <table class="table-y">
+                    <thead><tr><th>الكود</th><th>الفئة</th><th>الثقة</th><th>سير العمل</th><th>التسعير</th><th>الوزن النسبي</th><th>المساهمة</th></tr></thead>
+                    <tbody id="categoryResults"></tbody>
+                </table>
+            </div>
+            <p class="small text-secondary mt-2 mb-0">حجم العينة لم يُحتسب بعد: قاعدة تحويل درجة الثقة إلى حجم عينة لم تُعتمد.</p>
+        </section>
+    </main>
+
+    <aside class="eval-aside">
+        <div class="panel">
+            <h4 class="h6">حالة التقييم</h4>
+            <div class="stat"><span>أجيب عنها</span><b><span id="answered">@score.Answered</span> / <span id="visibleCount">@score.VisibleCount</span></b></div>
+            <div class="bar"><i id="progressBar" style="width:@(score.VisibleCount > 0 ? score.Answered * 100 / score.VisibleCount : 0)%"></i></div>
+            <div class="stat"><span>درجة الثقة</span><b id="confidence">@(score.Answered > 0 ? Labels.Percent(score.Confidence) : "—")</b></div>
+            <div class="stat"><span>التقدير</span><b id="grade">@(score.Answered > 0 ? Labels.Of(score.Grade) : "—")</b></div>
+            <div class="stat"><span>بنود حرجة تحتاج مراجعة</span><b class="warn" id="breachCount">@score.Breaches.Count</b></div>
+        </div>
+        <div class="panel">
+            <h4 class="h6">مؤشرات تحتاج انتباهًا</h4>
+            <div id="flags"></div>
+        </div>
+        <div class="panel">
+            <h4 class="h6">الحكم المهني</h4>
+            <select class="form-select mb-2" id="judgment" @Disabled()>
+                <option value="">— لم يُحدَّد —</option>
+                @foreach (var g in new[] { ConfidenceGrade.High, ConfidenceGrade.Medium, ConfidenceGrade.Low })
+                {
+                    <option value="@g" selected="@(e.ProfessionalJudgment == g)">@Labels.Of(g)</option>
+                }
+            </select>
+            <div class="small mb-2" id="judgmentMatch"></div>
+            <textarea class="form-control" id="note" rows="3" maxlength="5000" placeholder="سبب الاختلاف أو ملاحظة للمراجع" @Disabled()>@e.Note</textarea>
+        </div>
+        <div class="panel d-flex flex-column gap-2">
+            @if (p.CanEdit)
+            {
+                <button type="button" class="btn btn-primary" id="saveBtn">@(p.CanSubmit ? "حفظ التقدم" : "حفظ تعديلات المراجعة")</button>
+                <span class="save-state" id="saveState">كل التغييرات محفوظة.</span>
+            }
+            @if (p.CanSubmit)
+            {
+                <button type="button" class="btn btn-ghost" id="submitBtn">إرسال للاعتماد</button>
+            }
+            @if (p.CanReview)
+            {
+                <button type="button" class="btn btn-ok" id="approveBtn">اعتماد</button>
+                <button type="button" class="btn btn-danger-soft" id="returnBtn">إعادة للتعديل</button>
+            }
+            @if (p.CanDelete)
+            {
+                <form asp-action="Delete" asp-route-id="@e.Id" method="post" data-confirm="حذف الشركة وتقييمها؟">
+                    <button type="submit" class="btn btn-danger-soft w-100">حذف</button>
+                </form>
+            }
+            @if (e.ReviewedAt is not null)
+            {
+                <div class="small text-secondary">آخر مراجعة: @Labels.Date(e.ReviewedAt)</div>
+            }
+        </div>
+    </aside>
+</div>
+
+<script type="application/json" id="evaluationData">
+@Json.Serialize(new
+{
+    id = e.Id,
+    answers = e.Answers,
+    rowVersion = e.RowVersion,
+    canEdit = p.CanEdit,
+    canSubmit = p.CanSubmit,
+    initialScore = score,
+    gradeLabels = new Dictionary<string, string> { ["High"] = "عالية", ["Medium"] = "متوسطة", ["Low"] = "منخفضة" }
+})
+</script>
+
+@section Scripts {
+    <script src="~/js/evaluation.js" asp-append-version="true"></script>
+}

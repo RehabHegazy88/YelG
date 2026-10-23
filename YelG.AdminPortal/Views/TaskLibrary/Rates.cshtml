@@ -1,0 +1,39 @@
+@model TaskLibrary
+@{
+    ViewData["Title"] = "معدلات الأدوار والتسعير";
+    var p = Model.Pricing;
+    string Num(decimal v) => v.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+}
+<partial name="_Tabs" model="Model" />
+
+<form class="panel" asp-action="SaveRates" method="post" style="max-width:900px">
+    <h3 class="h5">معدل الساعة لكل دور</h3>
+    <p class="small text-secondary">تكلفة المهمة = مجموع (ساعات كل دور × معدل ساعته). الدورية تحوّل ساعات كل تنفيذ إلى ساعات سنوية، ثم يُضاف هامش التسعير. لا يظهر السعر في نطاق العمل إلا عندما تكون لكل مهامه ساعات، حتى لا يبدو سعر جزئي وكأنه نهائي.</p>
+    <div class="row g-3 mb-3">
+        @foreach (var (name, label, value) in new[] { ("Analyst", "Analyst", p.HourlyRates.Analyst), ("TeamLead", "Team Leader", p.HourlyRates.TeamLead), ("Manager", "Manager", p.HourlyRates.Manager), ("Partner", "Partner", p.HourlyRates.Partner) })
+        {
+            <div class="col-6 col-md-3">
+                <label class="form-label fw-semibold" for="rate@(name)">@label</label>
+                <input class="form-control num" id="rate@(name)" name="@name" type="number" min="0" max="1000000" step="1" value="@Num(value)" />
+            </div>
+        }
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-md-3">
+            <label class="form-label fw-semibold" for="margin">هامش التسعير %</label>
+            <input class="form-control num" id="margin" name="MarginPct" type="number" min="0" max="500" step="0.5" value="@Num(p.MarginPct)" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-semibold" for="methodology">حالة المنهجية</label>
+            <select class="form-select" id="methodology" name="MethodologyStatus">
+                <option value="Draft" selected="@(p.MethodologyStatus == BasisStatus.Draft)">تجريبية — غير معتمدة</option>
+                <option value="Approved" selected="@(p.MethodologyStatus == BasisStatus.Approved)">معتمدة من YELG</option>
+            </select>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-semibold" for="methodologyNote">ملاحظة أساس التقدير</label>
+        <textarea class="form-control" id="methodologyNote" name="MethodologyNote" rows="3" maxlength="2000">@p.MethodologyNote</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">حفظ المعدلات</button>
+</form>

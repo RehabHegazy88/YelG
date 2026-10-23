@@ -1,0 +1,19 @@
+@model EvaluationListItem
+<div class="card-y">
+    <h3>@Model.CompanyName</h3>
+    <div class="sub">@Model.ActivityName <span class="@StatusCss.Of(Model.Status)">@Labels.Of(Model.Status)</span></div>
+    <div class="row-y"><span>أجيب عنها</span><b>@Model.Answered / @Model.VisibleCount</b></div>
+    <div class="row-y"><span>درجة الثقة المحتسبة</span><b>@(Model.Answered > 0 ? Labels.Percent(Model.Confidence) : "—")</b></div>
+    <div class="row-y"><span>بنود حرجة تحتاج مراجعة</span><b class="@(Model.BreachCount > 0 ? "text-warning" : "")">@Model.BreachCount</b></div>
+    <div class="row-y"><span>التقدير</span><b>@(Model.Answered > 0 ? Labels.Of(Model.Grade) : "—")</b></div>
+    @if (ViewData["ShowReviewer"] is true)
+    {
+        <div class="row-y"><span>المقيم</span><b>@Model.ReviewerName</b></div>
+    }
+    <div class="acts">
+        <a class="btn btn-primary btn-sm" asp-controller="Evaluations" asp-action="Details" asp-route-id="@Model.Id">
+            @(Model.Status is EvaluationStatus.Draft or EvaluationStatus.Returned ? "استيفاء التقييم" : "عرض التقييم")
+        </a>
+        <a class="btn btn-ghost btn-sm" asp-controller="Scope" asp-action="Index" asp-route-id="@Model.Id">نطاق العمل</a>
+    </div>
+</div>

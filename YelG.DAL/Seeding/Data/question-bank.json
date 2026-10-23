@@ -1,0 +1,5105 @@
+{
+  "versionNo": 1,
+  "notes": "Imported from the Apps Script MODEL with the 27 Aug 2026 patches.",
+  "categories": [
+    {
+      "code": "أ",
+      "title": "ملف العميل الأساسي",
+      "status": "متفق عليه",
+      "sortOrder": 1,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "A01",
+          "text": "اسم الكيان / الكيانات محل الارتباط",
+          "sortOrder": 1,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "A02",
+          "text": "القطاعات / الأنشطة الرئيسية لدى العميل",
+          "sortOrder": 2,
+          "answerType": "Multi",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": true,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "توزيع وتجارة",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "تصنيع",
+              "sortOrder": 2,
+              "score": 0.8
+            },
+            {
+              "text": "خدمات",
+              "sortOrder": 3,
+              "score": 0.6
+            },
+            {
+              "text": "خدمات طبية",
+              "sortOrder": 4,
+              "score": 0.4
+            },
+            {
+              "text": "مقاولات",
+              "sortOrder": 5,
+              "score": 0.2
+            },
+            {
+              "text": "نشاط متعدد",
+              "sortOrder": 6,
+              "score": 0
+            },
+            {
+              "text": "F&B – الأغذية والمشروبات",
+              "sortOrder": 7,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "A03",
+          "text": "هل يوجد أكثر من كيان قانوني؟",
+          "sortOrder": 3,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            }
+          ]
+        },
+        {
+          "code": "A04",
+          "text": "عدد الكيانات",
+          "sortOrder": 4,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": "A03",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "A05",
+          "text": "هل تُعد قوائم مالية موحدة؟",
+          "sortOrder": 5,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "A03",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            }
+          ]
+        },
+        {
+          "code": "A06",
+          "text": "هل يوجد فروع أو مواقع متعددة؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "A07",
+          "text": "عدد الفروع ومواقعها",
+          "sortOrder": 7,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            3
+          ],
+          "parentCode": "A06",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "A08",
+          "text": "إجمالي عدد العاملين",
+          "sortOrder": 8,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "A09",
+          "text": "عدد العاملين بالإدارة المالية",
+          "sortOrder": 9,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "A10",
+          "text": "متوسط المبيعات الشهرية آخر ٦ شهور",
+          "sortOrder": 10,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "A11",
+          "text": "متوسط عدد القيود المحاسبية شهرياً",
+          "sortOrder": 11,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "A12",
+          "text": "المعايير المحاسبية المطبقة",
+          "sortOrder": 12,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "معايير مصرية",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "معايير دولية",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "أخرى",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "A13",
+          "text": "هل يتعامل الكيان بأكثر من عملة؟",
+          "sortOrder": 13,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            }
+          ]
+        },
+        {
+          "code": "A14",
+          "text": "الإدارات القائمة لدى العميل",
+          "sortOrder": 14,
+          "answerType": "Multi",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": true,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "مالية",
+              "sortOrder": 1,
+              "score": null
+            },
+            {
+              "text": "مشتريات",
+              "sortOrder": 2,
+              "score": null
+            },
+            {
+              "text": "مخازن",
+              "sortOrder": 3,
+              "score": null
+            },
+            {
+              "text": "مبيعات",
+              "sortOrder": 4,
+              "score": null
+            },
+            {
+              "text": "موارد بشرية",
+              "sortOrder": 5,
+              "score": null
+            },
+            {
+              "text": "تشغيل / إنتاج",
+              "sortOrder": 6,
+              "score": null
+            },
+            {
+              "text": "تدقيق داخلي",
+              "sortOrder": 7,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "A15",
+          "text": "دورية إعداد القوائم المالية المطلوبة",
+          "sortOrder": 15,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "شهرية",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "ربع سنوية",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "سنوية",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "ب",
+      "title": "نطاق الارتباط ونوع المراجعة",
+      "status": "مقترح — للاعتماد",
+      "sortOrder": 2,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "B02",
+          "text": "دورية المتابعة / الفحص",
+          "sortOrder": 1,
+          "answerType": "Choice",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            3,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "بصفة مستمرة",
+              "sortOrder": 1,
+              "score": null
+            },
+            {
+              "text": "شهري",
+              "sortOrder": 2,
+              "score": null
+            },
+            {
+              "text": "ربع سنوي",
+              "sortOrder": 3,
+              "score": null
+            },
+            {
+              "text": "نصف سنوي",
+              "sortOrder": 4,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "B04",
+          "text": "هل هذا أول ارتباط مع العميل؟",
+          "sortOrder": 2,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            }
+          ]
+        },
+        {
+          "code": "B05",
+          "text": "هل توجد ملاحظات سنة سابقة لم تُعالج؟",
+          "sortOrder": 3,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "B04",
+          "conditionOperator": "Equals",
+          "conditionValue": "لا",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "B06",
+          "text": "الجهة المسؤولة عن إعداد قيود التسوية",
+          "sortOrder": 4,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "YELG",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "العميل",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "مشترك",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "B08",
+          "text": "الفترة المالية محل المراجعة (من / إلى)",
+          "sortOrder": 5,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "B09",
+          "text": "تاريخ إتاحة البيانات للفحص",
+          "sortOrder": 6,
+          "answerType": "Date",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "B10",
+          "text": "عمق الفحص حسب الدورية (إجراءات تحقق / فحص محدود / فحص كامل)",
+          "sortOrder": 7,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            3,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "B11",
+          "text": "المدة اللازمة لإتمام المراجعة الشهرية والربع سنوية",
+          "sortOrder": 8,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            3,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "code": "ج",
+      "title": "الهيكل التنظيمي والنفوذ الفعلي",
+      "status": "متفق عليه",
+      "sortOrder": 3,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "C01",
+          "text": "هل يوجد هيكل تنظيمي معتمد ومكتوب؟",
+          "sortOrder": 1,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "C02",
+          "text": "هل يعكس الهيكل الواقع الفعلي للعمل؟",
+          "sortOrder": 2,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "C01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "C03",
+          "text": "من يوزع المهام والصلاحيات عملياً؟",
+          "sortOrder": 3,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "C01",
+          "conditionOperator": "Equals",
+          "conditionValue": "لا",
+          "options": []
+        },
+        {
+          "code": "C04",
+          "text": "هل يوجد توصيف وظيفي مكتوب للوظائف المالية؟",
+          "sortOrder": 4,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "C05",
+          "text": "هل يوجد فصل بين التسجيل والاعتماد والحيازة؟",
+          "sortOrder": 5,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "فصل كامل",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "فصل جزئي",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "لا يوجد فصل",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "C06",
+          "text": "من صاحب النفوذ الفعلي في القرار المالي؟",
+          "sortOrder": 6,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "C07",
+          "text": "هل يوجد شخص يستطيع تجاوز الضوابط عملياً؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "C08",
+          "text": "في أي دورة تحديداً يمكن تجاوز الضوابط؟",
+          "sortOrder": 8,
+          "answerType": "Multi",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "C07",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "مشتريات",
+              "sortOrder": 1,
+              "score": null
+            },
+            {
+              "text": "مخازن",
+              "sortOrder": 2,
+              "score": null
+            },
+            {
+              "text": "مبيعات",
+              "sortOrder": 3,
+              "score": null
+            },
+            {
+              "text": "نقدية",
+              "sortOrder": 4,
+              "score": null
+            },
+            {
+              "text": "رواتب",
+              "sortOrder": 5,
+              "score": null
+            },
+            {
+              "text": "قيود يدوية",
+              "sortOrder": 6,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "C09",
+          "text": "هل توجد صلات قرابة بين شاغلي وظائف رقابية متقابلة؟",
+          "sortOrder": 9,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "C10",
+          "text": "تقييم كفاءة الإدارة المالية",
+          "sortOrder": 10,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "عالية",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "متوسطة",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "ضعيفة",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "C11",
+          "text": "أي جانب تحديداً يظهر فيه الضعف؟",
+          "sortOrder": 11,
+          "answerType": "Multi",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "C10",
+          "conditionOperator": "Equals",
+          "conditionValue": "ضعيفة",
+          "options": [
+            {
+              "text": "إعداد القيود",
+              "sortOrder": 1,
+              "score": null
+            },
+            {
+              "text": "الإقفال الشهري",
+              "sortOrder": 2,
+              "score": null
+            },
+            {
+              "text": "التصنيف المحاسبي",
+              "sortOrder": 3,
+              "score": null
+            },
+            {
+              "text": "التقارير",
+              "sortOrder": 4,
+              "score": null
+            },
+            {
+              "text": "المعايير",
+              "sortOrder": 5,
+              "score": null
+            },
+            {
+              "text": "الضرائب",
+              "sortOrder": 6,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "C12",
+          "text": "هل يوجد تضارب مصالح معلوم؟",
+          "sortOrder": 12,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "C13",
+          "text": "وصف موجز لتضارب المصالح والدورات المتأثرة",
+          "sortOrder": 13,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "C12",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        }
+      ]
+    },
+    {
+      "code": "د",
+      "title": "اللائحة المالية والصلاحيات",
+      "status": "متفق عليه",
+      "sortOrder": 4,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "D01",
+          "text": "هل توجد لائحة مالية مكتوبة ومعتمدة؟",
+          "sortOrder": 1,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "D02",
+          "text": "تاريخ آخر تحديث للائحة",
+          "sortOrder": 2,
+          "answerType": "Date",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "D01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "D03",
+          "text": "هل تُطبق اللائحة فعلياً؟",
+          "sortOrder": 3,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "D01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "تُطبق بالكامل",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "تُطبق جزئياً",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "لا تُطبق",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "D04",
+          "text": "هل توجد مصفوفة صلاحيات اعتماد بحدود مالية؟",
+          "sortOrder": 4,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "D05",
+          "text": "هل الحدود المالية محدثة ومناسبة لحجم النشاط؟",
+          "sortOrder": 5,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "D04",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "D06",
+          "text": "هل توجد لائحة مكافآت وحوافز معتمدة؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "D07",
+          "text": "هل توجد لائحة عمولات مبيعات وتحصيل مكتوبة؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "D08",
+          "text": "هل توجد سياسة معتمدة للخصومات والعينات المجانية؟",
+          "sortOrder": 8,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "D09",
+          "text": "هل توجد سياسة للعهد والسلف تحدد مدة التسوية؟",
+          "sortOrder": 9,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "D10",
+          "text": "هل تُعتمد الموازنة التقديرية رسمياً وتُتابع؟",
+          "sortOrder": 10,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "هـ",
+      "title": "النظام المالي وجاهزية البيانات",
+      "status": "مقترح — للاعتماد",
+      "sortOrder": 5,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "E01",
+          "text": "النظام المالي المستخدم",
+          "sortOrder": 1,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "Odoo",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "SAP",
+              "sortOrder": 2,
+              "score": 0.75
+            },
+            {
+              "text": "برنامج محلي",
+              "sortOrder": 3,
+              "score": 0.5
+            },
+            {
+              "text": "إكسل فقط",
+              "sortOrder": 4,
+              "score": 0.25
+            },
+            {
+              "text": "أخرى",
+              "sortOrder": 5,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "E02",
+          "text": "هل يغطي النظام كل الدورات؟",
+          "sortOrder": 2,
+          "answerType": "Choice",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "يغطي الكل",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "يغطي بعضها",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "E03",
+          "text": "أي دورات تُدار خارج النظام؟",
+          "sortOrder": 3,
+          "answerType": "Multi",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "E02",
+          "conditionOperator": "Equals",
+          "conditionValue": "يغطي بعضها",
+          "options": [
+            {
+              "text": "مشتريات",
+              "sortOrder": 1,
+              "score": null
+            },
+            {
+              "text": "مخازن",
+              "sortOrder": 2,
+              "score": null
+            },
+            {
+              "text": "مبيعات",
+              "sortOrder": 3,
+              "score": null
+            },
+            {
+              "text": "رواتب",
+              "sortOrder": 4,
+              "score": null
+            },
+            {
+              "text": "نقدية",
+              "sortOrder": 5,
+              "score": null
+            },
+            {
+              "text": "أصول ثابتة",
+              "sortOrder": 6,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "E04",
+          "text": "هل يمكن تصدير كل القيود من أول السنة؟",
+          "sortOrder": 4,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "E05",
+          "text": "صيغة التصدير المتاحة",
+          "sortOrder": 5,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "E04",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "Excel",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "CSV",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "ربط مباشر / API",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "E06",
+          "text": "هل يتضمن تصدير القيود اسم الجهة على مستوى السطر؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "E04",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "E07",
+          "text": "هل يمكن استخراج الأستاذ المساعد للعملاء والموردين منفصلاً؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "E06",
+          "conditionOperator": "Equals",
+          "conditionValue": "لا",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "E08",
+          "text": "هل توجد مراكز تكلفة أو حسابات تحليلية؟",
+          "sortOrder": 8,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "E09",
+          "text": "أين تظهر مراكز التكلفة؟",
+          "sortOrder": 9,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "E08",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "في ميزان المراجعة",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "في القيود فقط",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "لا تظهر",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "E10",
+          "text": "هل شجرة الحسابات مصنفة على مستويات؟",
+          "sortOrder": 10,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "E11",
+          "text": "هل توجد خريطة تصنيف سابقة يمكن البناء عليها؟",
+          "sortOrder": 11,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "E10",
+          "conditionOperator": "Equals",
+          "conditionValue": "لا",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "E12",
+          "text": "هل توجد أرصدة افتتاحية معتمدة أو مدققة؟",
+          "sortOrder": 12,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "E13",
+          "text": "هل يُقفل الشهر رسمياً ويُمنع التعديل بعده؟",
+          "sortOrder": 13,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "E14",
+          "text": "عند التصحيح: يُعدّل القيد الأصلي أم يُضاف قيد تصحيح؟",
+          "sortOrder": 14,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "قيد تصحيح جديد",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "تعديل القيد الأصلي",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "الاثنان",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "E15",
+          "text": "حالة الالتزام بالفاتورة الإلكترونية",
+          "sortOrder": 15,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "ملتزم بالكامل",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "ملتزم جزئياً",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "غير ملتزم",
+              "sortOrder": 3,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 4,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "E16",
+          "text": "هل صلاحيات المستخدمين على النظام محددة وموثقة؟",
+          "sortOrder": 16,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "و",
+      "title": "المشتريات والموردين",
+      "status": "متفق عليه",
+      "sortOrder": 6,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "F01",
+          "text": "هل توجد دورة مستندية معتمدة للشراء؟",
+          "sortOrder": 1,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "F02",
+          "text": "هل تُطبق الدورة على كل المشتريات؟",
+          "sortOrder": 2,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "F01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "على الكل",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "على المشتريات الكبيرة فقط",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "غير منتظم",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "F03",
+          "text": "هل يوجد اعتماد مسبق قبل تنفيذ الشراء؟",
+          "sortOrder": 3,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "F04",
+          "text": "هل توجد قاعدة موردين معتمدين؟",
+          "sortOrder": 4,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "F05",
+          "text": "هل تُقارن عروض أسعار قبل الترسية؟",
+          "sortOrder": 5,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "F06",
+          "text": "هل تتم المطابقة الثلاثية (أمر / استلام / فاتورة)؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "F07",
+          "text": "هل تتم مصادقات دورية على أرصدة الموردين؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "F08",
+          "text": "تاريخ آخر مصادقة على أرصدة الموردين",
+          "sortOrder": 8,
+          "answerType": "Date",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "F07",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "F09",
+          "text": "هل توجد دفعات مقدمة للموردين وتُتابع؟",
+          "sortOrder": 9,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "F10",
+          "text": "هل توجد مشتريات استيراد؟",
+          "sortOrder": 10,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "F11",
+          "text": "هل تُحمّل تكاليف الشحن والجمارك والتأمين على تكلفة الصنف؟",
+          "sortOrder": 11,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "F10",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "F12",
+          "text": "كيف تُعالج فروق العملة على مشتريات الاستيراد؟",
+          "sortOrder": 12,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "F10",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "F13",
+          "text": "هل توجد حوافز أو خصومات لاحقة من الموردين؟",
+          "sortOrder": 13,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "F14",
+          "text": "نسبة أكبر مورد من إجمالي المشتريات",
+          "sortOrder": 14,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "F15",
+          "text": "من يعتمد أمر الشراء نهائياً؟",
+          "sortOrder": 15,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "code": "ز",
+      "title": "المخازن والمخزون",
+      "status": "متفق عليه",
+      "sortOrder": 7,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "G01",
+          "text": "عدد المخازن ومواقعها",
+          "sortOrder": 1,
+          "answerType": "Text",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "G02",
+          "text": "هل يتابع النظام المخزون كمياً وقيمياً؟",
+          "sortOrder": 2,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "كمي وقيمي",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "كمي فقط",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "لا يوجد نظام",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "G03",
+          "text": "طريقة تقييم المخزون",
+          "sortOrder": 3,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "متوسط مرجح",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "الوارد أولاً صادر أولاً",
+              "sortOrder": 2,
+              "score": 0.67
+            },
+            {
+              "text": "تكلفة فعلية",
+              "sortOrder": 3,
+              "score": 0.33
+            },
+            {
+              "text": "أخرى",
+              "sortOrder": 4,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "G04",
+          "text": "دورية الجرد الفعلي",
+          "sortOrder": 4,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "شهري",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "ربع سنوي",
+              "sortOrder": 2,
+              "score": 0.67
+            },
+            {
+              "text": "سنوي",
+              "sortOrder": 3,
+              "score": 0.33
+            },
+            {
+              "text": "لا يوجد",
+              "sortOrder": 4,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "G05",
+          "text": "هل تُحرر محاضر جرد موقعة ومعتمدة؟",
+          "sortOrder": 5,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "G04",
+          "conditionOperator": "NotEquals",
+          "conditionValue": "لا يوجد",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "G06",
+          "text": "هل تُسوى فروق الجرد بقيد معتمد؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": "G04",
+          "conditionOperator": "NotEquals",
+          "conditionValue": "لا يوجد",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "G07",
+          "text": "هل الأصناف متتبعة بالتشغيلة وتاريخ الصلاحية؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "G08",
+          "text": "هل توجد أصناف منتهية أو قاربت الانتهاء؟",
+          "sortOrder": 8,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "G07",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "G09",
+          "text": "هل توجد أصناف راكدة وهل يوجد مخصص لها؟",
+          "sortOrder": 9,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "G10",
+          "text": "هل يرتبط صرف الخامات بأمر تشغيل أو خدمة محددة؟",
+          "sortOrder": 10,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "G11",
+          "text": "هل يوجد استهلاك معياري لكل منتج أو خدمة؟",
+          "sortOrder": 11,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "G10",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "G12",
+          "text": "هل تُحسب انحرافات الاستهلاك وتُعتمد نسبة مقبولة؟",
+          "sortOrder": 12,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "G11",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "G13",
+          "text": "هل توجد تحويلات بين المخازن أو الفروع وكيف تُوثق؟",
+          "sortOrder": 13,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "G14",
+          "text": "من له صلاحية الصرف من المخزن وهل تُعتمد؟",
+          "sortOrder": 14,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "G15",
+          "text": "هل حيازة المخزون منفصلة عن تسجيله محاسبياً؟",
+          "sortOrder": 15,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "ح",
+      "title": "المبيعات والعملاء والتحصيل",
+      "status": "متفق عليه",
+      "sortOrder": 8,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "H01",
+          "text": "قنوات البيع",
+          "sortOrder": 1,
+          "answerType": "Multi",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "توزيع وجملة",
+              "sortOrder": 1,
+              "score": null
+            },
+            {
+              "text": "تجزئة",
+              "sortOrder": 2,
+              "score": null
+            },
+            {
+              "text": "خدمات",
+              "sortOrder": 3,
+              "score": null
+            },
+            {
+              "text": "عبر وكلاء",
+              "sortOrder": 4,
+              "score": null
+            },
+            {
+              "text": "تصدير",
+              "sortOrder": 5,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "H02",
+          "text": "هل توجد سياسة تسعير معتمدة؟",
+          "sortOrder": 2,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "H03",
+          "text": "هل توجد سياسة خصومات بحدود وصلاحيات؟",
+          "sortOrder": 3,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "H04",
+          "text": "من يعتمد الخصم الاستثنائي؟",
+          "sortOrder": 4,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "H03",
+          "conditionOperator": "Equals",
+          "conditionValue": "لا",
+          "options": []
+        },
+        {
+          "code": "H05",
+          "text": "هل تُمنح عينات مجانية أو خصم ١٠٠٪؟",
+          "sortOrder": 5,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "H06",
+          "text": "هل تُوثق العينات المجانية وتُحمّل تكلفتها؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "H05",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "H07",
+          "text": "متى يُعترف بالإيراد؟",
+          "sortOrder": 7,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "عند الفوترة",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "عند التسليم",
+              "sortOrder": 2,
+              "score": 0.67
+            },
+            {
+              "text": "عند أداء الخدمة",
+              "sortOrder": 3,
+              "score": 0.33
+            },
+            {
+              "text": "عند التحصيل",
+              "sortOrder": 4,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "H08",
+          "text": "هل توجد باقات أو اشتراكات مدفوعة مقدماً؟",
+          "sortOrder": 8,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "H09",
+          "text": "هل توجد مرتجعات مبيعات وكيف تُعالج؟",
+          "sortOrder": 9,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "H10",
+          "text": "هل يوجد تقرير أعمار ديون ودوريته",
+          "sortOrder": 10,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "شهري",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "ربع سنوي",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "لا يوجد",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "H11",
+          "text": "هل توجد ديون متعثرة وهل يوجد مخصص لها؟",
+          "sortOrder": 11,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "H10",
+          "conditionOperator": "NotEquals",
+          "conditionValue": "لا يوجد",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "H12",
+          "text": "هل تتم مصادقات دورية على أرصدة العملاء؟",
+          "sortOrder": 12,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "H13",
+          "text": "نسبة أكبر عشرة عملاء من صافي المبيعات",
+          "sortOrder": 13,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "H14",
+          "text": "هل توجد مبيعات لأطراف مرتبطة؟",
+          "sortOrder": 14,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "H15",
+          "text": "كيف تُسدد أرصدة الأطراف المرتبطة؟",
+          "sortOrder": 15,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "H14",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نقداً",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "بضاعة",
+              "sortOrder": 2,
+              "score": 0.67
+            },
+            {
+              "text": "مقاصة",
+              "sortOrder": 3,
+              "score": 0.33
+            },
+            {
+              "text": "لم تُسدد",
+              "sortOrder": 4,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "H16",
+          "text": "هل تُصرف عمولات مبيعات أو تحصيل وما أساس احتسابها؟",
+          "sortOrder": 16,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "code": "ط",
+      "title": "النقدية والبنوك",
+      "status": "مقترح — للاعتماد",
+      "sortOrder": 9,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "I01",
+          "text": "عدد الخزن والحسابات البنكية",
+          "sortOrder": 1,
+          "answerType": "Text",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "I02",
+          "text": "هل يُجرد الصندوق دورياً بمحضر موقع؟",
+          "sortOrder": 2,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "I03",
+          "text": "هل تُعد مذكرات تسوية بنكية شهرياً؟",
+          "sortOrder": 3,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "I04",
+          "text": "هل توجد بنود معلقة قديمة في التسويات البنكية؟",
+          "sortOrder": 4,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "I03",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "I05",
+          "text": "هل يوجد فصل بين أمين الخزينة ومسجل القيود؟",
+          "sortOrder": 5,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "I06",
+          "text": "هل توجد حدود معتمدة للدفع النقدي؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "I07",
+          "text": "هل توجد قروض أو تسهيلات بنكية؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "I08",
+          "text": "هل توجد جداول سداد وفصل بين المتداول وغير المتداول؟",
+          "sortOrder": 8,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "I07",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "I09",
+          "text": "نسبة القروض والتسهيلات إلى صافي حقوق الملكية",
+          "sortOrder": 9,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "I07",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "I10",
+          "text": "نسبة القروض والتسهيلات إلى صافي قيمة الأصول",
+          "sortOrder": 10,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "I07",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        }
+      ]
+    },
+    {
+      "code": "ي",
+      "title": "الرواتب والعمولات والعهد",
+      "status": "مقترح — للاعتماد",
+      "sortOrder": 10,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "J01",
+          "text": "عدد الموظفين على كشف الرواتب",
+          "sortOrder": 1,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "J02",
+          "text": "من يعتمد كشف الرواتب شهرياً؟",
+          "sortOrder": 2,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "J03",
+          "text": "هل تتم مطابقة كشف الرواتب بسجل الموظفين؟",
+          "sortOrder": 3,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "J04",
+          "text": "هل صُرفت مكافآت أو حوافز خارج اللائحة المعتمدة؟",
+          "sortOrder": 4,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "J05",
+          "text": "هل تُصرف عمولات لأشخاص خارج إدارة المبيعات؟",
+          "sortOrder": 5,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "J06",
+          "text": "قيمة رصيد العهد والسلف القائم",
+          "sortOrder": 6,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        },
+        {
+          "code": "J07",
+          "text": "هل توجد عهد لم تُسوَّ لأكثر من ٣٠ يوماً؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "J08",
+          "text": "هل تُصرف عهدة جديدة قبل تسوية السابقة؟",
+          "sortOrder": 8,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "J09",
+          "text": "هل يتم الالتزام بالتأمينات وضريبة كسب العمل؟",
+          "sortOrder": 9,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "ملتزم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "ملتزم جزئياً",
+              "sortOrder": 2,
+              "score": 0.5
+            },
+            {
+              "text": "غير ملتزم",
+              "sortOrder": 3,
+              "score": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "ك",
+      "title": "الأصول الثابتة",
+      "status": "مقترح — للاعتماد",
+      "sortOrder": 11,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "K01",
+          "text": "هل يوجد سجل أصول ثابتة؟",
+          "sortOrder": 1,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "K02",
+          "text": "هل يتضمن السجل مكان تواجد كل أصل؟",
+          "sortOrder": 2,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "K01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "K03",
+          "text": "تاريخ آخر جرد فعلي للأصول",
+          "sortOrder": 3,
+          "answerType": "Date",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "K01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "K04",
+          "text": "هل سياسة الإهلاك والأعمار الإنتاجية معتمدة؟",
+          "sortOrder": 4,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "K05",
+          "text": "هل توجد إضافات أو استبعادات خلال الفترة؟",
+          "sortOrder": 5,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "K06",
+          "text": "هل توجد مشروعات تحت التنفيذ؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "K07",
+          "text": "هل يُحدد الأصل المراد إنشاؤه والمدة المتبقية؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "K06",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "K08",
+          "text": "هل توجد أصول شخصية للملاك مسجلة على الشركة؟",
+          "sortOrder": 8,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "K09",
+          "text": "هل توجد دورة واضحة للإنفاق الرأسمالي؟",
+          "sortOrder": 9,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "K10",
+          "text": "ما قيمة خطة زيادة الاستثمارات المخطط لها خلال عام؟",
+          "sortOrder": 10,
+          "answerType": "Number",
+          "kind": "Numeric",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "code": "ل",
+      "title": "المصروفات والمخصصات والاستحقاقات",
+      "status": "مقترح — للاعتماد",
+      "sortOrder": 12,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "L01",
+          "text": "هل تُثبت المصروفات على أساس الاستحقاق؟",
+          "sortOrder": 1,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "L02",
+          "text": "هل توجد مصروفات مستحقة غير مثبتة؟",
+          "sortOrder": 2,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "L03",
+          "text": "هل تُستنفد المصروفات المدفوعة مقدماً دورياً؟",
+          "sortOrder": 3,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "L04",
+          "text": "هل توجد مخصصات مكوّنة (ضرائب / مطالبات / ديون)؟",
+          "sortOrder": 4,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "L05",
+          "text": "ما أساس تقدير المخصصات ومن يعتمدها؟",
+          "sortOrder": 5,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "L04",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "L06",
+          "text": "هل توجد مصروفات شخصية أو غير متعلقة بالنشاط؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "L07",
+          "text": "هل تُفصل وتُصنف على حساب الملاك؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "L06",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "L08",
+          "text": "هل توجد التزامات محتملة أو قضايا قائمة؟",
+          "sortOrder": 8,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "L09",
+          "text": "هل الموقف الضريبي محدث (فحص / ربط / منازعات)؟",
+          "sortOrder": 9,
+          "answerType": "Choice",
+          "kind": "Graded",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "محدث",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "متأخر",
+              "sortOrder": 2,
+              "score": 0.67
+            },
+            {
+              "text": "توجد منازعات",
+              "sortOrder": 3,
+              "score": 0.33
+            },
+            {
+              "text": "غير معلوم",
+              "sortOrder": 4,
+              "score": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "م",
+      "title": "الأطراف المرتبطة والحوكمة",
+      "status": "مقترح — للاعتماد",
+      "sortOrder": 13,
+      "baseWeight": 7.6923,
+      "questions": [
+        {
+          "code": "M01",
+          "text": "هل توجد شركات شقيقة أو أطراف مرتبطة؟",
+          "sortOrder": 1,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            }
+          ]
+        },
+        {
+          "code": "M02",
+          "text": "قائمة الأطراف المرتبطة وطبيعة العلاقة",
+          "sortOrder": 2,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "M01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "M03",
+          "text": "هل تُميّز حسابات الأطراف المرتبطة في شجرة الحسابات؟",
+          "sortOrder": 3,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "M01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "M04",
+          "text": "هل توجد معاملات بيع أو شراء بين الأطراف وبأي أسعار؟",
+          "sortOrder": 4,
+          "answerType": "Text",
+          "kind": "Context",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            0,
+            0,
+            0
+          ],
+          "parentCode": "M01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": []
+        },
+        {
+          "code": "M05",
+          "text": "هل تدخل تعاملات الأطراف المرتبطة في وعاء العمولات؟",
+          "sortOrder": 5,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": "M01",
+          "conditionOperator": "Equals",
+          "conditionValue": "نعم",
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "M06",
+          "text": "هل يوجد مجلس إدارة فعّال ومحاضر اجتماعات؟",
+          "sortOrder": 6,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Positive",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 1
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 0
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "M07",
+          "text": "هل توجد جهة تدقيق داخلي؟",
+          "sortOrder": 7,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": false,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            3,
+            2,
+            1
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        },
+        {
+          "code": "M08",
+          "text": "هل حقوق الملكية سالبة أو توجد مؤشرات على الاستمرارية؟",
+          "sortOrder": 8,
+          "answerType": "YesNo",
+          "kind": "Binary",
+          "direction": "Negative",
+          "isCritical": true,
+          "allowCustomAnswer": false,
+          "isActive": true,
+          "weights": [
+            5,
+            4,
+            2
+          ],
+          "parentCode": null,
+          "conditionOperator": null,
+          "conditionValue": null,
+          "options": [
+            {
+              "text": "نعم",
+              "sortOrder": 1,
+              "score": 0
+            },
+            {
+              "text": "لا",
+              "sortOrder": 2,
+              "score": 1
+            },
+            {
+              "text": "غير منطبق",
+              "sortOrder": 3,
+              "score": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

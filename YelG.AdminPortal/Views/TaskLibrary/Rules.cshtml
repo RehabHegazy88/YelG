@@ -1,0 +1,146 @@
+@model TaskLibrary
+@{
+    ViewData["Title"] = "تأثير الإجابات";
+}
+<partial name="_Tabs" model="Model" />
+
+<div class="guide">
+    <span class="step">أنواع التأثير</span>
+    <div>
+        <h3>الإجابة لا تُنشئ مهمة دائمًا</h3>
+        <p>«النتيجة فقط» لا يغير النطاق · «إضافة إجراء» يضيف مهمة · «توسيع مهمة» يضيف ساعات لمهمة قائمة · «توصية» تظهر بدون ساعات · «خدمة اختيارية» لا تُحتسب حتى يضيفها الـAdmin بعد الاتفاق. لا تؤثر القاعدة إذا كان سؤالها مخفيًا بسبب شرط ظهوره.</p>
+    </div>
+</div>
+
+<div class="d-flex gap-2 flex-wrap align-items-center mb-3">
+    <input class="form-control w-auto flex-grow-1" style="min-width:220px" id="ruleSearch" placeholder="بحث بالسؤال أو المهمة أو الكود" />
+    <select class="form-select w-auto" id="ruleEffect">
+        <option value="">كل أنواع التأثير</option>
+        @foreach (var e in Enum.GetValues<RuleEffectType>()) { <option value="@e">@Labels.Of(e)</option> }
+    </select>
+    <button type="button" class="btn btn-primary" data-add-rule>إضافة تأثير</button>
+</div>
+
+@if (Model.Rules.Any(r => r.QuestionMissing))
+{
+    <div class="notice warn"><b>انتباه</b><span>@Model.Rules.Count(r => r.QuestionMissing) قاعدة تعتمد على أسئلة غير موجودة في بنك الأسئلة المنشور، ولن تؤثر على أي تقييم جديد.</span></div>
+}
+
+<div class="table-wrap">
+    <table class="table-y" id="ruleTable">
+        <thead><tr><th>الكود</th><th class="text-start">إذا كانت إجابة السؤال</th><th>الشرط</th><th class="text-start">التأثير</th><th>الأولوية</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var r in Model.Rules)
+            {
+                <tr data-rule="@r.Id" data-effect="@r.EffectType" class="@(r.IsActive ? "" : "opacity-50")"
+                    data-search="@($"{r.Code} {r.QuestionCode} {r.QuestionText} {r.TaskCode} {r.TaskTitle} {r.Recommendation}".ToLowerInvariant())">
+                    <td class="code">@r.Code</td>
+                    <td style="min-width:220px">
+                        <b class="code text-primary">@r.QuestionCode</b> @(r.QuestionText ?? "")
+                        @if (r.QuestionMissing) { <span class="status back">السؤال غير موجود</span> }
+                    </td>
+                    <td>@Labels.Of(r.Operator) @if (r.Value is not null) { <b>«@r.Value.Replace("|", " / ")»</b> }</td>
+                    <td style="min-width:240px">
+                        <span class="chip">@Labels.Of(r.EffectType)</span>
+                        @if (r.TaskCode is not null) { <div class="small mt-1"><b class="code">@r.TaskCode</b> @r.TaskTitle</div> }
+                        @if (r.Recommendation is not null) { <div class="small mt-1">@r.Recommendation</div> }
+                        @if (r.EffectType == RuleEffectType.ExpandTask && r.RoleDelta.Total > 0) { <div class="small text-secondary">+@r.RoleDelta.Total.ToString("0.#") ساعة</div> }
+                        @if (!r.IsActive) { <span class="status back mt-1">موقوفة</span> }
+                    </td>
+                    <td><span class="@StatusCss.Of(r.Priority)">@Labels.Of(r.Priority)</span></td>
+                    <td class="text-nowrap">
+                        <button type="button" class="btn btn-ghost btn-sm" data-edit-rule>تعديل</button>
+                        <button type="button" class="btn btn-danger-soft btn-sm" data-delete-rule>حذف</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="empty mt-3" id="noRules" hidden>لا توجد قواعد مطابقة للبحث.</div>
+
+<div class="modal fade" id="ruleModal" tabindex="-1" aria-labelledby="ruleTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <form class="modal-content" id="ruleForm">
+            <div class="modal-header">
+                <h3 class="modal-title h5" id="ruleTitle">تأثير الإجابة</h3>
+                <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="rQuestion">السؤال</label>
+                        <select class="form-select" id="rQuestion">
+                            @foreach (var q in Model.Questions) { <option value="@q.Code">@q.Code — @q.Text</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold" for="rOperator">الشرط</label>
+                        <select class="form-select" id="rOperator">
+                            @foreach (var o in Enum.GetValues<RuleOperator>()) { <option value="@o">@Labels.Of(o)</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-8" id="valueBlock">
+                        <label class="form-label fw-semibold">قيمة الشرط</label>
+                        <select class="form-select" id="rValueSelect"></select>
+                        <div id="rValueChecks" class="d-flex flex-wrap gap-2"></div>
+                        <input class="form-control" id="rValueText" maxlength="500" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="rEffect">نوع التأثير</label>
+                        <select class="form-select" id="rEffect">
+                            @foreach (var e in Enum.GetValues<RuleEffectType>()) { <option value="@e">@Labels.Of(e)</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="rPriority">الأولوية</label>
+                        <select class="form-select" id="rPriority">
+                            @foreach (var p in new[] { TaskPriority.High, TaskPriority.Medium, TaskPriority.Low }) { <option value="@p">@Labels.Of(p)</option> }
+                        </select>
+                    </div>
+                    <div class="col-12" id="taskBlock">
+                        <label class="form-label fw-semibold" for="rTask">المهمة المرتبطة</label>
+                        <select class="form-select" id="rTask">
+                            @foreach (var t in Model.Templates.OrderBy(t => t.Code)) { <option value="@t.Id">@t.Code — @(t.Title.Length > 90 ? t.Title[..90] + "…" : t.Title)</option> }
+                        </select>
+                    </div>
+                    <div class="col-12" id="deltaBlock">
+                        <label class="form-label fw-semibold">ساعات إضافية للمهمة بسبب هذه الإجابة</label>
+                        <div class="row g-2">
+                            @foreach (var (id, label) in new[] { ("rdAnalyst", "Analyst"), ("rdTeamLead", "Team Leader"), ("rdManager", "Manager"), ("rdPartner", "Partner") })
+                            {
+                                <div class="col-6 col-md-3"><label class="small text-secondary" for="@id">@label</label><input class="form-control num" id="@id" type="number" min="0" max="500" step="0.5" value="0" /></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-12" id="recommendationBlock">
+                        <label class="form-label fw-semibold" for="rRecommendation">نص التوصية</label>
+                        <textarea class="form-control" id="rRecommendation" rows="2" maxlength="2000"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="rNote">ملاحظة مرجعية (منطق الربط)</label>
+                        <textarea class="form-control" id="rNote" rows="2" maxlength="2000"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="rCode">الكود</label>
+                        <input class="form-control num" id="rCode" maxlength="20" placeholder="يُولَّد تلقائيًا إذا تُرك فارغًا" />
+                    </div>
+                    <div class="col-md-6 d-flex align-items-end">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="rActive" checked /><label class="form-check-label" for="rActive">التأثير نشط</label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                <button type="submit" class="btn btn-primary" id="saveRule">حفظ التأثير</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="application/json" id="libraryData">@Json.Serialize(new { rules = Model.Rules, questions = Model.Questions })</script>
+
+@section Scripts {
+    <script src="~/js/task-library.js" asp-append-version="true"></script>
+}

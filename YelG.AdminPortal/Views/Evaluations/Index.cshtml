@@ -1,0 +1,73 @@
+@model MyEvaluationsViewModel
+@{
+    ViewData["Title"] = "تقييماتي";
+}
+<div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
+    <div>
+        <h2 class="page-title">تقييماتي</h2>
+        <p class="lead-text">الشركات المسندة إليك أو التي أضفتها. يحصل كل مقيم على تقييم مستقل لنفس الشركة، ولا يرى إجابات المقيمين الآخرين.</p>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+        @if (Model.Evaluations.Count > 0)
+        {
+            <a class="btn btn-ghost" asp-controller="Export" asp-action="Results" title="ملخص التقييمات ونتائج الفئات والإجابات">تصدير النتائج Excel</a>
+        }
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCompany">إضافة شركة</button>
+    </div>
+</div>
+
+<div class="guide">
+    <span class="step">الخطوة ٣</span>
+    <div>
+        <h3>استيفاء التقييم ثم إرساله للاعتماد</h3>
+        <p>أجيبي بحسب واقع الشركة والمستندات المتاحة. بعد الإرسال يصبح التقييم للعرض فقط حتى يعتمده الـAdmin أو يعيده لك.</p>
+    </div>
+</div>
+
+@if (Model.Evaluations.Count == 0)
+{
+    <div class="empty">لم تُضف شركات بعد. ابدئي بإضافة شركة أو انتظري إسناد شركة من الـAdmin.</div>
+}
+else
+{
+    <div class="cards">
+        @foreach (var evaluation in Model.Evaluations)
+        {
+            <partial name="_EvaluationCard" model="evaluation" />
+        }
+    </div>
+}
+
+<div class="modal fade" id="addCompany" tabindex="-1" aria-labelledby="addCompanyTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" asp-controller="Companies" asp-action="Create" method="post">
+            <div class="modal-header">
+                <h3 class="modal-title h5" id="addCompanyTitle">إضافة شركة</h3>
+                <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" for="newName">اسم الشركة</label>
+                    <input class="form-control" id="newName" name="Name" maxlength="150" required placeholder="اسم الشركة أو رمز يحفظ خصوصيتها" />
+                </div>
+                <div class="mb-2">
+                    <label class="form-label fw-semibold" for="newActivity">النشاط</label>
+                    <select class="form-select" id="newActivity" name="ActivityId">
+                        @foreach (var activity in Model.Activities)
+                        {
+                            <option value="@activity.Id">@activity.Name</option>
+                        }
+                    </select>
+                </div>
+                @if (User.IsAdmin())
+                {
+                    <p class="small text-secondary mb-0">لإسناد الشركة لمقيمين آخرين استخدمي صفحة «الشركات والمقيمون».</p>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                <button type="submit" class="btn btn-primary">إضافة</button>
+            </div>
+        </form>
+    </div>
+</div>

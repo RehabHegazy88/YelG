@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YelG Advisory — Integrated financial expertise</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&amp;family=Alexandria:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+/* ---------- tokens (8px grid) ---------- */
+:root{--navy:#0A3177;--ink:#0A1F4E;--blue:#1B52CC;--cyan:#44D2EA;--coral:#DE8165;--peach:#FEDDC5;--mist:#F4F7FD;--line:#E3E8F4;--text:#4A5784;--r-sm:16px;--r-md:24px;--r-lg:32px;--sh-card:0 0 0 1px #E3E8F4;--sh-lift:0 32px 64px -32px rgba(10,49,119,.55)}
+body{margin:0;background:#FFFFFF}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+a{color:#1B52CC}a:hover{color:#0A3177}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #44D2EA;outline-offset:3px;border-radius:12px}
+.skip{position:absolute;left:16px;top:-80px;z-index:20;background:#44D2EA;color:#0A1F4E;padding:12px 16px;border-radius:12px;font:600 15px 'Sora',sans-serif;text-decoration:none}
+.skip:focus{top:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1296px;margin:0 auto;padding-inline:clamp(16px,4vw,40px);box-sizing:border-box}
+.sec{padding-block:clamp(72px,9vw,120px)}
+.num{font-family:'Sora',sans-serif;letter-spacing:-.03em}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 14px 'Sora',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#1B52CC}
+.eyebrow::before{content:"";width:24px;height:24px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23DE8165'/%3E%3Cstop offset='.5' stop-color='%236F7CBA'/%3E%3Cstop offset='.8' stop-color='%231B52CC'/%3E%3Cstop offset='1' stop-color='%2344D2EA'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M14 10h26a16 16 0 0 1 16 16v14L42 56H14a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6z' fill='url(%23g)'/%3E%3C/svg%3E") center/contain no-repeat}
+.eyebrow.on-dark{color:#7FE3F1}
+.h2{margin:0;font:600 clamp(28px,3vw,44px)/1.15 'Sora',sans-serif;letter-spacing:-.03em;color:#0A3177}
+.h2 em{font-style:normal;color:#1B52CC}
+.on-dark .h2,.h2.light{color:#FFFFFF}
+.on-dark .h2 em,.h2.light em{color:#44D2EA}
+.h3{margin:0;font:600 20px/1.3 'Sora',sans-serif;letter-spacing:-.015em;color:#0A3177}
+.p{margin:0;font-size:16px;line-height:1.7;color:#4A5784}
+.lead{margin:0;font-size:18px;line-height:1.7;color:#4A5784}
+.head{display:flex;flex-direction:column;gap:16px;max-width:720px}
+/* ---------- hero ---------- */
+.heroB{background:radial-gradient(ellipse 42% 46% at 50% 62%,rgba(68,210,234,.30),rgba(68,210,234,0) 70%),radial-gradient(ellipse 75% 80% at 50% 60%,#1B52CC 0%,#0A3177 62%,#082660 100%)}
+.heroB-pat{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cpath d='M24 20h28a18 18 0 0 1 18 18v16L56 72H24a4 4 0 0 1-4-4V24a4 4 0 0 1 4-4z' fill='none' stroke='%23FFFFFF' stroke-opacity='.05' stroke-width='1.2'/%3E%3C/svg%3E");-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,transparent 30%,#000 75%);mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,transparent 30%,#000 75%)}
+.heroGrid{position:relative;z-index:4;flex:1;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.92fr) minmax(0,.68fr);gap:clamp(40px,5vw,88px);align-items:end;padding-top:64px}
+.heroStats{display:flex;flex-direction:column}
+.mnav a{color:#FFFFFF;text-decoration:none;padding:12px 14px;min-height:44px;display:inline-flex;align-items:center;border-radius:12px}
+.mnav a:hover{color:#44D2EA}
+.menuBtn{display:none;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.32);background:rgba(255,255,255,.06);color:#FFFFFF;cursor:pointer;align-items:center;justify-content:center}
+.mobNav{position:relative;z-index:6;background:#082660;border-bottom:1px solid rgba(255,255,255,.14)}
+.mobNav a{display:flex;align-items:center;min-height:48px;color:#FFFFFF;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.08)}
+.mobNav a.mcta{margin-top:16px;justify-content:center;border:0;border-radius:999px;background:#44D2EA;color:#0A1F4E}
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:0 8px 0 28px;border-radius:999px;font:600 16px 'Sora',sans-serif;text-decoration:none;border:0;cursor:pointer;box-sizing:border-box;transition:background .25s ease,color .25s ease,box-shadow .25s ease}
+.btn .ar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;transition:transform .25s ease}
+.btn:hover .ar{transform:rotate(45deg)}
+.btn-cyan{background:#44D2EA;color:#0A1F4E}.btn-cyan .ar{background:#0A3177;color:#FFFFFF}.btn-cyan:hover{background:#FFFFFF;color:#0A1F4E}
+.btn-blue{background:#1B52CC;color:#FFFFFF}.btn-blue .ar{background:#FFFFFF;color:#1B52CC}.btn-blue:hover{background:#0A3177;color:#FFFFFF}
+.btn-line{background:transparent;color:#FFFFFF;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5);padding:0 28px}.btn-line:hover{color:#44D2EA;box-shadow:inset 0 0 0 1.5px #44D2EA}
+.btn-ghost{background:#FFFFFF;color:#0A3177;box-shadow:inset 0 0 0 1.5px #C9D4EE;padding:0 24px}.btn-ghost:hover{box-shadow:inset 0 0 0 1.5px #1B52CC;color:#1B52CC}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.tlink{display:inline-flex;align-items:center;gap:8px;min-height:44px;font:600 15px 'Sora',sans-serif;color:#1B52CC;text-decoration:none;background:none;border:0;padding:0;cursor:pointer}
+.tlink:hover{color:#0A3177}
+/* ---------- media ---------- */
+.photo{position:relative;overflow:hidden;background-color:#163A86;background-size:cover;background-position:center}
+.photo::before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,31,78,.14),rgba(10,31,78,0) 50%)}
+.i-meeting{background-image:url("/assets/meeting.jpg")}
+.i-desk{background-image:url("/assets/desk.jpg")}
+.i-smiles{background-image:url("/assets/post-from-numbers-to-smiles.jpg");background-position:100% center}
+.i-hiring{background-image:url("/assets/post-hiring.jpg");background-position:center top}
+.i-insight{background-image:url("/assets/post-insight-to-action.jpg")}
+.i-lighthouse{background-image:url("/assets/post-finance-should-do-more.jpg");background-position:center top}
+.i-ifc1{background-image:url("/assets/post-infinite-financial-care.jpg");background-position:center top}
+.i-hiring::before,.i-insight::before,.i-lighthouse::before,.i-ifc1::before{display:none}
+.i-avatar{background:url("/assets/dr-yasser-avatar.jpg") center top/cover no-repeat,#163A86}
+.yasserArch{background:url("/assets/dr-yasser-cutout.png") center bottom/auto 94% no-repeat,radial-gradient(120% 90% at 0% 0%,#DE8165 0%,rgba(222,129,101,0) 55%),radial-gradient(90% 80% at 100% 0%,#FEDDC5 0%,rgba(254,221,197,0) 60%),radial-gradient(100% 100% at 0% 100%,#1B52CC 0%,rgba(27,82,204,0) 60%),radial-gradient(100% 100% at 100% 100%,#44D2EA 0%,rgba(68,210,234,0) 60%),#6F7CBA}
+.marquee{display:flex;width:max-content;animation:mq 40s linear infinite}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.spin{animation:sp 24s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* ---------- chips / checks ---------- */
+.chk{display:flex;gap:12px;align-items:flex-start;font:600 16px/1.5 'Sora',sans-serif;color:#0A3177}
+.chk i{width:24px;height:24px;border-radius:50%;background:#1B52CC;flex:none;display:flex;align-items:center;justify-content:center}
+.chip{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:999px;background:#FFFFFF;box-shadow:var(--sh-card);font:600 14px 'Sora',sans-serif;color:#0A3177}
+.cred{display:inline-flex;flex-direction:column;gap:2px;padding:12px 16px;border-radius:16px;background:#F4F7FD;min-width:96px}
+.cred b{font:700 18px 'Sora',sans-serif;color:#0A3177;letter-spacing:-.01em}
+.cred span{font-size:13px;line-height:1.4;color:#4A5784}
+/* ---------- services ---------- */
+.ctabs{display:flex;flex-wrap:wrap;gap:8px}
+.ctab{min-height:48px;padding:0 20px;border-radius:999px;border:0;background:#FFFFFF;box-shadow:inset 0 0 0 1px #D3DCF0;color:#0A3177;font:600 15px 'Sora',sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.ctab small{font:600 12px 'Sora',sans-serif;color:#1B52CC;background:#EEF3FF;border-radius:999px;padding:2px 8px}
+.ctab:hover{box-shadow:inset 0 0 0 1.5px #1B52CC}
+.ctab-on{background:#0A3177;color:#FFFFFF;box-shadow:none}
+.ctab-on small{background:#44D2EA;color:#0A1F4E}
+.svc{display:flex;flex-direction:column;gap:16px;padding:32px;border-radius:var(--r-md);background:#FFFFFF;box-shadow:var(--sh-card);transition:box-shadow .3s ease,transform .3s ease}
+.svc-on{box-shadow:0 0 0 2px #1B52CC,var(--sh-lift)}
+.svc .cat{font:600 12px 'Sora',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#B4532F}
+.svc p{margin:0;font-size:15px;line-height:1.65;color:#4A5784}
+.svc .tlink{margin-top:auto}
+.ico{width:56px;height:56px;border-radius:50%;background:#EEF3FF;color:#1B52CC;display:flex;align-items:center;justify-content:center;flex:none}
+.ico::after{content:"";width:26px;height:26px;background:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+.ic-acc{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v16H4z'/%3E%3Cpath d='M4 9h16M9 9v11'/%3E%3C/svg%3E")}
+.ic-fin{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20V10M10 20V4M16 20v-7M22 20H2'/%3E%3C/svg%3E")}
+.ic-treas{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7h18v10H3z'/%3E%3Ccircle cx='12' cy='12' r='2.5'/%3E%3C/svg%3E")}
+.ic-bud{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='3' width='16' height='18' rx='2'/%3E%3Cpath d='M8 7h8M8 11h2M14 11h2M8 15h2M14 15h2'/%3E%3C/svg%3E")}
+.ic-tax{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 5 5 19'/%3E%3Ccircle cx='7' cy='7' r='2.5'/%3E%3Ccircle cx='17' cy='17' r='2.5'/%3E%3C/svg%3E")}
+.ic-inv{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 17l6-6 4 4 8-8'/%3E%3Cpath d='M14 7h7v7'/%3E%3C/svg%3E")}
+.ic-erp{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='12' rx='2'/%3E%3Cpath d='M8 20h8M12 16v4'/%3E%3C/svg%3E")}
+.ic-audit{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E")}
+.ic-train{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 9l10-5 10 5-10 5z'/%3E%3Cpath d='M6 11v5c3 2 9 2 12 0v-5'/%3E%3C/svg%3E")}
+.detail{border-radius:var(--r-lg);background:#0A3177;color:#C9D6F5;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(24px,4vw,56px);position:relative;overflow:hidden;scroll-margin-top:24px}
+.detail::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 70% at 100% 0%,rgba(68,210,234,.18),rgba(68,210,234,0) 70%),radial-gradient(40% 60% at 0% 100%,rgba(222,129,101,.16),rgba(222,129,101,0) 70%);pointer-events:none}
+.detail>*{position:relative}
+.detail .ico{background:#44D2EA;color:#0A1F4E}
+.dl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dl li{display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:16px;background:rgba(255,255,255,.07);font:500 15px/1.5 'Sora',sans-serif;color:#FFFFFF}
+.dl li::before{content:"";width:8px;height:8px;border-radius:50%;background:#44D2EA;flex:none;margin-top:8px}
+.xbtn{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+/* ---------- tabs (dark) ---------- */
+.tabbtn{min-height:48px;padding:0 24px;border-radius:999px;border:0;background:rgba(255,255,255,.08);color:#FFFFFF;font:600 15px 'Sora',sans-serif;cursor:pointer}
+.tabbtn-on{background:#44D2EA;color:#0A1F4E}
+/* ---------- why ---------- */
+.why{display:flex;flex-direction:column;gap:8px;padding:24px;border-radius:var(--r-md);background:#F4F7FD}
+.why b{font:700 17px 'Sora',sans-serif;color:#0A3177}
+.why span{font-size:15px;line-height:1.6;color:#4A5784}
+/* ---------- steps ---------- */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;position:relative;counter-reset:st}
+.steps::before{content:"";position:absolute;top:28px;left:28px;right:28px;height:2px;background:linear-gradient(90deg,#1B52CC,#44D2EA 60%,#DE8165)}
+.step{position:relative;display:flex;flex-direction:column;gap:16px}
+.step .dot{width:56px;height:56px;border-radius:50%;background:#0A3177;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font:700 18px 'Sora',sans-serif;box-shadow:0 0 0 8px #F4F7FD}
+.step .card{padding:24px;border-radius:var(--r-md);background:#FFFFFF;box-shadow:var(--sh-card);display:flex;flex-direction:column;gap:8px;flex:1}
+.step .card p{margin:0;font-size:15px;line-height:1.6;color:#4A5784}
+/* ---------- ways ---------- */
+.way{background:#FFFFFF;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--sh-card)}
+.way-dark{background:#0A3177;color:#C9D6F5;box-shadow:var(--sh-lift)}
+.way-dark .h3{color:#FFFFFF}
+.way ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.way li{display:flex;gap:8px;font-size:15px;line-height:1.55}
+.way li::before{content:"";width:6px;height:6px;border-radius:50%;background:#1B52CC;flex:none;margin-top:9px}
+.way-dark li::before{background:#44D2EA}
+/* ---------- quiz ---------- */
+.quiz{border-radius:var(--r-lg);background:#FFFFFF;box-shadow:var(--sh-lift);padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;gap:24px;color:#4A5784}
+.bar{height:8px;border-radius:999px;background:#E6EDFF;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#1B52CC,#44D2EA)}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.opt{min-height:56px;padding:0 16px;border-radius:16px;border:0;background:#F4F7FD;box-shadow:inset 0 0 0 1px #D3DCF0;color:#0A3177;font:600 16px 'Sora',sans-serif;cursor:pointer}
+.opt:hover{box-shadow:inset 0 0 0 1.5px #1B52CC}
+.opt-on{background:#0A3177;color:#FFFFFF;box-shadow:none}
+.score{display:flex;align-items:baseline;gap:8px;font:700 56px/1 'Sora',sans-serif;color:#0A3177;letter-spacing:-.03em}
+.score small{font:600 20px 'Sora',sans-serif;color:#4A5784}
+/* ---------- faq ---------- */
+details.faq{background:#FFFFFF;border-radius:var(--r-sm);box-shadow:var(--sh-card);padding:0 24px}
+details.faq[open]{background:#0A3177}
+details.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:72px;font:600 17px/1.4 'Sora',sans-serif;color:#0A3177}
+details.faq[open] summary{color:#FFFFFF}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq .pm{width:32px;height:32px;border-radius:50%;background:#EEF3FF;color:#1B52CC;display:flex;align-items:center;justify-content:center;flex:none;font:600 18px 'Sora',sans-serif}
+details.faq[open] .pm{background:#44D2EA;color:#0A1F4E;transform:rotate(45deg)}
+details.faq p{margin:0 0 24px;color:#C9D6F5;line-height:1.7}
+/* ---------- form ---------- */
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 16px}
+.fld{display:flex;flex-direction:column;gap:8px;min-width:0}
+.fld-full{grid-column:1/-1}
+.fld label,.lbl{font:600 14px 'Sora',sans-serif;color:#0A3177}
+.fld label i,.lbl i{font-style:normal;color:#B4532F}
+.fld .hint{font-size:13px;color:#5A6690}
+.in{width:100%;box-sizing:border-box;min-height:52px;padding:12px 16px;border-radius:14px;border:0;background:#F4F7FD;box-shadow:inset 0 0 0 1px #CBD5EC;font:400 16px 'Sora',sans-serif;color:#0A1F4E}
+.in:hover{box-shadow:inset 0 0 0 1.5px #8FA3D6}
+.in[aria-invalid="true"]{box-shadow:inset 0 0 0 2px #C4320A;background:#FFF6F3}
+textarea.in{min-height:128px;resize:vertical;line-height:1.6}
+.err{margin:0;display:flex;gap:8px;align-items:center;font:500 13px 'Sora',sans-serif;color:#B42318}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.55;color:#4A5784;cursor:pointer}
+.consent input{width:24px;height:24px;margin:0;flex:none;accent-color:#1B52CC}
+.alert{border-radius:16px;padding:16px 20px;display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.6}
+.alert-err{background:#FFF1EC;color:#8A2A0B;box-shadow:inset 0 0 0 1px #F5C4B3}
+.alert-ok{background:#EAF8FB;color:#0A3177;box-shadow:inset 0 0 0 1px #A9E6F1}
+/* ---------- more ---------- */
+.post{display:flex;flex-direction:column;gap:12px;text-decoration:none}
+.post .photo{transition:transform .25s ease}
+.post:hover .photo{transform:translateY(-4px)}
+.foot a{color:#C9D6F5;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.foot a:hover{color:#44D2EA}
+/* ---------- responsive ---------- */
+@media (max-width:1180px){
+.mnav,.hide-md{display:none!important}.menuBtn{display:inline-flex}
+.heroGrid{grid-template-columns:minmax(0,1fr) minmax(0,.85fr)}
+.heroStats{grid-column:1/-1;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding:32px 0 40px!important;border-top:1px solid rgba(255,255,255,.16)}
+.heroStats>div{border:0!important;padding:0!important}
+.detail{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:900px){
+.steps{grid-template-columns:minmax(0,1fr);gap:16px}
+.steps::before{top:28px;bottom:28px;left:27px;right:auto;width:2px;height:auto;background:linear-gradient(180deg,#1B52CC,#44D2EA 60%,#DE8165)}
+.step{flex-direction:row;align-items:flex-start}
+.step .dot{flex:none}
+}
+@media (max-width:760px){
+.heroGrid{grid-template-columns:minmax(0,1fr);padding-top:40px}
+.heroStats{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
+.heroArch{margin-top:24px;max-width:320px!important}
+.heroArch .i-meeting{height:380px!important}
+.heroBadge{right:-8px!important;width:96px!important;height:96px!important}
+.heroChip{left:-8px!important}
+.heroCtas .btn{flex:1 1 100%}
+.dl,.fgrid{grid-template-columns:minmax(0,1fr)}
+.opts{grid-template-columns:minmax(0,1fr)}
+.collage{min-height:400px!important}
+.collage .badge{width:112px!important;height:112px!important}
+.hide-sm{display:none!important}
+}
+@media (prefers-reduced-motion: reduce){.marquee,.spin{animation:none}.btn .ar,.svc,.post .photo{transition:none}}
+/* ================= motion layer: image shine, service card fill ================= */
+.photo::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.38) 100%);transform:skewX(-25deg)}
+.photo:hover::after{animation:yShine .95s ease}
+@keyframes yShine{to{left:130%}}
+.svc{position:relative;overflow:hidden;isolation:isolate;transition:box-shadow .35s ease,transform .35s ease}
+.svc::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(80% 60% at 100% 0%,rgba(68,210,234,.22),rgba(68,210,234,0) 70%),#0A3177;transform:scaleY(0);transform-origin:50% 100%;transition:transform .5s cubic-bezier(.7,0,.25,1)}
+.svc:hover,.svc:focus-within{transform:translateY(-6px);box-shadow:var(--sh-lift)}
+.svc:hover::before,.svc:focus-within::before{transform:scaleY(1)}
+.svc .h3,.svc p,.svc .cat,.svc .tlink{transition:color .35s ease}
+.svc:hover .h3,.svc:focus-within .h3{color:#FFFFFF}
+.svc:hover p,.svc:focus-within p{color:#C9D6F5}
+.svc:hover .cat,.svc:focus-within .cat{color:#FEDDC5}
+.svc:hover .tlink,.svc:focus-within .tlink{color:#44D2EA}
+.svc .ico{transition:background .35s ease,color .35s ease,transform .6s cubic-bezier(.5,0,.2,1)}
+.svc:hover .ico,.svc:focus-within .ico{background:#44D2EA;color:#0A1F4E;transform:rotateY(180deg)}
+@media (hover:none),(pointer:coarse){@media (prefers-reduced-motion: reduce){.photo:hover::after{animation:none}.svc,.svc::before,.svc .ico{transition:none}.svc:hover,.svc:focus-within{transform:none}</style>
+</helmet>
+<div dir="ltr" style="font-family: 'Sora', system-ui, sans-serif; color: #4A5784; background: #FFFFFF; width: 100%; overflow-x: hidden; position: relative">
+<a href="#main" class="skip">Skip to content</a>
+
+<!-- ============ 1. HERO ============ -->
+<section id="top" class="heroB" aria-label="Introduction" style="position: relative; overflow: hidden; color: #FFFFFF; display: flex; flex-direction: column">
+<div aria-hidden="true" class="heroB-pat" style="position: absolute; inset: 0; z-index: 1"></div>
+<header style="position: relative; z-index: 5; border-bottom: 1px solid rgba(255,255,255,.14)">
+<div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 88px">
+<a href="#top" aria-label="YelG Advisory — home" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #FFFFFF; min-height: 48px">
+<svg aria-hidden="true" width="44" height="44" viewBox="0 0 64 64"><defs><linearGradient id="lgBE" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DE8165"></stop><stop offset=".45" stop-color="#6F7CBA"></stop><stop offset=".75" stop-color="#1B52CC"></stop><stop offset="1" stop-color="#44D2EA"></stop></linearGradient><linearGradient id="lgBE2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#FFFFFF" stop-opacity=".1"></stop></linearGradient></defs><path d="M14 10h26a16 16 0 0 1 16 16v14L42 56H14a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6z" fill="url(#lgBE)"></path><circle cx="42" cy="19" r="13" fill="url(#lgBE2)"></circle></svg>
+<span style="display: flex; flex-direction: column; line-height: 1"><span style="font-weight: 800; font-size: 22px">YelG</span><span style="font-weight: 300; font-size: 13px; letter-spacing: .14em">ADVISORY</span></span>
+</a>
+<nav aria-label="Main" class="mnav" style="display: flex; gap: 0; font: 500 15px 'Sora', sans-serif">
+<a href="#about">About</a>
+<a href="#services">Services</a>
+<a href="#how">How we work</a>
+<a href="#industries">Industries</a>
+<a href="#health">Self-check</a>
+<a href="#insights">Insights</a>
+<a href="#careers">Careers</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 8px">
+<a href="B-Ar.dc.html" lang="ar" hrefLang="ar" aria-label="العربية — Arabic version" style="font: 600 15px 'Alexandria', sans-serif; color: #FFFFFF; text-decoration: none; padding: 0 12px; min-height: 48px; display: inline-flex; align-items: center">عربي</a>
+<a href="#consult" class="btn btn-cyan hide-sm" style="min-height: 48px; padding-left: 24px; font-size: 15px">Book a consultation<span class="ar" style="width: 34px; height: 34px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M8 7h9v9"></path></svg></span></a>
+<button type="button" class="menuBtn" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="{{menuExpanded}}" onClick="{{toggleMenu}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+</div>
+</div>
+</header>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<nav id="mobileNav" aria-label="Mobile" class="mobNav" style="font: 600 16px 'Sora', sans-serif"><div class="wrap" style="padding-block: 8px 24px"><a href="#about" onClick="{{closeMenu}}">About</a><a href="#services" onClick="{{closeMenu}}">Services</a><a href="#how" onClick="{{closeMenu}}">How we work</a><a href="#industries" onClick="{{closeMenu}}">Industries</a><a href="#health" onClick="{{closeMenu}}">Financial self-check</a><a href="#faq" onClick="{{closeMenu}}">FAQ</a><a href="#insights" onClick="{{closeMenu}}">Insights</a><a href="#careers" onClick="{{closeMenu}}">Careers</a><a href="#consult" class="mcta" onClick="{{closeMenu}}">Book a consultation</a></div></nav>
+</sc-if>
+<div class="wrap heroGrid">
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 24px; align-self: center; padding-bottom: 56px">
+<span style="display: inline-flex; align-items: center; gap: 8px; width: fit-content; font: 600 13px 'Sora', sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #7FE3F1"><span aria-hidden="true" style="width: 24px; height: 2px; background: #44D2EA"></span>Infinite Financial Care</span>
+<h1 style="margin: 0; font: 600 clamp(32px, 3.3vw, 50px)/1.12 'Sora', sans-serif; letter-spacing: -.035em">Integrated financial expertise. <span style="color: #44D2EA">Clearer decisions.</span> Stronger growth.</h1>
+<p style="margin: 0; font-size: 17px; line-height: 1.7; color: #D6E2FF; max-width: 560px">From accounting and financial reporting to treasury management, investment advisory and risk management, YelG Advisory provides the financial expertise your business needs to operate confidently and grow sustainably.</p>
+<div class="heroCtas" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+<a href="#consult" class="btn btn-cyan">Book a consultation<span class="ar"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M8 7h9v9"></path></svg></span></a>
+<a href="#services" class="btn btn-line">Explore our services</a>
+</div>
+<a href="#health" style="display: inline-flex; align-items: center; gap: 8px; width: fit-content; min-height: 44px; font: 500 14px 'Sora', sans-serif; color: #D6E2FF; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(214,226,255,.4)">Not sure where to start? Take the 2-minute financial self-check →</a>
+</div>
+<div class="heroArch" style="min-width: 0; position: relative; width: 100%; max-width: 380px; justify-self: center">
+<div aria-hidden="true" style="position: absolute; inset: -22px -22px 0; border: 1.5px solid rgba(68,210,234,.5); border-bottom: 0; border-radius: 500px 500px 0 0"></div>
+<div aria-hidden="true" style="position: absolute; inset: -48px -48px 0; border: 1px dashed rgba(255,255,255,.2); border-bottom: 0; border-radius: 500px 500px 0 0"></div>
+<div class="photo i-meeting" role="img" aria-label="Advisors reviewing financial results with a client" style="position: relative; height: 520px; border-radius: 500px 500px 0 0; background-position: 64% center"></div>
+<div class="heroBadge" aria-hidden="true" style="position: absolute; top: 72px; right: -24px; width: 120px; height: 120px; border-radius: 50%; background: #0A3177; border: 1px solid rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px -16px rgba(0,0,0,.5)">
+<svg class="spin" viewBox="0 0 150 150" style="position: absolute; inset: 0; width: 100%; height: 100%"><defs><path id="circHE" d="M75 75 m-54 0 a54 54 0 1 1 108 0 a54 54 0 1 1 -108 0"></path></defs><text font-family="Sora, sans-serif" font-size="13" font-weight="600" letter-spacing="3" fill="#FFFFFF"><textPath href="#circHE">INFINITE FINANCIAL CARE • SINCE 2017 •</textPath></text></svg>
+<svg width="36" height="36" viewBox="0 0 64 64"><path d="M14 10h26a16 16 0 0 1 16 16v14L42 56H14a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6z" fill="url(#lgBE)"></path></svg>
+</div>
+</div>
+<dl class="heroStats" style="min-width: 0; align-self: center; padding-bottom: 56px; margin: 0">
+<div style="padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.16)"><dt class="sr">Established</dt><dd style="margin: 0"><div class="num" style="font-weight: 600; font-size: 48px; line-height: 1">2017</div><p style="margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #D6E2FF">Year YelG Advisory commenced its activities.</p></dd></div>
+<div style="padding-block: 24px; border-bottom: 1px solid rgba(255,255,255,.16)"><dt class="sr">Sectors</dt><dd style="margin: 0"><div class="num" style="font-weight: 600; font-size: 48px; line-height: 1">10+</div><p style="margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #D6E2FF">Sectors across Egypt in our client portfolio.</p></dd></div>
+<div style="padding-top: 24px"><dt class="sr">Qualifications</dt><dd style="margin: 0; display: flex; flex-direction: column; gap: 8px"><span style="font: 600 15px/1.5 'Sora', sans-serif; color: #FFFFFF">Certified professionals</span><span style="display: flex; flex-wrap: wrap; gap: 8px"><span style="font: 600 13px 'Sora', sans-serif; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.1)">CMA</span><span style="font: 600 13px 'Sora', sans-serif; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.1)">CIC</span><span style="font: 600 13px 'Sora', sans-serif; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.1)">CWM</span></span></dd></div>
+</dl>
+</div>
+<div style="position: relative; z-index: 4; background: #44D2EA; color: #0A1F4E; overflow: hidden">
+<p class="sr">Our services: Accounting and Bookkeeping, Financial Advisory and Reporting, Treasury Management, Budgeting and Cost Control, Tax Consultation, Investment Advisory, ERP and SaaS Implementation, Audit and Risk Management, Training and Up-Skilling.</p>
+<div class="marquee" aria-hidden="true" style="padding-block: 16px; font: 600 16px 'Sora', sans-serif; letter-spacing: -.01em">
+<span style="display: flex; gap: 40px; padding-inline: 20px; white-space: nowrap; align-items: center"><span>Accounting &amp; Bookkeeping</span><span>✦</span><span>Financial Advisory &amp; Reporting</span><span>✦</span><span>Treasury Management</span><span>✦</span><span>Budgeting &amp; Cost Control</span><span>✦</span><span>Tax Consultation</span><span>✦</span><span>Investment Advisory</span><span>✦</span><span>ERP &amp; SaaS</span><span>✦</span><span>Audit &amp; Risk</span><span>✦</span><span>Training &amp; Up-Skilling</span><span>✦</span></span>
+<span style="display: flex; gap: 40px; padding-inline: 20px; white-space: nowrap; align-items: center"><span>Accounting &amp; Bookkeeping</span><span>✦</span><span>Financial Advisory &amp; Reporting</span><span>✦</span><span>Treasury Management</span><span>✦</span><span>Budgeting &amp; Cost Control</span><span>✦</span><span>Tax Consultation</span><span>✦</span><span>Investment Advisory</span><span>✦</span><span>ERP &amp; SaaS</span><span>✦</span><span>Audit &amp; Risk</span><span>✦</span><span>Training &amp; Up-Skilling</span><span>✦</span></span>
+</div>
+</div>
+</section>
+
+<main id="main">
+<!-- ============ 2. TRUST: ABOUT + FOUNDER ============ -->
+<section id="about" class="sec" style="background: #FFFFFF; scroll-margin-top: 0">
+<div class="wrap" style="display: flex; flex-direction: column; gap: clamp(48px, 6vw, 80px)">
+<div style="display: flex; flex-wrap: wrap; gap: clamp(40px, 6vw, 88px); align-items: center">
+<div class="collage" style="flex: 1 1 440px; min-width: 0; position: relative; min-height: 520px">
+<div class="photo i-meeting" role="img" aria-label="YelG Advisory team working with a client" style="position: absolute; top: 0; left: 0; width: 72%; height: 78%; border-radius: 32px; background-position: 30% center"></div>
+<div class="photo i-desk" role="img" aria-label="Financial statements and a calculator on a desk" style="position: absolute; bottom: 0; right: 0; width: 52%; height: 52%; border-radius: 32px; border: 8px solid #FFFFFF"></div>
+<div class="badge" aria-hidden="true" style="position: absolute; top: 44%; right: 6%; width: 144px; height: 144px; border-radius: 50%; background: #0A3177; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px -16px rgba(10,49,119,.6)">
+<svg class="spin" viewBox="0 0 150 150" style="position: absolute; inset: 0; width: 100%; height: 100%"><defs><path id="circBE" d="M75 75 m-56 0 a56 56 0 1 1 112 0 a56 56 0 1 1 -112 0"></path></defs><text font-family="Sora, sans-serif" font-size="12.5" font-weight="600" letter-spacing="3.2" fill="#FFFFFF"><textPath href="#circBE">INFINITE FINANCIAL CARE • SINCE 2017 •</textPath></text></svg>
+<svg width="40" height="40" viewBox="0 0 64 64"><path d="M14 10h26a16 16 0 0 1 16 16v14L42 56H14a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6z" fill="url(#lgBE)"></path></svg>
+</div>
+</div>
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<span class="eyebrow">About YelG Advisory</span>
+<h2 class="h2">A trusted finance partner, <em>not a vendor for one task.</em></h2>
+<p class="p">YelG Advisory commenced its activities in 2017 with a clear vision: to be a reputable regional company providing full-fledged financial outsourcing services. We deliver comprehensive accounting and finance outsourcing to SMEs and large-sized companies — combining modern technology, market best practices and a team committed to precise, timely and cost-effective work.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px 24px">
+<span class="chk"><i><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.4"><path d="M20 6 9 17l-5-5"></path></svg></i>Integrity</span>
+<span class="chk"><i><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.4"><path d="M20 6 9 17l-5-5"></path></svg></i>Confidentiality</span>
+<span class="chk"><i><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.4"><path d="M20 6 9 17l-5-5"></path></svg></i>Transparency</span>
+<span class="chk"><i><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.4"><path d="M20 6 9 17l-5-5"></path></svg></i>Expertise</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid #E3E8F4">
+<span class="lbl">Qualifications across our team</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span class="cred"><b>CMA</b><span>Certified Management Accountant</span></span>
+<span class="cred"><b>CIC</b><span>Certified Investment Consultant</span></span>
+<span class="cred"><b>CWM</b><span>Chartered Wealth Manager</span></span>
+<span class="cred"><b>MBA</b><span>MBA holders</span></span>
+<span class="cred"><b>PhD</b><span>Doctorate in Finance &amp; Investment</span></span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- founder -->
+<figure style="margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); border-radius: 32px; overflow: hidden; background: #0A3177; color: #C9D6F5; position: relative">
+<div class="yasserArch" role="img" aria-label="Dr. Yasser El Gamal, Founder and CEO of YelG Advisory" style="min-height: 360px"></div>
+<div style="padding: clamp(32px, 5vw, 64px); display: flex; flex-direction: column; gap: 24px; justify-content: center">
+<span class="eyebrow on-dark">From our founder</span>
+<blockquote style="margin: 0; font: 500 clamp(19px, 1.9vw, 24px)/1.55 'Sora', sans-serif; letter-spacing: -.01em; color: #FFFFFF">“Achieving a solid financial position through predicting the future is no longer possible. Yet anticipating it remains within reach — provided we conduct a thorough analysis of the past and develop a deep understanding of the present.”</blockquote>
+<p style="margin: 0; font-size: 16px; line-height: 1.7">Integrity and confidentiality are, in his words, “the very bedrock of our profession” — the principles behind every YelG engagement.</p>
+<figcaption style="display: flex; align-items: center; gap: 16px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.14)">
+<span class="i-avatar" aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px #44D2EA"></span>
+<span style="display: flex; flex-direction: column; gap: 4px"><strong style="font: 700 17px 'Sora', sans-serif; color: #FFFFFF">Dr. Yasser El Gamal</strong><span style="font-size: 14px">Founder &amp; CEO, YelG Advisory</span></span>
+</figcaption>
+</div>
+</figure>
+</div>
+</section>
+
+<!-- ============ 3. SERVICES ============ -->
+<section id="services" class="sec" style="background: #F4F7FD">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div class="head"><span class="eyebrow">Our services</span><h2 class="h2">Nine integrated financial services, <em>one accountable partner.</em></h2><p class="lead">Choose a category, then open any service to see exactly what we deliver.</p></div>
+</div>
+<div role="tablist" aria-label="Service categories" class="ctabs">
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="5">
+<button type="button" role="tab" id="{{c.tabId}}" aria-selected="{{c.sel}}" aria-controls="svcPanel" class="{{c.cls}}" onClick="{{c.pick}}">{{c.label}}<small>{{c.count}}</small></button>
+</sc-for>
+</div>
+<div id="svcPanel" role="tabpanel" aria-labelledby="{{activeTabId}}" style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 24px">
+<sc-for list="{{svcList}}" as="s" hint-placeholder-count="9">
+<article class="{{s.cardCls}}">
+<span class="{{s.iconCls}}" aria-hidden="true"></span>
+<span class="cat">{{s.catLabel}}</span>
+<h3 class="h3">{{s.name}}</h3>
+<p>{{s.desc}}</p>
+<a href="#svcDetail" class="tlink" aria-expanded="{{s.expanded}}" aria-controls="svcDetail" onClick="{{s.open}}">Explore service<span class="sr"> — {{s.name}}</span> <span aria-hidden="true">→</span></a>
+</article>
+</sc-for>
+</div>
+<sc-if value="{{hasDetail}}" hint-placeholder-val="{{ false }}">
+<section id="svcDetail" class="detail" aria-labelledby="svcDetailTitle" tabIndex="-1">
+<button type="button" class="xbtn" aria-label="Close service details" onClick="{{closeDetail}}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+<div style="display: flex; flex-direction: column; gap: 20px; min-width: 0">
+<span class="{{cur.iconCls}}" aria-hidden="true"></span>
+<span style="font: 600 12px 'Sora', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #7FE3F1">{{cur.catLabel}}</span>
+<h3 id="svcDetailTitle" style="margin: 0; font: 600 clamp(24px, 2.4vw, 32px)/1.2 'Sora', sans-serif; letter-spacing: -.02em; color: #FFFFFF">{{cur.name}}</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.7">{{cur.long}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
+<a href="#consult" class="btn btn-cyan" onClick="{{cur.discuss}}">Discuss this service<span class="ar"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M8 7h9v9"></path></svg></span></a>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px; min-width: 0">
+<h4 style="margin: 0; font: 600 15px 'Sora', sans-serif; letter-spacing: .06em; text-transform: uppercase; color: #FFFFFF">What we deliver</h4>
+<ul class="dl">
+<sc-for list="{{cur.items}}" as="d" hint-placeholder-count="6">
+<li>{{d.t}}</li>
+</sc-for>
+</ul>
+</div>
+</section>
+</sc-if>
+</div>
+</div>
+</section>
+
+<!-- ============ 4. WHY YELG ============ -->
+<section id="why" class="sec" style="background: #FFFFFF">
+<div class="wrap" style="display: flex; flex-wrap: wrap; gap: clamp(40px, 6vw, 80px); align-items: center">
+<div style="flex: 1.1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 32px">
+<div class="head"><span class="eyebrow">Why YelG</span><h2 class="h2">Finance should <em>do more</em> than record what happened.</h2><p class="lead">We help management understand why results happened, what is coming next, and what to do about it.</p></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px">
+<div class="why"><b>Qualified expertise</b><span>CMA, CIC and CWM holders, MBAs and a doctorate in Finance &amp; Investment.</span></div>
+<div class="why"><b>Tailored to your business</b><span>Every company is different, so every engagement is shaped around its needs.</span></div>
+<div class="why"><b>Quality &amp; compliance</b><span>Accuracy, timeliness and compliance with applicable regulations.</span></div>
+<div class="why"><b>Security &amp; confidentiality</b><span>Strict confidentiality protocols protect your financial information.</span></div>
+<div class="why"><b>Technology-enabled</b><span>Modern software to streamline processes and give access to financial data.</span></div>
+<div class="why" style="background: #0A3177"><b style="color: #FFFFFF">Accessible &amp; committed</b><span style="color: #C9D6F5">A team you can reach throughout the week, delivering on time.</span></div>
+</div>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; position: relative">
+<div class="photo i-smiles" role="img" aria-label="YelG Advisory consultants presenting results to a client's management team" style="aspect-ratio: 5 / 5.4; border-radius: 32px"></div>
+<div style="position: absolute; bottom: 24px; left: 24px; right: 24px; max-width: 300px; background: #FFFFFF; border-radius: 20px; padding: 20px 24px; box-shadow: 0 30px 60px -24px rgba(10,49,119,.45); display: flex; align-items: center; gap: 16px">
+<span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 50%; background: #1B52CC; display: flex; align-items: center; justify-content: center; flex: none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"></path><path d="M14 7h7v7"></path></svg></span>
+<span style="font: 700 17px/1.35 'Sora', sans-serif; color: #0A3177">From numbers to clearer decisions.</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 5. HOW WE WORK ============ -->
+<section id="how" class="sec" style="background: #F4F7FD">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 48px">
+<div class="head"><span class="eyebrow">How we work</span><h2 class="h2">A clear, confidential process <em>from first call to lasting results.</em></h2><p class="lead">Every engagement follows the same disciplined structure — scoped to your needs and agreed with you before work begins.</p></div>
+<ol class="steps">
+<li class="step"><span class="dot" aria-hidden="true">01</span><div class="card"><h3 class="h3" style="font-size: 18px">Discovery &amp; needs assessment</h3><p>Assessments, interviews and inquiries to pinpoint where your finance function can improve.</p></div></li>
+<li class="step"><span class="dot" aria-hidden="true">02</span><div class="card"><h3 class="h3" style="font-size: 18px">Confidentiality &amp; scope</h3><p>A non-disclosure agreement, an agreed scope and the right specialists matched to your needs.</p></div></li>
+<li class="step"><span class="dot" aria-hidden="true">03</span><div class="card"><h3 class="h3" style="font-size: 18px">Solution design &amp; implementation</h3><p>Policies, procedures, systems and reports put in place — with quality checks and full documentation.</p></div></li>
+<li class="step"><span class="dot" aria-hidden="true" style="background: #44D2EA; color: #0A1F4E">04</span><div class="card"><h3 class="h3" style="font-size: 18px">Reporting, knowledge transfer &amp; improvement</h3><p>Ongoing reporting, training and mentoring for your team, and continuous refinement.</p></div></li>
+</ol>
+</div>
+</section>
+
+<!-- ============ PURPOSE (dark, brand video) ============ -->
+<section class="on-dark sec" aria-labelledby="purposeTitle" style="background: #0A3177; color: #FFFFFF; position: relative; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(50% 70% at 100% 0%, rgba(68,210,234,.18), rgba(68,210,234,0) 70%), radial-gradient(40% 60% at 0% 100%, rgba(222,129,101,.18), rgba(222,129,101,0) 70%)"></div>
+<div class="wrap" style="position: relative; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+<div style="flex: 1 1 420px; min-width: 0; aspect-ratio: 16 / 10; border-radius: 28px; overflow: hidden; position: relative; background: #1B52CC"><video src="/assets/yelg-brand-film.webm" controls="{{ true }}" muted="{{ true }}" playsInline="{{ true }}" preload="none" poster="/assets/yelg-brand-film-poster.jpg" aria-label="YelG Advisory brand film (14 seconds, no narration)" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></video></div>
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<span class="eyebrow on-dark">Our purpose</span>
+<h2 id="purposeTitle" class="h2">Empowering businesses to thrive</h2>
+<div role="tablist" aria-label="Mission, vision and goals" style="display: flex; flex-wrap: wrap; gap: 8px; background: rgba(255,255,255,.06); padding: 6px; border-radius: 999px; width: fit-content">
+<button type="button" role="tab" id="pt0" aria-controls="pp" aria-selected="{{t0}}" class="{{c0}}" onClick="{{p0}}">Mission</button>
+<button type="button" role="tab" id="pt1" aria-controls="pp" aria-selected="{{t1}}" class="{{c1}}" onClick="{{p1}}">Vision</button>
+<button type="button" role="tab" id="pt2" aria-controls="pp" aria-selected="{{t2}}" class="{{c2}}" onClick="{{p2}}">Goals</button>
+</div>
+<div id="pp" role="tabpanel" aria-labelledby="{{ptab}}" style="min-height: 120px">
+<sc-if value="{{s0}}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0; font-size: 18px; line-height: 1.7; color: #C9D6F5">Serve as a trusted partner, empowering businesses to thrive in today's dynamic economic landscape through expert financial management — providing top-notch, comprehensive accounting and finance outsourcing services to SMEs and large-sized companies.</p>
+</sc-if>
+<sc-if value="{{s1}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 18px; line-height: 1.7; color: #C9D6F5">Being a regional reputable company providing full-fledged financial outsourcing services.</p>
+</sc-if>
+<sc-if value="{{s2}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,.08); font-weight: 600">Client satisfaction</span><span style="padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,.08); font-weight: 600">Business growth</span><span style="padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,.08); font-weight: 600">Operational efficiency</span><span style="padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,.08); font-weight: 600">Expertise development</span><span style="padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,.08); font-weight: 600">Innovation</span><span style="padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,.08); font-weight: 600">Market expansion</span>
+</div>
+</sc-if>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 6. WAYS TO WORK WITH US ============ -->
+<section id="engage" class="sec" style="background: #FFFFFF">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 48px">
+<div class="head" style="align-self: center; text-align: center; align-items: center"><span class="eyebrow">Ways to work with us</span><h2 class="h2">Ongoing support, focused projects <em>or team development.</em></h2></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 24px; align-items: stretch">
+<div class="way">
+<span class="ico ic-acc" aria-hidden="true"></span>
+<h3 class="h3">Finance &amp; accounting outsourcing</h3>
+<p class="p" style="font-size: 15px">Ongoing support for your finance function — from bookkeeping and reconciliations to reporting, treasury and tax.</p>
+<ul><li>Accurate, timely financial records</li><li>Controls and procedures that last</li><li>Regular management reporting</li></ul>
+<a href="#consult" class="btn btn-ghost" style="margin-top: auto" onClick="{{w0}}">Discuss outsourcing</a>
+</div>
+<div class="way way-dark">
+<span class="ico ic-inv" aria-hidden="true" style="background: #44D2EA; color: #0A1F4E"></span>
+<h3 class="h3">Advisory &amp; projects</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.65">Focused support for a decision or milestone — valuation, feasibility studies, budgeting, ERP selection and implementation, or M&amp;A support.</p>
+<ul><li>Defined scope and deliverables</li><li>Analysis management can act on</li><li>Expert negotiation and implementation support</li></ul>
+<a href="#consult" class="btn btn-cyan" style="margin-top: auto" onClick="{{w1}}">Discuss a project<span class="ar"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M8 7h9v9"></path></svg></span></a>
+</div>
+<div class="way">
+<span class="ico ic-train" aria-hidden="true"></span>
+<h3 class="h3">Training &amp; up-skilling</h3>
+<p class="p" style="font-size: 15px">Programs in finance, banking, accounting, economics and international finance — for finance teams and non-financial managers.</p>
+<ul><li>Finance for non-financials</li><li>Financial statement analysis</li><li>Budgeting and cost control</li></ul>
+<a href="#consult" class="btn btn-ghost" style="margin-top: auto" onClick="{{w2}}">Ask about training</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 7. INDUSTRIES & CLIENT EXPERIENCE ============ -->
+<section id="industries" class="sec" style="background: #F4F7FD">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 72px); align-items: flex-start">
+<div class="head" style="flex: 1 1 380px"><span class="eyebrow">Industries &amp; client experience</span><h2 class="h2">Experience across <em>10+ sectors</em> in Egypt.</h2><p class="lead">Our clientele spans industrial and service businesses, financial institutions and education — each with its own reporting, cost and control needs.</p></div>
+<ul aria-label="Sectors served" style="flex: 1.2 1 480px; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start">
+<li class="chip">Industrial</li><li class="chip">Construction</li><li class="chip">Aluminum &amp; metals</li><li class="chip">Leather</li><li class="chip">Transportation</li><li class="chip">Tourism</li><li class="chip">Food industry</li><li class="chip">Restaurants</li><li class="chip">Marketing agencies</li><li class="chip">Cement &amp; bricks</li><li class="chip" style="background: #0A3177; color: #FFFFFF; box-shadow: none">and more</li>
+</ul>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px">
+<div style="display: flex; gap: 16px; align-items: flex-start; padding: 28px; border-radius: 24px; background: #FFFFFF; box-shadow: var(--sh-card)">
+<span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 16px; background: #EEF3FF; color: #1B52CC; display: flex; align-items: center; justify-content: center; flex: none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 8px"><h3 class="h3" style="font-size: 18px">Banks</h3><span style="font-size: 15px; line-height: 1.6">Financial institutions are part of our client portfolio.</span></span>
+</div>
+<div style="display: flex; gap: 16px; align-items: flex-start; padding: 28px; border-radius: 24px; background: #FFFFFF; box-shadow: var(--sh-card)">
+<span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 16px; background: #FFF1EA; color: #B4532F; display: flex; align-items: center; justify-content: center; flex: none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 9l10-5 10 5-10 5z"></path><path d="M6 11v5c3 2 9 2 12 0v-5"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 8px"><h3 class="h3" style="font-size: 18px">Universities &amp; educational institutes</h3><span style="font-size: 15px; line-height: 1.6">Academic and educational institutions are part of our client portfolio.</span></span>
+</div>
+<div style="display: flex; gap: 16px; align-items: flex-start; padding: 28px; border-radius: 24px; background: #FFFFFF; box-shadow: var(--sh-card)">
+<span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 16px; background: #E6FAFD; color: #0B7285; display: flex; align-items: center; justify-content: center; flex: none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="10" height="18" rx="1"></rect><path d="M14 9h6v12h-6M7 7h4M7 11h4M7 15h4"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 8px"><h3 class="h3" style="font-size: 18px">Corporates &amp; SMEs</h3><span style="font-size: 15px; line-height: 1.6">SMEs and large-sized companies across industrial and service sectors.</span></span>
+</div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #5A6690">Client names and logos are published only with each client's written approval.</p>
+</div>
+</section>
+
+<!-- ============ 8. FINANCIAL SELF-CHECK ============ -->
+<section id="health" class="sec" style="position: relative; overflow: hidden; background: radial-gradient(60% 80% at 0% 0%, #FEDDC5 0%, rgba(254,221,197,0) 60%), radial-gradient(60% 80% at 100% 100%, rgba(68,210,234,.35) 0%, rgba(68,210,234,0) 60%), #EEF3FF">
+<div class="wrap" style="display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 72px); align-items: center">
+<div class="head" style="flex: 1 1 360px">
+<span class="eyebrow">Financial self-check</span>
+<h2 class="h2">How strong is your finance function? <em>Find out in 2 minutes.</em></h2>
+<p class="lead">Ten quick questions on records, reporting, planning, controls and systems. You'll get an indicative score and the services most relevant to your gaps.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.6; color: #4A5784">
+<li style="display: flex; gap: 8px"><span aria-hidden="true" style="color: #1B52CC">●</span>An indicative self-check — not a professional assessment or financial advice.</li>
+<li style="display: flex; gap: 8px"><span aria-hidden="true" style="color: #1B52CC">●</span>Your answers stay on this page. Nothing is stored or sent.</li>
+</ul>
+</div>
+<div class="quiz" style="flex: 1.3 1 520px; min-width: 0">
+<sc-if value="{{quizRunning}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; gap: 16px; font: 600 14px 'Sora', sans-serif; color: #0A3177"><span>Question {{qNum}} of 10</span><span>{{qArea}}</span></div>
+<div class="bar" role="progressbar" aria-label="Self-check progress" aria-valuemin="0" aria-valuemax="10" aria-valuenow="{{answeredCount}}"><i style="{{barStyle}}"></i></div>
+</div>
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px">
+<legend style="padding: 0; margin-bottom: 20px; font: 600 clamp(19px, 1.8vw, 23px)/1.4 'Sora', sans-serif; letter-spacing: -.01em; color: #0A3177">{{qText}}</legend>
+<div class="opts">
+<sc-for list="{{qOpts}}" as="o" hint-placeholder-count="3">
+<button type="button" class="{{o.cls}}" aria-pressed="{{o.pressed}}" onClick="{{o.pick}}">{{o.l}}</button>
+</sc-for>
+</div>
+</fieldset>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 16px">
+<button type="button" class="tlink" onClick="{{qBack}}" disabled="{{noBack}}" style="opacity: {{backOpacity}}">← Previous</button>
+<span style="font-size: 13px; color: #5A6690">Choose an answer to continue</span>
+</div>
+</sc-if>
+<sc-if value="{{quizDone}}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="display: flex; flex-direction: column; gap: 20px">
+<span style="font: 600 13px 'Sora', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #B4532F">Your indicative result</span>
+<div class="score">{{score}}<small>/ 20</small></div>
+<h3 style="margin: 0; font: 600 24px/1.3 'Sora', sans-serif; letter-spacing: -.02em; color: #0A3177">{{bandTitle}}</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.7">{{bandText}}</p>
+<sc-if value="{{hasRecs}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span class="lbl">Services related to your answers</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{recs}}" as="r" hint-placeholder-count="3">
+<span class="chip">{{r.n}}</span>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<p style="margin: 0; font-size: 13px; line-height: 1.6; color: #5A6690">Scoring: Yes = 2, Partly = 1, Not yet = 0 for each of the 10 questions. This is a simple indicator for discussion, not a professional diagnosis.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="#consult" class="btn btn-blue" onClick="{{discussScore}}">Discuss my results<span class="ar"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M8 7h9v9"></path></svg></span></a>
+<button type="button" class="btn btn-ghost" onClick="{{qRestart}}">Start again</button>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+
+<!-- ============ 9. FAQ ============ -->
+<section id="faq" class="sec" style="background: #FFFFFF">
+<div class="wrap" style="display: flex; flex-wrap: wrap; gap: clamp(40px, 6vw, 80px); align-items: flex-start">
+<div class="head" style="flex: 1 1 360px">
+<span class="eyebrow">FAQ</span>
+<h2 class="h2">Common questions, answered</h2>
+<p class="lead">Can't find what you need? <a href="#consult">Send us your question</a> and a specialist will reply.</p>
+</div>
+<div style="flex: 1.4 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<details class="faq" open="{{ true }}"><summary>Which companies do you work with?<span class="pm" aria-hidden="true">+</span></summary><p>SMEs and large-sized companies. Our client portfolio spans 10+ sectors in Egypt — including industrial, construction, metals, transportation, tourism and food — as well as banks and educational institutions.</p></details>
+<details class="faq"><summary>Can we outsource our whole finance function?<span class="pm" aria-hidden="true">+</span></summary><p>Yes. We provide comprehensive accounting and finance outsourcing — from bookkeeping, reconciliations and payroll to financial reporting, treasury, budgeting and tax — or we can support selected areas only.</p></details>
+<details class="faq"><summary>How do you protect our confidential information?<span class="pm" aria-hidden="true">+</span></summary><p>Confidentiality is a core value. Our work structure includes a non-disclosure agreement, and we apply strict confidentiality protocols and security measures to all client financial information.</p></details>
+<details class="faq"><summary>Do you help select and implement ERP systems?<span class="pm" aria-hidden="true">+</span></summary><p>Yes — from needs assessment and vendor evaluation to project management, data migration, system integration and chart-of-accounts design. For small companies, we also offer a cost-effective SaaS option.</p></details>
+<details class="faq"><summary>Do you offer training for our team?<span class="pm" aria-hidden="true">+</span></summary><p>Yes. We deliver programs in finance, banking, accounting, economics and international finance — for example Finance for Non-Financials, Financial Statements Analysis, and Budgeting &amp; Cost Control.</p></details>
+<details class="faq"><summary>How does an engagement start?<span class="pm" aria-hidden="true">+</span></summary><p>With a conversation and a needs assessment. We then agree the scope and confidentiality terms before any work begins. <a href="#consult" style="color: #7FE3F1">Book a consultation</a> to get started.</p></details>
+</div>
+</div>
+</section>
+
+<!-- ============ 10. CONSULTATION ============ -->
+<section id="consult" class="sec" style="background: #F4F7FD" aria-labelledby="consultTitle">
+<div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 24px; align-items: stretch">
+<div style="border-radius: 32px; background: #0A3177; color: #C9D6F5; padding: clamp(32px, 4vw, 56px); display: flex; flex-direction: column; gap: 24px; position: relative; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(60% 50% at 100% 0%, rgba(68,210,234,.22), rgba(68,210,234,0) 70%), radial-gradient(50% 50% at 0% 100%, rgba(222,129,101,.2), rgba(222,129,101,0) 70%)"></div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 24px; height: 100%">
+<span class="eyebrow on-dark">Book a consultation</span>
+<h2 id="consultTitle" class="h2 light">Let's review your <em>finance function</em> together.</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.7">Tell us about your business and what you need. A specialist from our team will get back to you to arrange a conversation — with no obligation.</p>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px">
+<li style="display: flex; gap: 16px; align-items: flex-start"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: #44D2EA; color: #0A1F4E; font: 700 14px 'Sora', sans-serif; display: flex; align-items: center; justify-content: center; flex: none">1</span><span style="line-height: 1.6"><strong style="color: #FFFFFF">Share your needs</strong><br>A few details about your company and goals.</span></li>
+<li style="display: flex; gap: 16px; align-items: flex-start"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.14); color: #FFFFFF; font: 700 14px 'Sora', sans-serif; display: flex; align-items: center; justify-content: center; flex: none">2</span><span style="line-height: 1.6"><strong style="color: #FFFFFF">Needs assessment</strong><br>We discuss where your finance function can improve.</span></li>
+<li style="display: flex; gap: 16px; align-items: flex-start"><span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.14); color: #FFFFFF; font: 700 14px 'Sora', sans-serif; display: flex; align-items: center; justify-content: center; flex: none">3</span><span style="line-height: 1.6"><strong style="color: #FFFFFF">Proposed scope</strong><br>A clear scope, agreed under confidentiality.</span></li>
+</ol>
+<div style="margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.14); display: flex; flex-direction: column; gap: 4px">
+<span style="font: 600 13px 'Sora', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #7FE3F1">Prefer to reach us directly?</span>
+<a href="mailto:info@yelgadvisory.com" style="color: #FFFFFF; font: 600 16px 'Sora', sans-serif; min-height: 44px; display: inline-flex; align-items: center; width: fit-content">info@yelgadvisory.com</a>
+<a href="tel:+201006677363" style="color: #FFFFFF; font: 600 16px 'Sora', sans-serif; min-height: 44px; display: inline-flex; align-items: center; width: fit-content">+20 10 0667 7363</a>
+</div>
+</div>
+</div>
+<form noValidate="{{ true }}" onSubmit="{{submit}}" aria-labelledby="formTitle" style="border-radius: 32px; background: #FFFFFF; box-shadow: var(--sh-card); padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 id="formTitle" class="h3" style="font-size: 22px">Consultation enquiry</h3>
+<p style="margin: 0; font-size: 14px; color: #5A6690">Fields marked <span style="color: #B4532F">*</span> are required.</p>
+</div>
+<sc-if value="{{showErrSummary}}" hint-placeholder-val="{{ false }}">
+<div class="alert alert-err" role="alert"><strong>Please check {{errCount}} highlighted field(s) below.</strong></div>
+</sc-if>
+<div class="fgrid">
+<div class="fld"><label for="fName">Full name <i>*</i></label><input id="fName" class="in" type="text" autoComplete="name" value="{{f.name}}" onChange="{{on.name}}" aria-invalid="{{inv.name}}" aria-describedby="eName" aria-required="true"><sc-if value="{{e.name}}" hint-placeholder-val="{{ false }}"><p id="eName" class="err">{{e.name}}</p></sc-if></div>
+<div class="fld"><label for="fEmail">Work email <i>*</i></label><input id="fEmail" class="in" type="email" autoComplete="email" value="{{f.email}}" onChange="{{on.email}}" aria-invalid="{{inv.email}}" aria-describedby="eEmail" aria-required="true"><sc-if value="{{e.email}}" hint-placeholder-val="{{ false }}"><p id="eEmail" class="err">{{e.email}}</p></sc-if></div>
+<div class="fld"><label for="fCompany">Company <i>*</i></label><input id="fCompany" class="in" type="text" autoComplete="organization" value="{{f.company}}" onChange="{{on.company}}" aria-invalid="{{inv.company}}" aria-describedby="eCompany" aria-required="true"><sc-if value="{{e.company}}" hint-placeholder-val="{{ false }}"><p id="eCompany" class="err">{{e.company}}</p></sc-if></div>
+<div class="fld"><label for="fPhone">Phone <span class="hint">(optional)</span></label><input id="fPhone" class="in" type="tel" autoComplete="tel" value="{{f.phone}}" onChange="{{on.phone}}" aria-invalid="{{inv.phone}}" aria-describedby="ePhone"><sc-if value="{{e.phone}}" hint-placeholder-val="{{ false }}"><p id="ePhone" class="err">{{e.phone}}</p></sc-if></div>
+<div class="fld fld-full"><label for="fService">Service of interest <i>*</i></label>
+<select id="fService" class="in" value="{{f.service}}" onChange="{{on.service}}" aria-invalid="{{inv.service}}" aria-describedby="eService" aria-required="true">
+<option value="">Select a service</option>
+<option value="Accounting &amp; Bookkeeping">Accounting &amp; Bookkeeping</option>
+<option value="Treasury Management">Treasury Management</option>
+<option value="Budgeting &amp; Cost Control">Budgeting &amp; Cost Control</option>
+<option value="Tax Consultation">Tax Consultation</option>
+<option value="Financial Advisory &amp; Reporting">Financial Advisory &amp; Reporting</option>
+<option value="Investment Advisory">Investment Advisory</option>
+<option value="ERP &amp; SaaS Implementation">ERP &amp; SaaS Implementation</option>
+<option value="Audit &amp; Risk Management">Audit &amp; Risk Management</option>
+<option value="Training &amp; Up-Skilling">Training &amp; Up-Skilling</option>
+<option value="Not sure yet">Not sure yet — I'd like advice</option>
+</select>
+<sc-if value="{{e.service}}" hint-placeholder-val="{{ false }}"><p id="eService" class="err">{{e.service}}</p></sc-if></div>
+<div class="fld fld-full"><label for="fMsg">How can we help? <i>*</i></label><textarea id="fMsg" class="in" rows="5" value="{{f.message}}" onChange="{{on.message}}" aria-invalid="{{inv.message}}" aria-describedby="eMsg hMsg" aria-required="true"></textarea><span id="hMsg" class="hint">A sentence or two about your company and what you need.</span><sc-if value="{{e.message}}" hint-placeholder-val="{{ false }}"><p id="eMsg" class="err">{{e.message}}</p></sc-if></div>
+<div class="fld fld-full"><label class="consent" for="fConsent"><input id="fConsent" type="checkbox" checked="{{f.consent}}" onChange="{{on.consent}}" aria-invalid="{{inv.consent}}" aria-describedby="eConsent"><span>I agree that YelG Advisory may use these details to respond to my enquiry. They won't be used for anything else.</span></label><sc-if value="{{e.consent}}" hint-placeholder-val="{{ false }}"><p id="eConsent" class="err">{{e.consent}}</p></sc-if></div>
+</div>
+<sc-if value="{{notReady}}" hint-placeholder-val="{{ true }}">
+<button type="submit" class="btn btn-blue" style="align-self: flex-start">Prepare my enquiry<span class="ar"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M8 7h9v9"></path></svg></span></button>
+</sc-if>
+<sc-if value="{{ready}}" hint-placeholder-val="{{ false }}">
+<div class="alert alert-ok" role="status" aria-live="polite">
+<strong style="font-size: 16px">Your enquiry is ready — it has not been sent yet.</strong>
+<span>This site isn't connected to a form service yet. Select “Send by email” to open your email app with your details pre-filled to info@yelgadvisory.com, then press Send.</span>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
+<a href="{{mailto}}" class="btn btn-blue">Send by email<span class="ar"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M8 7h9v9"></path></svg></span></a>
+<button type="button" class="btn btn-ghost" onClick="{{editForm}}">Edit details</button>
+</div>
+</div>
+</sc-if>
+</form>
+</div>
+</section>
+
+<!-- ============ MORE FROM YELG: insights · careers · portal ============ -->
+<section id="insights" class="sec" style="background: #FFFFFF" aria-labelledby="insTitle">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div class="head"><span class="eyebrow">Insights</span><h2 id="insTitle" class="h2">Latest from YelG Advisory</h2></div>
+<a href="https://www.linkedin.com/company/yelg-advisory/posts/" target="_blank" rel="noopener" class="tlink">Follow us on LinkedIn <span aria-hidden="true">↗</span><span class="sr">(opens in a new tab)</span></a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px">
+<a href="https://www.linkedin.com/company/yelg-advisory/posts/" target="_blank" rel="noopener" class="post"><span class="photo i-insight" role="img" aria-label="From Insight to Action — YelG Advisory post graphic" style="display: block; aspect-ratio: 16 / 10; border-radius: 20px; box-shadow: var(--sh-card)"></span><span style="font: 600 13px 'Sora', sans-serif; color: #1B52CC">Insight · LinkedIn · Sep 2026</span><span style="font: 600 18px/1.45 'Sora', sans-serif; color: #0A3177">From insight to action: one financial perspective across every service</span></a>
+<a href="https://www.linkedin.com/company/yelg-advisory/posts/" target="_blank" rel="noopener" class="post"><span class="photo i-ifc1" role="img" aria-label="Infinite Financial Care series — post graphic" style="display: block; aspect-ratio: 16 / 10; border-radius: 20px; box-shadow: var(--sh-card)"></span><span style="font: 600 13px 'Sora', sans-serif; color: #B4532F">Series · LinkedIn · Sep 2026</span><span style="font: 600 18px/1.45 'Sora', sans-serif; color: #0A3177">What does Infinite Financial Care really mean?</span></a>
+<a href="https://www.linkedin.com/company/yelg-advisory/posts/" target="_blank" rel="noopener" class="post"><span class="photo i-lighthouse" role="img" aria-label="Finance should do more — post graphic" style="display: block; aspect-ratio: 16 / 10; border-radius: 20px; box-shadow: var(--sh-card)"></span><span style="font: 600 13px 'Sora', sans-serif; color: #1B52CC">Our story · LinkedIn · Aug 2026</span><span style="font: 600 18px/1.45 'Sora', sans-serif; color: #0A3177">It started with a simple belief: finance should do more</span></a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 24px">
+<div id="careers" style="display: flex; gap: 24px; align-items: stretch; padding: 24px; border-radius: 28px; background: #F4F7FD; flex-wrap: wrap">
+<span class="photo i-hiring" role="img" aria-label="YelG Advisory hiring announcement" style="flex: 0 0 136px; min-height: 168px; border-radius: 16px"></span>
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<span class="eyebrow">Careers</span>
+<h3 class="h3">Grow with a growing finance team</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6">Work across many companies, sectors and business models. Open roles are announced on our LinkedIn page.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: auto">
+<a href="mailto:careers@co.yelgadvisory.com?subject=CV%20%E2%80%94%20YelG%20Advisory" class="tlink">Send your CV <span aria-hidden="true">→</span></a>
+<a href="https://www.linkedin.com/company/yelg-advisory/jobs/" target="_blank" rel="noopener" class="tlink">Open roles <span aria-hidden="true">↗</span><span class="sr">(LinkedIn, opens in a new tab)</span></a>
+</div>
+</div>
+</div>
+<div id="portal" style="display: flex; flex-direction: column; gap: 12px; padding: 32px; border-radius: 28px; background: #0A3177; color: #C9D6F5; position: relative; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(60% 80% at 100% 0%, rgba(68,210,234,.2), rgba(68,210,234,0) 70%)"></div>
+<span style="position: relative; display: inline-flex; width: fit-content; font: 700 12px 'Sora', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #0A1F4E; background: #FEDDC5; padding: 4px 12px; border-radius: 999px">Coming soon</span>
+<h3 class="h3" style="position: relative; color: #FFFFFF">Client portal</h3>
+<p style="position: relative; margin: 0; font-size: 15px; line-height: 1.6">A secure space for clients to access their reports and financial data is in preparation. Existing clients can continue to contact their YelG team directly.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact" style="background: #0A1F4E; color: #C9D6F5; position: relative; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(40% 60% at 0% 0%, rgba(68,210,234,.14), rgba(68,210,234,0) 70%)"></div>
+<div class="wrap foot" style="position: relative; padding-block: 64px 24px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 16px; min-width: 0">
+<span style="display: flex; flex-direction: column; line-height: 1; color: #FFFFFF; width: fit-content"><span style="font-weight: 800; font-size: 28px">YelG</span><span style="font-weight: 300; font-size: 15px; letter-spacing: .14em">ADVISORY</span></span>
+<p style="margin: 0; max-width: 320px; line-height: 1.7">Infinite Financial Care. Accounting, finance and investment advisory for SMEs and large-sized companies — since 2017.</p>
+<a href="https://www.linkedin.com/company/yelg-advisory/" target="_blank" rel="noopener" aria-label="YelG Advisory on LinkedIn (opens in a new tab)" style="width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.08); justify-content: center; color: #FFFFFF"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9V21h-4z"></path></svg></a>
+</div>
+<nav aria-label="Company" style="display: flex; flex-direction: column"><strong style="font: 700 15px 'Sora', sans-serif; color: #FFFFFF; margin-bottom: 8px">Company</strong><a href="#about">About</a><a href="#how">How we work</a><a href="#industries">Industries</a><a href="#careers">Careers</a><a href="#insights">Insights</a></nav>
+<nav aria-label="Services" style="display: flex; flex-direction: column"><strong style="font: 700 15px 'Sora', sans-serif; color: #FFFFFF; margin-bottom: 8px">Services</strong><a href="#services" onClick="{{fc0}}">Financial operations</a><a href="#services" onClick="{{fc1}}">Advisory &amp; growth</a><a href="#services" onClick="{{fc2}}">Digital transformation</a><a href="#services" onClick="{{fc3}}">Risk &amp; capability</a><a href="#health">Financial self-check</a></nav>
+<div style="display: flex; flex-direction: column"><strong style="font: 700 15px 'Sora', sans-serif; color: #FFFFFF; margin-bottom: 8px">Contact</strong><a href="mailto:info@yelgadvisory.com">info@yelgadvisory.com</a><a href="tel:+201006677363">+20 10 0667 7363</a><a href="https://www.yelgadvisory.com" target="_blank" rel="noopener">www.yelgadvisory.com</a><a href="#consult" style="color: #44D2EA">Book a consultation →</a></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.12); font-size: 14px"><span>© 2026 YelG Advisory. All rights reserved.</span><a href="#top">Back to top ↑</a></div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":10400}}'>
+/* Content lives in plain data objects so the Arabic (RTL) version can reuse
+   this exact logic with translated strings. Source: YelG Advisory Company Profile. */
+var CATS = [
+  { id: 'all', label: 'All services' },
+  { id: 'ops', label: 'Financial operations' },
+  { id: 'adv', label: 'Advisory & growth' },
+  { id: 'dig', label: 'Digital transformation' },
+  { id: 'risk', label: 'Risk & capability' }
+];
+var SERVICES = [
+  { id: 'acc', cat: 'ops', name: 'Accounting & Bookkeeping',
+    desc: 'Accurate, timely records and strong controls — so every decision starts from numbers you can trust.',
+    long: 'Comprehensive bookkeeping and accounting services that keep your financial records accurate for informed decision-making. We establish strong accounting systems with robust financial controls and procedures, and tailor accounting structures to your activities and strategic goals.',
+    items: ['Chart of accounts & costing structure', 'Accounts payable & receivable', 'Bank & credit-card reconciliations', 'Payroll processing & expense classification', 'Monthly general ledger & balance sheet', 'Financial statements preparation & review', 'Inventory & fixed-asset management', 'Sales commissions'] },
+  { id: 'treas', cat: 'ops', name: 'Treasury Management',
+    desc: 'Keep cash, debt and currency exposure under control as your business grows.',
+    long: 'A treasury function that manages liquidity day to day and plans ahead — so the business always has the cash it needs and its financial resources are used effectively.',
+    items: ['Cash-flow management', 'Liquidity management', 'Debt management', 'Investment management', 'Foreign-exchange management'] },
+  { id: 'bud', cat: 'ops', name: 'Budgeting & Cost Control',
+    desc: 'Plans that coordinate the business, expose bottlenecks and keep costs in check.',
+    long: 'Budgeting collects and communicates financial and operational information to define goals, coordinate activities, identify bottlenecks and plan effectively — supported by cost management and capital budgeting.',
+    items: ['Sales, production, COGS & SG&A budgets', 'Cash budgets & pro-forma financial statements', 'Variance & sensitivity analyses', 'Cost accounting system & cost-reduction strategies', 'Feasibility studies & project evaluations', 'Rate-of-return & payback assessment', 'Capital-structure optimisation', 'Business valuations'] },
+  { id: 'tax', cat: 'ops', name: 'Tax Consultation',
+    desc: 'Stay compliant, reduce tax risk and identify legitimate savings.',
+    long: 'Our team conducts thorough analyses, identifies saving opportunities and customises solutions aligned with your goals — with ongoing support as tax laws and regulations change.',
+    items: ['Tax consultation & guidance on tax matters', 'Tax-aware financial planning', 'Risk management to minimise tax liability', 'Identification of saving opportunities', 'Ongoing support on changing regulations'] },
+  { id: 'fin', cat: 'adv', name: 'Financial Advisory & Reporting',
+    desc: 'Analysis that shows top management what drives performance — and where to act.',
+    long: 'Using financial analysis tools such as common-size and trend analysis, financial ratios, breakeven, leverage and scenario analysis, we give top management the insight needed to achieve the company\'s core objectives.',
+    items: ['Common-size & trend analysis', 'Liquidity, activity & debt ratios', 'Profitability & market ratios', 'Breakeven & leverage analysis', 'Scenario & sensitivity analysis', 'Cost analysis', 'Financial dashboard'] },
+  { id: 'inv', cat: 'adv', name: 'Investment Advisory',
+    desc: 'Valuation and investment guidance for the decisions that shape your company\'s future.',
+    long: 'Advice tailored to your investment objectives and risk tolerance, accurate corporate valuation, and expert guidance through mergers, acquisitions and stake-sale negotiations — to secure the best possible terms.',
+    items: ['Investment advisory aligned to objectives & risk tolerance', 'Corporate valuation', 'M&A and stake-sale negotiation support', 'Investment strategy development', 'Identifying areas to increase business value'] },
+  { id: 'erp', cat: 'dig', name: 'ERP & SaaS Implementation',
+    desc: 'The right system, implemented properly — with finance and developers speaking the same language.',
+    long: 'We assess business needs, evaluate ERP solutions and lead implementation — and for small companies we offer a cost-effective SaaS system with the necessary ERP modules, without a substantial upfront investment.',
+    items: ['Needs assessment & ERP vendor evaluation', 'Recommendations to management', 'Project management for ERP installation', 'Data migration & system integration', 'Chart-of-accounts creation', 'Bridging client needs and developer understanding', 'Cost-effective SaaS ERP for small companies'] },
+  { id: 'audit', cat: 'risk', name: 'Audit & Risk Management',
+    desc: 'Controls, compliance and risk assessment that protect the integrity of your finances.',
+    long: 'An audit and risk function that safeguards the financial integrity and stability of the organisation — from controls and compliance monitoring to fraud prevention and reliable reporting.',
+    items: ['Financial controls', 'Compliance monitoring', 'Risk assessment', 'Internal & external audits', 'Fraud detection & prevention', 'Financial reporting & analysis'] },
+  { id: 'train', cat: 'risk', name: 'Training & Up-Skilling',
+    desc: 'Programs that help managers and finance teams understand and use financial information.',
+    long: 'Every manager needs to understand finance to help the organisation achieve its objectives. We deliver programs in finance, banking, accounting, economics and international finance.',
+    items: ['Finance for non-financials', 'Financial statements analysis & financial analytics', 'Corporate finance', 'Budgeting & cost control', 'Banking management & bank financial-statement analysis', 'International finance, markets, FX & derivatives', 'Strategic thinking & planning'] }
+];
+var QUIZ = [
+  { area: 'Records', svc: 'Accounting & Bookkeeping', q: 'Are your books closed and reconciled — bank, receivables and payables — every month?' },
+  { area: 'Records', svc: 'Accounting & Bookkeeping', q: 'Do you receive accurate financial statements soon after each month ends?' },
+  { area: 'Reporting', svc: 'Financial Advisory & Reporting', q: 'Does management review a regular financial dashboard or KPI report?' },
+  { area: 'Planning', svc: 'Budgeting & Cost Control', q: 'Do you set an annual budget and compare actual results against it?' },
+  { area: 'Costs', svc: 'Budgeting & Cost Control', q: 'Do you know the true cost and margin of your main products or services?' },
+  { area: 'Cash', svc: 'Treasury Management', q: 'Do you forecast your cash flow at least three months ahead?' },
+  { area: 'Tax', svc: 'Tax Consultation', q: 'Are your tax obligations planned and reviewed by a specialist, rather than handled at the last minute?' },
+  { area: 'Controls', svc: 'Audit & Risk Management', q: 'Are financial controls, approvals and policies documented and followed?' },
+  { area: 'Systems', svc: 'ERP & SaaS Implementation', q: 'Does your accounting or ERP system produce the reports you need without heavy manual work?' },
+  { area: 'People', svc: 'Training & Up-Skilling', q: 'Does your finance team receive regular training to keep its skills current?' }
+];
+var OPTS = [{ l: 'Yes', v: 2 }, { l: 'Partly', v: 1 }, { l: 'Not yet', v: 0 }];
+var EMPTY_FORM = { name: '', email: '', company: '', phone: '', service: '', message: '', consent: false };
+var TO = 'info@yelgadvisory.com';
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 0, menu: false, cat: 'all', svc: null, q: 0, answers: [null, null, null, null, null, null, null, null, null, null], done: false, form: Object.assign({}, EMPTY_FORM), errors: {}, status: 'idle' };
+    var self = this;
+    this.on = {};
+    Object.keys(EMPTY_FORM).forEach(function (k) {
+      self.on[k] = function (e) {
+        var v = k === 'consent' ? e.target.checked : e.target.value;
+        var form = Object.assign({}, self.state.form); form[k] = v;
+        var errors = Object.assign({}, self.state.errors); delete errors[k];
+        self.setState({ form: form, errors: errors, status: self.state.status === 'ready' ? 'idle' : self.state.status });
+      };
+    });
+  }
+  reduced() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } }
+  goTo(id, focusId) {
+    var self = this;
+    setTimeout(function () {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({ behavior: self.reduced() ? 'auto' : 'smooth', block: 'start' });
+      var f = document.getElementById(focusId || id);
+      if (f && f.focus) f.focus({ preventScroll: true });
+    }, 30);
+  }
+  prefill(service, message) {
+    var form = Object.assign({}, this.state.form);
+    if (service) form.service = service;
+    if (message && !form.message) form.message = message;
+    var errors = Object.assign({}, this.state.errors); delete errors.service;
+    this.setState({ form: form, errors: errors, status: 'idle' });
+  }
+  validate(f) {
+    var e = {};
+    if (!f.name || f.name.trim().length < 2) e.name = 'Please enter your full name.';
+    if (!f.email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) e.email = 'Please enter a valid email address, e.g. name@company.com.';
+    if (!f.company || f.company.trim().length < 2) e.company = 'Please enter your company name.';
+    if (f.phone && !/^[+0-9][0-9\s()\-]{6,}$/.test(f.phone.trim())) e.phone = 'Please enter a valid phone number, or leave this blank.';
+    if (!f.service) e.service = 'Please choose a service, or select “Not sure yet”.';
+    if (!f.message || f.message.trim().length < 20) e.message = 'Please tell us a little more (at least 20 characters).';
+    if (!f.consent) e.consent = 'Please confirm we may use your details to respond.';
+    return e;
+  }
+  mailto(f) {
+    var lines = ['Name: ' + f.name, 'Company: ' + f.company, 'Email: ' + f.email, 'Phone: ' + (f.phone || '—'), 'Service of interest: ' + f.service, '', f.message, '', '— Sent from the YelG Advisory website consultation form'];
+    return 'mailto:' + TO + '?subject=' + encodeURIComponent('Consultation request — ' + f.company) + '&body=' + encodeURIComponent(lines.join('\n'));
+  }
+  renderVals() {
+    var self = this, st = this.state;
+    // Purpose tabs
+    var t = st.tab;
+    var c = function (i) { return t === i ? 'tabbtn tabbtn-on' : 'tabbtn'; };
+    // Services
+    var catLabel = function (id) { for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i].label; return ''; };
+    var cats = CATS.map(function (k) {
+      var n = k.id === 'all' ? SERVICES.length : SERVICES.filter(function (s) { return s.cat === k.id; }).length;
+      return { tabId: 'cat-' + k.id, label: k.label, count: String(n), sel: st.cat === k.id ? 'true' : 'false', cls: st.cat === k.id ? 'ctab ctab-on' : 'ctab', pick: function () { self.setState({ cat: k.id }); } };
+    });
+    var list = SERVICES.filter(function (s) { return st.cat === 'all' || s.cat === st.cat; }).map(function (s) {
+      return { name: s.name, desc: s.desc, catLabel: catLabel(s.cat), iconCls: 'ico ic-' + s.id, cardCls: st.svc === s.id ? 'svc svc-on' : 'svc', expanded: st.svc === s.id ? 'true' : 'false',
+        open: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ svc: s.id }); self.goTo('svcDetail'); } };
+    });
+    var curS = null; for (var i = 0; i < SERVICES.length; i++) if (SERVICES[i].id === st.svc) curS = SERVICES[i];
+    var cur = curS ? { name: curS.name, long: curS.long, catLabel: catLabel(curS.cat), iconCls: 'ico ic-' + curS.id, items: curS.items.map(function (x) { return { t: x }; }),
+      discuss: function () { self.prefill(curS.name); } } : { name: '', long: '', catLabel: '', iconCls: 'ico', items: [], discuss: function () {} };
+    var footCat = function (id) { return function () { self.setState({ cat: id }); }; };
+    // Quiz
+    var qi = st.q, ans = st.answers;
+    var answered = ans.filter(function (a) { return a !== null; }).length;
+    var score = ans.reduce(function (s, a) { return s + (a || 0); }, 0);
+    var band = score >= 16 ? ['Solid foundations', 'Your finance function covers most essentials. A review could focus on deeper analysis, valuation or planning for growth.']
+      : score >= 9 ? ['Room to strengthen', 'Several core practices are in place, but gaps may be limiting your visibility, control or planning. Addressing them could make decisions faster and safer.']
+      : ['Foundations first', 'Key practices are missing or informal. Strengthening records, controls and planning first will give management numbers it can rely on.'];
+    var recNames = [];
+    QUIZ.forEach(function (qq, k) { if (ans[k] !== null && ans[k] < 2 && recNames.indexOf(qq.svc) < 0) recNames.push(qq.svc); });
+    var qOpts = OPTS.map(function (o) {
+      var on = ans[qi] === o.v;
+      return { l: o.l, cls: on ? 'opt opt-on' : 'opt', pressed: on ? 'true' : 'false', pick: function () {
+        var a = ans.slice(); a[qi] = o.v;
+        if (qi < QUIZ.length - 1) self.setState({ answers: a, q: qi + 1 }); else self.setState({ answers: a, done: true });
+      } };
+    });
+    // Form
+    var f = st.form, e = st.errors, inv = {};
+    Object.keys(EMPTY_FORM).forEach(function (k) { inv[k] = e[k] ? 'true' : 'false'; });
+    var errCount = Object.keys(e).length;
+    var order = ['name', 'email', 'company', 'phone', 'service', 'message', 'consent'];
+    var ids = { name: 'fName', email: 'fEmail', company: 'fCompany', phone: 'fPhone', service: 'fService', message: 'fMsg', consent: 'fConsent' };
+    return {
+      menuOpen: st.menu, menuExpanded: st.menu ? 'true' : 'false',
+      toggleMenu: function () { self.setState({ menu: !st.menu }); },
+      closeMenu: function () { self.setState({ menu: false }); },
+      t0: t === 0 ? 'true' : 'false', t1: t === 1 ? 'true' : 'false', t2: t === 2 ? 'true' : 'false',
+      c0: c(0), c1: c(1), c2: c(2), s0: t === 0, s1: t === 1, s2: t === 2, ptab: 'pt' + t,
+      p0: function () { self.setState({ tab: 0 }); }, p1: function () { self.setState({ tab: 1 }); }, p2: function () { self.setState({ tab: 2 }); },
+      cats: cats, activeTabId: 'cat-' + st.cat, svcList: list, hasDetail: !!curS, cur: cur,
+      closeDetail: function () { self.setState({ svc: null }); self.goTo('services', 'cat-' + st.cat); },
+      fc0: footCat('ops'), fc1: footCat('adv'), fc2: footCat('dig'), fc3: footCat('risk'),
+      w0: function () { self.prefill('Accounting & Bookkeeping'); },
+      w1: function () { self.prefill('Not sure yet'); },
+      w2: function () { self.prefill('Training & Up-Skilling'); },
+      quizRunning: !st.done, quizDone: st.done, qNum: String(qi + 1), qArea: QUIZ[qi].area, qText: QUIZ[qi].q,
+      answeredCount: String(answered), barStyle: 'width: ' + (answered * 10) + '%', qOpts: qOpts,
+      qBack: function () { if (qi > 0) self.setState({ q: qi - 1 }); }, noBack: qi === 0, backOpacity: qi === 0 ? '0.4' : '1',
+      score: String(score), bandTitle: band[0], bandText: band[1], recs: recNames.map(function (n) { return { n: n }; }), hasRecs: recNames.length > 0,
+      qRestart: function () { self.setState({ q: 0, answers: [null, null, null, null, null, null, null, null, null, null], done: false }); },
+      discussScore: function () { self.prefill(st.form.service || 'Not sure yet', 'My financial self-check score was ' + score + '/20 (' + band[0] + '). I would like to discuss: '); },
+      f: f, e: e, inv: inv, on: this.on, errCount: String(errCount), showErrSummary: errCount > 0,
+      ready: st.status === 'ready', notReady: st.status !== 'ready', mailto: this.mailto(f),
+      editForm: function () { self.setState({ status: 'idle' }); self.goTo('fName'); },
+      submit: function (ev) {
+        if (ev && ev.preventDefault) ev.preventDefault();
+        var errs = self.validate(self.state.form);
+        if (Object.keys(errs).length) {
+          self.setState({ errors: errs, status: 'error' });
+          for (var j = 0; j < order.length; j++) if (errs[order[j]]) { var first = ids[order[j]]; setTimeout(function () { var el = document.getElementById(first); if (el) el.focus(); }, 30); break; }
+        } else {
+          self.setState({ errors: {}, status: 'ready' });
+        }
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

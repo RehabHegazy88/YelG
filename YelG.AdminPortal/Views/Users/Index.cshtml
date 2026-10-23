@@ -1,0 +1,122 @@
+@model List<UserListItem>
+@{
+    ViewData["Title"] = "المستخدمون";
+    var me = User.UserId();
+}
+<div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
+    <div>
+        <h2 class="page-title">المستخدمون</h2>
+        <p class="lead-text">إنشاء الحسابات وتحديد الدور وحالة التفعيل. إيقاف الحساب أو تغيير دوره ينهي جلسته المفتوحة خلال دقيقة.</p>
+    </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUser">إضافة مستخدم</button>
+</div>
+
+<div class="table-wrap">
+    <table class="table-y">
+        <thead><tr><th>اسم المستخدم</th><th>الاسم الظاهر</th><th>الدور</th><th>الحالة</th><th>آخر تحديث</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var u in Model)
+            {
+                <tr>
+                    <td class="num">@u.UserName</td>
+                    <td>@u.DisplayName @(u.Id == me ? "(أنتِ)" : "")</td>
+                    <td>@(u.IsAdmin ? "Admin" : "مستخدم")</td>
+                    <td>
+                        <span class="status @(u.IsActive ? "ok" : "back")">@(u.IsActive ? "نشط" : "موقوف")</span>
+                        @if (u.MustChangePassword)
+                        {
+                            <span class="status wait" title="سيُطلب منه اختيار كلمة مرور جديدة عند الدخول">كلمة مرور مؤقتة</span>
+                        }
+                    </td>
+                    <td class="num">@Labels.Date(u.UpdatedAt)</td>
+                    <td>
+                        <button type="button" class="btn btn-ghost btn-sm" data-edit-user data-id="@u.Id" data-username="@u.UserName"
+                                data-display="@u.DisplayName" data-admin="@(u.IsAdmin ? "1" : "0")" data-active="@(u.IsActive ? "1" : "0")"
+                                data-self="@(u.Id == me ? "1" : "0")">تعديل</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@foreach (var (id, title, action) in new[] { ("createUser", "إضافة مستخدم", "Create"), ("editUser", "تعديل المستخدم", "Edit") })
+{
+    var isEdit = action == "Edit";
+    <div class="modal fade" id="@id" tabindex="-1" aria-labelledby="@(id)Title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" method="post" asp-action="@action" id="@(id)Form" autocomplete="off">
+                <div class="modal-header">
+                    <h3 class="modal-title h5" id="@(id)Title">@title</h3>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold" for="@(id)UserName">اسم المستخدم</label>
+                        <input class="form-control num" id="@(id)UserName" name="UserName" maxlength="80" required @(isEdit ? "readonly" : "") />
+                        <div class="form-text">حروف إنجليزية وأرقام و . _ - @@ فقط.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold" for="@(id)Display">الاسم الظاهر</label>
+                        <input class="form-control" id="@(id)Display" name="DisplayName" maxlength="100" required />
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold" for="@(id)Role">الدور</label>
+                            <select class="form-select" id="@(id)Role" name="IsAdmin">
+                                <option value="false">مستخدم</option>
+                                <option value="true">Admin</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold" for="@(id)Active">الحالة</label>
+                            <select class="form-select" id="@(id)Active" name="IsActive">
+                                <option value="true">نشط</option>
+                                <option value="false">موقوف</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label fw-semibold" for="@(id)Password">@(isEdit ? "كلمة مرور جديدة — اتركيها فارغة للاحتفاظ بالحالية" : "كلمة مرور مبدئية")</label>
+                        <input type="password" class="form-control" id="@(id)Password" name="Password" minlength="8" autocomplete="new-password" @(isEdit ? "" : "required") />
+                        <div class="form-text">8 خانات على الأقل وتحتوي على رقم وحرف إنجليزي صغير. كلمة المرور التي تحددينها مؤقتة: سيُطلب من المستخدم تغييرها عند أول دخول.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">حفظ المستخدم</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        (function () {
+            const modal = new bootstrap.Modal('#editUser');
+            document.querySelectorAll('[data-edit-user]').forEach(button => button.addEventListener('click', () => {
+                const form = document.getElementById('editUserForm');
+                form.action = '/Users/Edit/' + encodeURIComponent(button.dataset.id);
+                form.querySelector('#editUserUserName').value = button.dataset.username;
+                form.querySelector('#editUserDisplay').value = button.dataset.display;
+                form.querySelector('#editUserRole').value = button.dataset.admin === '1' ? 'true' : 'false';
+                form.querySelector('#editUserActive').value = button.dataset.active === '1' ? 'true' : 'false';
+                form.querySelector('#editUserPassword').value = '';
+                // Your own account cannot be demoted or deactivated (the server enforces it too).
+                const self = button.dataset.self === '1';
+                form.querySelector('#editUserRole').disabled = self;
+                form.querySelector('#editUserActive').disabled = self;
+                modal.show();
+            }));
+            // Disabled selects are not posted: send their value through hidden fields.
+            document.getElementById('editUserForm').addEventListener('submit', e => {
+                e.target.querySelectorAll('select:disabled').forEach(select => {
+                    const hidden = document.createElement('input');
+                    hidden.type = 'hidden'; hidden.name = select.name; hidden.value = select.value;
+                    e.target.appendChild(hidden);
+                });
+            });
+        })();
+    </script>
+}

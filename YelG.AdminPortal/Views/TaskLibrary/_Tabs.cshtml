@@ -1,0 +1,22 @@
+@model TaskLibrary
+@{
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    string Css(string a) => action == a ? "btn btn-sm btn-primary" : "btn btn-sm btn-ghost";
+    var approved = Model.Templates.Count(t => t.BasisStatus == BasisStatus.Approved && t.RoleHours.Total > 0);
+}
+<h2 class="page-title">مكتبة المهام وتأثير الإجابات</h2>
+<p class="lead-text">المهام وقواعدها غير مرتبطة بنسخة بنك الأسئلة؛ نطاق العمل يُولَّد عند فتحه، فأي تعديل هنا يظهر فورًا في نطاق عمل كل التقييمات. حالة التنفيذ المحفوظة (المسؤول، الموعد، الحالة) لا تتغير.</p>
+
+<div class="metrics">
+    <div class="metric"><div class="l">مهمة في المكتبة</div><div class="v">@Model.Templates.Count</div></div>
+    <div class="metric"><div class="l">ساعاتها معتمدة</div><div class="v">@approved</div></div>
+    <div class="metric"><div class="l">تحتاج تقدير ساعات</div><div class="v warn">@Model.Templates.Count(t => t.IsActive && t.RoleHours.Total == 0)</div></div>
+    <div class="metric"><div class="l">تأثير إجابات نشط</div><div class="v">@Model.Rules.Count(r => r.IsActive)</div></div>
+</div>
+
+<div class="d-flex gap-2 mb-3 flex-wrap">
+    <a class="@Css("Index")" asp-action="Index">مكتبة المهام</a>
+    <a class="@Css("Rules")" asp-action="Rules">تأثير الإجابات</a>
+    <a class="@Css("Rates")" asp-action="Rates">معدلات الأدوار والتسعير</a>
+    <a class="btn btn-sm btn-ghost ms-auto" asp-controller="Export" asp-action="TaskLibrary">تصدير Excel</a>
+</div>

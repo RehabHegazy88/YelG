@@ -1,0 +1,46 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "الرئيسية";
+    var mine = Model.MyEvaluations;
+}
+<section class="panel mb-4" style="background:var(--gradient-soft);border-color:var(--blue-200)">
+    <div class="brand-block border-0 p-0 mb-2"><div class="brand">YELG Lens · Internal Audit</div></div>
+    <h2 class="page-title">مرحبًا @User.DisplayName()</h2>
+    <p class="lead-text mb-3">
+        من التقييم إلى نطاق عمل قابل للتنفيذ والقياس: استوفي تقييم الشركات المسندة إليك، ثم أرسليها للاعتماد.
+        بعد الاعتماد يتحول التقييم تلقائيًا إلى مهام وساعات تقديرية وخطة متابعة.
+    </p>
+    <div class="d-flex gap-2 flex-wrap">
+        <a class="btn btn-primary" asp-controller="Evaluations" asp-action="Index">فتح تقييماتي</a>
+        @if (User.IsAdmin())
+        {
+            <a class="btn btn-ghost" asp-controller="Evaluations" asp-action="All">
+                النتائج والاعتماد
+                @if (Model.PendingApproval > 0) { <span class="status wait">@Model.PendingApproval بانتظار الاعتماد</span> }
+            </a>
+            <a class="btn btn-ghost" asp-controller="Companies" asp-action="Index">إضافة شركة وإسنادها</a>
+        }
+    </div>
+</section>
+
+<div class="metrics">
+    <div class="metric"><div class="l">إجمالي تقييماتي</div><div class="v">@mine.Count</div></div>
+    <div class="metric"><div class="l">قيد الاستيفاء</div><div class="v">@mine.Count(e => e.Status is EvaluationStatus.Draft or EvaluationStatus.Returned)</div></div>
+    <div class="metric"><div class="l">بانتظار الاعتماد</div><div class="v">@mine.Count(e => e.Status == EvaluationStatus.Submitted)</div></div>
+    <div class="metric"><div class="l">معتمد</div><div class="v">@mine.Count(e => e.Status == EvaluationStatus.Approved)</div></div>
+</div>
+
+<h3 class="h5 mb-3">آخر التقييمات</h3>
+@if (mine.Count == 0)
+{
+    <div class="empty">لا توجد شركات مسندة إليك بعد. يمكنك إضافة شركة من صفحة «تقييماتي» أو انتظار إسناد من الـAdmin.</div>
+}
+else
+{
+    <div class="cards">
+        @foreach (var evaluation in mine.Take(6))
+        {
+            <partial name="_EvaluationCard" model="evaluation" />
+        }
+    </div>
+}

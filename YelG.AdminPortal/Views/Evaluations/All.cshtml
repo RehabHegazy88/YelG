@@ -1,0 +1,88 @@
+@model List<EvaluationListItem>
+@{
+    ViewData["Title"] = "النتائج والاعتماد";
+    var groups = Model.GroupBy(e => e.CompanyId)
+        .OrderBy(g => g.Min(e => e.Status == EvaluationStatus.Submitted ? 0 : 1))
+        .ThenBy(g => g.First().CompanyName)
+        .ToList();
+}
+<div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
+    <div>
+        <h2 class="page-title">النتائج والاعتماد</h2>
+        <p class="lead-text">كل الشركات وكل تقييم مستقل عليها. المسودات للمتابعة فقط؛ إجراءات الاعتماد تُتاح بعد أن يرسل المقيم تقييمه.</p>
+    </div>
+    @if (Model.Count > 0)
+    {
+        <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-ghost" asp-controller="Export" asp-action="Results" title="ملخص التقييمات ونتائج الفئات والإجابات">تصدير النتائج Excel</a>
+            <a class="btn btn-ghost" asp-controller="Export" asp-action="Scope" title="مهام كل التقييمات وساعاتها وتكلفتها">تصدير نطاق العمل Excel</a>
+        </div>
+    }
+</div>
+
+<div class="guide">
+    <span class="step">الخطوة ٤</span>
+    <div>
+        <h3>مراجعة النتيجة ثم الاعتماد</h3>
+        <p>افتحي التقييم المرسل، راجعي الإجابات والنتيجة مقابل الحكم المهني، ثم اعتمديه أو أعيديه للمقيم.</p>
+    </div>
+</div>
+
+<div class="metrics">
+    <div class="metric"><div class="l">إجمالي الشركات</div><div class="v">@groups.Count</div></div>
+    <div class="metric"><div class="l">إجمالي التقييمات</div><div class="v">@Model.Count</div></div>
+    <div class="metric"><div class="l">بانتظار الاعتماد</div><div class="v warn">@Model.Count(e => e.Status == EvaluationStatus.Submitted)</div></div>
+    <div class="metric"><div class="l">تقييم معتمد</div><div class="v">@Model.Count(e => e.Status == EvaluationStatus.Approved)</div></div>
+</div>
+
+@if (groups.Count == 0)
+{
+    <div class="empty">لا توجد تقييمات بعد. أضيفي شركة من صفحة «الشركات والمقيمون».</div>
+}
+@foreach (var group in groups)
+{
+    var first = group.First();
+    <section class="panel mb-3">
+        <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+            <div>
+                <h3 class="h5 mb-0">@first.CompanyName</h3>
+                <span class="small text-secondary">النشاط: @first.ActivityName</span>
+            </div>
+            <span class="chip">@group.Count() تقييم</span>
+        </div>
+        <div class="table-wrap">
+            <table class="table-y">
+                <thead>
+                    <tr><th>المقيم</th><th>الحالة</th><th>درجة الثقة</th><th>التقدير</th><th>الحكم المهني</th><th>الاستيفاء</th><th>بنود حرجة</th><th>آخر تحديث</th><th></th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in group)
+                    {
+                        <tr>
+                            <td><b>@e.ReviewerName</b></td>
+                            <td><span class="@StatusCss.Of(e.Status)">@Labels.Of(e.Status)</span></td>
+                            <td class="num">@(e.Answered > 0 ? Labels.Percent(e.Confidence) : "—")</td>
+                            <td>@(e.Answered > 0 ? Labels.Of(e.Grade) : "—")</td>
+                            <td>
+                                @if (e.ProfessionalJudgment is ConfidenceGrade judgment)
+                                {
+                                    @Labels.Of(judgment)
+                                    @if (e.Answered > 0 && judgment != e.Grade) { <span class="status back ms-1">مختلف</span> }
+                                }
+                                else { <span>—</span> }
+                            </td>
+                            <td class="num">@e.Answered / @e.VisibleCount</td>
+                            <td class="num">@e.BreachCount</td>
+                            <td class="num">@Labels.Date(e.UpdatedAt)</td>
+                            <td class="text-nowrap">
+                                <a class="btn btn-sm @(e.Status == EvaluationStatus.Submitted ? "btn-primary" : "btn-ghost")"
+                                   asp-action="Details" asp-route-id="@e.Id">@(e.Status == EvaluationStatus.Submitted ? "مراجعة واعتماد" : "عرض")</a>
+                                <a class="btn btn-ghost btn-sm" asp-controller="Scope" asp-action="Index" asp-route-id="@e.Id">النطاق</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}

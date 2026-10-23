@@ -1,0 +1,159 @@
+@model CompaniesViewModel
+@{
+    ViewData["Title"] = "الشركات والمقيمون";
+}
+<div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
+    <div>
+        <h2 class="page-title">الشركات والمقيمون</h2>
+        <p class="lead-text">تُكتب الشركة مرة واحدة، ثم تُسند لأي عدد من المستخدمين ليقيّمها كل شخص بصورة مستقلة. الـAdmin يُضاف تلقائيًا كمقيم.</p>
+    </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCompany">إضافة شركة وتحديد المقيمين</button>
+</div>
+
+<div class="guide">
+    <span class="step">الخطوة ٢</span>
+    <div>
+        <h3>إسناد الشركة للمقيمين</h3>
+        <p>لا يمكن إزالة مقيم بدأ التقييم بالفعل؛ يظهر في قائمة «تعذّرت إزالته» بعد الحفظ.</p>
+    </div>
+</div>
+
+@if (Model.Companies.Count == 0)
+{
+    <div class="empty">لا توجد شركات مسجلة بعد. ابدئي بإضافة شركة وحددي المقيمين المسؤولين عنها.</div>
+}
+else
+{
+    <div class="cards">
+        @foreach (var company in Model.Companies)
+        {
+            <div class="card-y">
+                <h3>@company.Name</h3>
+                <div class="sub">@company.ActivityName</div>
+                <div class="row-y"><span>عدد المقيمين</span><b>@company.Reviewers.Count</b></div>
+                <div class="row-y"><span>بانتظار الاعتماد</span><b>@company.Reviewers.Count(r => r.Status == EvaluationStatus.Submitted)</b></div>
+                <div class="row-y"><span>آخر تحديث</span><b>@Labels.Date(company.UpdatedAt)</b></div>
+                <div class="d-flex flex-wrap gap-1 mt-2">
+                    @foreach (var reviewer in company.Reviewers)
+                    {
+                        <a class="@StatusCss.Of(reviewer.Status) text-decoration-none" title="@Labels.Of(reviewer.Status)"
+                           asp-controller="Evaluations" asp-action="Details" asp-route-id="@reviewer.EvaluationId">@reviewer.DisplayName</a>
+                    }
+                </div>
+                <div class="acts">
+                    <button type="button" class="btn btn-ghost btn-sm" data-edit-company
+                            data-id="@company.Id" data-name="@company.Name" data-activity="@company.ActivityId">تعديل الشركة</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-company-reviewers
+                            data-id="@company.Id" data-name="@company.Name"
+                            data-reviewers="@string.Join(",", company.Reviewers.Select(r => r.UserId))">إدارة المقيمين</button>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@* ---------- create ---------- *@
+<div class="modal fade" id="createCompany" tabindex="-1" aria-labelledby="createCompanyTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <form class="modal-content" asp-action="Create" method="post">
+            <div class="modal-header">
+                <h3 class="modal-title h5" id="createCompanyTitle">إضافة شركة وتحديد المقيمين</h3>
+                <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-7">
+                        <label class="form-label fw-semibold" for="createName">اسم الشركة</label>
+                        <input class="form-control" id="createName" name="Name" maxlength="150" required />
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label fw-semibold" for="createActivity">النشاط</label>
+                        <select class="form-select" id="createActivity" name="ActivityId">
+                            @foreach (var activity in Model.Activities) { <option value="@activity.Id">@activity.Name</option> }
+                        </select>
+                    </div>
+                </div>
+                <label class="form-label fw-semibold">المقيمون</label>
+                <partial name="_ReviewerPicker" model="Model.Users" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                <button type="submit" class="btn btn-primary">حفظ وإسناد</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* ---------- edit ---------- *@
+<div class="modal fade" id="editCompany" tabindex="-1" aria-labelledby="editCompanyTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" method="post" id="editCompanyForm">
+            <div class="modal-header">
+                <h3 class="modal-title h5" id="editCompanyTitle">تعديل الشركة</h3>
+                <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" for="editName">اسم الشركة</label>
+                    <input class="form-control" id="editName" name="Name" maxlength="150" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" for="editActivity">النشاط</label>
+                    <select class="form-select" id="editActivity" name="ActivityId">
+                        @foreach (var activity in Model.Activities) { <option value="@activity.Id">@activity.Name</option> }
+                    </select>
+                </div>
+                <div class="notice mb-0"><b>تحديث موحد</b><span>يتغير الاسم والنشاط لدى جميع المقيمين دون تغيير إجاباتهم.</span></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                <button type="submit" class="btn btn-primary">حفظ التعديل</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* ---------- reviewers ---------- *@
+<div class="modal fade" id="companyReviewers" tabindex="-1" aria-labelledby="companyReviewersTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <form class="modal-content" method="post" id="companyReviewersForm">
+            <div class="modal-header">
+                <h3 class="modal-title h5" id="companyReviewersTitle">إدارة المقيمين</h3>
+                <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+            </div>
+            <div class="modal-body">
+                <partial name="_ReviewerPicker" model="Model.Users" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                <button type="submit" class="btn btn-primary">حفظ المقيمين</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const editModal = new bootstrap.Modal('#editCompany');
+            const reviewersModal = new bootstrap.Modal('#companyReviewers');
+
+            document.querySelectorAll('[data-edit-company]').forEach(button => button.addEventListener('click', () => {
+                const form = document.getElementById('editCompanyForm');
+                form.action = '/Companies/Edit/' + button.dataset.id;
+                form.querySelector('#editName').value = button.dataset.name;
+                form.querySelector('#editActivity').value = button.dataset.activity;
+                editModal.show();
+            }));
+
+            document.querySelectorAll('[data-company-reviewers]').forEach(button => button.addEventListener('click', () => {
+                const form = document.getElementById('companyReviewersForm');
+                const current = new Set(button.dataset.reviewers.split(',').filter(Boolean));
+                form.action = '/Companies/Reviewers/' + button.dataset.id;
+                document.getElementById('companyReviewersTitle').textContent = 'إدارة المقيمين — ' + button.dataset.name;
+                form.querySelectorAll('input[data-reviewer]:not(:disabled)').forEach(cb => cb.checked = current.has(cb.value));
+                reviewersModal.show();
+            }));
+        })();
+    </script>
+}

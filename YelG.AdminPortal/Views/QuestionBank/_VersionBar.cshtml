@@ -1,0 +1,84 @@
+@model QuestionBankPageViewModel
+@{
+    var editor = Model.Editor;
+    var overview = Model.Overview;
+    var tab = ViewData["Tab"] as string ?? "Index";
+    var sum = editor.TotalBaseWeight;
+    var sumOk = Math.Abs(sum - 100m) <= 0.5m;
+}
+<div class="d-flex align-items-start justify-content-between gap-3 flex-wrap mb-3">
+    <div>
+        <h2 class="page-title">بنك الأسئلة والأوزان</h2>
+        <p class="lead-text mb-2">التعديل يتم على مسودة. بعد النشر تستخدم التقييمات الجديدة النسخة الجديدة، وتبقى التقييمات الحالية على النسخة التي أُجيبت عليها فلا تتغير نتائجها.</p>
+    </div>
+    <div class="d-flex gap-2 flex-wrap align-items-center">
+        <label class="small fw-semibold text-secondary" for="versionPicker">النسخة</label>
+        <select class="form-select form-select-sm w-auto" id="versionPicker"
+                onchange="location.href='@Url.Action(tab)?version=' + this.value">
+            @foreach (var v in overview.Versions)
+            {
+                <option value="@v.Id" selected="@(v.Id == editor.VersionId)">v@(v.VersionNo) — @Labels.Of(v.Status) (@v.EvaluationCount تقييم)</option>
+            }
+        </select>
+        <a class="btn btn-ghost btn-sm" asp-controller="Export" asp-action="QuestionBank" asp-route-id="@editor.VersionId">تصدير Excel</a>
+    </div>
+</div>
+
+<div class="d-flex gap-2 mb-3 flex-wrap">
+    <a class="btn btn-sm @(tab == "Index" ? "btn-primary" : "btn-ghost")" asp-action="Index" asp-route-version="@editor.VersionId">الأسئلة</a>
+    <a class="btn btn-sm @(tab == "Weights" ? "btn-primary" : "btn-ghost")" asp-action="Weights" asp-route-version="@editor.VersionId">الأوزان</a>
+</div>
+
+@if (editor.IsEditable)
+{
+    <div class="notice warn align-items-center flex-wrap">
+        <b>مسودة v@(editor.VersionNo)</b>
+        <span class="flex-grow-1">غير منشورة بعد — لا تؤثر على أي تقييم. مجموع أوزان الفئات:
+            <b class="num @(sumOk ? "text-success" : "text-danger")" id="weightSum">@sum.ToString("0.##")%</b></span>
+        <button type="button" class="btn btn-ok btn-sm" data-bs-toggle="modal" data-bs-target="#publishModal">نشر المسودة</button>
+        <form asp-action="Discard" asp-route-id="@editor.VersionId" method="post" data-confirm="حذف المسودة وكل تعديلاتها؟ النسخة المنشورة لن تتأثر.">
+            <button type="submit" class="btn btn-danger-soft btn-sm">حذف المسودة</button>
+        </form>
+    </div>
+
+    <div class="modal fade" id="publishModal" tabindex="-1" aria-labelledby="publishTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" asp-action="Publish" asp-route-id="@editor.VersionId" method="post">
+                <div class="modal-header">
+                    <h3 class="modal-title h5" id="publishTitle">نشر المسودة v@(editor.VersionNo)</h3>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <p>بعد النشر تصبح هذه النسخة هي المستخدمة في كل تقييم جديد، وتُؤرشف النسخة المنشورة الحالية. التقييمات الموجودة تبقى على نسختها.</p>
+                    @if (!sumOk)
+                    {
+                        <div class="notice warn">مجموع أوزان الفئات @sum.ToString("0.##")% — يجب أن يساوي 100% قبل النشر.</div>
+                    }
+                    <label class="form-label fw-semibold" for="publishNotes">ما الذي تغيّر في هذه النسخة؟</label>
+                    <textarea class="form-control" id="publishNotes" name="notes" rows="3" maxlength="1000"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-ok">نشر</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="notice align-items-center flex-wrap">
+        <b>v@(editor.VersionNo) — @Labels.Of(editor.Status)</b>
+        <span class="flex-grow-1">هذه النسخة للعرض فقط. للتعديل أنشئي مسودة منها؛ تُنسخ الأسئلة والأوزان كما هي.</span>
+        @if (overview.DraftId is long draftId)
+        {
+            <a class="btn btn-primary btn-sm" asp-action="@tab" asp-route-version="@draftId">فتح المسودة الحالية</a>
+        }
+        else if (editor.Status == QuestionBankVersionStatus.Published)
+        {
+            <form asp-action="CreateDraft" asp-route-returnTo="@tab" method="post">
+                <button type="submit" class="btn btn-primary btn-sm">إنشاء مسودة للتعديل</button>
+            </form>
+        }
+    </div>
+}

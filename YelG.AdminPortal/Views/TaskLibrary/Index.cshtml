@@ -1,0 +1,177 @@
+@model TaskLibrary
+@{
+    ViewData["Title"] = "مكتبة المهام";
+    var serviceLines = Model.Templates.Select(t => t.ServiceLine).Where(s => !string.IsNullOrEmpty(s)).Distinct().OrderBy(s => s).ToList();
+}
+<partial name="_Tabs" model="Model" />
+
+<div class="d-flex gap-2 flex-wrap align-items-center mb-3">
+    <input class="form-control w-auto flex-grow-1" style="min-width:220px" id="taskSearch" placeholder="بحث بالكود أو الصياغة أو السؤال المصدر" />
+    <select class="form-select w-auto" id="taskLine">
+        <option value="">كل الأقسام</option>
+        @foreach (var line in serviceLines) { <option>@line</option> }
+    </select>
+    <select class="form-select w-auto" id="taskState">
+        <option value="">كل المهام</option>
+        <option value="hours">تحتاج تقدير ساعات</option>
+        <option value="default">ضمن البرنامج الأساسي</option>
+        <option value="inactive">موقوفة</option>
+    </select>
+    <button type="button" class="btn btn-primary" data-add-template>إضافة مهمة</button>
+</div>
+
+<div class="table-wrap">
+    <table class="table-y" id="taskTable">
+        <thead>
+            <tr><th>الكود</th><th class="text-start">المهمة</th><th>القسم</th><th>الدورية</th><th>الأولوية</th><th>ساعات كل تنفيذ</th><th>التقدير</th><th>القواعد</th><th></th></tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model.Templates)
+            {
+                <tr data-template="@t.Id" data-line="@t.ServiceLine" data-active="@(t.IsActive ? "1" : "0")" data-default="@(t.DefaultIncluded ? "1" : "0")"
+                    data-hours="@t.RoleHours.Total.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                    data-search="@($"{t.Code} {t.Title} {t.SourceQuestionCode}".ToLowerInvariant())" class="@(t.IsActive ? "" : "opacity-50")">
+                    <td class="code text-primary">@t.Code @if (t.SourceQuestionCode is not null) { <div class="small fw-normal text-secondary">@t.SourceQuestionCode</div> }</td>
+                    <td style="min-width:280px">
+                        @t.Title
+                        <div class="d-flex gap-1 flex-wrap mt-1">
+                            <span class="chip">@Labels.Of(t.DefaultOwner)</span>
+                            @if (t.DefaultIncluded) { <span class="chip">ضمن البرنامج الأساسي</span> }
+                            @if (t.DriverQuestionCode is not null) { <span class="chip">الحجم: @t.DriverQuestionCode كل @t.DriverUnit.ToString("0.##")</span> }
+                            @if (!t.IsActive) { <span class="status back">موقوفة</span> }
+                            @if (t.IsUsed) { <span class="chip">مستخدمة في نطاق عمل</span> }
+                        </div>
+                    </td>
+                    <td>@t.ServiceLine</td>
+                    <td>@Labels.Of(t.Frequency)</td>
+                    <td><span class="@StatusCss.Of(t.Priority)">@Labels.Of(t.Priority)</span></td>
+                    <td class="num">
+                        @if (t.RoleHours.Total > 0)
+                        {
+                            <b>@t.RoleHours.Total.ToString("0.#")</b>
+                            <div class="small text-secondary">A @t.RoleHours.Analyst.ToString("0.#") · TL @t.RoleHours.TeamLead.ToString("0.#") · M @t.RoleHours.Manager.ToString("0.#") · P @t.RoleHours.Partner.ToString("0.#")</div>
+                        }
+                        else { <span class="status wait">غير مقدرة</span> }
+                    </td>
+                    <td><span class="status @(t.BasisStatus == BasisStatus.Approved ? "ok" : "")">@Labels.Of(t.BasisStatus)</span></td>
+                    <td class="num">@t.RuleCount</td>
+                    <td class="text-nowrap">
+                        <button type="button" class="btn btn-ghost btn-sm" data-edit-template>تعديل</button>
+                        <button type="button" class="btn btn-danger-soft btn-sm" data-delete-template>حذف</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="empty mt-3" id="noTasks" hidden>لا توجد مهام مطابقة للبحث.</div>
+
+<div class="modal fade" id="templateModal" tabindex="-1" aria-labelledby="templateTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+        <form class="modal-content" id="templateForm">
+            <div class="modal-header">
+                <h3 class="modal-title h5" id="templateTitle">المهمة</h3>
+                <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="tCode">كود المهمة</label>
+                        <input class="form-control num" id="tCode" maxlength="20" required placeholder="XL-C15" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="tSource">السؤال المصدر</label>
+                        <input class="form-control num" id="tSource" maxlength="16" placeholder="C05" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="tLine">القسم المسؤول</label>
+                        <input class="form-control" id="tLine" maxlength="120" list="serviceLines" />
+                        <datalist id="serviceLines">@foreach (var line in serviceLines) { <option value="@line"></option> }</datalist>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="tPurpose">غرض المهمة</label>
+                        <input class="form-control" id="tPurpose" maxlength="120" placeholder="مهمة + تسعير" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="tTitle">صياغة المهمة كما تظهر في نطاق العمل</label>
+                        <textarea class="form-control" id="tTitle" rows="2" maxlength="600" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="tEvidence">منطق التنفيذ / دليل الإنجاز</label>
+                        <textarea class="form-control" id="tEvidence" rows="2" maxlength="2000"></textarea>
+                    </div>
+
+                    <div class="col-12"><div class="notice mb-0"><b>ساعات كل تنفيذ لكل دور:</b><span>اكتبي الساعات الفعلية المتوقعة لكل دور. يمكن أن تكون المهمة لدور واحد فقط. المهمة بدون ساعات لا تدخل في التسعير.</span></div></div>
+                    @foreach (var (id, label) in new[] { ("tAnalyst", "Analyst"), ("tTeamLead", "Team Leader"), ("tManager", "Manager"), ("tPartner", "Partner") })
+                    {
+                        <div class="col-6 col-md-3">
+                            <label class="form-label fw-semibold" for="@id">@label</label>
+                            <input class="form-control num" id="@id" type="number" min="0" max="500" step="0.5" value="0" />
+                        </div>
+                    }
+
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="tFrequency">الدورية</label>
+                        <select class="form-select" id="tFrequency">
+                            @foreach (var f in Enum.GetValues<TaskFrequency>()) { <option value="@f">@Labels.Of(f)</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="tPriority">الأولوية</label>
+                        <select class="form-select" id="tPriority">
+                            @foreach (var p in new[] { TaskPriority.High, TaskPriority.Medium, TaskPriority.Low }) { <option value="@p">@Labels.Of(p)</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="tOwner">جهة التنفيذ الافتراضية</label>
+                        <select class="form-select" id="tOwner">
+                            @foreach (var o in Enum.GetValues<TaskOwner>()) { <option value="@o">@Labels.Of(o)</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="tBasis">حالة تقدير الساعات</label>
+                        <select class="form-select" id="tBasis">
+                            @foreach (var b in Enum.GetValues<BasisStatus>()) { <option value="@b">@Labels.Of(b)</option> }
+                        </select>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label class="form-label fw-semibold" for="tDriver">محرك الحجم — اختياري</label>
+                        <select class="form-select" id="tDriver">
+                            <option value="">حجم ثابت — لا يتضاعف</option>
+                            @foreach (var q in Model.Questions.Where(q => q.IsNumeric)) { <option value="@q.Code">@q.Code — @q.Text</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="tUnit">عدد الوحدات لكل شريحة</label>
+                        <input class="form-control num" id="tUnit" type="number" min="1" step="1" value="1" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold" for="tMax">أقصى مضاعف للحجم</label>
+                        <input class="form-control num" id="tMax" type="number" min="1" max="20" step="1" value="4" />
+                    </div>
+                    <div class="col-12 small text-secondary" id="driverHint">مثال: محرك «عدد المخازن» كل 2 وحدة وأقصى مضاعف 4 → 5 مخازن تضاعف الساعات ×3.</div>
+
+                    <div class="col-md-8">
+                        <label class="form-label fw-semibold" for="tBasisNote">أساس التقدير</label>
+                        <input class="form-control" id="tBasisNote" maxlength="500" placeholder="خبرة الفريق / Timesheet / Pilot" />
+                    </div>
+                    <div class="col-md-4 d-flex flex-column justify-content-end">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="tDefault" /><label class="form-check-label" for="tDefault">ضمن البرنامج الأساسي (تظهر لكل تقييم)</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="tActive" checked /><label class="form-check-label" for="tActive">المهمة نشطة</label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                <button type="submit" class="btn btn-primary" id="saveTemplate">حفظ المهمة</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="application/json" id="libraryData">@Json.Serialize(new { templates = Model.Templates })</script>
+
+@section Scripts {
+    <script src="~/js/task-library.js" asp-append-version="true"></script>
+}

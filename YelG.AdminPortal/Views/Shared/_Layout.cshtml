@@ -1,0 +1,92 @@
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery Antiforgery
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    string Active(string c, string? a = null) => controller == c && (a is null || action == a) ? "side-link active" : "side-link";
+    var isAdmin = User.IsAdmin();
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="request-verification-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
+    <title>@ViewData["Title"] — YELG Lens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Manrope:wght@400;600;700;800&family=Noto+Kufi+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+<div class="app-shell">
+    <aside class="app-sidebar" aria-label="القائمة الرئيسية">
+        <div class="brand-block">
+            <div class="brand">YELG Lens</div>
+            <h1>التقييم ونطاق العمل</h1>
+        </div>
+        <p class="nav-label">مراحل العمل</p>
+        <a class="@Active("Home")" asp-controller="Home" asp-action="Index">
+            <span class="no">٠</span><span>الرئيسية<small>ملخص تقييماتك</small></span>
+        </a>
+        @if (isAdmin)
+        {
+            <a class="@Active("Companies")" asp-controller="Companies" asp-action="Index">
+                <span class="no">١</span><span>الشركات والمقيمون<small>إضافة الشركات وإسنادها</small></span>
+            </a>
+        }
+        <a class="@Active("Evaluations", "Index")" asp-controller="Evaluations" asp-action="Index">
+            <span class="no">٢</span><span>تقييماتي<small>استيفاء تقييم الشركات</small></span>
+        </a>
+        @if (isAdmin)
+        {
+            <a class="@Active("Evaluations", "All")" asp-controller="Evaluations" asp-action="All">
+                <span class="no">٣</span><span>النتائج والاعتماد<small>مراجعة كل التقييمات</small></span>
+            </a>
+            <p class="nav-label mt-2">الإدارة</p>
+            <a class="@Active("QuestionBank")" asp-controller="QuestionBank" asp-action="Index">
+                <span class="no">٤</span><span>بنك الأسئلة والأوزان<small>الأسئلة وتأثيرها على النتيجة</small></span>
+            </a>
+            <a class="@Active("TaskLibrary")" asp-controller="TaskLibrary" asp-action="Index">
+                <span class="no">٥</span><span>مكتبة المهام والقواعد<small>المهام وتأثير الإجابات والتسعير</small></span>
+            </a>
+            <a class="@Active("Users")" asp-controller="Users" asp-action="Index">
+                <span class="no">٦</span><span>المستخدمون<small>الحسابات والصلاحيات</small></span>
+            </a>
+            <a class="@Active("ActivityLog")" asp-controller="ActivityLog" asp-action="Index">
+                <span class="no">٧</span><span>سجل النشاط<small>من فعل ماذا ومتى</small></span>
+            </a>
+        }
+        <div class="userbox">
+            <div>المستخدم: <b>@User.DisplayName()</b><span class="role-badge">@(isAdmin ? "Admin" : "مستخدم")</span></div>
+            <div class="d-flex gap-2 mt-2">
+                <a class="btn btn-ghost btn-sm flex-grow-1 @(controller == "Account" ? "active" : "")" asp-controller="Account" asp-action="ChangePassword">تغيير كلمة المرور</a>
+                <form asp-controller="Account" asp-action="Logout" method="post" class="flex-grow-1">
+                    <button type="submit" class="btn btn-ghost btn-sm w-100">خروج</button>
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <main class="app-main">
+        <header class="topbar">
+            <div>
+                <div class="eyebrow">YELG Lens</div>
+                <h2>نظام تقييم العملاء ونطاق العمل والمراجعة الداخلية</h2>
+            </div>
+            <span class="chip">نموذج عمل داخلي</span>
+        </header>
+        <div class="page">
+            <partial name="_Alerts" />
+            @RenderBody()
+        </div>
+    </main>
+</div>
+<div class="toast-y" id="toast" role="status" aria-live="polite"></div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

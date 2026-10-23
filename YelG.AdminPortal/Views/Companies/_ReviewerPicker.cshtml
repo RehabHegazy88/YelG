@@ -1,0 +1,20 @@
+@model IReadOnlyList<UserListItem>
+@{
+    var adminId = User.UserId();
+}
+<div class="d-flex gap-2 mb-2">
+    <button type="button" class="btn btn-ghost btn-sm" data-select-all>تحديد الكل</button>
+    <button type="button" class="btn btn-ghost btn-sm" data-select-none>إلغاء التحديد</button>
+</div>
+<div class="reviewer-grid">
+    @foreach (var user in Model)
+    {
+        var isMe = user.Id == adminId;
+        <label class="reviewer-option @(isMe ? "locked" : "")">
+            <input type="checkbox" class="form-check-input mt-0" name="ReviewerIds" value="@user.Id" data-reviewer
+                   @(isMe ? "checked disabled" : "") />
+            <span>@user.DisplayName<small>@@@user.UserName@(user.IsAdmin ? " — Admin" : "")@(isMe ? " (مضاف تلقائيًا)" : "")</small></span>
+        </label>
+    }
+</div>
+<p class="small text-secondary mt-2 mb-0">كل مقيم يحصل على تقييم مستقل وفارغ لنفس الشركة، ولا يرى إجابات المقيمين الآخرين.</p>

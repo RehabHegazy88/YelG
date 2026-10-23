@@ -1,0 +1,175 @@
+@model ScopePageViewModel
+@{
+    var e = Model.Evaluation;
+    var tasks = Model.Scope.Tasks;
+    ViewData["Title"] = "نطاق العمل — " + e.CompanyName;
+    var oneTime = tasks.Where(t => t.Template.Frequency == TaskFrequency.OneTime).Sum(t => t.Hours);
+    var recurring = tasks.Where(t => t.Template.Frequency != TaskFrequency.OneTime).Sum(t => t.AnnualHours);
+    var unestimated = tasks.Count(t => t.Hours == 0);
+    string Disabled() => Model.CanEdit ? "" : "disabled";
+}
+<div class="eval-top">
+    <a class="btn btn-ghost btn-sm" asp-controller="Evaluations" asp-action="Details" asp-route-id="@e.Id">رجوع للتقييم</a>
+    <h2>نطاق العمل — @e.CompanyName</h2>
+    <span class="activity">@e.ActivityName</span>
+    <span class="@StatusCss.Of(e.Status) ms-auto">@Labels.Of(e.Status)</span>
+    <a class="btn btn-ghost btn-sm" asp-controller="Export" asp-action="Scope" asp-route-id="@e.Id">تصدير Excel</a>
+</div>
+
+<div class="notice">
+    <b>المرحلة الأولى:</b>
+    <span>صياغة المهام وجهة التنفيذ مستوردة من YelG Lens.xlsx. لا تدخل المهمة في الساعات أو التسعير قبل أن يحدد الـAdmin ساعات الأدوار ويعتمدها. الإجابات على أسئلة مخفية لا تؤثر على النطاق.</span>
+</div>
+@if (!Model.CanEdit && User.IsAdmin())
+{
+    <div class="notice warn"><b>عرض فقط</b><span>تحديث المهام متاح بعد أن يرسل المقيم التقييم للاعتماد.</span></div>
+}
+else if (!Model.CanEdit)
+{
+    <div class="notice"><b>عرض فقط</b><span>يحدد الـAdmin جهة التنفيذ والموعد وحالة كل مهمة بعد اعتماد التقييم.</span></div>
+}
+
+<div class="metrics">
+    <div class="metric"><div class="l">مهمة داخل النطاق</div><div class="v">@tasks.Count</div></div>
+    <div class="metric"><div class="l">ساعات لمرة واحدة</div><div class="v">@(oneTime > 0 ? oneTime.ToString("0.#") : "—")</div></div>
+    <div class="metric"><div class="l">ساعات متكررة سنويًا</div><div class="v">@(recurring > 0 ? recurring.ToString("0.#") : "—")</div></div>
+    <div class="metric">
+        <div class="l">تكلفة السنة الأولى (استرشادية)</div>
+        @if (Model.Price is decimal price)
+        {
+            <div class="v">@price.ToString("#,0")</div>
+        }
+        else
+        {
+            <div class="v text">غير متاحة</div>
+            <div class="small text-secondary">@(unestimated > 0 ? $"{unestimated} مهمة تحتاج تقدير ساعات" : "معدلات الأدوار لم تُحدَّد بعد")</div>
+        }
+    </div>
+</div>
+
+<section class="panel mb-4">
+    @if (tasks.Count == 0)
+    {
+        <div class="empty">لا توجد مهام بعد. تظهر المهام عند استيفاء الإجابات المرتبطة بها.</div>
+    }
+    @foreach (var task in tasks)
+    {
+        var t = task.Template;
+        <article class="scope-task" data-template="@t.Id">
+            <div class="code">@(t.SourceQuestionCode ?? t.Code)</div>
+            <div>
+                <h4>@t.Title</h4>
+                @if (!string.IsNullOrEmpty(t.Evidence)) { <p><b>منطق التنفيذ:</b> @t.Evidence</p> }
+                <div class="d-flex flex-wrap gap-1 my-1">
+                    @if (t.ServiceLine is not null) { <span class="chip">@t.ServiceLine</span> }
+                    @if (t.Purpose is not null) { <span class="chip">@t.Purpose</span> }
+                    <span class="chip">@Labels.Of(t.Frequency)</span>
+                    <span class="@StatusCss.Of(task.Priority)">@Labels.Of(task.Priority)</span>
+                    <span class="status @(t.BasisStatus == BasisStatus.Approved ? "ok" : "wait")">@(t.BasisStatus == BasisStatus.Approved ? "ساعات معتمدة" : "الساعات غير معتمدة")</span>
+                </div>
+                <div class="d-flex flex-wrap gap-1">
+                    @if (task.RoleHours.Analyst > 0) { <span class="role-hour">Analyst <b>@task.RoleHours.Analyst.ToString("0.#")س</b></span> }
+                    @if (task.RoleHours.TeamLead > 0) { <span class="role-hour">Team Leader <b>@task.RoleHours.TeamLead.ToString("0.#")س</b></span> }
+                    @if (task.RoleHours.Manager > 0) { <span class="role-hour">Manager <b>@task.RoleHours.Manager.ToString("0.#")س</b></span> }
+                    @if (task.RoleHours.Partner > 0) { <span class="role-hour">Partner <b>@task.RoleHours.Partner.ToString("0.#")س</b></span> }
+                </div>
+                <p class="mt-1">سبب الظهور: @string.Join(" · ", task.Sources)</p>
+            </div>
+            <div class="owner-wrap">
+                <select class="form-select form-select-sm mb-1" data-field="owner" aria-label="جهة التنفيذ" @Disabled()>
+                    @foreach (var owner in new[] { TaskOwner.YelgTeam, TaskOwner.Client, TaskOwner.Shared })
+                    {
+                        <option value="@owner" selected="@(task.State.Owner == owner)">@Labels.Of(owner)</option>
+                    }
+                </select>
+                <input type="date" class="form-control form-control-sm" data-field="dueDate" aria-label="الموعد المستهدف"
+                       value="@task.State.DueDate?.ToString("yyyy-MM-dd")" @Disabled() />
+            </div>
+            <div>
+                <span class="scope-hours">@(task.Hours > 0 ? task.Hours.ToString("0.#") : "—")</span>
+                <p>@(task.Hours > 0 ? $"ساعة لكل تنفيذ · {task.AnnualHours:0.#} سنويًا" : "بانتظار تقدير الساعات")</p>
+            </div>
+            <div class="status-wrap">
+                <select class="form-select form-select-sm mb-1" data-field="status" aria-label="حالة التنفيذ" @Disabled()>
+                    @foreach (var status in Enum.GetValues<ScopeItemStatus>())
+                    {
+                        <option value="@status" selected="@(task.State.Status == status)">@Labels.Of(status)</option>
+                    }
+                </select>
+                <input type="text" class="form-control form-control-sm" data-field="evidenceNote" maxlength="2000"
+                       placeholder="دليل الإنجاز" value="@task.State.EvidenceNote" @Disabled() />
+            </div>
+        </article>
+    }
+</section>
+
+@if (Model.Scope.Recommendations.Count > 0 || Model.Scope.OptionalServices.Count > 0)
+{
+    <h3 class="h5 mb-3">توصيات وخدمات اختيارية</h3>
+    <div class="cards mb-4">
+        @foreach (var rec in Model.Scope.Recommendations)
+        {
+            <div class="insight">
+                <span class="status wait">توصية — لا تضيف ساعات</span>
+                <h4 class="h6 mt-2">@rec.Text</h4>
+                <p class="small text-secondary mb-0">@rec.Source</p>
+            </div>
+        }
+        @foreach (var service in Model.Scope.OptionalServices)
+        {
+            <div class="insight optional">
+                <span class="status @(service.State.OptionalIncluded ? "ok" : "")">خدمة اختيارية — @(service.State.OptionalIncluded ? "مضافة للنطاق" : "غير محتسبة")</span>
+                <h4 class="h6 mt-2">@service.Template.Title</h4>
+                <p class="small text-secondary">@service.Source</p>
+                @if (Model.CanEdit)
+                {
+                    <button type="button" class="btn btn-ghost btn-sm" data-optional="@service.Template.Id" data-included="@(service.State.OptionalIncluded ? "1" : "0")">
+                        @(service.State.OptionalIncluded ? "إلغاء من النطاق" : "إضافة للنطاق بعد الاتفاق")
+                    </button>
+                }
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+    @if (Model.CanEdit)
+    {
+        <script>
+            (function () {
+                const evaluationId = @e.Id;
+
+                async function update(body) {
+                    try {
+                        await window.yelg.api(`/Scope/UpdateItem/${evaluationId}`, body);
+                        window.yelg.toast('تم حفظ المهمة.');
+                    } catch (err) {
+                        window.yelg.toast(err.message, true);
+                    }
+                }
+
+                document.querySelectorAll('.scope-task').forEach(row => {
+                    const read = () => ({
+                        taskTemplateId: +row.dataset.template,
+                        isOptionalService: false,
+                        owner: row.querySelector('[data-field=owner]').value,
+                        dueDate: row.querySelector('[data-field=dueDate]').value || null,
+                        status: row.querySelector('[data-field=status]').value,
+                        evidenceNote: row.querySelector('[data-field=evidenceNote]').value,
+                        optionalIncluded: false
+                    });
+                    row.querySelectorAll('select[data-field], input[type=date][data-field]').forEach(el => el.addEventListener('change', () => update(read())));
+                    row.querySelector('[data-field=evidenceNote]').addEventListener('change', () => update(read()));
+                });
+
+                document.querySelectorAll('[data-optional]').forEach(button => button.addEventListener('click', async () => {
+                    await update({
+                        taskTemplateId: +button.dataset.optional, isOptionalService: true, owner: 'YelgTeam', dueDate: null,
+                        status: 'Planned', evidenceNote: null, optionalIncluded: button.dataset.included !== '1'
+                    });
+                    setTimeout(() => location.reload(), 500);
+                }));
+            })();
+        </script>
+    }
+}

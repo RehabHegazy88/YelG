@@ -1,0 +1,229 @@
+@model QuestionBankPageViewModel
+@{
+    ViewData["Title"] = "بنك الأسئلة";
+    ViewData["Tab"] = "Index";
+    var editor = Model.Editor;
+    var editable = editor.IsEditable;
+    var total = editor.Categories.Sum(c => c.Questions.Count);
+    var active = editor.Categories.Sum(c => c.Questions.Count(q => q.IsActive));
+}
+<partial name="_VersionBar" model="Model" />
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <span class="small text-secondary">@editor.Categories.Count فئة · @active سؤال ظاهر · @(total - active) سؤال موقوف</span>
+    @if (editable)
+    {
+        <button type="button" class="btn btn-ghost btn-sm" data-add-category>إضافة فئة</button>
+    }
+</div>
+
+@for (var ci = 0; ci < editor.Categories.Count; ci++)
+{
+    var c = editor.Categories[ci];
+    <section class="panel mb-3 p-0 overflow-hidden" data-category="@c.Id">
+        <div class="d-flex align-items-center gap-3 p-3" style="background:var(--neutral-50)">
+            <span class="d-grid place-items-center fw-bold text-white rounded-3" style="width:36px;height:36px;background:var(--blue-700);place-items:center">@c.Code</span>
+            <div class="flex-grow-1">
+                <b>@c.Title</b>
+                <div class="small text-secondary">@c.Questions.Count(q => q.IsActive) ظاهر من @c.Questions.Count · الوزن @c.BaseWeight.ToString("0.##")% · @c.Status</div>
+            </div>
+            @if (editable)
+            {
+                <div class="d-flex gap-1 flex-wrap justify-content-end">
+                    <button type="button" class="btn btn-ghost btn-sm" data-move-category="-1" @(ci == 0 ? "disabled" : "") title="لأعلى">▲</button>
+                    <button type="button" class="btn btn-ghost btn-sm" data-move-category="1" @(ci == editor.Categories.Count - 1 ? "disabled" : "") title="لأسفل">▼</button>
+                    <button type="button" class="btn btn-ghost btn-sm" data-edit-category>تعديل الفئة</button>
+                    <button type="button" class="btn btn-danger-soft btn-sm" data-delete-category>حذف</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-add-question>إضافة سؤال</button>
+                </div>
+            }
+        </div>
+        @for (var qi = 0; qi < c.Questions.Count; qi++)
+        {
+            var q = c.Questions[qi];
+            <div class="d-grid gap-3 align-items-center px-3 py-2 border-top @(q.IsActive ? "" : "opacity-50")"
+                 style="grid-template-columns:64px minmax(0,1fr) auto" data-question="@q.Id">
+                <span class="code text-primary">@q.Code</span>
+                <div>
+                    <div style="font-size:13.5px">@q.Text</div>
+                    <div class="d-flex gap-1 flex-wrap mt-1">
+                        <span class="chip">@Labels.Of(q.AnswerType)</span>
+                        <span class="chip">@Labels.Of(q.Kind)</span>
+                        @if (q.IsCritical) { <span class="chip crit">حرج</span> }
+                        @if (q.ParentCode is not null) { <span class="chip">يظهر إذا @q.ParentCode @(q.ConditionOperator == ConditionOperator.NotEquals ? "≠" : "=") @q.ConditionValue</span> }
+                        @if (q.ChildCount > 0) { <span class="chip">@q.ChildCount سؤال متفرع منه</span> }
+                        @if (q.Bands.Count > 0) { <span class="chip">@q.Bands.Count شريحة درجات</span> }
+                        @if (q.AllowCustomAnswer) { <span class="chip">يقبل إضافة اختيار</span> }
+                        <span class="chip num">@string.Join(" / ", q.Weights.Select(w => w.ToString("0.#")))</span>
+                        @if (!q.IsActive) { <span class="status back">موقوف</span> }
+                    </div>
+                </div>
+                @if (editable)
+                {
+                    <div class="d-flex gap-1 flex-wrap justify-content-end">
+                        <button type="button" class="btn btn-ghost btn-sm" data-move-question="-1" @(qi == 0 ? "disabled" : "") title="لأعلى">▲</button>
+                        <button type="button" class="btn btn-ghost btn-sm" data-move-question="1" @(qi == c.Questions.Count - 1 ? "disabled" : "") title="لأسفل">▼</button>
+                        <button type="button" class="btn btn-ghost btn-sm" data-edit-question>تعديل</button>
+                        <button type="button" class="btn btn-ghost btn-sm" data-toggle-question>@(q.IsActive ? "إيقاف" : "إظهار")</button>
+                        <button type="button" class="btn btn-danger-soft btn-sm" data-delete-question>حذف</button>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+}
+
+@if (editable)
+{
+    @* ---------------- category modal ---------------- *@
+    <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" id="categoryForm">
+                <div class="modal-header">
+                    <h3 class="modal-title h5" id="categoryTitle">الفئة</h3>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-4">
+                            <label class="form-label fw-semibold" for="catCode">الكود</label>
+                            <input class="form-control" id="catCode" maxlength="8" required />
+                        </div>
+                        <div class="col-8">
+                            <label class="form-label fw-semibold" for="catTitle">اسم الفئة</label>
+                            <input class="form-control" id="catTitle" maxlength="150" required />
+                        </div>
+                        <div class="col-7">
+                            <label class="form-label fw-semibold" for="catStatus">الحالة</label>
+                            <select class="form-select" id="catStatus">
+                                <option>معتمد</option>
+                                <option>متفق عليه</option>
+                                <option>مقترح — للاعتماد</option>
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <label class="form-label fw-semibold" for="catWeight">الوزن %</label>
+                            <input class="form-control num" id="catWeight" type="number" min="0" max="100" step="0.0001" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @* ---------------- question modal ---------------- *@
+    <div class="modal fade" id="questionModal" tabindex="-1" aria-labelledby="questionTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+            <form class="modal-content" id="questionForm">
+                <div class="modal-header">
+                    <h3 class="modal-title h5" id="questionTitle">السؤال</h3>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold" for="qCategory">الفئة</label>
+                            <select class="form-select" id="qCategory">
+                                @foreach (var c in editor.Categories) { <option value="@c.Code">@c.Code — @c.Title</option> }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold" for="qCode">كود السؤال</label>
+                            <input class="form-control num" id="qCode" maxlength="16" required placeholder="C14" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold" for="qType">نوع الإجابة</label>
+                            <select class="form-select" id="qType">
+                                @foreach (var t in Enum.GetValues<AnswerType>()) { <option value="@t">@Labels.Of(t)</option> }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold" for="qKind">طبيعة السؤال</label>
+                            <select class="form-select" id="qKind">
+                                @foreach (var k in Enum.GetValues<QuestionKind>()) { <option value="@k">@Labels.Of(k)</option> }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold" for="qDirection">الاتجاه</label>
+                            <select class="form-select" id="qDirection">
+                                @foreach (var d in Enum.GetValues<QuestionDirection>()) { <option value="@d">@Labels.Of(d)</option> }
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold" for="qText">صياغة السؤال</label>
+                            <textarea class="form-control" id="qText" rows="2" maxlength="1000" required></textarea>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label fw-semibold mb-0">الاختيارات ودرجاتها</label>
+                                <button type="button" class="btn btn-ghost btn-sm" id="addOption">إضافة اختيار</button>
+                            </div>
+                            <div class="small text-secondary mb-2" id="optionHint">الدرجة من 0 إلى 1. اتركيها فارغة لـ«غير منطبق» (لا تدخل في الحساب).</div>
+                            <div id="optionRows" class="d-flex flex-column gap-2"></div>
+                            <div class="small text-secondary" id="noOptions">هذا النوع لا يحتوي على اختيارات.</div>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label fw-semibold">الأوزان (0 – 5)</label>
+                            <div class="row g-2 mb-3">
+                                <div class="col-4"><label class="small text-secondary" for="qW0">الثقة</label><input class="form-control num" id="qW0" type="number" min="0" max="5" step="0.5" /></div>
+                                <div class="col-4"><label class="small text-secondary" for="qW1">سير العمل</label><input class="form-control num" id="qW1" type="number" min="0" max="5" step="0.5" /></div>
+                                <div class="col-4"><label class="small text-secondary" for="qW2">التسعير</label><input class="form-control num" id="qW2" type="number" min="0" max="5" step="0.5" /></div>
+                            </div>
+                            <div class="form-check mb-1"><input class="form-check-input" type="checkbox" id="qCritical" /><label class="form-check-label" for="qCritical">بند حرج — أي درجة أقل من 0.5 تجعل التقدير منخفضًا</label></div>
+                            <div class="form-check mb-1"><input class="form-check-input" type="checkbox" id="qCustom" /><label class="form-check-label" for="qCustom">يسمح للمقيم بإضافة اختيار غير موجود (للمتعدد فقط)</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="qActive" checked /><label class="form-check-label" for="qActive">السؤال ظاهر</label></div>
+                        </div>
+
+                        <div class="col-12" id="bandsBlock">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label fw-semibold mb-0">شرائح الدرجات للإجابة الرقمية</label>
+                                <button type="button" class="btn btn-ghost btn-sm" id="addBand">إضافة شريحة</button>
+                            </div>
+                            <div class="small text-secondary mb-2">من (يشمل) — إلى (لا يشمل) → الدرجة. حد فارغ يعني بلا حد. بدون شرائح لا يدخل السؤال في الحساب.</div>
+                            <div id="bandRows" class="d-flex flex-column gap-2"></div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">شرط الظهور — اختياري</label>
+                            <div class="row g-2">
+                                <div class="col-md-5">
+                                    <select class="form-select" id="qParent"><option value="">يظهر دائمًا</option></select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select class="form-select" id="qOperator">
+                                        <option value="Equals">يساوي</option>
+                                        <option value="NotEquals">لا يساوي</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <select class="form-select" id="qConditionValue"></select>
+                                    <input class="form-control" id="qConditionText" maxlength="250" placeholder="قيمة الشرط" hidden />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" id="saveQuestion">حفظ السؤال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+<script type="application/json" id="bankData">
+@Json.Serialize(new { versionId = editor.VersionId, categories = editor.Categories })
+</script>
+
+@section Scripts {
+    @if (editable)
+    {
+        <script src="~/js/question-bank.js" asp-append-version="true"></script>
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "//": "LOCAL UI TESTING ONLY - throwaway LocalDB database, never the shared server. Run with: dotnet run --project YelG.AdminPortal -- --environment LocalTest",
+  "ConnectionStrings": {
+    "YelgDb": "Server=(localdb)\\MSSQLLocalDB;Database=YelgLens_UiTest;Trusted_Connection=True;TrustServerCertificate=True"
+  },
+  "Seed": {
+    "AdminUserName": "localadmin",
+    "AdminPassword": "<set locally>"
+  },
+  "LocalTestReviewer": {
+    "UserName": "reviewer1",
+    "Password": "<set locally>",
+    "Note": "Created through the Users screen during UI testing"
+  },
+  "Encryption": {
+    "Key": "<set locally>"
+  }
+}
