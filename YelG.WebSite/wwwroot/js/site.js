@@ -73,11 +73,13 @@
   /* ---------- consultation form: pre-fill (used by services, ways to work, self-check) ---------- */
   var form = {
     el: null,
-    prefill: function (service, message) {
+    prefill: function (service, message, score) {
       if (!this.el) return;
       var select = this.el.elements.service, text = this.el.elements.message;
       if (service && $$('option', select).some(function (o) { return o.value === service; })) select.value = service;
       if (message && !text.value) text.value = message;
+      // the self-check result travels with the enquiry
+      if (score !== undefined) this.el.elements.selfCheckScore.value = score;
       this.clear('service');
     },
     clear: function (name) {
@@ -127,9 +129,9 @@
       });
     });
 
-    el.addEventListener('submit', function (ev) {
-      ev.preventDefault();
-      var errs = validate(values());
+    var sent = $('[data-sent]', el), failed = $('[data-failed]', el), button = $('.cform-submit', el), busy = false;
+
+    function show(errs) {
       var count = 0, first = null;
       order.forEach(function (name) {
         var field = el.elements[name], err = form.error(name);
@@ -147,11 +149,47 @@
         $('strong', summary).textContent = summaryTemplate.replace('{count}', count);
         summary.hidden = false;
         setTimeout(function () { first.focus(); }, 30);
-        return;
+      } else {
+        summary.hidden = true;
       }
-      summary.hidden = true;
-      // Sending the enquiry (antiforgery, honeypot, rate limit, e-mail) comes with the backend in phase 4.
-      el.dispatchEvent(new CustomEvent('consult:valid', { detail: values() }));
+      return count;
+    }
+
+    function done(box) {
+      box.hidden = false;
+      setTimeout(function () { box.focus(); }, 30);
+    }
+
+    el.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (busy) return;
+      sent.hidden = true;
+      failed.hidden = true;
+      if (show(validate(values()))) return;
+
+      // the server checks everything again; the success message shows only once the enquiry is saved
+      busy = true;
+      button.disabled = true;
+      el.setAttribute('aria-busy', 'true');
+      fetch(el.action, { method: 'POST', body: new FormData(el), credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, data: d }; }); })
+        .then(function (res) {
+          if (res.status === 200 && res.data.ok) {
+            el.reset();
+            el.elements.selfCheckScore.value = '';
+            done(sent);
+          } else if (res.status === 422 && res.data.errors) {
+            show(res.data.errors);
+          } else {
+            done(failed);
+          }
+        })
+        .catch(function () { done(failed); })
+        .then(function () {
+          busy = false;
+          button.disabled = false;
+          el.removeAttribute('aria-busy');
+        });
     });
 
     $$('[data-prefill]').forEach(function (a) {
@@ -302,7 +340,7 @@
       var s = score();
       var select = form.el && form.el.elements.service;
       form.prefill(select && select.value ? select.value : 'not-sure',
-        data.prefill.replace('{score}', s).replace('{max}', data.max).replace('{band}', band(s).title));
+        data.prefill.replace('{score}', s).replace('{max}', data.max).replace('{band}', band(s).title), s);
     });
     render();
   }

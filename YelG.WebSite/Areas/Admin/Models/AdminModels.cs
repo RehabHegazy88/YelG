@@ -33,6 +33,10 @@ namespace YelG.WebSite.Areas.Admin.Models
         public required IReadOnlyList<DashboardTile> Tiles { get; init; }
         public IReadOnlyList<AuditLog> Recent { get; init; } = [];
         public int MediaCount { get; init; }
+        public int NewEnquiries { get; init; }
+
+        /// <summary>Things to fix before the site goes live (mail settings, missing wording, failed emails).</summary>
+        public IReadOnlyList<(string Text, string? Url)> Warnings { get; init; } = [];
         public required EditorRegistry Registry { get; init; }
     }
 

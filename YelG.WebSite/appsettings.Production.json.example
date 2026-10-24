@@ -1,0 +1,62 @@
+// Copy to appsettings.Production.json on the server (never commit the copy) or set the same keys as
+// environment variables: "Smtp:Password" becomes Smtp__Password, "ConnectionStrings:WebSiteDb" becomes
+// ConnectionStrings__WebSiteDb. Values in <angle brackets> are placeholders; secrets belong in the environment.
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore.Database.Command": "Warning"
+    }
+  },
+
+  // the public host names only
+  "AllowedHosts": "www.yelgadvisory.com;yelgadvisory.com",
+
+  "ConnectionStrings": {
+    // SQL Server; put the password in the environment (ConnectionStrings__WebSiteDb), not here
+    "WebSiteDb": "Server=<sql-host>,1433;Database=YelgWebSite;User ID=<website-user>;Password=<from-environment>;Encrypt=True;TrustServerCertificate=False"
+  },
+
+  // Production does not migrate or seed on start. Apply the reviewed script, then run once with --seed.
+  "Database": { "MigrateAndSeedOnStartup": false },
+
+  // The address used in canonical links, the sitemap and the admin link in notification emails.
+  "Site": { "BaseUrl": "https://www.yelgadvisory.com" },
+
+  // First Admin for --seed (set in the environment, then remove): Seed__AdminEmail, Seed__AdminPassword.
+  "Seed": { "AdminDisplayName": "YelG Admin" },
+
+  // The company's mailcow server: submission port 587 with STARTTLS. Smtp__Password in the environment.
+  "Smtp": {
+    "Host": "<mail.yelgadvisory.com>",
+    "Port": 587,
+    "Security": "StartTls",
+    "UserName": "<website@yelgadvisory.com>",
+    "FromAddress": "<website@yelgadvisory.com>",
+    "FromName": "YelG Advisory Website",
+    "TimeoutSeconds": 30
+  },
+
+  "Enquiries": {
+    // a long random secret (e.g. 48 random characters), set as Enquiries__IpHashSalt; required, the site will not start without it
+    "IpHashSalt": "<from-environment>",
+    "MaxNotificationAttempts": 5
+  },
+
+  "RateLimits": {
+    "EnquiriesPer10Minutes": 5,
+    "SignInsPer5Minutes": 10
+  },
+
+  // the reverse proxy (nginx) in front of the site; loopback is always trusted
+  "ReverseProxy": { "KnownProxies": [] },
+
+  // uploads live outside the deployed files so a deployment never removes them; back this folder up
+  "Media": {
+    "StoragePath": "/var/lib/yelg-website/media",
+    "RequestPath": "/media",
+    "MaxImageBytes": 10485760,
+    "MaxVideoBytes": 209715200
+  }
+}

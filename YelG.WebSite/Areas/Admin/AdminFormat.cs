@@ -63,6 +63,7 @@ namespace YelG.WebSite.Areas.Admin
             "Hidden" => "إخفاء",
             "Reordered" => "ترتيب",
             "Seeded" => "تحميل أولي",
+            "Exported" => "تصدير",
             _ => action
         };
 

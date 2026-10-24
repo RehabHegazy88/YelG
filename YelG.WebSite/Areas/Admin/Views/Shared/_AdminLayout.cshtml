@@ -1,5 +1,6 @@
 @using YelG.WebSite.Infrastructure.Identity
 @inject EditorRegistry Registry
+@inject YelG.WebSite.Application.Admin.IContentStore Store
 @{
     var title = ViewData["Title"] as string;
     var bare = ViewData["Bare"] as bool? == true;
@@ -11,6 +12,9 @@
     string Current(string href, bool exact = false) =>
         (exact ? path.Equals(href, StringComparison.OrdinalIgnoreCase) : path.StartsWith(href, StringComparison.OrdinalIgnoreCase)) ? "page" : "false";
     var flash = TempData[AdminController.FlashKey] as string;
+    var newEnquiries = User.Identity?.IsAuthenticated == true && !holdAtPassword
+        ? await Store.CountAsync<YelG.WebSite.Domain.Enquiries.Enquiry>(e => e.Status == YelG.WebSite.Domain.Enquiries.EnquiryStatus.New)
+        : 0;
     var flashError = TempData[AdminController.FlashErrorKey] as string;
 }
 <!doctype html>
@@ -66,6 +70,7 @@ else
         {
         <ul>
             <li><a href="/admin" aria-current="@Current("/admin", exact: true)">الرئيسية</a></li>
+            <li><a href="/admin/enquiries" aria-current="@Current("/admin/enquiries")"><span>طلبات الاستشارة</span>@if (newEnquiries > 0) {<span class="badge">@newEnquiries<span class="sr"> جديد</span></span>}</a></li>
             <li><a href="/admin/media" aria-current="@Current("/admin/media")">مكتبة الوسائط</a></li>
         </ul>
         <p class="nav-group">أقسام الصفحة</p>

@@ -6,6 +6,11 @@
     var n = 0;
     // the client-side checks show the same messages the server will use
     var messages = Model.Ui.Validation(Model.Lang);
+    // the outcome of a form sent without the page script (the browser came back here after posting)
+    var outcome = ViewContext.TempData[YelG.WebSite.Controllers.EnquiryController.OutcomeKey] as string;
+    var successTitle = EnquiryTexts.SuccessTitle(con, Model.Lang);
+    var successText = EnquiryTexts.SuccessText(con, Model.Lang);
+    var failure = EnquiryTexts.Failure(con, Model.Lang);
 }
 <section id="consult" class="sec consult" aria-labelledby="consultTitle">
 <div class="wrap consult-wrap">
@@ -35,7 +40,11 @@
 }
 </div>
 </div>
-<form id="consultForm" novalidate aria-labelledby="formTitle" class="cform" data-messages="@System.Text.Json.JsonSerializer.Serialize(messages)" data-error-summary="@Model.S("formErrorSummary")">
+<form id="consultForm" method="post" action="/@Model.Lang/enquiry" novalidate aria-labelledby="formTitle" class="cform" data-messages="@System.Text.Json.JsonSerializer.Serialize(messages)" data-error-summary="@Model.S("formErrorSummary")">
+@Html.AntiForgeryToken()
+<input type="hidden" name="selfCheckScore" value="" data-score>
+@* left empty by people (hidden from view and from screen readers); bots fill it in *@
+<div class="hp" aria-hidden="true"><label for="fWebsite">Website</label><input id="fWebsite" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 <div class="cform-head">
 <h3 id="formTitle" class="h3">@Model.R(con.FormTitle)</h3>
 <p class="cform-note">@Model.R(con.RequiredNote, markStar: true)</p>
@@ -59,6 +68,8 @@
 <div class="fld fld-full"><label for="fMsg">@Model.S("formMessage") <i>*</i></label><textarea id="fMsg" name="message" class="in" rows="5" aria-invalid="false" aria-describedby="eMsg hMsg" aria-required="true"></textarea><span id="hMsg" class="hint">@Model.S("formMessageHint")</span><p id="eMsg" class="err" hidden></p></div>
 <div class="fld fld-full"><label class="consent" for="fConsent"><input id="fConsent" name="consent" type="checkbox" value="true" aria-invalid="false" aria-describedby="eConsent"><span>@Model.R(con.ConsentText)</span></label><p id="eConsent" class="err" hidden></p></div>
 </div>
+<div class="alert alert-ok" role="status" tabindex="-1" data-sent hidden="@(outcome != "sent")"><strong>@successTitle</strong><span>@successText</span></div>
+<div class="alert alert-err" role="alert" tabindex="-1" data-failed hidden="@(outcome is not ("failed" or "invalid"))"><strong>@failure</strong></div>
 <button type="submit" class="btn btn-blue cform-submit">@Model.T(con.SubmitLabel)<span class="ar">@Model.ArrowIcon</span></button>
 </form>
 </div>

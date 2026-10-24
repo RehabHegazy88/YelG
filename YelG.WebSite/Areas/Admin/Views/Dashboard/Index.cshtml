@@ -12,7 +12,18 @@
     </div>
 </div>
 
+@foreach (var (text, url) in Model.Warnings)
+{
+<div class="alert warn" role="note">@text @if (url is not null) { <a href="@url">فتح</a> }</div>
+}
+
 <ul class="tiles">
+    <li>
+        <a class="tile tile-accent" href="/admin/enquiries?status=New">
+            <span class="tile-title">طلبات الاستشارة</span>
+            <span class="tile-meta"><span class="state @(Model.NewEnquiries > 0 ? "new" : "off")">@Model.NewEnquiries جديد</span></span>
+        </a>
+    </li>
     @foreach (var tile in Model.Tiles)
     {
     <li>

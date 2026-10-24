@@ -11,6 +11,10 @@
 :root{--ff:'Sora';--ff-alt:'Alexandria'}
 .rtl{--ff:'Alexandria';--ff-alt:'Sora'}
 [hidden]{display:none!important}
+/* consultation form: the honeypot field, kept off screen */
+.hp{position:absolute;inset-inline-start:-10000px;width:1px;height:1px;overflow:hidden}
+.cform{position:relative}
+.cform[aria-busy="true"] .cform-submit{opacity:.6;cursor:progress}
 /* admin preview only */
 .preview-bar{position:fixed;inset-inline:0;bottom:0;z-index:1000;padding:8px 16px;background:#0A1F4E;color:#FFFFFF;font:500 14px 'Alexandria',system-ui,sans-serif;text-align:center}
 .preview-bar a{color:#44D2EA;font-weight:700;margin-inline-start:8px}

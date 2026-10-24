@@ -3,9 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using YelG.WebSite.Application.Admin;
 using YelG.WebSite.Application.Content;
+using YelG.WebSite.Application.Enquiries;
 using YelG.WebSite.Application.Media;
 using YelG.WebSite.Infrastructure.Content;
 using YelG.WebSite.Infrastructure.Data;
+using YelG.WebSite.Infrastructure.Email;
 using YelG.WebSite.Infrastructure.Media;
 using YelG.WebSite.Infrastructure.Seeding;
 
@@ -28,6 +30,12 @@ namespace YelG.WebSite.Infrastructure
             services.AddScoped<IAuditLogQuery, AuditLogQuery>();
             services.TryAddSingleton<IMediaFileStore, LocalMediaFileStore>();
             services.TryAddSingleton<IImageProcessor, SkiaImageProcessor>();
+
+            // enquiry notification emails: a queue read by a background service, so the form never waits for SMTP
+            services.AddScoped<IEnquiryMailer, EnquiryMailer>();
+            services.AddSingleton<EnquiryNotificationService>();
+            services.AddSingleton<IEnquiryNotificationQueue>(sp => sp.GetRequiredService<EnquiryNotificationService>());
+            services.AddHostedService(sp => sp.GetRequiredService<EnquiryNotificationService>());
 
             services.AddDbContext<WebSiteDbContext>((sp, options) =>
                 options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(typeof(WebSiteDbContext).Assembly.FullName))

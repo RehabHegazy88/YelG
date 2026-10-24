@@ -2,6 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using YelG.WebSite.Infrastructure;
 using YelG.WebSite.Infrastructure.Identity;
 
 namespace YelG.WebSite.Areas.Admin.Controllers
@@ -30,6 +32,7 @@ namespace YelG.WebSite.Areas.Admin.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
+        [EnableRateLimiting(RateLimits.SignIn)]
         public async Task<IActionResult> Login(LoginInput input)
         {
             if (!ModelState.IsValid) return View(input);

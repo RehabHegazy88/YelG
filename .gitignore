@@ -492,3 +492,6 @@ $RECYCLE.BIN/
 
 # Website media uploads (kept on the server, outside the deployed files)
 YelG.WebSite/App_Data/
+
+# Server-only settings (secrets)
+YelG.WebSite/appsettings.Production.json

@@ -1,0 +1,126 @@
+@using YelG.WebSite.Domain.Enquiries
+@model EnquiryDetailsModel
+@{
+    var e = Model.Enquiry;
+    ViewData["Title"] = e.Name;
+    var isAdmin = User.IsInRole(AdminRoles.Admin);
+}
+<nav class="crumbs" aria-label="المسار">
+    <ol>
+        <li><a href="/admin/enquiries">طلبات الاستشارة</a></li>
+        <li><span aria-current="page" dir="auto">@e.Name</span></li>
+    </ol>
+</nav>
+<div class="page-head">
+    <div>
+        <h1 dir="auto">@e.Name</h1>
+        <p class="lead"><span dir="auto">@e.Company</span> · <span dir="ltr">@AdminFormat.Time(e.AddedDate)</span></p>
+    </div>
+    <div class="head-actions">
+        <a class="btn small" href="mailto:@e.Email">الرد بالبريد</a>
+    </div>
+</div>
+
+<div class="split">
+    <div>
+        <section class="panel">
+            <header class="panel-head"><h2>الطلب</h2><span class="state @EnquiryFormat.StatusClass(e.Status)">@EnquiryFormat.Status(e.Status)</span></header>
+            <dl class="facts">
+                <dt>البريد</dt><dd dir="ltr"><a href="mailto:@e.Email">@e.Email</a></dd>
+                <dt>الهاتف</dt><dd dir="ltr">@if (e.Phone is not null) { <a href="tel:@e.Phone">@e.Phone</a> } else { <span>—</span> }</dd>
+                <dt>الشركة</dt><dd dir="auto">@e.Company</dd>
+                <dt>الخدمة</dt><dd>@e.ServiceLabel</dd>
+                <dt>لغة الصفحة</dt><dd>@(e.Culture == "en" ? "الإنجليزية" : "العربية")</dd>
+                @if (e.SelfCheckScore is { } score)
+                {
+                <dt>نتيجة الفحص المالي</dt><dd dir="ltr">@score</dd>
+                }
+            </dl>
+            <h3 class="sub">الرسالة</h3>
+            <div class="message" dir="auto">@e.Message</div>
+        </section>
+
+        <section class="panel" id="notes" aria-labelledby="notesTitle">
+            <header class="panel-head"><h2 id="notesTitle">ملاحظات داخلية <span class="count">(@e.Notes.Count)</span></h2></header>
+            @if (e.Notes.Count == 0)
+            {
+            <p class="empty">لا توجد ملاحظات. لا يراها العميل.</p>
+            }
+            <ul class="notes">
+                @foreach (var note in e.Notes)
+                {
+                <li>
+                    <p class="note-meta">@(note.AddedBy_PersonID is { } author && Model.Authors.TryGetValue(author, out var name) ? name : "—") · <span dir="ltr">@AdminFormat.Time(note.AddedDate)</span></p>
+                    <div class="message" dir="auto">@note.Text</div>
+                    @if (isAdmin || note.AddedBy_PersonID == Model.CurrentUserId)
+                    {
+                    <form method="post" action="/admin/enquiries/@e.Id/notes/@note.Id/delete" asp-antiforgery="true" data-confirm="هل تريد حذف هذه الملاحظة؟">
+                        <button type="submit" class="link small danger">حذف</button>
+                    </form>
+                    }
+                </li>
+                }
+            </ul>
+            <form method="post" action="/admin/enquiries/@e.Id/notes" asp-antiforgery="true" class="editor">
+                <div class="field">
+                    <label class="field-label" for="noteText">ملاحظة جديدة</label>
+                    <textarea id="noteText" name="text" rows="3" maxlength="4000" required></textarea>
+                </div>
+                <button type="submit" class="btn small">إضافة ملاحظة</button>
+            </form>
+        </section>
+    </div>
+
+    <div>
+        <section class="panel">
+            <header class="panel-head"><h2>الحالة</h2></header>
+            <form method="post" action="/admin/enquiries/@e.Id/status" asp-antiforgery="true" class="status-form">
+                <label class="sr" for="statusSelect">الحالة</label>
+                <select id="statusSelect" name="status">
+                    @foreach (var status in Enum.GetValues<EnquiryStatus>())
+                    {
+                    <option value="@status" selected="@(status == e.Status)">@EnquiryFormat.Status(status)</option>
+                    }
+                </select>
+                <button type="submit" class="btn small">حفظ</button>
+            </form>
+        </section>
+
+        <section class="panel">
+            <header class="panel-head"><h2>إشعار البريد</h2></header>
+            @if (e.NotificationSentAt is not null)
+            {
+            <p>أُرسل في <span dir="ltr">@AdminFormat.Time(e.NotificationSentAt)</span>.</p>
+            }
+            else if (e.NotificationAttempts > 0)
+            {
+            <p class="field-error">تعذّر الإرسال (@e.NotificationAttempts محاولات).</p>
+            <p class="hint" dir="ltr">@e.NotificationError</p>
+            }
+            else
+            {
+            <p>قيد الإرسال.</p>
+            }
+            <form method="post" action="/admin/enquiries/@e.Id/resend" asp-antiforgery="true">
+                <button type="submit" class="btn small ghost">إعادة إرسال الإشعار</button>
+            </form>
+        </section>
+
+        <section class="panel">
+            <header class="panel-head"><h2>الموافقة</h2></header>
+            <p>وافق صاحب الطلب في <span dir="ltr">@AdminFormat.Time(e.ConsentAt)</span> على النص:</p>
+            <blockquote class="message" dir="auto">@e.ConsentText</blockquote>
+        </section>
+
+        @if (isAdmin)
+        {
+        <section class="panel">
+            <header class="panel-head"><h2>حذف الطلب</h2></header>
+            <p class="hint">يُحذف الطلب وملاحظاته نهائيًا، ولا يمكن استرجاعه.</p>
+            <form method="post" action="/admin/enquiries/@e.Id/delete" asp-antiforgery="true" data-confirm="سيُحذف الطلب وملاحظاته نهائيًا. هل تريد المتابعة؟">
+                <button type="submit" class="btn small danger">حذف نهائي</button>
+            </form>
+        </section>
+        }
+    </div>
+</div>

@@ -1,5 +1,8 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using System.Net;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -10,16 +13,19 @@ using Microsoft.Extensions.WebEncoders;
 using YelG.WebSite.Application;
 using YelG.WebSite.Application.Abstractions;
 using YelG.WebSite.Application.Common;
+using YelG.WebSite.Application.Enquiries;
 using YelG.WebSite.Application.Media;
 using YelG.WebSite.Areas.Admin.Controllers;
 using YelG.WebSite.Areas.Admin.Editing;
 using YelG.WebSite.Infrastructure;
 using YelG.WebSite.Infrastructure.Data;
+using YelG.WebSite.Infrastructure.Email;
 using YelG.WebSite.Infrastructure.Identity;
 using YelG.WebSite.Infrastructure.Seeding;
 using YelG.WebSite.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.ConfigureKestrel(o => o.AddServerHeader = false);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
@@ -73,6 +79,31 @@ builder.Services.PostConfigure<MediaOptions>(o => o.StoragePath = Path.GetFullPa
 
 builder.Services.AddSingleton(AdminScreens.Build());
 
+// Cookie and form-token keys in the database, so sign-ins and open forms survive restarts and deployments.
+builder.Services.AddDataProtection().PersistKeysToDbContext<WebSiteDbContext>().SetApplicationName("YelG.WebSite");
+
+// Enquiries: rate limits, the IP hash secret (required outside Development) and the mail server.
+builder.Services.AddSiteRateLimits(builder.Configuration);
+builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection(SmtpOptions.SectionName));
+builder.Services.AddOptions<EnquiryOptions>()
+    .Bind(builder.Configuration.GetSection(EnquiryOptions.SectionName))
+    .PostConfigure(o =>
+    {
+        if (string.IsNullOrEmpty(o.IpHashSalt) && builder.Environment.IsDevelopment()) o.IpHashSalt = "development-only";
+    })
+    .Validate(o => !string.IsNullOrWhiteSpace(o.IpHashSalt), "Enquiries:IpHashSalt must be set (a long random secret).")
+    .ValidateOnStart();
+
+// Behind the reverse proxy: the client's address and scheme come from X-Forwarded-For / -Proto, accepted
+// only from the proxy itself (loopback) and the addresses in ReverseProxy:KnownProxies.
+builder.Services.Configure<ForwardedHeadersOptions>(o =>
+{
+    o.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    o.ForwardLimit = 1;
+    foreach (var proxy in builder.Configuration.GetSection("ReverseProxy:KnownProxies").Get<string[]>() ?? [])
+        o.KnownProxies.Add(IPAddress.Parse(proxy));
+});
+
 var app = builder.Build();
 
 // the editors take their maximum lengths from the database model
@@ -104,6 +135,9 @@ if (!EF.IsDesignTime && args.Contains(AdminCommand.Flag))
     return;
 }
 
+app.UseForwardedHeaders();
+app.UseSecurityHeaders(app.Environment);
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/error");
@@ -133,6 +167,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 
 var media = app.Services.GetRequiredService<IOptions<MediaOptions>>().Value;
 Directory.CreateDirectory(media.StoragePath);
