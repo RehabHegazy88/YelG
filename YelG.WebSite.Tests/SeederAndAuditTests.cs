@@ -166,6 +166,11 @@ namespace YelG.WebSite.Tests
                 Assert.Contains("Title.En", logs[0].Changes);
                 Assert.Contains(oldTitle, logs[0].Changes);
                 Assert.Contains("Discovery", logs[0].Changes);
+
+                // leave the content as seeded for the other tests in the collection
+                step.Title.En = oldTitle;
+                step.IsPublished = true;
+                await db.SaveChangesAsync();
             }
         }
     }

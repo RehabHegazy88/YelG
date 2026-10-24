@@ -192,3 +192,6 @@ app.MapStaticAssets();
 app.MapControllers().WithStaticAssets();
 
 app.Run();
+
+// The test project starts the site in memory (WebApplicationFactory<Program>).
+public partial class Program;
