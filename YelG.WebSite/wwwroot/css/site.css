@@ -11,6 +11,9 @@
 :root{--ff:'Sora';--ff-alt:'Alexandria'}
 .rtl{--ff:'Alexandria';--ff-alt:'Sora'}
 [hidden]{display:none!important}
+/* admin preview only */
+.preview-bar{position:fixed;inset-inline:0;bottom:0;z-index:1000;padding:8px 16px;background:#0A1F4E;color:#FFFFFF;font:500 14px 'Alexandria',system-ui,sans-serif;text-align:center}
+.preview-bar a{color:#44D2EA;font-weight:700;margin-inline-start:8px}
 .page{font-family:var(--ff),system-ui,sans-serif;color:#4A5784;background:#FFFFFF;width:100%;overflow-x:hidden;position:relative}
 .svg-defs{position:absolute;width:0;height:0;overflow:hidden}
 

@@ -27,7 +27,7 @@ else
 }
 </nav>
 <div class="hd-actions">
-<a href="/@otherLang" class="hd-lang" lang="@otherLang" hreflang="@otherLang" dir="@(otherLang == SiteLanguage.Arabic ? "rtl" : "ltr")" aria-label="@Model.S("langSwitchLabel")" data-lang-switch>@Model.S("langSwitchText")</a>
+<a href="@Model.LangSwitchUrl" class="hd-lang" lang="@otherLang" hreflang="@otherLang" dir="@(otherLang == SiteLanguage.Arabic ? "rtl" : "ltr")" aria-label="@Model.S("langSwitchLabel")" data-lang-switch>@Model.S("langSwitchText")</a>
 @if (c.HasAnchor("#consult"))
 {
 <a href="#consult" class="btn btn-cyan hide-sm hd-cta">@ctaLabel<span class="ar">@Model.ArrowIcon</span></a>

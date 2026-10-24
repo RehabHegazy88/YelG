@@ -1,0 +1,90 @@
+@model UserInput
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "إضافة مستخدم" : Model.DisplayName;
+}
+<nav class="crumbs" aria-label="المسار">
+    <ol>
+        <li><a href="/admin/users">المستخدمون</a></li>
+        <li><span aria-current="page">@(isNew ? "إضافة مستخدم" : Model.DisplayName)</span></li>
+    </ol>
+</nav>
+<div class="page-head"><div><h1>@(isNew ? "إضافة مستخدم" : Model.DisplayName)</h1></div></div>
+
+<section class="panel narrow">
+    <form method="post" action="@(isNew ? "/admin/users/new" : $"/admin/users/{Model.Id}")" asp-antiforgery="true" class="editor" data-unsaved novalidate>
+        <div asp-validation-summary="ModelOnly" class="alert error" role="alert"></div>
+        <div class="field">
+            <label class="field-label" asp-for="DisplayName"></label>
+            <input asp-for="DisplayName">
+            <span asp-validation-for="DisplayName" class="field-error"></span>
+        </div>
+        <div class="field">
+            <label class="field-label" asp-for="Email"></label>
+            <input asp-for="Email" dir="ltr" class="ltr" autocomplete="off" spellcheck="false">
+            <p class="hint">يُستخدم لتسجيل الدخول.</p>
+            <span asp-validation-for="Email" class="field-error"></span>
+        </div>
+        <div class="field">
+            <label class="field-label" asp-for="Role"></label>
+            <select asp-for="Role" disabled="@Model.IsSelf">
+                <option value="Editor">محرر</option>
+                <option value="Admin">مدير</option>
+            </select>
+            @if (Model.IsSelf)
+            {
+            <input type="hidden" name="Role" value="@Model.Role">
+            <p class="hint">لا يمكنك تغيير دورك أنت.</p>
+            }
+        </div>
+        <div class="field check">
+            <input asp-for="IsActive" disabled="@Model.IsSelf">
+            <label asp-for="IsActive"></label>
+            @if (Model.IsSelf)
+            {
+            <input type="hidden" name="IsActive" value="true">
+            }
+        </div>
+        @if (isNew)
+        {
+        <div class="field">
+            <label class="field-label" asp-for="Password"></label>
+            <div class="with-button">
+                <input asp-for="Password" type="text" dir="ltr" class="ltr" autocomplete="new-password" spellcheck="false" data-password>
+                <button type="button" class="btn small ghost" data-generate-password>توليد</button>
+            </div>
+            <p class="hint">سلّمها لصاحب الحساب بطريقة آمنة؛ سيُطلب اختيار كلمة مرور جديدة عند أول دخول.</p>
+            <span asp-validation-for="Password" class="field-error"></span>
+        </div>
+        }
+        <div class="form-actions">
+            <button type="submit" class="btn primary">@(isNew ? "إضافة" : "حفظ")</button>
+            <a class="btn ghost" href="/admin/users">رجوع</a>
+        </div>
+    </form>
+</section>
+
+@if (!isNew)
+{
+<section class="panel narrow">
+    <header class="panel-head"><h2>كلمة المرور</h2></header>
+    <form method="post" action="/admin/users/@Model.Id/password" asp-antiforgery="true" class="editor" data-confirm="ستُستبدل كلمة مرور الحساب بكلمة مؤقتة. متابعة؟">
+        <div class="field">
+            <label class="field-label" for="resetPassword">كلمة مرور مؤقتة جديدة</label>
+            <div class="with-button">
+                <input type="text" id="resetPassword" name="Password" dir="ltr" class="ltr" autocomplete="new-password" spellcheck="false" minlength="10" data-password>
+                <button type="button" class="btn small ghost" data-generate-password>توليد</button>
+            </div>
+            <p class="hint">سيُطلب تغييرها عند الدخول التالي.</p>
+        </div>
+        <div class="form-actions"><button type="submit" class="btn small">تعيين كلمة مرور مؤقتة</button></div>
+    </form>
+    @if (Model.IsLockedOut)
+    {
+    <form method="post" action="/admin/users/@Model.Id/unlock" asp-antiforgery="true">
+        <p>الدخول موقوف مؤقتًا بعد محاولات خاطئة.</p>
+        <button type="submit" class="btn small ghost">إلغاء الإيقاف</button>
+    </form>
+    }
+</section>
+}

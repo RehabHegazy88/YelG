@@ -1,0 +1,124 @@
+@using YelG.WebSite.Infrastructure.Identity
+@inject EditorRegistry Registry
+@{
+    var title = ViewData["Title"] as string;
+    var bare = ViewData["Bare"] as bool? == true;
+    var path = Context.Request.Path.Value ?? "";
+    var isAdmin = User.IsInRole(AdminRoles.Admin);
+    var name = User.FindFirst(AdminClaims.DisplayName)?.Value ?? User.Identity?.Name;
+    var holdAtPassword = User.HasClaim(c => c.Type == AdminClaims.MustChangePassword);
+    var preview = ViewData["PreviewAnchor"] as string ?? "";
+    string Current(string href, bool exact = false) =>
+        (exact ? path.Equals(href, StringComparison.OrdinalIgnoreCase) : path.StartsWith(href, StringComparison.OrdinalIgnoreCase)) ? "page" : "false";
+    var flash = TempData[AdminController.FlashKey] as string;
+    var flashError = TempData[AdminController.FlashErrorKey] as string;
+}
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>@(string.IsNullOrEmpty(title) ? "" : title + " · ")لوحة تحكم YelG</title>
+<link rel="icon" href="~/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="~/admin/admin.css" asp-append-version="true">
+</head>
+<body class="@(bare ? "bare" : "")">
+@if (bare)
+{
+<main id="main" class="bare-main">
+    @RenderBody()
+</main>
+}
+else
+{
+<a href="#main" class="skip">تخطَّ إلى المحتوى</a>
+<header class="topbar">
+    <button type="button" hidden="@holdAtPassword" class="icon-btn nav-toggle" aria-controls="adminNav" aria-expanded="false" data-nav-toggle>
+        <span class="sr">القائمة</span><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <a class="brand" href="/admin">
+        <svg aria-hidden="true" width="30" height="30" viewBox="0 0 64 64"><defs><linearGradient id="admLg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DE8165"/><stop offset=".45" stop-color="#6F7CBA"/><stop offset=".75" stop-color="#1B52CC"/><stop offset="1" stop-color="#44D2EA"/></linearGradient></defs><path d="M14 10h26a16 16 0 0 1 16 16v14L42 56H14a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6z" fill="url(#admLg)"/></svg>
+        <span><b lang="en">YelG</b> لوحة التحكم</span>
+    </a>
+    @if (!holdAtPassword)
+    {
+    <div class="top-preview" role="group" aria-label="معاينة الموقع">
+        <span class="top-label">معاينة:</span>
+        <a class="chip" href="/admin/preview/ar@(preview)" target="_blank" rel="noopener">العربية</a>
+        <a class="chip" href="/admin/preview/en@(preview)" target="_blank" rel="noopener" lang="en">English</a>
+    </div>
+    }
+    <div class="top-user">
+        <span class="user-name">@name</span>
+        <a class="link" href="/admin/account/password">كلمة المرور</a>
+        <form method="post" action="/admin/logout" asp-antiforgery="true">
+            <button type="submit" class="link">خروج</button>
+        </form>
+    </div>
+</header>
+<div class="shell">
+    <nav class="sidebar" id="adminNav" aria-label="لوحة التحكم">
+        @if (!holdAtPassword)
+        {
+        <ul>
+            <li><a href="/admin" aria-current="@Current("/admin", exact: true)">الرئيسية</a></li>
+            <li><a href="/admin/media" aria-current="@Current("/admin/media")">مكتبة الوسائط</a></li>
+        </ul>
+        <p class="nav-group">أقسام الصفحة</p>
+        <ul>
+            @foreach (var screen in Registry.Screens.Where(s => !s.AdminOnly))
+            {
+            <li><a href="/admin/sections/@screen.Slug" aria-current="@Current("/admin/sections/" + screen.Slug)">@screen.Title</a></li>
+            }
+        </ul>
+        @if (isAdmin)
+        {
+        <p class="nav-group">الإدارة</p>
+        <ul>
+            @foreach (var screen in Registry.Screens.Where(s => s.AdminOnly))
+            {
+            <li><a href="/admin/sections/@screen.Slug" aria-current="@Current("/admin/sections/" + screen.Slug)">@screen.Title</a></li>
+            }
+            <li><a href="/admin/users" aria-current="@Current("/admin/users")">المستخدمون</a></li>
+            <li><a href="/admin/audit" aria-current="@Current("/admin/audit")">سجل التغييرات</a></li>
+        </ul>
+        }
+        }
+    </nav>
+    <main id="main" class="content" tabindex="-1">
+        @if (!string.IsNullOrEmpty(flash))
+        {
+        <div class="alert ok" role="status">@flash</div>
+        }
+        @if (!string.IsNullOrEmpty(flashError))
+        {
+        <div class="alert error" role="alert">@flashError</div>
+        }
+        @RenderBody()
+    </main>
+</div>
+<dialog class="picker" id="mediaPicker" aria-labelledby="pickerTitle">
+    <form method="dialog" class="picker-head">
+        <h2 id="pickerTitle">اختيار من المكتبة</h2>
+        <button type="submit" class="icon-btn" value="cancel"><span class="sr">إغلاق</span><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </form>
+    <div class="picker-tools">
+        <label class="sr" for="pickerSearch">بحث</label>
+        <input type="search" id="pickerSearch" placeholder="ابحث بالاسم أو الوصف" data-picker-search>
+        <label class="btn small">
+            رفع ملف جديد
+            <input type="file" class="sr" data-picker-upload>
+        </label>
+    </div>
+    <p class="picker-status" role="status" data-picker-status></p>
+    <div class="picker-grid" data-picker-grid></div>
+    @Html.AntiForgeryToken()
+</dialog>
+}
+<script src="~/admin/admin.js" asp-append-version="true" defer></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+@model EditorFormModel
+@{
+    var errors = Model.Errors;
+    // fields in groups: a group starts at a field that names one
+    var groups = new List<(string? Heading, List<FieldDef> Fields)>();
+    foreach (var f in Model.Editor.Fields)
+    {
+        if (groups.Count == 0 || f.Group is not null) groups.Add((f.Group, new List<FieldDef>()));
+        groups[^1].Fields.Add(f);
+    }
+    string Id(string name) => "f_" + name.Replace('.', '_');
+}
+<form method="post" action="@Model.PostUrl" class="editor" asp-antiforgery="true" data-unsaved novalidate>
+    <input type="hidden" name="_stamp" value="@Model.Stamp">
+    @if (errors.Any)
+    {
+    <div class="alert error" role="alert" tabindex="-1" data-focus-on-load>
+        @if (errors[""] is { } general)
+        {
+        <p>@general</p>
+        }
+        else
+        {
+        <p>لم يُحفظ التعديل. صحّح الحقول المميزة (@errors.Count).</p>
+        }
+    </div>
+    }
+    @foreach (var group in groups)
+    {
+    <fieldset class="group">
+        @if (group.Heading is not null)
+        {
+        <legend>@group.Heading</legend>
+        }
+        @foreach (var f in group.Fields)
+        {
+            var hintId = Id(f.Name) + "_hint";
+            var hasHint = f.Hint is not null || f.Markup;
+            @if (f.IsLocalized)
+            {
+                var text = (LocalizedText)f.Property.GetValue(Model.Entity)!;
+                var arKey = f.Name + ".Ar";
+                var enKey = f.Name + ".En";
+                var arError = errors[arKey];
+                var enError = errors[enKey];
+                <div class="field @(arError is not null || enError is not null ? "has-error" : "")">
+                    <p class="field-label" id="@(Id(f.Name))_label">@f.Label@if (f.Required) {<span class="req" aria-hidden="true"> *</span>}</p>
+                    <div class="pair">
+                        @foreach (var (key, lang, dir, tag, value, error) in new[] { (arKey, "ar", "rtl", "العربية", text.Ar, arError), (enKey, "en", "ltr", "English", text.En, enError) })
+                        {
+                            var describedBy = string.Join(' ', new[] { hasHint ? hintId : null, error is not null ? Id(key) + "_err" : null }.Where(x => x is not null));
+                        <div class="lang-box">
+                            <label class="lang-tag" for="@Id(key)" lang="@lang">@tag</label>
+                            @if (f.Kind == FieldKind.TextArea)
+                            {
+                            <textarea id="@Id(key)" name="@key" dir="@dir" lang="@lang" rows="@f.Rows" aria-label="@f.Label - @tag"
+                                      aria-describedby="@(describedBy.Length > 0 ? describedBy : null)" aria-invalid="@(error is not null ? "true" : null)"
+                                      maxlength="@f.MaxLength" data-max="@f.MaxLength" required="@f.Required">@value</textarea>
+                            }
+                            else
+                            {
+                            <input type="text" id="@Id(key)" name="@key" value="@value" dir="@dir" lang="@lang" aria-label="@f.Label - @tag"
+                                   aria-describedby="@(describedBy.Length > 0 ? describedBy : null)" aria-invalid="@(error is not null ? "true" : null)"
+                                   maxlength="@f.MaxLength" data-max="@f.MaxLength" required="@f.Required">
+                            }
+                            @if (error is not null)
+                            {
+                            <p class="field-error" id="@Id(key)_err">@error</p>
+                            }
+                        </div>
+                        }
+                    </div>
+                    @if (hasHint)
+                    {
+                    <p class="hint" id="@hintId">
+                        @AdminFormat.Hint(f.Hint)
+                        @if (f.Markup)
+                        {
+                        <span class="markup-hint">التنسيق: <code dir="ltr">*نص*</code> لتمييز الكلمات@(f.Kind == FieldKind.TextArea ? "، وسطر جديد لكسر السطر" : "")، و<code dir="ltr">[نص](#consult)</code> لرابط.</span>
+                        }
+                    </p>
+                    }
+                </div>
+            }
+            else
+            {
+                var error = errors[f.Name];
+                var value = FieldBinder.Display(f, Model.Entity);
+                var describedBy = string.Join(' ', new[] { f.Hint is not null ? hintId : null, error is not null ? Id(f.Name) + "_err" : null }.Where(x => x is not null));
+                var aria = describedBy.Length > 0 ? describedBy : null;
+                var invalid = error is not null ? "true" : null;
+                <div class="field @(f.Kind == FieldKind.Bool ? "check" : "") @(error is not null ? "has-error" : "")">
+                    @switch (f.Kind)
+                    {
+                        case FieldKind.Bool:
+                            <input type="hidden" name="@f.Name" value="false">
+                            <input type="checkbox" id="@Id(f.Name)" name="@f.Name" value="true" checked="@((bool)f.Property.GetValue(Model.Entity)!)" aria-describedby="@aria">
+                            <label for="@Id(f.Name)">@f.Label</label>
+                            break;
+
+                        case FieldKind.Select:
+                            <label class="field-label" for="@Id(f.Name)">@f.Label</label>
+                            <select id="@Id(f.Name)" name="@f.Name" aria-describedby="@aria" aria-invalid="@invalid">
+                                @if (f.EmptyLabel is not null)
+                                {
+                                <option value="">@f.EmptyLabel</option>
+                                }
+                                @foreach (var o in Model.Options.GetValueOrDefault(f.Name) ?? [])
+                                {
+                                <option value="@o.Value" selected="@(o.Value == value)">@o.Label</option>
+                                }
+                            </select>
+                            break;
+
+                        case FieldKind.Media:
+                            var asset = f.Property.GetValue(Model.Entity) is long mediaId ? Model.Media.GetValueOrDefault(mediaId) : null;
+                            var video = f.MediaKind == MediaKind.Video;
+                            <p class="field-label" id="@(Id(f.Name))_label">@f.Label@if (f.Required) {<span class="req" aria-hidden="true"> *</span>}</p>
+                            <div class="media-field" data-media-field data-kind="@(video ? "Video" : "Image")">
+                                <input type="hidden" name="@f.Name" value="@value" data-media-value>
+                                <div class="media-preview" data-media-preview>
+                                    @if (asset is null)
+                                    {
+                                    <span class="media-empty">@(video ? "لم يُختر فيديو" : "لم تُختر صورة")</span>
+                                    }
+                                    else if (video)
+                                    {
+                                    <span class="media-video" dir="ltr">▶ @asset.OriginalFileName</span>
+                                    }
+                                    else
+                                    {
+                                    <img src="@(asset.ThumbnailPath ?? asset.Path)" alt="">
+                                    }
+                                </div>
+                                <div class="media-actions">
+                                    <button type="button" class="btn small" data-media-pick aria-describedby="@(Id(f.Name))_label">اختيار من المكتبة</button>
+                                    @if (!f.Required)
+                                    {
+                                    <button type="button" class="btn small ghost" data-media-clear hidden="@(asset is null)">إزالة</button>
+                                    }
+                                    @if (asset is not null)
+                                    {
+                                    <a class="link small" href="/admin/media/@asset.Id" target="_blank" rel="noopener" data-media-link>تفاصيل الملف</a>
+                                    }
+                                </div>
+                            </div>
+                            break;
+
+                        default:
+                            var type = f.Kind switch { FieldKind.Url => "url", FieldKind.Email => "email", FieldKind.Int => "number", FieldKind.Date => "date", _ => "text" };
+                            var ltr = f.Ltr || f.Kind is FieldKind.Url or FieldKind.Email or FieldKind.Href or FieldKind.Int or FieldKind.Date;
+                            <label class="field-label" for="@Id(f.Name)">@f.Label@if (f.Required) {<span class="req" aria-hidden="true"> *</span>}</label>
+                            <input type="@type" id="@Id(f.Name)" name="@f.Name" value="@value" dir="@(ltr ? "ltr" : "rtl")" class="@(ltr ? "ltr" : "")"
+                                   min="@f.Min" max="@f.Max" maxlength="@f.MaxLength" data-max="@f.MaxLength" required="@f.Required"
+                                   aria-describedby="@aria" aria-invalid="@invalid" spellcheck="@(ltr ? "false" : null)">
+                            break;
+                    }
+                    @if (error is not null)
+                    {
+                    <p class="field-error" id="@Id(f.Name)_err">@error</p>
+                    }
+                    @if (f.Hint is not null)
+                    {
+                    <p class="hint" id="@hintId">@AdminFormat.Hint(f.Hint)</p>
+                    }
+                </div>
+            }
+        }
+    </fieldset>
+    }
+    <div class="form-actions">
+        <button type="submit" class="btn primary">@(Model.IsNew ? "إضافة" : "حفظ")</button>
+        @if (Model.CancelUrl is not null)
+        {
+        <a class="btn ghost" href="@Model.CancelUrl">رجوع</a>
+        }
+        <span class="dirty-note" data-dirty-note hidden>توجد تعديلات غير محفوظة</span>
+    </div>
+</form>

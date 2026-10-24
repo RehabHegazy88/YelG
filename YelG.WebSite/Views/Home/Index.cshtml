@@ -6,20 +6,20 @@
 <svg class="svg-defs" aria-hidden="true" focusable="false"><defs><linearGradient id="lgBE" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DE8165"></stop><stop offset=".45" stop-color="#6F7CBA"></stop><stop offset=".75" stop-color="#1B52CC"></stop><stop offset="1" stop-color="#44D2EA"></stop></linearGradient><linearGradient id="lgBE2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#FFFFFF" stop-opacity=".1"></stop></linearGradient></defs></svg>
 <a href="#main" class="skip">@Model.S("skip")</a>
 
-<partial name="Sections/_Hero" model="Model" />
+<partial name="~/Views/Home/Sections/_Hero.cshtml" model="Model" />
 
 <main id="main">
-@if (c.About is not null || c.Founder is not null) { <partial name="Sections/_About" model="Model" /> }
-@if (c.Services is not null && c.ServiceList.Count > 0) { <partial name="Sections/_Services" model="Model" /> }
-@if (c.Why is not null) { <partial name="Sections/_Why" model="Model" /> }
-@if (c.How is not null) { <partial name="Sections/_How" model="Model" /> }
-@if (c.Purpose is not null) { <partial name="Sections/_Purpose" model="Model" /> }
-@if (c.Engage is not null) { <partial name="Sections/_Engage" model="Model" /> }
-@if (c.Industries is not null) { <partial name="Sections/_Industries" model="Model" /> }
-@if (c.HasSelfCheck) { <partial name="Sections/_SelfCheck" model="Model" /> }
-@if (c.Faq is not null && c.FaqItems.Count > 0) { <partial name="Sections/_Faq" model="Model" /> }
-@if (c.Consult is not null) { <partial name="Sections/_Consult" model="Model" /> }
-@if (c.Insights is not null || c.Careers is not null || c.Portal is not null) { <partial name="Sections/_More" model="Model" /> }
+@if (c.About is not null || c.Founder is not null) { <partial name="~/Views/Home/Sections/_About.cshtml" model="Model" /> }
+@if (c.Services is not null && c.ServiceList.Count > 0) { <partial name="~/Views/Home/Sections/_Services.cshtml" model="Model" /> }
+@if (c.Why is not null) { <partial name="~/Views/Home/Sections/_Why.cshtml" model="Model" /> }
+@if (c.How is not null) { <partial name="~/Views/Home/Sections/_How.cshtml" model="Model" /> }
+@if (c.Purpose is not null) { <partial name="~/Views/Home/Sections/_Purpose.cshtml" model="Model" /> }
+@if (c.Engage is not null) { <partial name="~/Views/Home/Sections/_Engage.cshtml" model="Model" /> }
+@if (c.Industries is not null) { <partial name="~/Views/Home/Sections/_Industries.cshtml" model="Model" /> }
+@if (c.HasSelfCheck) { <partial name="~/Views/Home/Sections/_SelfCheck.cshtml" model="Model" /> }
+@if (c.Faq is not null && c.FaqItems.Count > 0) { <partial name="~/Views/Home/Sections/_Faq.cshtml" model="Model" /> }
+@if (c.Consult is not null) { <partial name="~/Views/Home/Sections/_Consult.cshtml" model="Model" /> }
+@if (c.Insights is not null || c.Careers is not null || c.Portal is not null) { <partial name="~/Views/Home/Sections/_More.cshtml" model="Model" /> }
 </main>
 
-<partial name="Sections/_Footer" model="Model" />
+<partial name="~/Views/Home/Sections/_Footer.cshtml" model="Model" />

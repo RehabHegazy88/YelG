@@ -68,6 +68,9 @@ namespace YelG.WebSite.Models
 
         public string OtherLang => SiteLanguage.Other(Lang);
 
+        /// <summary>The language switch: the other language's page, or its preview while previewing.</summary>
+        public string LangSwitchUrl => IsPreview ? $"/admin/preview/{OtherLang}" : $"/{OtherLang}";
+
         /// <summary>"+20 10 0667 7363" → "tel:+201006677363".</summary>
         public static string TelHref(string phone) => "tel:" + new string(phone.Where(c => char.IsDigit(c) || c == '+').ToArray());
 

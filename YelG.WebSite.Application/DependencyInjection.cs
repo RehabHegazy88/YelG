@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using YelG.WebSite.Application.Content;
+using YelG.WebSite.Application.Media;
 
 namespace YelG.WebSite.Application
 {
@@ -12,6 +13,7 @@ namespace YelG.WebSite.Application
             services.AddMemoryCache();
             services.TryAddSingleton<IContentVersion, ContentVersion>();
             services.AddScoped<HomeContentService>();
+            services.AddScoped<MediaUploadService>();
             return services;
         }
     }

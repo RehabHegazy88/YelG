@@ -1,0 +1,39 @@
+@model ScreenPageModel
+@{
+    var s = Model.Screen;
+    ViewData["Title"] = s.Title;
+    ViewData["PreviewAnchor"] = s.Anchor;
+}
+<div class="page-head">
+    <div>
+        <h1>@s.Title</h1>
+        @if (s.Description is not null)
+        {
+        <p class="lead">@s.Description</p>
+        }
+    </div>
+    @if (s.Actions.Count > 0)
+    {
+    <div class="head-actions">
+        @foreach (var action in s.Actions)
+        {
+        <form method="post" action="/admin/sections/@s.Slug/run/@action.Slug" asp-antiforgery="true" data-confirm="@action.Confirm">
+            <button type="submit" class="btn small ghost">@action.Label</button>
+        </form>
+        }
+    </div>
+    }
+</div>
+
+@if (Model.Form is not null)
+{
+<section class="panel" aria-labelledby="mainFormTitle">
+    <header class="panel-head"><h2 id="mainFormTitle">@(Model.Lists.Count > 0 ? "نصوص القسم" : "المحتوى")</h2></header>
+    <partial name="_EditorForm" model="Model.Form" />
+</section>
+}
+
+@foreach (var list in Model.Lists)
+{
+<partial name="_List" model="list" />
+}

@@ -1,0 +1,65 @@
+@model DashboardModel
+@{
+    ViewData["Title"] = "الرئيسية";
+}
+<div class="page-head">
+    <div>
+        <h1>لوحة التحكم</h1>
+        <p class="lead">كل قسم من الصفحة الرئيسية بلغتيه. يظهر التعديل في الموقع فور الحفظ؛ استخدم المعاينة لرؤية الأقسام المخفية قبل إظهارها.</p>
+    </div>
+    <div class="head-actions">
+        <a class="btn small ghost" href="/admin/media">مكتبة الوسائط (@Model.MediaCount)</a>
+    </div>
+</div>
+
+<ul class="tiles">
+    @foreach (var tile in Model.Tiles)
+    {
+    <li>
+        <a class="tile" href="/admin/sections/@tile.Screen.Slug">
+            <span class="tile-title">@tile.Screen.Title</span>
+            <span class="tile-meta">
+                @if (tile.IsPublished is { } shown)
+                {
+                <span class="state @(shown ? "on" : "off")">@(shown ? "ظاهر" : "مخفي")</span>
+                }
+                @if (tile.Screen.Lists.Count > 0)
+                {
+                <span>@tile.Items عنصر</span>
+                }
+            </span>
+            <span class="tile-time">آخر تعديل: <span dir="ltr">@AdminFormat.Time(tile.LastModified)</span></span>
+        </a>
+    </li>
+    }
+</ul>
+
+@if (Model.Recent.Count > 0)
+{
+<section class="panel" aria-labelledby="recentTitle">
+    <header class="panel-head">
+        <h2 id="recentTitle">آخر التغييرات</h2>
+        <a class="link" href="/admin/audit">السجل كاملًا</a>
+    </header>
+    <div class="table-wrap">
+    <table class="rows">
+        <thead><tr><th scope="col">الوقت</th><th scope="col">المستخدم</th><th scope="col">الإجراء</th><th scope="col">العنصر</th></tr></thead>
+        <tbody>
+        @foreach (var entry in Model.Recent)
+        {
+            <tr>
+                <td dir="ltr" class="nowrap">@AdminFormat.Time(entry.OccurredAt)</td>
+                <td>@(entry.UserName ?? "النظام")</td>
+                <td>@AdminFormat.Action(entry.Action)</td>
+                <td><a href="/admin/audit/@entry.Id">@TypeName(entry.EntityType) <span class="muted">#@entry.EntityId</span></a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+</section>
+}
+@functions {
+    private string TypeName(string type) =>
+        Model.Registry.NameOf(type);
+}

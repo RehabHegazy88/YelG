@@ -1,0 +1,94 @@
+@model AuditListModel
+@{
+    ViewData["Title"] = "سجل التغييرات";
+    var f = Model.Filter;
+    string TypeName(string type) => Model.Registry.NameOf(type);
+    string PageLink(int page) => "/admin/audit?" + string.Join("&", new[]
+    {
+        f.EntityType is null ? null : "type=" + Uri.EscapeDataString(f.EntityType),
+        f.UserName is null ? null : "user=" + Uri.EscapeDataString(f.UserName),
+        f.EntityId is null ? null : "entity=" + Uri.EscapeDataString(f.EntityId),
+        f.From is null ? null : $"from={f.From:yyyy-MM-dd}",
+        f.To is null ? null : $"to={f.To:yyyy-MM-dd}",
+        $"page={page}"
+    }.Where(x => x is not null));
+}
+<div class="page-head">
+    <div>
+        <h1>سجل التغييرات</h1>
+        <p class="lead">كل إضافة وتعديل وحذف في لوحة التحكم: من قام به ومتى. الأوقات بتوقيت القاهرة.</p>
+    </div>
+</div>
+<section class="panel">
+    <form method="get" action="/admin/audit" class="filters">
+        <div class="field">
+            <label class="field-label" for="fType">العنصر</label>
+            <select id="fType" name="type">
+                <option value="">الكل</option>
+                @foreach (var type in Model.EntityTypes)
+                {
+                <option value="@type" selected="@(type == f.EntityType)">@TypeName(type)</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label class="field-label" for="fUser">المستخدم</label>
+            <select id="fUser" name="user">
+                <option value="">الكل</option>
+                @foreach (var user in Model.Users)
+                {
+                <option value="@user" selected="@(user == f.UserName)">@user</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label class="field-label" for="fFrom">من</label>
+            <input type="date" id="fFrom" name="from" value="@f.From?.ToString("yyyy-MM-dd")" dir="ltr">
+        </div>
+        <div class="field">
+            <label class="field-label" for="fTo">إلى</label>
+            <input type="date" id="fTo" name="to" value="@f.To?.ToString("yyyy-MM-dd")" dir="ltr">
+        </div>
+        @if (f.EntityId is not null)
+        {
+        <input type="hidden" name="entity" value="@f.EntityId">
+        }
+        <div class="filters-actions">
+            <button type="submit" class="btn small">تصفية</button>
+            <a class="link" href="/admin/audit">مسح</a>
+        </div>
+    </form>
+    <p class="panel-note">@Model.Page.Total تغيير</p>
+    @if (Model.Page.Items.Count == 0)
+    {
+    <p class="empty">لا توجد تغييرات.</p>
+    }
+    else
+    {
+    <div class="table-wrap">
+    <table class="rows">
+        <thead><tr><th scope="col">الوقت</th><th scope="col">المستخدم</th><th scope="col">الإجراء</th><th scope="col">العنصر</th><th scope="col"><span class="sr">التفاصيل</span></th></tr></thead>
+        <tbody>
+        @foreach (var entry in Model.Page.Items)
+        {
+            <tr>
+                <td dir="ltr" class="nowrap">@AdminFormat.Time(entry.OccurredAt)</td>
+                <td>@(entry.UserName ?? "النظام")</td>
+                <td>@AdminFormat.Action(entry.Action)</td>
+                <td>@TypeName(entry.EntityType) <a class="muted" href="/admin/audit?type=@entry.EntityType&amp;entity=@entry.EntityId">#@entry.EntityId</a></td>
+                <td class="col-actions"><a class="link" href="/admin/audit/@entry.Id">التفاصيل</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+    @if (Model.Page.PageCount > 1)
+    {
+    <nav class="pager" aria-label="الصفحات">
+        @if (Model.Page.Page > 1) { <a href="@PageLink(Model.Page.Page - 1)">السابق</a> }
+        <span>صفحة @Model.Page.Page من @Model.Page.PageCount</span>
+        @if (Model.Page.Page < Model.Page.PageCount) { <a href="@PageLink(Model.Page.Page + 1)">التالي</a> }
+    </nav>
+    }
+    }
+</section>

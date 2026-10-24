@@ -43,6 +43,10 @@
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
 </head>
 <body>
+@if (Model.IsPreview)
+{
+<div class="preview-bar" dir="rtl" lang="ar" role="note">معاينة: تظهر هنا الأقسام والعناصر المخفية أيضًا. <a href="/admin">لوحة التحكم</a></div>
+}
 <div class="page@(Model.IsArabic ? " rtl" : "")" dir="@Model.Dir" lang="@Model.Lang">
 @RenderBody()
 </div>

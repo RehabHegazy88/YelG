@@ -1,0 +1,87 @@
+@using YelG.WebSite.Application.Media
+@model MediaDetailsModel
+@{
+    var m = Model.Asset;
+    ViewData["Title"] = m.OriginalFileName;
+    var errors = Model.Errors;
+}
+<nav class="crumbs" aria-label="المسار">
+    <ol>
+        <li><a href="/admin/media">مكتبة الوسائط</a></li>
+        <li><span aria-current="page" dir="ltr">@m.OriginalFileName</span></li>
+    </ol>
+</nav>
+<div class="page-head">
+    <div><h1 dir="auto">@m.OriginalFileName</h1></div>
+</div>
+
+<div class="split">
+    <section class="panel">
+        <div class="media-large">
+            @if (m.Kind == MediaKind.Image)
+            {
+            <img src="@m.Path" alt="@m.Alt.Ar">
+            }
+            else
+            {
+            <video src="@m.Path" controls preload="metadata"></video>
+            }
+        </div>
+        <dl class="facts">
+            <dt>النوع</dt><dd dir="ltr">@m.ContentType</dd>
+            <dt>الحجم</dt><dd dir="ltr">@MediaUploadService.FormatSize(m.SizeBytes)</dd>
+            @if (m.Width is > 0)
+            {
+            <dt>الأبعاد</dt><dd dir="ltr">@m.Width × @m.Height</dd>
+            }
+            <dt>الرابط</dt><dd dir="ltr"><a href="@m.Path" target="_blank" rel="noopener">@m.Path</a></dd>
+            <dt>أُضيف</dt><dd dir="ltr">@AdminFormat.Time(m.AddedDate)</dd>
+        </dl>
+    </section>
+
+    <div>
+        <section class="panel">
+            <header class="panel-head"><h2>الوصف البديل</h2></header>
+            <form method="post" action="/admin/media/@m.Id" asp-antiforgery="true" class="editor" data-unsaved>
+                <div class="field @(errors["Alt.Ar"] is not null || errors["Alt.En"] is not null ? "has-error" : "")">
+                    <p class="field-label">الوصف الافتراضي</p>
+                    <div class="pair">
+                        <div class="lang-box">
+                            <label class="lang-tag" for="altAr">العربية</label>
+                            <input type="text" id="altAr" name="Alt.Ar" value="@m.Alt.Ar" dir="rtl" lang="ar" maxlength="500">
+                            @if (errors["Alt.Ar"] is { } arError) { <p class="field-error">@arError</p> }
+                        </div>
+                        <div class="lang-box">
+                            <label class="lang-tag" for="altEn" lang="en">English</label>
+                            <input type="text" id="altEn" name="Alt.En" value="@m.Alt.En" dir="ltr" lang="en" maxlength="500">
+                            @if (errors["Alt.En"] is { } enError) { <p class="field-error">@enError</p> }
+                        </div>
+                    </div>
+                    <p class="hint">لقارئات الشاشة. يمكن لكل قسم أن يكتب وصفًا خاصًا به للصورة.</p>
+                </div>
+                <div class="form-actions"><button type="submit" class="btn primary">حفظ</button></div>
+            </form>
+        </section>
+
+        <section class="panel">
+            <header class="panel-head"><h2>أين يُستخدم</h2></header>
+            @if (Model.Usages.Count == 0)
+            {
+            <p class="empty">غير مستخدم في أي قسم.</p>
+            <form method="post" action="/admin/media/@m.Id/delete" asp-antiforgery="true" data-confirm="هل تريد حذف هذا الملف من المكتبة؟">
+                <button type="submit" class="btn small danger">حذف من المكتبة</button>
+            </form>
+            }
+            else
+            {
+            <ul class="plain-list">
+                @foreach (var (name, url) in Model.Usages)
+                {
+                <li>@if (url is null) { @name } else { <a href="@url">@name</a> }</li>
+                }
+            </ul>
+            <p class="hint">لا يمكن حذف ملف مستخدم. اختر ملفًا آخر في تلك الأقسام أولًا.</p>
+            }
+        </section>
+    </div>
+</div>

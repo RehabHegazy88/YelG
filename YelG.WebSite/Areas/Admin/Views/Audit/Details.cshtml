@@ -1,0 +1,63 @@
+@using System.Text.Json
+@model YelG.WebSite.Domain.Audit.AuditLog
+@{
+    var registry = (EditorRegistry)ViewBag.Registry;
+    var typeName = registry.NameOf(Model.EntityType);
+    ViewData["Title"] = "تفاصيل التغيير";
+
+    // {"Field": value} for a creation, {"Field": {"old": …, "new": …}} for a change
+    var rows = new List<(string Field, string? Old, string? New)>();
+    if (Model.Changes is { Length: > 0 })
+    {
+        using var doc = JsonDocument.Parse(Model.Changes);
+        foreach (var p in doc.RootElement.EnumerateObject())
+        {
+            if (p.Value.ValueKind == JsonValueKind.Object && p.Value.TryGetProperty("new", out var after))
+                rows.Add((p.Name, Text(p.Value.GetProperty("old")), Text(after)));
+            else
+                rows.Add((p.Name, null, Text(p.Value)));
+        }
+    }
+    static string? Text(JsonElement e) => e.ValueKind switch
+    {
+        JsonValueKind.Null => null,
+        JsonValueKind.String => e.GetString(),
+        _ => e.GetRawText()
+    };
+}
+<nav class="crumbs" aria-label="المسار">
+    <ol>
+        <li><a href="/admin/audit">سجل التغييرات</a></li>
+        <li><span aria-current="page">تفاصيل التغيير</span></li>
+    </ol>
+</nav>
+<div class="page-head">
+    <div>
+        <h1>@AdminFormat.Action(Model.Action): @typeName <span class="muted">#@Model.EntityId</span></h1>
+        <p class="lead">@(Model.UserName ?? "النظام") · <span dir="ltr">@AdminFormat.Time(Model.OccurredAt)</span></p>
+    </div>
+</div>
+<section class="panel">
+    @if (rows.Count == 0)
+    {
+    <p class="empty">لا توجد تفاصيل محفوظة لهذا التغيير.</p>
+    }
+    else
+    {
+    <div class="table-wrap">
+    <table class="rows changes">
+        <thead><tr><th scope="col">الحقل</th><th scope="col">القيمة السابقة</th><th scope="col">القيمة الجديدة</th></tr></thead>
+        <tbody>
+        @foreach (var (field, old, @new) in rows)
+        {
+            <tr>
+                <td dir="ltr" class="ltr-cell">@field</td>
+                <td dir="auto" class="pre">@(old ?? "—")</td>
+                <td dir="auto" class="pre">@(@new ?? "—")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+    }
+</section>

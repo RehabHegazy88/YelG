@@ -1,0 +1,34 @@
+@model UserListModel
+@{
+    ViewData["Title"] = "المستخدمون";
+}
+<div class="page-head">
+    <div>
+        <h1>المستخدمون</h1>
+        <p class="lead">المدير يدير كل شيء. المحرر يعدّل المحتوى والوسائط ويطّلع على الطلبات، دون المستخدمين وإعدادات الموقع وسجل التغييرات.</p>
+    </div>
+    <div class="head-actions"><a class="btn small" href="/admin/users/new">+ إضافة مستخدم</a></div>
+</div>
+<section class="panel">
+    <div class="table-wrap">
+    <table class="rows">
+        <thead><tr><th scope="col">الاسم</th><th scope="col">البريد الإلكتروني</th><th scope="col">الدور</th><th scope="col">الحالة</th><th scope="col"><span class="sr">إجراءات</span></th></tr></thead>
+        <tbody>
+        @foreach (var (user, role) in Model.Users)
+        {
+            <tr class="@(user.IsActive ? "" : "is-hidden")">
+                <td>@user.DisplayName @if (user.Id == Model.CurrentUserId) { <span class="muted">(أنت)</span> }</td>
+                <td dir="ltr" class="ltr-cell">@user.Email</td>
+                <td>@AdminFormat.Role(role)</td>
+                <td>
+                    <span class="state @(user.IsActive ? "on" : "off")">@(user.IsActive ? "مفعّل" : "موقوف")</span>
+                    @if (user.MustChangePassword) { <span class="muted">كلمة مرور مؤقتة</span> }
+                    @if (user.LockoutEnd > DateTimeOffset.UtcNow) { <span class="muted">الدخول موقوف مؤقتًا</span> }
+                </td>
+                <td class="col-actions"><a class="link" href="/admin/users/@user.Id">تعديل</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+</section>

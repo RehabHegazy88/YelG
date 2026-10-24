@@ -1,0 +1,80 @@
+@model ListModel
+@{
+    var list = Model.List;
+    var reorderUrl = Model.BaseUrl + "/reorder" + (Model.ParentId is null ? "" : $"?parent={Model.ParentId}");
+    var headingId = Model.Anchor + "_h";
+}
+<section class="panel" id="@Model.Anchor" aria-labelledby="@headingId">
+    <header class="panel-head">
+        <h2 id="@headingId">@list.Title <span class="count">(@Model.Items.Count)</span></h2>
+        @if (list.CanAdd)
+        {
+        <a class="btn small" href="@Model.NewUrl">+ إضافة @list.Item.Title</a>
+        }
+    </header>
+    @if (list.Description is not null)
+    {
+    <p class="panel-note">@list.Description</p>
+    }
+    @if (Model.Items.Count == 0)
+    {
+    <p class="empty">لا توجد عناصر بعد.</p>
+    }
+    else
+    {
+    <div class="table-wrap">
+    <table class="rows" data-reorder="@reorderUrl">
+        <thead>
+            <tr>
+                <th scope="col" class="col-order">الترتيب</th>
+                <th scope="col">@list.Item.Title</th>
+                @foreach (var column in Model.Columns)
+                {
+                <th scope="col" class="col-extra">@column.Header</th>
+                }
+                <th scope="col" class="col-state">الحالة</th>
+                <th scope="col" class="col-actions"><span class="sr">إجراءات</span></th>
+            </tr>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Model.Items.Count; i++)
+        {
+            var item = Model.Items[i];
+            var name = list.Item.Summary(item);
+            var url = $"{Model.BaseUrl}/{item.Id}";
+            <tr data-id="@item.Id" class="@(item.IsPublished ? "" : "is-hidden")">
+                <td class="col-order">
+                    <span class="drag" aria-hidden="true" title="اسحب لتغيير الترتيب" data-drag>⋮⋮</span>
+                    <form method="post" action="@url/move" asp-antiforgery="true" class="inline">
+                        <button type="submit" name="up" value="true" class="icon-btn small" disabled="@(i == 0)" aria-label="تحريك «@name» لأعلى">▲</button>
+                        <button type="submit" name="up" value="false" class="icon-btn small" disabled="@(i == Model.Items.Count - 1)" aria-label="تحريك «@name» لأسفل">▼</button>
+                    </form>
+                </td>
+                <td class="col-name"><a href="@url">@name</a></td>
+                @foreach (var column in Model.Columns)
+                {
+                <td class="col-extra">@column.Value(item)</td>
+                }
+                <td class="col-state">
+                    <form method="post" action="@url/toggle" asp-antiforgery="true" class="inline">
+                        <button type="submit" class="state @(item.IsPublished ? "on" : "off")" aria-label="@(item.IsPublished ? $"«{name}» ظاهر. إخفاء" : $"«{name}» مخفي. إظهار")">
+                            @(item.IsPublished ? "ظاهر" : "مخفي")
+                        </button>
+                    </form>
+                </td>
+                <td class="col-actions">
+                    <a class="link" href="@url">تعديل</a>
+                    @if (list.CanDelete)
+                    {
+                    <form method="post" action="@url/delete" asp-antiforgery="true" class="inline" data-confirm="هل تريد حذف «@name»؟">
+                        <button type="submit" class="link danger">حذف</button>
+                    </form>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+    }
+</section>

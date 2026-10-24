@@ -1,0 +1,86 @@
+@using YelG.WebSite.Application.Media
+@model MediaLibraryModel
+@{
+    ViewData["Title"] = "مكتبة الوسائط";
+    string Link(MediaKind? kind, int page = 1) =>
+        "/admin/media?" + string.Join("&", new[]
+        {
+            kind is null ? null : $"kind={kind}",
+            string.IsNullOrEmpty(Model.Query) ? null : $"q={Uri.EscapeDataString(Model.Query)}",
+            page > 1 ? $"page={page}" : null
+        }.Where(x => x is not null));
+}
+<div class="page-head">
+    <div>
+        <h1>مكتبة الوسائط</h1>
+        <p class="lead">@AdminFormat.Hint($"الصور حتى {Model.MaxImage} بصيغ JPG أو PNG أو WebP أو GIF، والفيديو حتى {Model.MaxVideo} بصيغة MP4 أو WebM. تُنشأ للصور نسخة مصغّرة بصيغة WebP تلقائيًا.")</p>
+    </div>
+</div>
+
+<section class="panel">
+    <form method="post" action="/admin/media/upload" enctype="multipart/form-data" asp-antiforgery="true" class="dropzone" data-dropzone>
+        <label for="uploadFiles" class="dropzone-label">
+            <strong>اسحب الملفات إلى هنا</strong> أو اضغط لاختيارها
+        </label>
+        <input type="file" id="uploadFiles" name="files" multiple accept="@MediaFileType.Accept" data-autosubmit>
+        <noscript><button type="submit" class="btn small">رفع</button></noscript>
+        <p class="dropzone-status" role="status" data-dropzone-status></p>
+    </form>
+</section>
+
+<section class="panel">
+    <header class="panel-head">
+        <nav class="tabs" aria-label="نوع الملف">
+            <a href="@Link(null)" aria-current="@(Model.Kind is null ? "page" : "false")">الكل</a>
+            <a href="@Link(MediaKind.Image)" aria-current="@(Model.Kind == MediaKind.Image ? "page" : "false")">الصور</a>
+            <a href="@Link(MediaKind.Video)" aria-current="@(Model.Kind == MediaKind.Video ? "page" : "false")">الفيديو</a>
+        </nav>
+        <form method="get" action="/admin/media" class="search" role="search">
+            @if (Model.Kind is not null)
+            {
+            <input type="hidden" name="kind" value="@Model.Kind">
+            }
+            <label class="sr" for="mediaSearch">بحث</label>
+            <input type="search" id="mediaSearch" name="q" value="@Model.Query" placeholder="ابحث بالاسم أو الوصف">
+            <button type="submit" class="btn small ghost">بحث</button>
+        </form>
+    </header>
+    <p class="panel-note">@Model.Total ملف</p>
+    @if (Model.Items.Count == 0)
+    {
+    <p class="empty">لا توجد ملفات.</p>
+    }
+    else
+    {
+    <ul class="media-grid">
+        @foreach (var m in Model.Items)
+        {
+        <li>
+            <a class="media-card" href="/admin/media/@m.Id">
+                <span class="media-thumb">
+                    @if (m.Kind == MediaKind.Image)
+                    {
+                    <img src="@(m.ThumbnailPath ?? m.Path)" alt="" loading="lazy">
+                    }
+                    else
+                    {
+                    <span class="media-video">▶ فيديو</span>
+                    }
+                </span>
+                <span class="media-name" dir="ltr">@m.OriginalFileName</span>
+                <span class="media-meta" dir="ltr">@MediaUploadService.FormatSize(m.SizeBytes)@(m.Width is > 0 ? $" · {m.Width}×{m.Height}" : "")</span>
+            </a>
+        </li>
+        }
+    </ul>
+    @if (Model.PageCount > 1)
+    {
+    <nav class="pager" aria-label="الصفحات">
+        @for (var p = 1; p <= Model.PageCount; p++)
+        {
+        <a href="@Link(Model.Kind, p)" aria-current="@(p == Model.Page ? "page" : "false")">@p</a>
+        }
+    </nav>
+    }
+    }
+</section>

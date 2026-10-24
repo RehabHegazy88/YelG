@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using YelG.WebSite.Application.Admin;
 using YelG.WebSite.Application.Content;
+using YelG.WebSite.Application.Media;
 using YelG.WebSite.Infrastructure.Content;
 using YelG.WebSite.Infrastructure.Data;
+using YelG.WebSite.Infrastructure.Media;
 using YelG.WebSite.Infrastructure.Seeding;
 
 namespace YelG.WebSite.Infrastructure
@@ -11,7 +14,7 @@ namespace YelG.WebSite.Infrastructure
     public static class DependencyInjection
     {
         /// <summary>
-        /// The website database (SQL Server), its save interceptor, the content readers and the seeder.
+        /// The website database (SQL Server), its save interceptor, the content readers and stores, media files and the seeder.
         /// The caller registers <see cref="Application.Abstractions.ICurrentUser"/>, ASP.NET Core Identity and
         /// the Application services (AddWebSiteApplication).
         /// </summary>
@@ -21,6 +24,10 @@ namespace YelG.WebSite.Infrastructure
             services.AddScoped<AuditInterceptor>();
             services.AddScoped<ContentSeeder>();
             services.AddScoped<IHomeContentReader, HomeContentReader>();
+            services.AddScoped<IContentStore, ContentStore>();
+            services.AddScoped<IAuditLogQuery, AuditLogQuery>();
+            services.TryAddSingleton<IMediaFileStore, LocalMediaFileStore>();
+            services.TryAddSingleton<IImageProcessor, SkiaImageProcessor>();
 
             services.AddDbContext<WebSiteDbContext>((sp, options) =>
                 options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(typeof(WebSiteDbContext).Assembly.FullName))

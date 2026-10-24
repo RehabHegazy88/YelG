@@ -489,3 +489,6 @@ $RECYCLE.BIN/
 **/appsettings.Production.json
 **/appsettings.*.local.json
 *.pfx
+
+# Website media uploads (kept on the server, outside the deployed files)
+YelG.WebSite/App_Data/

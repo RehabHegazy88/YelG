@@ -1,0 +1,37 @@
+@model ItemPageModel
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["PreviewAnchor"] = Model.Screen.Anchor;
+}
+<nav class="crumbs" aria-label="المسار">
+    <ol>
+        @foreach (var crumb in Model.Crumbs)
+        {
+        <li>
+            @if (crumb.Url is null)
+            {
+            <span aria-current="page">@crumb.Title</span>
+            }
+            else
+            {
+            <a href="@crumb.Url">@crumb.Title</a>
+            }
+        </li>
+        }
+    </ol>
+</nav>
+<div class="page-head">
+    <div>
+        <h1>@Model.Title</h1>
+        <p class="lead">@Model.List.Title</p>
+    </div>
+</div>
+
+<section class="panel" aria-label="@Model.Title">
+    <partial name="_EditorForm" model="Model.Form" />
+</section>
+
+@foreach (var child in Model.Children)
+{
+<partial name="_List" model="child" />
+}
