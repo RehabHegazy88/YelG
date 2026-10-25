@@ -297,6 +297,10 @@ details.faq p a{color:#82D0DC}
   .rtl .h2{font-size:clamp(24px,2.2vw,34px)}
   .stat-num{font-size:40px}
 }
-/* The badges keep turning even when the device asks for less motion (the client wants them to turn;
-   it is a slow rotation). The services strip still stops for those visitors. */
-@media (prefers-reduced-motion: reduce){.spin{animation:sp 24s linear infinite}}
+/* The badges and the services strip keep moving even when the device asks for less motion (the client
+   wants them to move; both are slow). The Arabic strip keeps its own direction (mqr). */
+@media (prefers-reduced-motion: reduce){
+  .spin{animation:sp 24s linear infinite}
+  .marquee{animation:mq 40s linear infinite}
+  .marquee.mq-rtl{animation-name:mqr}
+}
