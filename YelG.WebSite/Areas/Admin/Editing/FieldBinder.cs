@@ -61,6 +61,11 @@ namespace YelG.WebSite.Areas.Admin.Editing
                     return;
 
                 case FieldKind.Date:
+                    if (raw.Length == 0 && f.IsNullable)
+                    {
+                        f.Property.SetValue(entity, null);
+                        return;
+                    }
                     if (!DateOnly.TryParseExact(raw, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
                     {
                         errors.Add(f.Name, "أدخل تاريخًا صحيحًا.");

@@ -16,6 +16,9 @@
     var newEnquiries = User.Identity?.IsAuthenticated == true && !holdAtPassword
         ? await Store.CountAsync<YelG.WebSite.Domain.Enquiries.Enquiry>(e => e.Status == YelG.WebSite.Domain.Enquiries.EnquiryStatus.New)
         : 0;
+    var newApplications = User.Identity?.IsAuthenticated == true && !holdAtPassword
+        ? await Store.CountAsync<YelG.WebSite.Domain.Careers.JobApplication>(a => a.Status == YelG.WebSite.Domain.Careers.ApplicationStatus.New)
+        : 0;
     var flashError = TempData[AdminController.FlashErrorKey] as string;
 }
 <!doctype html>
@@ -81,6 +84,7 @@ else
         <ul>
             <li><a href="/admin" aria-current="@Current("/admin", exact: true)">الرئيسية</a></li>
             <li><a href="/admin/enquiries" aria-current="@Current("/admin/enquiries")"><span>طلبات الاستشارة</span>@if (newEnquiries > 0) {<span class="badge">@newEnquiries<span class="sr"> جديد</span></span>}</a></li>
+            <li><a href="/admin/applications" aria-current="@Current("/admin/applications")"><span>طلبات التوظيف</span>@if (newApplications > 0) {<span class="badge">@newApplications<span class="sr"> جديد</span></span>}</a></li>
             <li><a href="/admin/media" aria-current="@Current("/admin/media")">مكتبة الوسائط</a></li>
         </ul>
         <p class="nav-group">أقسام الصفحة</p>

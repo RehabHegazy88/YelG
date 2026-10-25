@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using YelG.WebSite.Domain.Audit;
+using YelG.WebSite.Domain.Careers;
 using YelG.WebSite.Domain.Common;
 using YelG.WebSite.Domain.Enquiries;
 using YelG.WebSite.Domain.Media;
@@ -70,6 +71,10 @@ namespace YelG.WebSite.Infrastructure.Data
         // Enquiries
         public DbSet<Enquiry> Enquiries => Set<Enquiry>();
         public DbSet<EnquiryNote> EnquiryNotes => Set<EnquiryNote>();
+
+        // Job applications (from the careers page)
+        public DbSet<JobApplication> JobApplications => Set<JobApplication>();
+        public DbSet<JobApplicationNote> JobApplicationNotes => Set<JobApplicationNote>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

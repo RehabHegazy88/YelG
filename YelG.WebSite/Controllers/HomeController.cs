@@ -43,13 +43,22 @@ namespace YelG.WebSite.Controllers
             var modified = content.Site.LastModifiedDate == default ? "" : $"<lastmod>{content.Site.LastModifiedDate:yyyy-MM-dd}</lastmod>";
             var xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
                 .Append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">\n");
-            foreach (var lang in SiteLanguage.All)
+            // the homepage, the careers page and each open role, in both languages
+            var today = DateOnly.FromDateTime(DateTime.UtcNow);
+            var paths = new List<string> { "" };
+            if (content.Careers is not null)
             {
-                xml.Append("<url><loc>").Append(BaseUrl()).Append('/').Append(lang).Append("</loc>").Append(modified);
-                foreach (var alt in SiteLanguage.All)
-                    xml.Append("<xhtml:link rel=\"alternate\" hreflang=\"").Append(alt).Append("\" href=\"").Append(BaseUrl()).Append('/').Append(alt).Append("\"/>");
-                xml.Append("</url>\n");
+                paths.Add("/careers");
+                paths.AddRange(content.CareerRoles.Where(r => r.IsOpenOn(today)).Select(r => "/careers/" + Uri.EscapeDataString(r.Slug)));
             }
+            foreach (var path in paths)
+                foreach (var lang in SiteLanguage.All)
+                {
+                    xml.Append("<url><loc>").Append(BaseUrl()).Append('/').Append(lang).Append(path).Append("</loc>").Append(path.Length == 0 ? modified : "");
+                    foreach (var alt in SiteLanguage.All)
+                        xml.Append("<xhtml:link rel=\"alternate\" hreflang=\"").Append(alt).Append("\" href=\"").Append(BaseUrl()).Append('/').Append(alt).Append(path).Append("\"/>");
+                    xml.Append("</url>\n");
+                }
             xml.Append("</urlset>\n");
             return Content(xml.ToString(), "application/xml", Encoding.UTF8);
         }

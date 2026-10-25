@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using YelG.WebSite.Domain.Audit;
+using YelG.WebSite.Domain.Careers;
 using YelG.WebSite.Domain.Enquiries;
 using YelG.WebSite.Domain.Media;
 using YelG.WebSite.Domain.Settings;
@@ -99,6 +100,41 @@ namespace YelG.WebSite.Infrastructure.Maps
                 b.ToTable("EnquiryNotes");
                 b.Property(x => x.Text).HasMaxLength(4000).IsRequired();
                 b.HasOne(x => x.Enquiry).WithMany(x => x.Notes).HasForeignKey(x => x.EnquiryId).OnDelete(DeleteBehavior.Cascade);
+            });
+        }
+    }
+
+    public class JobApplicationMap : IMap
+    {
+        public void Visit(ModelBuilder builder)
+        {
+            builder.Entity<JobApplication>(b =>
+            {
+                b.ToTable("JobApplications");
+                b.Property(x => x.RoleTitle).HasMaxLength(200).IsRequired();
+                b.Property(x => x.Culture).HasMaxLength(2).IsRequired();
+                b.Property(x => x.Name).HasMaxLength(150).IsRequired();
+                b.Property(x => x.Email).HasMaxLength(256).IsRequired();
+                b.Property(x => x.Phone).HasMaxLength(40);
+                b.Property(x => x.LinkedInUrl).HasMaxLength(300);
+                b.Property(x => x.Message).HasMaxLength(3000);
+                b.Property(x => x.CvFileName).HasMaxLength(260).IsRequired();
+                b.Property(x => x.CvStoredPath).HasMaxLength(300).IsRequired();
+                b.Property(x => x.CvContentType).HasMaxLength(100).IsRequired();
+                b.Property(x => x.ConsentText).HasMaxLength(1000).IsRequired();
+                b.Property(x => x.NotificationError).HasMaxLength(1000);
+                b.Property(x => x.IpHash).HasMaxLength(64);
+                b.Property(x => x.UserAgent).HasMaxLength(500);
+                b.HasIndex(x => x.Status);
+                b.HasIndex(x => x.AddedDate);
+                b.HasOne(x => x.CareerRole).WithMany().HasForeignKey(x => x.CareerRoleId).OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<JobApplicationNote>(b =>
+            {
+                b.ToTable("JobApplicationNotes");
+                b.Property(x => x.Text).HasMaxLength(4000).IsRequired();
+                b.HasOne(x => x.JobApplication).WithMany(x => x.Notes).HasForeignKey(x => x.JobApplicationId).OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using YelG.WebSite.Application.Admin;
+using YelG.WebSite.Application.Careers;
 using YelG.WebSite.Application.Content;
 using YelG.WebSite.Application.Enquiries;
 using YelG.WebSite.Application.Media;
@@ -31,11 +32,13 @@ namespace YelG.WebSite.Infrastructure
             services.TryAddSingleton<IMediaFileStore, LocalMediaFileStore>();
             services.TryAddSingleton<IImageProcessor, SkiaImageProcessor>();
 
-            // enquiry notification emails: a queue read by a background service, so the form never waits for SMTP
+            // notification emails (enquiries, job applications): a queue read by a background service, so the form never waits for SMTP
             services.AddScoped<IEnquiryMailer, EnquiryMailer>();
-            services.AddSingleton<EnquiryNotificationService>();
-            services.AddSingleton<IEnquiryNotificationQueue>(sp => sp.GetRequiredService<EnquiryNotificationService>());
-            services.AddHostedService(sp => sp.GetRequiredService<EnquiryNotificationService>());
+            services.AddSingleton<NotificationService>();
+            services.AddSingleton<IEnquiryNotificationQueue>(sp => sp.GetRequiredService<NotificationService>());
+            services.AddSingleton<IApplicationNotificationQueue>(sp => sp.GetRequiredService<NotificationService>());
+            services.AddHostedService(sp => sp.GetRequiredService<NotificationService>());
+            services.TryAddSingleton<ICvStore, LocalCvStore>();
 
             services.AddDbContext<WebSiteDbContext>((sp, options) =>
                 options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(typeof(WebSiteDbContext).Assembly.FullName))

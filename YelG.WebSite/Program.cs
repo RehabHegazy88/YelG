@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.WebEncoders;
 using YelG.WebSite.Application;
 using YelG.WebSite.Application.Abstractions;
+using YelG.WebSite.Application.Careers;
 using YelG.WebSite.Application.Common;
 using YelG.WebSite.Application.Enquiries;
 using YelG.WebSite.Application.Media;
@@ -76,6 +77,10 @@ builder.Services.AddAuthorizationBuilder()
 // Media library: uploads live outside the deployed files (App_Data/media by default) and are served under /media.
 builder.Services.Configure<MediaOptions>(builder.Configuration.GetSection(MediaOptions.SectionName));
 builder.Services.PostConfigure<MediaOptions>(o => o.StoragePath = Path.GetFullPath(o.StoragePath, builder.Environment.ContentRootPath));
+
+// CVs from the careers form: a private folder (App_Data/applications by default), never served as files.
+builder.Services.Configure<CareersOptions>(builder.Configuration.GetSection(CareersOptions.SectionName));
+builder.Services.PostConfigure<CareersOptions>(o => o.CvStoragePath = Path.GetFullPath(o.CvStoragePath, builder.Environment.ContentRootPath));
 
 builder.Services.AddSingleton(AdminScreens.Build());
 builder.Services.AddSingleton<BrandFontsPreview>();

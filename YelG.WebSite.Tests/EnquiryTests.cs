@@ -100,6 +100,9 @@ namespace YelG.WebSite.Tests
         private sealed class FailingMailer : IEnquiryMailer
         {
             public Task SendAsync(Enquiry enquiry, SiteSettings site, CancellationToken ct) => throw new IOException("mail server refused the connection");
+
+            public Task SendApplicationAsync(YelG.WebSite.Domain.Careers.JobApplication application, SiteSettings site, CancellationToken ct) =>
+                throw new IOException("mail server refused the connection");
         }
 
         private static ServiceProvider Site(RecordingQueue? queue = null, IEnquiryMailer? mailer = null)
@@ -193,7 +196,7 @@ namespace YelG.WebSite.Tests
                 id = (await scope.ServiceProvider.GetRequiredService<EnquiryService>()
                     .SubmitAsync(Input(EnquiryInput.NotSure), new EnquiryOrigin("en", null, null))).EnquiryId!.Value;
 
-            await site.GetRequiredService<EnquiryNotificationService>().SendAsync(id, CancellationToken.None);
+            await site.GetRequiredService<NotificationService>().SendEnquiryAsync(id, CancellationToken.None);
 
             await using (var scope = site.CreateAsyncScope())
             {

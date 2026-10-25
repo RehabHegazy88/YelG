@@ -1,0 +1,84 @@
+@model CareersPageModel
+@{
+    var role = Model.Role!;
+    var section = Model.Content.Careers!;
+    var external = !string.IsNullOrWhiteSpace(role.ApplyUrl);
+    var outcome = ViewContext.TempData[YelG.WebSite.Controllers.CareersController.OutcomeKey] as string;
+    var messages = new Dictionary<string, string>
+    {
+        ["name"] = Model.Ui.Validation(Model.Lang)["name"],
+        ["email"] = Model.Ui.Validation(Model.Lang)["email"],
+        ["phone"] = Model.Ui.Validation(Model.Lang)["phone"],
+        ["linkedin"] = Model.C("err.linkedin"),
+        ["message"] = Model.C("err.message"),
+        ["cv"] = Model.C("err.cv"),
+        ["cvType"] = Model.C("err.cvType"),
+        ["cvSize"] = Model.C("err.cvSize"),
+        ["consent"] = Model.C("err.consent")
+    };
+    var responsibilities = Model.Lines(role.Responsibilities);
+    var requirements = Model.Lines(role.Requirements);
+}
+<partial name="_PageTop" model="Model" />
+
+<main id="main">
+<section class="sec careers-page">
+<div class="wrap job-grid">
+<article class="job-body" aria-labelledby="pageTitle">
+@if (!role.Description.IsEmpty)
+{
+<h2 class="h3">@Model.C("about")</h2>
+<p class="job-text">@Model.R(role.Description)</p>
+}
+@if (responsibilities.Count > 0)
+{
+<h2 class="h3">@Model.C("responsibilities")</h2>
+<ul class="job-list">@foreach (var line in responsibilities){<li>@Model.R(new YelG.WebSite.Domain.Common.LocalizedText(line, line))</li>}</ul>
+}
+@if (requirements.Count > 0)
+{
+<h2 class="h3">@Model.C("requirements")</h2>
+<ul class="job-list">@foreach (var line in requirements){<li>@Model.R(new YelG.WebSite.Domain.Common.LocalizedText(line, line))</li>}</ul>
+}
+@if (role.Tags.Count > 0){<p class="role-tags">@foreach (var tag in role.Tags){<span class="chip">@Model.R(tag.Label)</span>}</p>}
+<p class="job-posted">@if (role.PostedOn is { } posted){<span>@Model.C("posted"): <time datetime="@posted.ToString("yyyy-MM-dd")">@Model.Date(posted)</time></span>}<a href="@Model.ListUrl" class="tlink">@Model.C("backToList") <span aria-hidden="true">@Model.ArrowNext</span></a></p>
+</article>
+
+<aside id="apply" class="job-apply" aria-labelledby="applyTitle">
+@if (external)
+{
+<h2 id="applyTitle" class="h3">@Model.Text(section.ApplyTitle, "applyTitle")</h2>
+<a href="@role.ApplyUrl" target="_blank" rel="noopener" class="btn btn-blue">@Model.C("applyExternal")<span class="ar">@Model.ArrowIcon</span></a>
+}
+else
+{
+<form id="applyForm" class="cform job-form" method="post" action="/@Model.Lang/careers/@role.Slug/apply" enctype="multipart/form-data" novalidate aria-labelledby="applyTitle"
+      data-messages="@System.Text.Json.JsonSerializer.Serialize(messages)" data-error-summary="@Model.S("formErrorSummary")" data-max-bytes="@Model.MaxCvBytes">
+@Html.AntiForgeryToken()
+<div class="hp" aria-hidden="true"><label for="aWebsite">Website</label><input id="aWebsite" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+<div class="cform-head">
+<h2 id="applyTitle" class="h3">@Model.Text(section.ApplyTitle, "applyTitle")</h2>
+<p class="cform-note">@Model.R(Model.Content.Consult?.RequiredNote, markStar: true)</p>
+</div>
+<div class="alert alert-err" role="alert" data-error-summary-box hidden><strong></strong></div>
+<div class="fgrid job-fields">
+<div class="fld fld-full"><label for="aName">@Model.S("formName") <i>*</i></label><input id="aName" name="name" class="in" type="text" autocomplete="name" aria-invalid="false" aria-describedby="eaName" aria-required="true"><p id="eaName" class="err" hidden></p></div>
+<div class="fld fld-full"><label for="aEmail">@Model.S("formEmail") <i>*</i></label><input id="aEmail" name="email" dir="@(Model.IsArabic ? "ltr" : null)" class="in" type="email" autocomplete="email" aria-invalid="false" aria-describedby="eaEmail" aria-required="true"><p id="eaEmail" class="err" hidden></p></div>
+<div class="fld fld-full"><label for="aPhone">@Model.S("formPhone") <span class="hint">@Model.S("formOptional")</span></label><input id="aPhone" name="phone" dir="@(Model.IsArabic ? "ltr" : null)" class="in" type="tel" autocomplete="tel" aria-invalid="false" aria-describedby="eaPhone"><p id="eaPhone" class="err" hidden></p></div>
+<div class="fld fld-full"><label for="aLinkedIn">@Model.C("linkedIn") <span class="hint">@Model.S("formOptional")</span></label><input id="aLinkedIn" name="linkedIn" dir="ltr" class="in" type="url" placeholder="@Model.C("linkedInPlaceholder")" aria-invalid="false" aria-describedby="eaLinkedIn"><p id="eaLinkedIn" class="err" hidden></p></div>
+<div class="fld fld-full"><label for="aCv">@Model.C("cv") <i>*</i></label><input id="aCv" name="cv" class="in in-file" type="file" accept="@YelG.WebSite.Application.Careers.CvFileType.Accept" aria-invalid="false" aria-describedby="haCv eaCv" aria-required="true"><span id="haCv" class="hint">@Model.C("cvHint")</span><p id="eaCv" class="err" hidden></p></div>
+<div class="fld fld-full"><label for="aMsg">@Model.C("coverLetter") <span class="hint">@Model.S("formOptional")</span></label><textarea id="aMsg" name="message" class="in" rows="4" maxlength="3000" aria-invalid="false" aria-describedby="eaMsg"></textarea><p id="eaMsg" class="err" hidden></p></div>
+<div class="fld fld-full"><label class="consent" for="aConsent"><input id="aConsent" name="consent" type="checkbox" value="true" aria-invalid="false" aria-describedby="eaConsent"><span>@Model.Text(section.ApplyConsentText, "consent")</span></label><p id="eaConsent" class="err" hidden></p></div>
+</div>
+<div class="alert alert-ok" role="status" tabindex="-1" data-sent hidden="@(outcome != "sent")"><strong>@Model.Text(section.ApplySuccessTitle, "successTitle")</strong><span>@Model.Text(section.ApplySuccessText, "successText")</span></div>
+<div class="alert alert-err" role="alert" tabindex="-1" data-failed hidden="@(outcome is not ("failed" or "invalid"))"><strong>@Model.C("failure")</strong></div>
+<button type="submit" class="btn btn-blue cform-submit">@Model.C("submit")<span class="ar">@Model.ArrowIcon</span></button>
+</form>
+}
+</aside>
+</div>
+</section>
+</main>
+<script type="application/ld+json">@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.JobPosting(role)).Replace("</", "<\\/"))</script>
+
+<partial name="~/Views/Home/Sections/_Footer.cshtml" model="Model" />

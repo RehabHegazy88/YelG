@@ -46,7 +46,7 @@ namespace YelG.WebSite.Tests
         [Fact]
         public void Every_content_table_has_a_screen()
         {
-            var notEdited = new[] { typeof(MediaAsset), typeof(Enquiry), typeof(EnquiryNote) };   // their own screens
+            var notEdited = new[] { typeof(MediaAsset), typeof(Enquiry), typeof(EnquiryNote), typeof(Domain.Careers.JobApplication), typeof(Domain.Careers.JobApplicationNote) };   // their own screens
             var content = Model().GetEntityTypes().Select(t => t.ClrType)
                 .Where(t => typeof(BaseEntity).IsAssignableFrom(t) && !notEdited.Contains(t));
             var edited = Registry.Editors.Select(e => e.EntityType).ToHashSet();

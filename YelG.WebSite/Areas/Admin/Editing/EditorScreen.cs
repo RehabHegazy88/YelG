@@ -74,6 +74,8 @@ namespace YelG.WebSite.Areas.Admin.Editing
             ["MediaAsset"] = "ملف وسائط",
             ["Enquiry"] = "طلب استشارة",
             ["EnquiryNote"] = "ملاحظة على طلب",
+            ["JobApplication"] = "طلب توظيف",
+            ["JobApplicationNote"] = "ملاحظة على طلب توظيف",
             ["Seed"] = "المحتوى الأولي"
         };
 

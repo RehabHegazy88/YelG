@@ -57,6 +57,7 @@ namespace YelG.WebSite.Areas.Admin.Controllers
                 Recent = recent,
                 MediaCount = await _store.CountAsync<MediaAsset>(ct: ct),
                 NewEnquiries = await _store.CountAsync<Enquiry>(e => e.Status == EnquiryStatus.New, ct),
+                NewApplications = await _store.CountAsync<Domain.Careers.JobApplication>(a => a.Status == Domain.Careers.ApplicationStatus.New, ct),
                 Warnings = await WarningsAsync(ct),
                 Registry = _registry
             });
@@ -67,8 +68,9 @@ namespace YelG.WebSite.Areas.Admin.Controllers
             var warnings = new List<(string, string?)>();
             if (!_smtp.IsConfigured)
                 warnings.Add(("خادم البريد غير مُعدّ (Smtp)، فلن تصل إشعارات الطلبات بالبريد. الطلبات تُحفظ هنا على أي حال.", null));
-            var failed = await _store.CountAsync<Enquiry>(e => e.NotificationSentAt == null && e.NotificationAttempts > 0, ct);
-            if (failed > 0) warnings.Add(($"تعذّر إرسال إشعار البريد لـ {failed} من الطلبات.", "/admin/enquiries"));
+            var failed = await _store.CountAsync<Enquiry>(e => e.NotificationSentAt == null && e.NotificationAttempts > 0, ct)
+                         + await _store.CountAsync<Domain.Careers.JobApplication>(a => a.NotificationSentAt == null && a.NotificationAttempts > 0, ct);
+            if (failed > 0) warnings.Add(($"تعذّر إرسال إشعار البريد لـ {failed} من طلبات الاستشارة والتوظيف.", "/admin/enquiries"));
             var consult = await _store.FirstAsync<ConsultSection>(ct);
             if (consult is not null && (consult.SuccessTitle.IsEmpty || consult.FailureText.IsEmpty))
                 warnings.Add(("رسائل نجاح وفشل إرسال النموذج لم تُكتب بعد؛ تظهر صياغة مؤقتة حتى تعتمدها الشركة.", "/admin/sections/consult"));

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace YelG.WebSite.Infrastructure
 {
     /// <summary>
-    /// Per-address limits on the forms that can be abused: the consultation form and the admin sign-in.
+    /// Per-address limits on the forms that can be abused: the consultation form, the job application form and the admin sign-in.
     /// "RateLimits:EnquiriesPer10Minutes" and "RateLimits:SignInsPer5Minutes" change the numbers.
     /// The address is the client's (after the forwarded headers of the reverse proxy are applied).
     /// </summary>
@@ -12,17 +12,20 @@ namespace YelG.WebSite.Infrastructure
     {
         public const string Enquiry = "enquiry";
         public const string SignIn = "sign-in";
+        public const string Application = "application";
 
         public static IServiceCollection AddSiteRateLimits(this IServiceCollection services, IConfiguration configuration)
         {
             var enquiries = configuration.GetValue("RateLimits:EnquiriesPer10Minutes", 5);
             var signIns = configuration.GetValue("RateLimits:SignInsPer5Minutes", 10);
+            var applications = configuration.GetValue("RateLimits:ApplicationsPer10Minutes", 3);
 
             return services.AddRateLimiter(o =>
             {
                 o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
                 o.AddPolicy(Enquiry, http => Window(http, enquiries, TimeSpan.FromMinutes(10)));
                 o.AddPolicy(SignIn, http => Window(http, signIns, TimeSpan.FromMinutes(5)));
+                o.AddPolicy(Application, http => Window(http, applications, TimeSpan.FromMinutes(10)));
                 o.OnRejected = async (context, ct) =>
                 {
                     var http = context.HttpContext;

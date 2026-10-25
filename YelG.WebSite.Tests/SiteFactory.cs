@@ -33,6 +33,7 @@ namespace YelG.WebSite.Tests
             builder.UseSetting("ConnectionStrings:WebSiteDb", WebSiteDatabase.ConnectionString);
             builder.UseSetting("Enquiries:IpHashSalt", "site-tests");
             builder.UseSetting("Media:StoragePath", _media);
+            builder.UseSetting("Careers:CvStoragePath", Path.Combine(_media, "cvs"));
             builder.UseSetting("Site:BaseUrl", "https://localhost");
             builder.UseSetting("RateLimits:EnquiriesPer10Minutes", EnquiriesPer10Minutes.ToString());
             builder.UseSetting("Smtp:Host", "");

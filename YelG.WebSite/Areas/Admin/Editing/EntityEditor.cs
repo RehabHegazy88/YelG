@@ -111,6 +111,10 @@ namespace YelG.WebSite.Areas.Admin.Editing
         public EntityEditor<T> Date(Expression<Func<T, DateOnly>> property, string label, string? hint = null) =>
             Add(property, FieldKind.Date, label, f => new FieldDef { Property = f, Kind = FieldKind.Date, Label = label, Hint = hint, Group = TakeGroup() });
 
+        /// <summary>A date that may be left empty.</summary>
+        public EntityEditor<T> OptionalDate(Expression<Func<T, DateOnly?>> property, string label, string? hint = null) =>
+            Add(property, FieldKind.Date, label, f => new FieldDef { Property = f, Kind = FieldKind.Date, Label = label, Hint = hint, Group = TakeGroup() });
+
         /// <summary>A key from a fixed list (an icon, a colour, a language).</summary>
         public EntityEditor<T> Choice(Expression<Func<T, string>> property, string label, IEnumerable<FieldOption> options, string? hint = null) =>
             Add(property, FieldKind.Select, label, f => new FieldDef

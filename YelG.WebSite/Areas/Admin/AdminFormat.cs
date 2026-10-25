@@ -64,6 +64,7 @@ namespace YelG.WebSite.Areas.Admin
             "Reordered" => "ترتيب",
             "Seeded" => "تحميل أولي",
             "Exported" => "تصدير",
+            "Downloaded" => "تحميل",
             _ => action
         };
 

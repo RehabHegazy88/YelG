@@ -38,14 +38,17 @@
 <span class="eyebrow">@Model.R(car.Eyebrow)</span>
 <h3 class="h3">@Model.R(car.Heading)</h3>
 @if (!car.Lead.IsEmpty){<p class="careers-p">@Model.R(car.Lead)</p>}
-@if (c.CareerRoles.Count > 0)
+@{
+    var today = DateOnly.FromDateTime(DateTime.UtcNow);
+    var openRoles = c.CareerRoles.Where(r => r.IsOpenOn(today)).ToList();
+}
+@if (openRoles.Count > 0)
 {
 <ul class="roles">
-@foreach (var role in c.CareerRoles)
+@foreach (var role in openRoles.Take(4))
 {
-    var apply = !string.IsNullOrEmpty(role.ApplyUrl) ? role.ApplyUrl : !string.IsNullOrEmpty(role.ApplyEmail) ? "mailto:" + role.ApplyEmail : null;
 <li class="role">
-<strong class="role-title">@if (apply is not null){<a href="@apply" target="@(apply.StartsWith("http") ? "_blank" : null)" rel="@(apply.StartsWith("http") ? "noopener" : null)">@Model.R(role.Title)</a>}else{@Model.R(role.Title)}</strong>
+<strong class="role-title"><a href="/@Model.Lang/careers/@role.Slug">@Model.R(role.Title)</a></strong>
 <span class="role-meta">@Model.R(role.Location)@if (!role.Location.IsEmpty && !role.Experience.IsEmpty){<text> · </text>}@Model.R(role.Experience)</span>
 @if (role.Tags.Count > 0){<span class="role-tags">@foreach (var tag in role.Tags){<span class="chip">@Model.R(tag.Label)</span>}</span>}
 </li>
@@ -53,6 +56,7 @@
 </ul>
 }
 <div class="careers-links">
+<a href="/@Model.Lang/careers" class="tlink">@CareerTexts.Get(openRoles.Count > 0 ? "viewAll" : "pageTitle", Model.Lang) <span aria-hidden="true">@Model.ArrowNext</span></a>
 @if (!string.IsNullOrEmpty(site.CareersEmail))
 {
 <a href="mailto:@site.CareersEmail?subject=@Uri.EscapeDataString(car.CvEmailSubject)" class="tlink">@Model.R(car.SendCvLabel) <span aria-hidden="true">@Model.ArrowNext</span></a>

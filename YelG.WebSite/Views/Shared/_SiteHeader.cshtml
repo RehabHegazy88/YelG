@@ -1,0 +1,38 @@
+@model HomePageModel
+@{
+    // the site header and the phone menu, on the homepage (inside the hero) and on the other pages
+    var c = Model.Content;
+    var hero = c.Hero;
+    var ctaLabel = hero is not null ? Model.T(hero.PrimaryCtaLabel) : Model.T(c.Consult?.Eyebrow);
+    var otherLang = Model.OtherLang;
+}
+<header class="hd">
+<div class="wrap hd-bar">
+<a href="@(Model.IsHome ? "#top" : $"/{Model.Lang}")" class="hd-logo" aria-label="@Model.S("homeLabel")">
+@if (c.Site.Logo is { } logo)
+{
+<img src="@logo.Path" alt="" class="hd-logo-img">
+}
+else
+{
+@* the brand logo (YelG Brand Identity, white version for dark backgrounds) *@
+<img src="~/brand/logo-white.svg" alt="" class="hd-logo-img" width="163" height="44">
+}
+</a>
+<nav aria-label="@Model.S("mainNavLabel")" class="mnav">
+@foreach (var link in Model.Ui.Links("nav").Where(l => c.HasAnchor(l.Href)))
+{
+<a href="@Model.Href(link.Href)">@link.For(Model.Lang)</a>
+}
+</nav>
+<div class="hd-actions">
+<a href="@Model.LangSwitchUrl" class="hd-lang" lang="@otherLang" hreflang="@otherLang" dir="@(otherLang == SiteLanguage.Arabic ? "rtl" : "ltr")" aria-label="@Model.S("langSwitchLabel")" data-lang-switch>@Model.S("langSwitchText")</a>
+@if (c.HasAnchor("#consult"))
+{
+<a href="@Model.Href("#consult")" class="btn btn-cyan hide-sm hd-cta">@ctaLabel<span class="ar">@Model.ArrowIcon</span></a>
+}
+<button type="button" class="menuBtn" aria-label="@Model.S("menuOpen")" aria-controls="mobileNav" aria-expanded="false"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+</div>
+</div>
+</header>
+<nav id="mobileNav" aria-label="@Model.S("mobileNavLabel")" class="mobNav" hidden><div class="wrap">@foreach (var link in Model.Ui.Links("mobileNav").Where(l => c.HasAnchor(l.Href))){<a href="@Model.Href(link.Href)" class="@(link.Href == "#consult" ? "mcta" : null)">@link.For(Model.Lang)</a>}</div></nav>

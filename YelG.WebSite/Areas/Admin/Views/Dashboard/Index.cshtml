@@ -24,6 +24,12 @@
             <span class="tile-meta"><span class="state @(Model.NewEnquiries > 0 ? "new" : "off")">@Model.NewEnquiries جديد</span></span>
         </a>
     </li>
+    <li>
+        <a class="tile tile-accent" href="/admin/applications?status=New">
+            <span class="tile-title">طلبات التوظيف</span>
+            <span class="tile-meta"><span class="state @(Model.NewApplications > 0 ? "new" : "off")">@Model.NewApplications جديد</span></span>
+        </a>
+    </li>
     @foreach (var tile in Model.Tiles)
     {
     <li>

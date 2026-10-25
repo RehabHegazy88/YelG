@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using YelG.WebSite.Application.Abstractions;
 using YelG.WebSite.Application.Content;
 using YelG.WebSite.Domain.Audit;
+using YelG.WebSite.Domain.Careers;
 using YelG.WebSite.Domain.Common;
 using YelG.WebSite.Domain.Enquiries;
 using YelG.WebSite.Infrastructure.Identity;
@@ -31,7 +32,8 @@ namespace YelG.WebSite.Infrastructure.Data
             "PasswordHash", "SecurityStamp", "ConcurrencyStamp",
             nameof(Enquiry.Name), nameof(Enquiry.Email), nameof(Enquiry.Company), nameof(Enquiry.Phone),
             nameof(Enquiry.Message), nameof(Enquiry.IpHash), nameof(Enquiry.UserAgent), nameof(Enquiry.ConsentText),
-            nameof(EnquiryNote.Text)
+            nameof(EnquiryNote.Text), nameof(JobApplication.LinkedInUrl), nameof(JobApplication.CvFileName),
+            nameof(JobApplication.CvStoredPath)
         };
 
         /// <summary>Arabic and symbols stay readable in the stored JSON; the admin screen HTML-encodes it when shown.</summary>
@@ -106,7 +108,7 @@ namespace YelG.WebSite.Infrastructure.Data
             foreach (var entry in context.ChangeTracker.Entries().ToList())
             {
                 if (entry.State is EntityState.Unchanged or EntityState.Detached || entry.Entity is AuditLog) continue;
-                if (entry.Entity is BaseEntity and not (Enquiry or EnquiryNote)) _contentChanged = true;
+                if (entry.Entity is BaseEntity and not (Enquiry or EnquiryNote or JobApplication or JobApplicationNote)) _contentChanged = true;
                 var action = entry.State switch
                 {
                     EntityState.Added => "Created",

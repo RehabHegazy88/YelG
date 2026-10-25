@@ -345,9 +345,110 @@
     render();
   }
 
+
+  /* ---------- job application form (careers pages) ---------- */
+  function applyForm() {
+    var el = doc.getElementById('applyForm');
+    if (!el) return;
+    var messages = JSON.parse(el.getAttribute('data-messages') || '{}');
+    var maxBytes = Number(el.getAttribute('data-max-bytes')) || 5242880;
+    var summaryTemplate = el.getAttribute('data-error-summary') || '';
+    var summary = $('[data-error-summary-box]', el);
+    var sent = $('[data-sent]', el), failed = $('[data-failed]', el), button = $('.cform-submit', el), busy = false;
+    var fields = { name: 'aName', email: 'aEmail', phone: 'aPhone', linkedIn: 'aLinkedIn', cv: 'aCv', message: 'aMsg', consent: 'aConsent' };
+    var keyOf = { linkedin: 'linkedIn' };
+    var order = ['name', 'email', 'phone', 'linkedIn', 'cv', 'message', 'consent'];
+
+    function field(name) { return doc.getElementById(fields[name]); }
+    function err(name) { return doc.getElementById('e' + fields[name]); }
+    function clear(name) {
+      field(name).setAttribute('aria-invalid', 'false');
+      var e = err(name); e.hidden = true; e.textContent = '';
+    }
+
+    function validate() {
+      var f = el.elements, e = {};
+      if (f.name.value.trim().length < 2) e.name = messages.name;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim())) e.email = messages.email;
+      if (f.phone.value.trim() && !/^[+0-9][0-9\s()\-]{6,}$/.test(f.phone.value.trim())) e.phone = messages.phone;
+      if (f.linkedIn.value.trim() && !/^https:\/\/\S+$/.test(f.linkedIn.value.trim())) e.linkedIn = messages.linkedin;
+      var file = f.cv.files && f.cv.files[0];
+      if (!file) e.cv = messages.cv;
+      else if (!/\.(pdf|docx?)$/i.test(file.name)) e.cv = messages.cvType;
+      else if (file.size > maxBytes) e.cv = messages.cvSize;
+      if (f.message.value.length > 3000) e.message = messages.message;
+      if (!f.consent.checked) e.consent = messages.consent;
+      return e;
+    }
+
+    function show(errs) {
+      var count = 0, first = null;
+      order.forEach(function (name) {
+        if (errs[name]) {
+          count++;
+          if (!first) first = field(name);
+          field(name).setAttribute('aria-invalid', 'true');
+          err(name).textContent = errs[name];
+          err(name).hidden = false;
+        } else {
+          clear(name);
+        }
+      });
+      if (count) {
+        $('strong', summary).textContent = summaryTemplate.replace('{count}', count);
+        summary.hidden = false;
+        setTimeout(function () { first.focus(); }, 30);
+      } else {
+        summary.hidden = true;
+      }
+      return count;
+    }
+
+    function done(box) { box.hidden = false; setTimeout(function () { box.focus(); }, 30); }
+
+    order.forEach(function (name) {
+      var f = field(name);
+      f.addEventListener(f.type === 'checkbox' || f.type === 'file' ? 'change' : 'input', function () { clear(name); });
+    });
+
+    el.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (busy) return;
+      sent.hidden = true;
+      failed.hidden = true;
+      if (show(validate())) return;
+
+      busy = true;
+      button.disabled = true;
+      el.setAttribute('aria-busy', 'true');
+      fetch(el.action, { method: 'POST', body: new FormData(el), credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, data: d }; }); })
+        .then(function (res) {
+          if (res.status === 200 && res.data.ok) {
+            el.reset();
+            done(sent);
+          } else if (res.status === 422 && res.data.errors) {
+            var errs = {};
+            Object.keys(res.data.errors).forEach(function (k) { errs[keyOf[k] || k] = res.data.errors[k]; });
+            show(errs);
+          } else {
+            if (res.data && res.data.message) $('strong', failed).textContent = res.data.message;
+            done(failed);
+          }
+        })
+        .catch(function () { done(failed); })
+        .then(function () {
+          busy = false;
+          button.disabled = false;
+          el.removeAttribute('aria-busy');
+        });
+    });
+  }
+
   menu();
   languageSwitch();
   consultForm();
+  applyForm();
   services();
   purpose();
   selfCheck();

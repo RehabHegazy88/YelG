@@ -451,27 +451,59 @@ namespace YelG.WebSite.Areas.Admin.Editing
                 .Text(x => x.SendCvLabel, "زر إرسال السيرة الذاتية", hint: "يفتح رسالة إلى بريد التوظيف في إعدادات الموقع.")
                 .Plain(x => x.CvEmailSubject, "عنوان الرسالة", ltr: false)
                 .Text(x => x.JobsLinkLabel, "رابط الوظائف")
-                .Url(x => x.JobsUrl, "عنوان رابط الوظائف");
+                .Url(x => x.JobsUrl, "عنوان رابط الوظائف")
+                .Group("صفحة الوظائف ونموذج التقديم")
+                .Text(x => x.ApplyTitle, "عنوان نموذج التقديم", hint: "اتركه فارغًا لـ «قدّم على هذه الوظيفة».")
+                .Area(x => x.ApplyConsentText, "نص الموافقة", markup: true, rows: 2, hint: "ما يوافق عليه المتقدم (استخدام سيرته ومدة الاحتفاظ بها). تحتاج صياغة معتمدة.")
+                .Text(x => x.ApplySuccessTitle, "عنوان رسالة النجاح")
+                .Area(x => x.ApplySuccessText, "رسالة النجاح", rows: 2)
+                .Area(x => x.NoOpeningsText, "نص «لا توجد وظائف»", rows: 2, hint: "يظهر في صفحة الوظائف عندما لا توجد وظيفة متاحة.");
             var tags = new EntityEditor<CareerRoleTag>("وسم")
                 .Text(x => x.Label, "الوسم", required: true)
                 .Bool(x => x.IsPublished, "ظاهر في الموقع");
             var roles = new EntityEditor<CareerRole>("وظيفة")
                 .Text(x => x.Title, "المسمى الوظيفي", required: true)
+                .Plain(x => x.Slug, "عنوان الصفحة", hint: "يظهر في الرابط: /ar/careers/senior-accountant. حروف إنجليزية صغيرة وأرقام وشرطات؛ اتركه فارغًا ليُنشأ من المسمى الإنجليزي. لا تغيّره بعد النشر.")
+                .Text(x => x.Department, "القسم", hint: "مثل «المحاسبة» — تُصفّى الوظائف به في صفحة الوظائف.")
+                .Choice(x => x.EmploymentType, "نوع الدوام", new Dictionary<EmploymentType, string>
+                {
+                    [EmploymentType.FullTime] = "دوام كامل",
+                    [EmploymentType.PartTime] = "دوام جزئي",
+                    [EmploymentType.Contract] = "عقد مؤقت",
+                    [EmploymentType.Internship] = "تدريب"
+                })
                 .Text(x => x.Location, "المكان")
                 .Text(x => x.Experience, "الخبرة")
-                .Url(x => x.ApplyUrl, "رابط التقديم")
-                .Email(x => x.ApplyEmail, "بريد التقديم", hint: "أدخل رابط التقديم أو البريد.")
+                .Group("الوصف")
+                .Area(x => x.Summary, "ملخص قصير", rows: 2, hint: "سطر أو سطران يظهران في قائمة الوظائف.")
+                .Area(x => x.Description, "عن الوظيفة", markup: true, rows: 5)
+                .Area(x => x.Responsibilities, "المسؤوليات", rows: 6, hint: "كل مسؤولية في سطر.")
+                .Area(x => x.Requirements, "المتطلبات", rows: 6, hint: "كل متطلب في سطر.")
+                .Group("النشر والتقديم")
+                .OptionalDate(x => x.PostedOn, "تاريخ النشر")
+                .OptionalDate(x => x.ClosingOn, "آخر موعد للتقديم", hint: "بعد هذا اليوم تختفي الوظيفة من الموقع تلقائيًا. اتركه فارغًا لوظيفة مفتوحة.")
                 .Bool(x => x.IsActive, "متاحة للتقديم", "الوظيفة غير المتاحة تبقى محفوظة ولا تظهر في الموقع.")
                 .Bool(x => x.IsPublished, "ظاهرة في الموقع")
+                .Url(x => x.ApplyUrl, "رابط تقديم خارجي", hint: "اختياري. إذا أدخلته يظهر زر يفتح هذا الرابط بدل نموذج التقديم في الموقع.")
+                .Email(x => x.ApplyEmail, "بريد التقديم (قديم)", hint: "اختياري؛ الطلبات تصل عبر النموذج إلى «طلبات التوظيف».")
                 .Rule((r, c) =>
                 {
-                    if (string.IsNullOrWhiteSpace(r.ApplyUrl) && string.IsNullOrWhiteSpace(r.ApplyEmail))
-                        c.Errors.Add(nameof(r.ApplyUrl), "أدخل رابط التقديم أو بريد التقديم.");
-                });
+                    if (string.IsNullOrWhiteSpace(r.Slug)) r.Slug = Slugify(r.Title.En);
+                    if (string.IsNullOrWhiteSpace(r.Slug)) c.Errors.Add(nameof(r.Slug), "أدخل عنوانًا للصفحة بالحروف الإنجليزية.");
+                    else if (!SlugPattern().IsMatch(r.Slug)) c.Errors.Add(nameof(r.Slug), "حروف إنجليزية صغيرة وأرقام وشرطات فقط، مثل senior-accountant.");
+                    if (r.PostedOn is { } posted && r.ClosingOn is { } closing && closing < posted)
+                        c.Errors.Add(nameof(r.ClosingOn), "آخر موعد للتقديم قبل تاريخ النشر.");
+                })
+                .Unique(x => x.Slug, "هذا العنوان مستخدم لوظيفة أخرى.");
 
-            var screen = EditorScreen.For("careers", "الوظائف", form) with { Anchor = "#careers", Description = "لا تظهر قائمة الوظائف إلا عند وجود وظيفة متاحة." };
-            screen.Lists.Add(new ListEditor<CareerRole>("roles", "الوظائف المتاحة", roles)
-                .Show("الحالة", r => r.IsActive ? "متاحة" : "مغلقة")
+            var screen = EditorScreen.For("careers", "الوظائف", form) with
+            {
+                Anchor = "#careers",
+                Description = "قسم الوظائف في الصفحة الرئيسية وصفحة الوظائف (/ar/careers) وصفحة كل وظيفة. طلبات التقديم في «طلبات التوظيف»."
+            };
+            screen.Lists.Add(new ListEditor<CareerRole>("roles", "الوظائف", roles)
+                .Show("القسم", r => r.Department.Ar)
+                .Show("الحالة", r => !r.IsActive ? "مغلقة" : r.ClosingOn is { } d && d < DateOnly.FromDateTime(DateTime.UtcNow) ? "انتهى موعدها" : "متاحة")
                 .Child(new ListEditor<CareerRoleTag>("tags", "الوسوم", tags, t => t.CareerRoleId)));
             return screen;
         }
@@ -543,6 +575,19 @@ namespace YelG.WebSite.Areas.Admin.Editing
             if (key(e).Length > 0 && !KeyPattern().IsMatch(key(e)))
                 c.Errors.Add("Key", "حروف إنجليزية صغيرة وأرقام وشرطة فقط، تبدأ بحرف.");
         };
+
+        /// <summary>"Senior Accountant (Cairo)" -> "senior-accountant-cairo".</summary>
+        private static string Slugify(string text)
+        {
+            var slug = SlugCleanup().Replace(text.ToLowerInvariant(), "-").Trim('-');
+            return slug.Length > 80 ? slug[..80].TrimEnd('-') : slug;
+        }
+
+        [GeneratedRegex("[^a-z0-9]+")]
+        private static partial Regex SlugCleanup();
+
+        [GeneratedRegex("^[a-z0-9]+(-[a-z0-9]+)*$")]
+        private static partial Regex SlugPattern();
 
         [GeneratedRegex("^[a-z][a-z0-9-]{0,19}$")]
         private static partial Regex KeyPattern();

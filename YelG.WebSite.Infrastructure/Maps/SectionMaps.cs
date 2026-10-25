@@ -199,6 +199,8 @@ namespace YelG.WebSite.Infrastructure.Maps
             builder.Entity<CareerRole>(b =>
             {
                 b.ToTable("CareerRoles");
+                b.Property(x => x.Slug).HasMaxLength(80).IsRequired();
+                b.HasIndex(x => x.Slug).IsUnique().HasFilter(ActiveRowsFilter);
                 b.Property(x => x.ApplyUrl).HasMaxLength(500);
                 b.Property(x => x.ApplyEmail).HasMaxLength(256);
             });

@@ -1,0 +1,124 @@
+@using YelG.WebSite.Domain.Careers
+@model ApplicationDetailsModel
+@{
+    var a = Model.Application;
+    ViewData["Title"] = a.Name;
+    var isAdmin = User.IsInRole(AdminRoles.Admin);
+}
+<nav class="crumbs" aria-label="المسار">
+    <ol>
+        <li><a href="/admin/applications">طلبات التوظيف</a></li>
+        <li><span aria-current="page" dir="auto">@a.Name</span></li>
+    </ol>
+</nav>
+<div class="page-head">
+    <div>
+        <h1 dir="auto">@a.Name</h1>
+        <p class="lead"><span dir="auto">@a.RoleTitle</span> · <span dir="ltr">@AdminFormat.Time(a.AddedDate)</span></p>
+    </div>
+    <div class="head-actions">
+        <a class="btn small" href="/admin/applications/@a.Id/cv">تحميل السيرة الذاتية</a>
+        <a class="btn small ghost" href="mailto:@a.Email">الرد بالبريد</a>
+    </div>
+</div>
+
+<div class="split">
+    <div>
+        <section class="panel">
+            <header class="panel-head"><h2>الطلب</h2><span class="state @ApplicationFormat.StatusClass(a.Status)">@ApplicationFormat.Status(a.Status)</span></header>
+            <dl class="facts">
+                <dt>الوظيفة</dt><dd dir="auto">@if (Model.RoleSlug is { } slug) { <a href="/@a.Culture/careers/@slug" target="_blank" rel="noopener">@a.RoleTitle</a> } else { @a.RoleTitle }</dd>
+                <dt>البريد</dt><dd dir="ltr"><a href="mailto:@a.Email">@a.Email</a></dd>
+                <dt>الهاتف</dt><dd dir="ltr">@if (a.Phone is not null) { <a href="tel:@a.Phone">@a.Phone</a> } else { <span>—</span> }</dd>
+                <dt>LinkedIn</dt><dd dir="ltr">@if (a.LinkedInUrl is not null) { <a href="@a.LinkedInUrl" target="_blank" rel="noopener noreferrer">@a.LinkedInUrl</a> } else { <span>—</span> }</dd>
+                <dt>السيرة الذاتية</dt><dd><a href="/admin/applications/@a.Id/cv" dir="auto">@a.CvFileName</a> <span class="muted" dir="ltr">(@ApplicationFormat.Size(a.CvSizeBytes))</span></dd>
+                <dt>لغة الصفحة</dt><dd>@(a.Culture == "en" ? "الإنجليزية" : "العربية")</dd>
+            </dl>
+            <h3 class="sub">الرسالة التعريفية</h3>
+            <div class="message" dir="auto">@(a.Message ?? "—")</div>
+        </section>
+
+        <section class="panel" id="notes" aria-labelledby="notesTitle">
+            <header class="panel-head"><h2 id="notesTitle">ملاحظات داخلية <span class="count">(@a.Notes.Count)</span></h2></header>
+            @if (a.Notes.Count == 0)
+            {
+            <p class="empty">لا توجد ملاحظات. لا يراها المتقدم.</p>
+            }
+            <ul class="notes">
+                @foreach (var note in a.Notes)
+                {
+                <li>
+                    <p class="note-meta">@(note.AddedBy_PersonID is { } author && Model.Authors.TryGetValue(author, out var name) ? name : "—") · <span dir="ltr">@AdminFormat.Time(note.AddedDate)</span></p>
+                    <div class="message" dir="auto">@note.Text</div>
+                    @if (isAdmin || note.AddedBy_PersonID == Model.CurrentUserId)
+                    {
+                    <form method="post" action="/admin/applications/@a.Id/notes/@note.Id/delete" asp-antiforgery="true" data-confirm="هل تريد حذف هذه الملاحظة؟">
+                        <button type="submit" class="link small danger">حذف</button>
+                    </form>
+                    }
+                </li>
+                }
+            </ul>
+            <form method="post" action="/admin/applications/@a.Id/notes" asp-antiforgery="true" class="editor">
+                <div class="field">
+                    <label class="field-label" for="noteText">ملاحظة جديدة</label>
+                    <textarea id="noteText" name="text" rows="3" maxlength="4000" required></textarea>
+                </div>
+                <button type="submit" class="btn small">إضافة ملاحظة</button>
+            </form>
+        </section>
+    </div>
+
+    <div>
+        <section class="panel">
+            <header class="panel-head"><h2>الحالة</h2></header>
+            <form method="post" action="/admin/applications/@a.Id/status" asp-antiforgery="true" class="status-form">
+                <label class="sr" for="statusSelect">الحالة</label>
+                <select id="statusSelect" name="status">
+                    @foreach (var status in Enum.GetValues<ApplicationStatus>())
+                    {
+                    <option value="@status" selected="@(status == a.Status)">@ApplicationFormat.Status(status)</option>
+                    }
+                </select>
+                <button type="submit" class="btn small">حفظ</button>
+            </form>
+        </section>
+
+        <section class="panel">
+            <header class="panel-head"><h2>إشعار البريد</h2></header>
+            @if (a.NotificationSentAt is not null)
+            {
+            <p>أُرسل في <span dir="ltr">@AdminFormat.Time(a.NotificationSentAt)</span>.</p>
+            }
+            else if (a.NotificationAttempts > 0)
+            {
+            <p class="field-error">تعذّر الإرسال (@a.NotificationAttempts محاولات).</p>
+            <p class="hint" dir="ltr">@a.NotificationError</p>
+            }
+            else
+            {
+            <p>قيد الإرسال.</p>
+            }
+            <form method="post" action="/admin/applications/@a.Id/resend" asp-antiforgery="true">
+                <button type="submit" class="btn small ghost">إعادة إرسال الإشعار</button>
+            </form>
+        </section>
+
+        <section class="panel">
+            <header class="panel-head"><h2>الموافقة</h2></header>
+            <p>وافق المتقدم في <span dir="ltr">@AdminFormat.Time(a.ConsentAt)</span> على النص:</p>
+            <blockquote class="message" dir="auto">@a.ConsentText</blockquote>
+        </section>
+
+        @if (isAdmin)
+        {
+        <section class="panel">
+            <header class="panel-head"><h2>حذف الطلب</h2></header>
+            <p class="hint">يُحذف الطلب وملاحظاته وملف السيرة الذاتية نهائيًا، ولا يمكن استرجاعه.</p>
+            <form method="post" action="/admin/applications/@a.Id/delete" asp-antiforgery="true" data-confirm="سيُحذف الطلب وسيرته الذاتية نهائيًا. هل تريد المتابعة؟">
+                <button type="submit" class="btn small danger">حذف نهائي</button>
+            </form>
+        </section>
+        }
+    </div>
+</div>

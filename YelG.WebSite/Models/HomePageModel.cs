@@ -8,8 +8,11 @@ using YelG.WebSite.Rendering;
 
 namespace YelG.WebSite.Models
 {
-    /// <summary>The homepage in one language, with the helpers its partial views use.</summary>
-    public sealed class HomePageModel
+    /// <summary>
+    /// The homepage in one language, with the helpers its partial views use. The site's other pages (careers)
+    /// derive from it: they share the header, footer and helpers, and set their own path, title and description.
+    /// </summary>
+    public class HomePageModel
     {
         public HomePageModel(HomeContent content, string lang, UiStrings ui, bool preview, string baseUrl)
         {
@@ -64,12 +67,24 @@ namespace YelG.WebSite.Models
         /// <summary>A plain value (an email, a source name) with Latin isolation on the Arabic page.</summary>
         public IHtmlContent Iso(string? value) => RichText.Render(value?.Replace("*", "\\*"), new RichTextOptions { IsolateLatin = IsArabic });
 
-        public string Url(string lang) => $"{BaseUrl}/{lang}";
+        /// <summary>The page's path after the language ("" for the homepage, "/careers", "/careers/senior-accountant").</summary>
+        public virtual string PagePath => "";
+
+        /// <summary>The page's own title and description; the site's SEO texts when null.</summary>
+        public virtual string? PageTitle => null;
+        public virtual string? PageDescription => null;
+
+        public bool IsHome => PagePath.Length == 0;
+
+        /// <summary>A link to a homepage section ("#about") that also works from the site's other pages ("/ar#about").</summary>
+        public string Href(string href) => !IsHome && href.StartsWith('#') && href != "#top" ? $"/{Lang}{href}" : href;
+
+        public string Url(string lang) => $"{BaseUrl}/{lang}{PagePath}";
 
         public string OtherLang => SiteLanguage.Other(Lang);
 
-        /// <summary>The language switch: the other language's page, or its preview while previewing.</summary>
-        public string LangSwitchUrl => IsPreview ? $"/admin/preview/{OtherLang}" : $"/{OtherLang}";
+        /// <summary>The language switch: the same page in the other language, or its preview while previewing.</summary>
+        public string LangSwitchUrl => IsPreview ? $"/admin/preview/{OtherLang}" : $"/{OtherLang}{PagePath}";
 
         /// <summary>"+20 10 0667 7363" → "tel:+201006677363".</summary>
         public static string TelHref(string phone) => "tel:" + new string(phone.Where(c => char.IsDigit(c) || c == '+').ToArray());

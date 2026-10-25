@@ -1,0 +1,96 @@
+@using YelG.WebSite.Domain.Careers
+@model ApplicationListModel
+@{
+    ViewData["Title"] = "طلبات التوظيف";
+    var f = Model.Filter;
+    var isAdmin = User.IsInRole(AdminRoles.Admin);
+    string StatusLink(ApplicationStatus? status) => "/admin/applications?" + (f with { Status = status }).Query();
+}
+<div class="page-head">
+    <div>
+        <h1>طلبات التوظيف</h1>
+        <p class="lead">الطلبات الواردة من صفحات الوظائف مع السير الذاتية. الأوقات بتوقيت القاهرة.</p>
+    </div>
+    <div class="head-actions">
+        <a class="btn small ghost" href="/admin/sections/careers#list-roles">إدارة الوظائف</a>
+        @if (isAdmin && Model.Total > 0)
+        {
+        <a class="btn small ghost" href="/admin/applications/export?@f.Query()">تصدير CSV (@Model.Total)</a>
+        }
+    </div>
+</div>
+
+<section class="panel">
+    <nav class="tabs" aria-label="الحالة">
+        <a href="@StatusLink(null)" aria-current="@(f.Status is null ? "page" : "false")">الكل (@Model.Counts.Values.Sum())</a>
+        @foreach (var status in Enum.GetValues<ApplicationStatus>())
+        {
+        <a href="@StatusLink(status)" aria-current="@(f.Status == status ? "page" : "false")">@ApplicationFormat.Status(status) (@Model.Counts.GetValueOrDefault(status))</a>
+        }
+    </nav>
+    <form method="get" action="/admin/applications" class="filters">
+        @if (f.Status is not null)
+        {
+        <input type="hidden" name="status" value="@f.Status">
+        }
+        <div class="field">
+            <label class="field-label" for="fQ">بحث</label>
+            <input type="search" id="fQ" name="q" value="@f.Q" placeholder="الاسم أو البريد">
+        </div>
+        <div class="field">
+            <label class="field-label" for="fRole">الوظيفة</label>
+            <select id="fRole" name="role">
+                <option value="">الكل</option>
+                @foreach (var (value, label) in Model.Roles)
+                {
+                <option value="@value" selected="@(value == f.Role)">@label</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label class="field-label" for="fFrom">من</label>
+            <input type="date" id="fFrom" name="from" value="@f.From?.ToString("yyyy-MM-dd")" dir="ltr">
+        </div>
+        <div class="field">
+            <label class="field-label" for="fTo">إلى</label>
+            <input type="date" id="fTo" name="to" value="@f.To?.ToString("yyyy-MM-dd")" dir="ltr">
+        </div>
+        <div class="filters-actions">
+            <button type="submit" class="btn small">تصفية</button>
+            <a class="link" href="/admin/applications">مسح</a>
+        </div>
+    </form>
+
+    @if (Model.Items.Count == 0)
+    {
+    <p class="empty">لا توجد طلبات.</p>
+    }
+    else
+    {
+    <div class="table-wrap">
+    <table class="rows">
+        <thead><tr><th scope="col">الوقت</th><th scope="col">الاسم</th><th scope="col" class="col-extra">الوظيفة</th><th scope="col">الحالة</th><th scope="col" class="col-extra">الإشعار</th></tr></thead>
+        <tbody>
+        @foreach (var a in Model.Items)
+        {
+            <tr class="@(a.Status == ApplicationStatus.New ? "is-new" : "")">
+                <td dir="ltr" class="nowrap">@AdminFormat.Time(a.AddedDate)</td>
+                <td class="col-name"><a href="/admin/applications/@a.Id" dir="auto">@a.Name</a></td>
+                <td class="col-extra" dir="auto">@a.RoleTitle</td>
+                <td><span class="state @ApplicationFormat.StatusClass(a.Status)">@ApplicationFormat.Status(a.Status)</span></td>
+                <td class="col-extra">@(a.NotificationSentAt is not null ? "أُرسل" : a.NotificationAttempts > 0 ? "تعذّر" : "قيد الإرسال")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+    @if (Model.PageCount > 1)
+    {
+    <nav class="pager" aria-label="الصفحات">
+        @if (Model.Page > 1) { <a href="/admin/applications?@f.Query(Model.Page - 1)">السابق</a> }
+        <span>صفحة @Model.Page من @Model.PageCount</span>
+        @if (Model.Page < Model.PageCount) { <a href="/admin/applications?@f.Query(Model.Page + 1)">التالي</a> }
+    </nav>
+    }
+    }
+</section>

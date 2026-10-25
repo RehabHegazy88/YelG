@@ -1,0 +1,58 @@
+@model CareersPageModel
+@{
+    var section = Model.Content.Careers!;
+    var site = Model.Content.Site;
+    var roles = Model.ListedRoles;
+}
+<partial name="_PageTop" model="Model" />
+
+<main id="main">
+<section class="sec careers-page" aria-labelledby="rolesTitle">
+<div class="wrap">
+<div class="jobs-head">
+<h2 id="rolesTitle" class="h2">@Model.C("openRoles") <span class="jobs-count">(@Model.OpenRoles.Count)</span></h2>
+@if (Model.Departments.Count > 1)
+{
+<nav class="ctabs" aria-label="@Model.C("department")">
+<a href="@Model.ListUrl" class="ctab@(string.IsNullOrEmpty(Model.Department) ? " ctab-on" : "")" aria-current="@(string.IsNullOrEmpty(Model.Department) ? "page" : null)">@Model.C("allDepartments")</a>
+@foreach (var department in Model.Departments)
+{
+<a href="@Model.ListUrl?department=@Uri.EscapeDataString(department)" class="ctab@(department == Model.Department ? " ctab-on" : "")" aria-current="@(department == Model.Department ? "page" : null)">@department</a>
+}
+</nav>
+}
+</div>
+
+@if (roles.Count == 0)
+{
+<div class="jobs-empty">
+<p>@Model.Text(section.NoOpeningsText, "noOpenings")</p>
+@if (!string.IsNullOrEmpty(site.CareersEmail))
+{
+<a href="mailto:@site.CareersEmail?subject=@Uri.EscapeDataString(section.CvEmailSubject)" class="btn btn-blue">@Model.C("sendCv")<span class="ar">@Model.ArrowIcon</span></a>
+}
+</div>
+}
+else
+{
+<ul class="jobs">
+@foreach (var role in roles)
+{
+<li class="job-card">
+<a href="@Model.RoleUrl(role)" class="job-link">
+<span class="job-meta">@if (!role.Department.IsEmpty){<span>@Model.R(role.Department)</span><span aria-hidden="true">·</span>}<span>@Model.Type(role.EmploymentType)</span></span>
+<strong class="job-title">@Model.R(role.Title)</strong>
+@if (!role.Summary.IsEmpty){<span class="job-summary">@Model.R(role.Summary)</span>}
+<span class="job-where">@Model.R(role.Location)@if (!role.Location.IsEmpty && !role.Experience.IsEmpty){<text> · </text>}@Model.R(role.Experience)</span>
+@if (role.Tags.Count > 0){<span class="role-tags">@foreach (var tag in role.Tags){<span class="chip">@Model.R(tag.Label)</span>}</span>}
+<span class="tlink job-more">@Model.C("viewRole") <span aria-hidden="true">@Model.ArrowNext</span></span>
+</a>
+</li>
+}
+</ul>
+}
+</div>
+</section>
+</main>
+
+<partial name="~/Views/Home/Sections/_Footer.cshtml" model="Model" />

@@ -106,7 +106,7 @@ namespace YelG.WebSite.Tests
                 Assert.Equal(9, before["Services"]);
                 Assert.Equal(58, before["ServiceDeliverables"]);
                 Assert.Equal(1, before["HeroSections"]);
-                Assert.Equal(1, before["Users"]);
+                Assert.True(before["Users"] >= 1);   // other tests in the collection may add accounts; re-seeding adds none (below)
 
                 var faq = await db.FaqItems.OrderBy(f => f.SortOrder).ToListAsync();
                 faq[0].Question.Ar = "سؤال عدّله المحرر";

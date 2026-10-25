@@ -34,6 +34,7 @@ namespace YelG.WebSite.Areas.Admin.Models
         public IReadOnlyList<AuditLog> Recent { get; init; } = [];
         public int MediaCount { get; init; }
         public int NewEnquiries { get; init; }
+        public int NewApplications { get; init; }
 
         /// <summary>Things to fix before the site goes live (mail settings, missing wording, failed emails).</summary>
         public IReadOnlyList<(string Text, string? Url)> Warnings { get; init; } = [];

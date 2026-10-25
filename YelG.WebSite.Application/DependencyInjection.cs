@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using YelG.WebSite.Application.Careers;
 using YelG.WebSite.Application.Content;
 using YelG.WebSite.Application.Enquiries;
 using YelG.WebSite.Application.Media;
@@ -16,6 +17,7 @@ namespace YelG.WebSite.Application
             services.AddScoped<HomeContentService>();
             services.AddScoped<MediaUploadService>();
             services.AddScoped<EnquiryService>();
+            services.AddScoped<JobApplicationService>();
             return services;
         }
     }

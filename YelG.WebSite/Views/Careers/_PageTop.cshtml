@@ -1,0 +1,44 @@
+@model CareersPageModel
+@{
+    // the dark band at the top of the careers pages: the site header, the path and the page heading
+    var section = Model.Content.Careers!;
+    var role = Model.Role;
+}
+<a href="#main" class="skip">@Model.S("skip")</a>
+<section id="top" class="heroB page-top" aria-labelledby="pageTitle">
+<div aria-hidden="true" class="heroB-pat"></div>
+<partial name="~/Views/Shared/_SiteHeader.cshtml" model="Model" />
+<div class="wrap page-top-body">
+<nav class="crumbs" aria-label="@(Model.IsArabic ? "المسار" : "Breadcrumb")">
+<a href="/@Model.Lang">YelG Advisory</a><span aria-hidden="true">/</span>
+@if (role is null)
+{
+<span aria-current="page">@Model.C("pageTitle")</span>
+}
+else
+{
+<a href="@Model.ListUrl">@Model.C("pageTitle")</a><span aria-hidden="true">/</span><span aria-current="page">@Model.T(role.Title)</span>
+}
+</nav>
+@if (role is null)
+{
+<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.R(section.Eyebrow)</span>
+<h1 id="pageTitle" class="page-title">@Model.R(section.Heading)</h1>
+@if (!section.Lead.IsEmpty){<p class="page-lead">@Model.R(section.Lead)</p>}
+}
+else
+{
+@if (!role.Department.IsEmpty)
+{
+<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.R(role.Department)</span>
+}
+<h1 id="pageTitle" class="page-title">@Model.R(role.Title)</h1>
+<ul class="job-facts">
+<li><span class="sr">@Model.C("type"): </span>@Model.Type(role.EmploymentType)</li>
+@if (!role.Location.IsEmpty){<li><span class="sr">@Model.C("location"): </span>@Model.R(role.Location)</li>}
+@if (!role.Experience.IsEmpty){<li><span class="sr">@Model.C("experience"): </span>@Model.R(role.Experience)</li>}
+@if (role.ClosingOn is { } closing){<li>@Model.C("closing"): <time datetime="@closing.ToString("yyyy-MM-dd")">@Model.Date(closing)</time></li>}
+</ul>
+}
+</div>
+</section>

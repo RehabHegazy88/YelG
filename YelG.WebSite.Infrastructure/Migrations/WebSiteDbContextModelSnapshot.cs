@@ -189,6 +189,174 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.ToTable("AuditLogs", (string)null);
                 });
 
+            modelBuilder.Entity("YelG.WebSite.Domain.Careers.JobApplication", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("AddedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CareerRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ConsentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ConsentText")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Culture")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<string>("CvContentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CvFileName")
+                        .IsRequired()
+                        .HasMaxLength(260)
+                        .HasColumnType("nvarchar(260)");
+
+                    b.Property<long>("CvSizeBytes")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CvStoredPath")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("IpHash")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LinkedInUrl")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Message")
+                        .HasMaxLength(3000)
+                        .HasColumnType("nvarchar(3000)");
+
+                    b.Property<long?>("ModifiedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("NotificationAttempts")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NotificationError")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime?>("NotificationSentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("RoleTitle")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserAgent")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedBy_PersonID");
+
+                    b.HasIndex("AddedDate");
+
+                    b.HasIndex("CareerRoleId");
+
+                    b.HasIndex("ModifiedBy_PersonID");
+
+                    b.HasIndex("Status");
+
+                    b.ToTable("JobApplications", (string)null);
+                });
+
+            modelBuilder.Entity("YelG.WebSite.Domain.Careers.JobApplicationNote", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("AddedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("JobApplicationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("ModifiedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedBy_PersonID");
+
+                    b.HasIndex("JobApplicationId");
+
+                    b.HasIndex("ModifiedBy_PersonID");
+
+                    b.ToTable("JobApplicationNotes", (string)null);
+                });
+
             modelBuilder.Entity("YelG.WebSite.Domain.Enquiries.Enquiry", b =>
                 {
                     b.Property<long>("Id")
@@ -640,11 +808,17 @@ namespace YelG.WebSite.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<DateOnly?>("ClosingOn")
+                        .HasColumnType("date");
+
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("EmploymentType")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -658,8 +832,42 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.Property<long?>("ModifiedBy_PersonID")
                         .HasColumnType("bigint");
 
+                    b.Property<DateOnly?>("PostedOn")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Department", "YelG.WebSite.Domain.Sections.CareerRole.Department#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Description", "YelG.WebSite.Domain.Sections.CareerRole.Description#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
 
                     b.ComplexProperty<Dictionary<string, object>>("Experience", "YelG.WebSite.Domain.Sections.CareerRole.Experience#LocalizedText", b1 =>
                         {
@@ -675,6 +883,45 @@ namespace YelG.WebSite.Infrastructure.Migrations
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("Location", "YelG.WebSite.Domain.Sections.CareerRole.Location#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Requirements", "YelG.WebSite.Domain.Sections.CareerRole.Requirements#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Responsibilities", "YelG.WebSite.Domain.Sections.CareerRole.Responsibilities#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Summary", "YelG.WebSite.Domain.Sections.CareerRole.Summary#LocalizedText", b1 =>
                         {
                             b1.IsRequired();
 
@@ -705,6 +952,10 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.HasIndex("AddedBy_PersonID");
 
                     b.HasIndex("ModifiedBy_PersonID");
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasFilter("[Deleted] = 0");
 
                     b.ToTable("CareerRoles", (string)null);
                 });
@@ -813,6 +1064,58 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.Property<long?>("ModifiedBy_PersonID")
                         .HasColumnType("bigint");
 
+                    b.ComplexProperty<Dictionary<string, object>>("ApplyConsentText", "YelG.WebSite.Domain.Sections.CareersSection.ApplyConsentText#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("ApplySuccessText", "YelG.WebSite.Domain.Sections.CareersSection.ApplySuccessText#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("ApplySuccessTitle", "YelG.WebSite.Domain.Sections.CareersSection.ApplySuccessTitle#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("ApplyTitle", "YelG.WebSite.Domain.Sections.CareersSection.ApplyTitle#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
                     b.ComplexProperty<Dictionary<string, object>>("Eyebrow", "YelG.WebSite.Domain.Sections.CareersSection.Eyebrow#LocalizedText", b1 =>
                         {
                             b1.IsRequired();
@@ -866,6 +1169,19 @@ namespace YelG.WebSite.Infrastructure.Migrations
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("Lead", "YelG.WebSite.Domain.Sections.CareersSection.Lead#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("NoOpeningsText", "YelG.WebSite.Domain.Sections.CareersSection.NoOpeningsText#LocalizedText", b1 =>
                         {
                             b1.IsRequired();
 
@@ -4287,6 +4603,47 @@ namespace YelG.WebSite.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("YelG.WebSite.Domain.Careers.JobApplication", b =>
+                {
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("AddedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Domain.Sections.CareerRole", "CareerRole")
+                        .WithMany()
+                        .HasForeignKey("CareerRoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CareerRole");
+                });
+
+            modelBuilder.Entity("YelG.WebSite.Domain.Careers.JobApplicationNote", b =>
+                {
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("AddedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Domain.Careers.JobApplication", "JobApplication")
+                        .WithMany("Notes")
+                        .HasForeignKey("JobApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("JobApplication");
+                });
+
             modelBuilder.Entity("YelG.WebSite.Domain.Enquiries.Enquiry", b =>
                 {
                     b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
@@ -4996,6 +5353,11 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.Navigation("Logo");
 
                     b.Navigation("OgImage");
+                });
+
+            modelBuilder.Entity("YelG.WebSite.Domain.Careers.JobApplication", b =>
+                {
+                    b.Navigation("Notes");
                 });
 
             modelBuilder.Entity("YelG.WebSite.Domain.Enquiries.Enquiry", b =>

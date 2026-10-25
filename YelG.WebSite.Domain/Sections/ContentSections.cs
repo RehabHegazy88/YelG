@@ -236,20 +236,74 @@ namespace YelG.WebSite.Domain.Sections
 
         public LocalizedText JobsLinkLabel { get; set; } = new();
         public string JobsUrl { get; set; } = string.Empty;
+
+        // ---- the careers page (/{lang}/careers) and its application form; empty texts use the site's defaults
+
+        /// <summary>Heading of the application form on a job's page ("قدّم على هذه الوظيفة").</summary>
+        public LocalizedText ApplyTitle { get; set; } = new();
+
+        /// <summary>What the applicant agrees to (use of the CV, how long it is kept).</summary>
+        public LocalizedText ApplyConsentText { get; set; } = new();
+
+        /// <summary>Shown once the application is saved.</summary>
+        public LocalizedText ApplySuccessTitle { get; set; } = new();
+        public LocalizedText ApplySuccessText { get; set; } = new();
+
+        /// <summary>Shown on the careers page when no role is open.</summary>
+        public LocalizedText NoOpeningsText { get; set; } = new();
     }
 
-    /// <summary>An open role. None in the approved design; the list shows only when one is active.</summary>
+    public enum EmploymentType
+    {
+        FullTime = 0,
+        PartTime = 1,
+        Contract = 2,
+        Internship = 3
+    }
+
+    /// <summary>
+    /// An open role, with its own page (/{lang}/careers/{slug}) and application form. None in the approved
+    /// design; the lists show only roles that are active and not past their closing date.
+    /// </summary>
     public class CareerRole : ContentItem
     {
+        /// <summary>The page address: lower-case Latin letters, digits and hyphens ("senior-accountant").</summary>
+        public string Slug { get; set; } = string.Empty;
+
         public LocalizedText Title { get; set; } = new();
+        public LocalizedText Department { get; set; } = new();
+        public EmploymentType EmploymentType { get; set; } = EmploymentType.FullTime;
         public LocalizedText Location { get; set; } = new();
         public LocalizedText Experience { get; set; } = new();
 
-        /// <summary>Apply link (https) or email address; one of the two.</summary>
+        /// <summary>One or two sentences for the list.</summary>
+        public LocalizedText Summary { get; set; } = new();
+
+        /// <summary>About the role (paragraphs).</summary>
+        public LocalizedText Description { get; set; } = new();
+
+        /// <summary>One item per line.</summary>
+        public LocalizedText Responsibilities { get; set; } = new();
+
+        /// <summary>One item per line.</summary>
+        public LocalizedText Requirements { get; set; } = new();
+
+        public DateOnly? PostedOn { get; set; }
+
+        /// <summary>The last day to apply; after it the role is no longer listed.</summary>
+        public DateOnly? ClosingOn { get; set; }
+
+        /// <summary>
+        /// Optional: an external application page (https) or address. Without them, candidates apply with the
+        /// form on the role's page.
+        /// </summary>
         public string? ApplyUrl { get; set; }
         public string? ApplyEmail { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        /// <summary>Listed on the site on <paramref name="today"/>: active and not past its closing date.</summary>
+        public bool IsOpenOn(DateOnly today) => IsActive && (ClosingOn is null || ClosingOn >= today);
 
         public ICollection<CareerRoleTag> Tags { get; set; } = new List<CareerRoleTag>();
     }

@@ -6,15 +6,21 @@ using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using YelG.WebSite.Domain.Careers;
 using YelG.WebSite.Domain.Enquiries;
 using YelG.WebSite.Domain.Settings;
 
 namespace YelG.WebSite.Infrastructure.Email
 {
-    /// <summary>Sends the new-enquiry notification to the address in the site settings, with the visitor as Reply-To.</summary>
+    /// <summary>
+    /// Sends the notifications for new enquiries (to the notification address) and job applications (to the careers
+    /// address), with the visitor as Reply-To. CVs are not attached: the email links to the admin panel.
+    /// </summary>
     public interface IEnquiryMailer
     {
         Task SendAsync(Enquiry enquiry, SiteSettings site, CancellationToken ct);
+
+        Task SendApplicationAsync(JobApplication application, SiteSettings site, CancellationToken ct);
     }
 
     public sealed class EnquiryMailer : IEnquiryMailer
@@ -30,11 +36,25 @@ namespace YelG.WebSite.Infrastructure.Email
 
         public async Task SendAsync(Enquiry enquiry, SiteSettings site, CancellationToken ct)
         {
-            if (!_smtp.IsConfigured) throw new InvalidOperationException("SMTP is not configured (Smtp:Host and Smtp:FromAddress).");
-            var to = string.IsNullOrWhiteSpace(site.NotificationEmail) ? site.ContactEmail : site.NotificationEmail;
-            if (string.IsNullOrWhiteSpace(to)) throw new InvalidOperationException("No notification address in the site settings.");
-
+            var to = FirstAddress(site.NotificationEmail, site.ContactEmail);
             using var message = Compose(enquiry, to);
+            await DeliverAsync(message, ct);
+        }
+
+        public async Task SendApplicationAsync(JobApplication application, SiteSettings site, CancellationToken ct)
+        {
+            var to = FirstAddress(site.CareersEmail, site.NotificationEmail, site.ContactEmail);
+            using var message = ComposeApplication(application, to);
+            await DeliverAsync(message, ct);
+        }
+
+        private static string FirstAddress(params string[] addresses) =>
+            addresses.FirstOrDefault(a => !string.IsNullOrWhiteSpace(a))
+            ?? throw new InvalidOperationException("No notification address in the site settings.");
+
+        private async Task DeliverAsync(MimeMessage message, CancellationToken ct)
+        {
+            if (!_smtp.IsConfigured) throw new InvalidOperationException("SMTP is not configured (Smtp:Host and Smtp:FromAddress).");
             using var client = new SmtpClient { Timeout = _smtp.TimeoutSeconds * 1000 };
             var security = _smtp.Security.ToLowerInvariant() switch
             {
@@ -70,22 +90,51 @@ namespace YelG.WebSite.Infrastructure.Email
             };
             if (e.SelfCheckScore is { } score) rows.Add(("نتيجة الفحص المالي / Self-check score", score.ToString(CultureInfo.InvariantCulture)));
 
+            message.Body = Body("طلب استشارة جديد · New enquiry", rows, e.Message, link);
+            return message;
+        }
+
+        public MimeMessage ComposeApplication(JobApplication a, string to)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(_smtp.FromName, _smtp.FromAddress));
+            message.To.Add(MailboxAddress.Parse(to));
+            message.ReplyTo.Add(new MailboxAddress(a.Name, a.Email));
+            message.Subject = OneLine($"طلب توظيف جديد / New application: {a.RoleTitle} — {a.Name}");
+
+            var link = _baseUrl is null ? null : $"{_baseUrl}/admin/applications/{a.Id}";
+            var rows = new List<(string Label, string Value)>
+            {
+                ("الوظيفة / Role", a.RoleTitle),
+                ("الاسم / Name", a.Name),
+                ("البريد / Email", a.Email),
+                ("الهاتف / Phone", a.Phone ?? "—"),
+                ("LinkedIn", a.LinkedInUrl ?? "—"),
+                ("السيرة الذاتية / CV", $"{a.CvFileName} ({Math.Max(1, a.CvSizeBytes / 1024)} KB)"),
+                ("لغة الصفحة / Page language", a.Culture == "en" ? "English" : "العربية"),
+                ("الموافقة / Consent", a.ConsentAt.ToString("yyyy-MM-dd HH:mm 'UTC'", CultureInfo.InvariantCulture))
+            };
+            message.Body = Body("طلب توظيف جديد · New job application", rows, a.Message ?? "—", link);
+            return message;
+        }
+
+        /// <summary>Bilingual labels (Arabic first), plain text and HTML; the visitor's text is encoded in the HTML part.</summary>
+        private static MimeEntity Body(string heading, List<(string Label, string Value)> rows, string messageText, string? link)
+        {
             var text = new StringBuilder();
             foreach (var (label, value) in rows) text.Append(label).Append(": ").AppendLine(value);
-            text.AppendLine().AppendLine("الرسالة / Message:").AppendLine(e.Message);
+            text.AppendLine().AppendLine("الرسالة / Message:").AppendLine(messageText);
             if (link is not null) text.AppendLine().AppendLine(link);
 
             var html = new StringBuilder("<div dir=\"rtl\" style=\"font-family:Arial,sans-serif;font-size:14px;color:#1F2A4D\">");
-            html.Append("<h2 style=\"color:#0A3177;font-size:18px\">طلب استشارة جديد · New enquiry</h2><table cellpadding=\"6\" style=\"border-collapse:collapse\">");
+            html.Append("<h2 style=\"color:#0A3177;font-size:18px\">").Append(Enc(heading)).Append("</h2><table cellpadding=\"6\" style=\"border-collapse:collapse\">");
             foreach (var (label, value) in rows)
                 html.Append("<tr><td style=\"color:#5B6890;white-space:nowrap\">").Append(Enc(label)).Append("</td><td dir=\"auto\"><b>").Append(Enc(value)).Append("</b></td></tr>");
             html.Append("</table><p style=\"color:#5B6890;margin:16px 0 4px\">الرسالة / Message</p><div dir=\"auto\" style=\"white-space:pre-wrap;border-inline-start:3px solid #82D0DC;padding:8px 12px;background:#F4F7FD\">")
-                .Append(Enc(e.Message)).Append("</div>");
-            if (link is not null) html.Append("<p><a href=\"").Append(Enc(link)).Append("\">فتح الطلب في لوحة التحكم · Open in the admin panel</a></p>");
+                .Append(Enc(messageText)).Append("</div>");
+            if (link is not null) html.Append("<p><a href=\"").Append(Enc(link)).Append("\">فتح في لوحة التحكم · Open in the admin panel</a></p>");
             html.Append("</div>");
-
-            message.Body = new BodyBuilder { TextBody = text.ToString(), HtmlBody = html.ToString() }.ToMessageBody();
-            return message;
+            return new BodyBuilder { TextBody = text.ToString(), HtmlBody = html.ToString() }.ToMessageBody();
         }
 
         private static string Enc(string value) => WebUtility.HtmlEncode(value);

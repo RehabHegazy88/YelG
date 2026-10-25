@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using YelG.WebSite.Domain.Careers;
 using YelG.WebSite.Domain.Common;
 using YelG.WebSite.Domain.Enquiries;
 
@@ -6,11 +7,11 @@ namespace YelG.WebSite.Infrastructure.Data
 {
     /// <summary>
     /// Content, media and settings are soft-deleted: removing them flags Deleted / DeleteDate (the interceptor
-    /// converts the delete) and a global filter hides them. Enquiries hold personal data and are deleted for real.
+    /// converts the delete) and a global filter hides them. Enquiries and job applications hold personal data and are deleted for real.
     /// </summary>
     public static class SoftDelete
     {
-        private static readonly HashSet<Type> HardDeleted = new() { typeof(Enquiry), typeof(EnquiryNote) };
+        private static readonly HashSet<Type> HardDeleted = new() { typeof(Enquiry), typeof(EnquiryNote), typeof(JobApplication), typeof(JobApplicationNote) };
 
         public static bool Applies(Type type) => typeof(BaseEntity).IsAssignableFrom(type) && !HardDeleted.Contains(type);
 
