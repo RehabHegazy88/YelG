@@ -286,3 +286,17 @@ details.faq p a{color:#82D0DC}
 .foot-col>strong{font:700 15px var(--ff),sans-serif;color:#FFFFFF;margin-bottom:8px}
 .foot a.foot-book{color:#82D0DC}
 .foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);font-size:14px}
+
+/* ---------- client changes (2026-10-25) ---------- */
+/* Smaller headings than the design on tablets and computers (the client found them too large);
+   phones keep the design's own sizes. Arabic rules repeat the RTL layer's .rtl prefix to win over it. */
+@media (min-width:761px){
+  .h1en{font-size:clamp(30px,2.6vw,40px)}
+  .rtl .h1ar{font-size:clamp(28px,2.5vw,38px)}
+  .h2{font-size:clamp(26px,2.4vw,36px)}
+  .rtl .h2{font-size:clamp(24px,2.2vw,34px)}
+  .stat-num{font-size:40px}
+}
+/* The badges keep turning even when the device asks for less motion (the client wants them to turn;
+   it is a slow rotation). The services strip still stops for those visitors. */
+@media (prefers-reduced-motion: reduce){.spin{animation:sp 24s linear infinite}}
