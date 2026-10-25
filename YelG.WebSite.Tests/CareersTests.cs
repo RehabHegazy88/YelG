@@ -102,9 +102,10 @@ namespace YelG.WebSite.Tests
             Assert.Contains("/ar/careers/test-senior-accountant", await client.GetStringAsync("/sitemap.xml"));
         }
 
-        private static async Task<HttpResponseMessage> ApplyAsync(HttpClient client, byte[] cv, string cvName, string email)
+        private static async Task<HttpResponseMessage> ApplyAsync(HttpClient client, byte[] cv, string cvName, string email,
+            string pageUrl = "/en/careers/test-senior-accountant", string action = "/en/careers/test-senior-accountant/apply")
         {
-            var page = await Html.GetAsync(client, "/en/careers/test-senior-accountant");
+            var page = await Html.GetAsync(client, pageUrl);
             var token = ((IHtmlInputElement)page.QuerySelector("#applyForm input[name=__RequestVerificationToken]")!).Value;
             var form = new MultipartFormDataContent
             {
@@ -117,7 +118,7 @@ namespace YelG.WebSite.Tests
             var file = new ByteArrayContent(cv);
             file.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
             form.Add(file, "cv", cvName);
-            var request = new HttpRequestMessage(HttpMethod.Post, "/en/careers/test-senior-accountant/apply") { Content = form };
+            var request = new HttpRequestMessage(HttpMethod.Post, action) { Content = form };
             request.Headers.Accept.ParseAdd("application/json");
             return await client.SendAsync(request);
         }
@@ -172,6 +173,23 @@ namespace YelG.WebSite.Tests
                 new FormUrlEncodedContent(new Dictionary<string, string> { ["__RequestVerificationToken"] = adminToken }));
             Assert.Equal("/admin/applications", deleted.Headers.Location?.OriginalString);
             Assert.Null(_site.Services.GetRequiredService<ICvStore>().OpenRead(stored));
+        }
+
+        [LocalDbFact]
+        public async Task A_general_application_is_saved_without_a_role()
+        {
+            var client = _site.Browser();
+            var email = $"general-{Guid.NewGuid():N}@test.local";
+            var response = await ApplyAsync(client, "%PDF-1.4\n%%EOF"u8.ToArray(), "cv.pdf", email, "/en/careers", "/en/careers/apply");
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            await using var scope = _site.Services.CreateAsyncScope();
+            var db = scope.ServiceProvider.GetRequiredService<WebSiteDbContext>();
+            var application = await db.JobApplications.AsNoTracking().SingleAsync(a => a.Email == email);
+            Assert.Null(application.CareerRoleId);
+            Assert.Equal("General application", application.RoleTitle);
+            _site.Services.GetRequiredService<ICvStore>().Delete(application.CvStoredPath);
+            await db.JobApplications.Where(a => a.Id == application.Id).ExecuteDeleteAsync();
         }
     }
 }

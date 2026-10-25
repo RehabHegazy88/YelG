@@ -23,6 +23,9 @@ namespace YelG.WebSite.Areas.Admin.Controllers
     {
         private const int PageSize = 30;
 
+        /// <summary>The filter value for general applications (no role).</summary>
+        private const string GeneralRole = "general";
+
         private readonly WebSiteDbContext _db;
         private readonly ICvStore _cvs;
         private readonly IApplicationNotificationQueue _notifications;
@@ -180,15 +183,18 @@ namespace YelG.WebSite.Areas.Admin.Controllers
         {
             var used = await _db.JobApplications.AsNoTracking().Where(a => a.CareerRoleId != null)
                 .GroupBy(a => new { a.CareerRoleId, a.RoleTitle }).Select(g => g.Key).ToListAsync(ct);
-            return used.GroupBy(u => u.CareerRoleId!.Value)
+            var options = used.GroupBy(u => u.CareerRoleId!.Value)
                 .Select(g => (g.Key.ToString(CultureInfo.InvariantCulture), g.First().RoleTitle)).OrderBy(r => r.Item2).ToList();
+            options.Add((GeneralRole, "طلب عام (بدون وظيفة)"));
+            return options;
         }
 
         private IQueryable<JobApplication> Filter(ApplicationFilter f)
         {
             var query = _db.JobApplications.AsNoTracking();
             if (f.Status is { } status) query = query.Where(a => a.Status == status);
-            if (long.TryParse(f.Role, out var roleId)) query = query.Where(a => a.CareerRoleId == roleId);
+            if (f.Role == GeneralRole) query = query.Where(a => a.CareerRoleId == null);
+            else if (long.TryParse(f.Role, out var roleId)) query = query.Where(a => a.CareerRoleId == roleId);
             if (!string.IsNullOrWhiteSpace(f.Q))
             {
                 var term = f.Q.Trim();

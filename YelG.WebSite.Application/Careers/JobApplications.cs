@@ -160,13 +160,19 @@ namespace YelG.WebSite.Application.Careers
             return roles.FirstOrDefault(r => r.IsOpenOn(today));
         }
 
+        /// <param name="roleSlug">The role applied for; null for a general application (a CV for future roles).</param>
+        /// <param name="generalTitle">How a general application is named in the inbox ("طلب عام").</param>
         /// <param name="consentText">The consent wording the form showed (plain text).</param>
-        public async Task<ApplicationResult> SubmitAsync(string roleSlug, ApplicationInput input, CvUpload? cv, string culture, string consentText,
-            string? ipAddress, string? userAgent, CancellationToken ct = default)
+        public async Task<ApplicationResult> SubmitAsync(string? roleSlug, ApplicationInput input, CvUpload? cv, string culture, string consentText,
+            string? ipAddress, string? userAgent, CancellationToken ct = default, string generalTitle = "طلب عام")
         {
             if (!string.IsNullOrWhiteSpace(input.Website)) return new ApplicationResult(ApplicationOutcome.Ignored, []);
-            var role = await OpenRoleAsync(roleSlug, ct);
-            if (role is null || !string.IsNullOrWhiteSpace(role.ApplyUrl)) return new ApplicationResult(ApplicationOutcome.RoleClosed, []);
+            CareerRole? role = null;
+            if (roleSlug is not null)
+            {
+                role = await OpenRoleAsync(roleSlug, ct);
+                if (role is null || !string.IsNullOrWhiteSpace(role.ApplyUrl)) return new ApplicationResult(ApplicationOutcome.RoleClosed, []);
+            }
 
             var (errors, type) = await ApplicationRules.ValidateAsync(input, cv, _options.MaxCvBytes, ct);
             if (errors.Count > 0) return new ApplicationResult(ApplicationOutcome.Invalid, errors);
@@ -180,8 +186,8 @@ namespace YelG.WebSite.Application.Careers
                 var message = EnquiryRules.Trim(input.Message).Replace("\r\n", "\n");
                 var application = new JobApplication
                 {
-                    CareerRoleId = role.Id,
-                    RoleTitle = Cut(role.Title.For(lang), 200),
+                    CareerRoleId = role?.Id,
+                    RoleTitle = Cut(role?.Title.For(lang) ?? generalTitle, 200),
                     Culture = lang,
                     Name = EnquiryRules.Trim(input.Name),
                     Email = EnquiryRules.Trim(input.Email),

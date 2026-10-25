@@ -104,3 +104,9 @@ namespace YelG.WebSite.Models
         };
     }
 }
+
+namespace YelG.WebSite.Models
+{
+    /// <summary>The application form on a role's page (<paramref name="General"/> false) or the general one on the careers page.</summary>
+    public sealed record ApplyFormModel(CareersPageModel Page, string Action, bool General);
+}

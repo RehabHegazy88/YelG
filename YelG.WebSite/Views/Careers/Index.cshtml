@@ -1,23 +1,40 @@
 @model CareersPageModel
 @{
-    var section = Model.Content.Careers!;
-    var site = Model.Content.Site;
+    var c = Model.Content;
+    var section = c.Careers!;
     var roles = Model.ListedRoles;
+    var n = 0;
+    var generalAction = Model.ListUrl + "/apply";
 }
 <partial name="_PageTop" model="Model" />
 
 <main id="main">
-<section class="sec careers-page" aria-labelledby="rolesTitle">
+@if (c.AboutValues.Count > 0)
+{
+<section class="sec values-band" aria-labelledby="valuesTitle">
+<div class="wrap values-wrap">
+<h2 id="valuesTitle" class="h2">@Model.C("valuesTitle")</h2>
+<div class="about-values">
+@foreach (var value in c.AboutValues)
+{
+<span class="chk"><i><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.4"><path d="M20 6 9 17l-5-5"></path></svg></i>@Model.R(value.Label)</span>
+}
+</div>
+</div>
+</section>
+}
+
+<section id="roles" class="sec careers-page" aria-labelledby="rolesTitle">
 <div class="wrap">
 <div class="jobs-head">
-<h2 id="rolesTitle" class="h2">@Model.C("openRoles") <span class="jobs-count">(@Model.OpenRoles.Count)</span></h2>
+<h2 id="rolesTitle" class="h2">@Model.C("openRoles")@if (Model.OpenRoles.Count > 0){<span class="jobs-count"> (@Model.OpenRoles.Count)</span>}</h2>
 @if (Model.Departments.Count > 1)
 {
 <nav class="ctabs" aria-label="@Model.C("department")">
-<a href="@Model.ListUrl" class="ctab@(string.IsNullOrEmpty(Model.Department) ? " ctab-on" : "")" aria-current="@(string.IsNullOrEmpty(Model.Department) ? "page" : null)">@Model.C("allDepartments")</a>
+<a href="@Model.ListUrl#roles" class="ctab@(string.IsNullOrEmpty(Model.Department) ? " ctab-on" : "")" aria-current="@(string.IsNullOrEmpty(Model.Department) ? "page" : null)">@Model.C("allDepartments")</a>
 @foreach (var department in Model.Departments)
 {
-<a href="@Model.ListUrl?department=@Uri.EscapeDataString(department)" class="ctab@(department == Model.Department ? " ctab-on" : "")" aria-current="@(department == Model.Department ? "page" : null)">@department</a>
+<a href="@Model.ListUrl?department=@Uri.EscapeDataString(department)#roles" class="ctab@(department == Model.Department ? " ctab-on" : "")" aria-current="@(department == Model.Department ? "page" : null)">@department</a>
 }
 </nav>
 }
@@ -26,11 +43,12 @@
 @if (roles.Count == 0)
 {
 <div class="jobs-empty">
+<span class="jobs-empty-mark" aria-hidden="true"><img src="~/brand/mark-color.svg" alt="" width="56" height="56"></span>
+<div class="jobs-empty-text">
+<h3 class="h3">@Model.C("noOpeningsTitle")</h3>
 <p>@Model.Text(section.NoOpeningsText, "noOpenings")</p>
-@if (!string.IsNullOrEmpty(site.CareersEmail))
-{
-<a href="mailto:@site.CareersEmail?subject=@Uri.EscapeDataString(section.CvEmailSubject)" class="btn btn-blue">@Model.C("sendCv")<span class="ar">@Model.ArrowIcon</span></a>
-}
+</div>
+<a href="#apply" class="btn btn-blue">@Model.C("sendCv")<span class="ar">@Model.ArrowIcon</span></a>
 </div>
 }
 else
@@ -51,6 +69,27 @@ else
 }
 </ul>
 }
+</div>
+</section>
+
+<section id="apply" class="sec consult general-apply" aria-labelledby="generalTitle">
+<div class="wrap consult-wrap">
+<div class="consult-panel">
+<div aria-hidden="true" class="consult-glow"></div>
+<div class="consult-inner">
+<span class="eyebrow on-dark">@Model.C("generalEyebrow")</span>
+<h2 id="generalTitle" class="h2 light">@Model.C("generalTitle")</h2>
+<p class="consult-lead">@Model.C("generalText")</p>
+<ol class="consult-steps">
+@foreach (var step in new[] { "generalStep1", "generalStep2", "generalStep3" })
+{
+    n++;
+<li><span aria-hidden="true" class="consult-num@(n == 1 ? " consult-num-on" : "")">@n</span><span class="consult-step">@Model.C(step)</span></li>
+}
+</ol>
+</div>
+</div>
+<partial name="_ApplyForm" model="new ApplyFormModel(Model, generalAction, true)" />
 </div>
 </section>
 </main>

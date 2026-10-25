@@ -22,9 +22,31 @@ else
 </nav>
 @if (role is null)
 {
+<div class="page-top-grid">
+<div class="page-top-copy">
 <span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.R(section.Eyebrow)</span>
 <h1 id="pageTitle" class="page-title">@Model.R(section.Heading)</h1>
 @if (!section.Lead.IsEmpty){<p class="page-lead">@Model.R(section.Lead)</p>}
+<div class="heroCtas">
+@if (Model.OpenRoles.Count > 0)
+{
+<a href="#roles" class="btn btn-cyan">@Model.C("openRoles") (@Model.OpenRoles.Count)<span class="ar">@Model.ArrowIcon</span></a>
+<a href="#apply" class="btn btn-line">@Model.C("sendCv")</a>
+}
+else
+{
+<a href="#apply" class="btn btn-cyan">@Model.C("sendCv")<span class="ar">@Model.ArrowIcon</span></a>
+}
+</div>
+</div>
+@if (section.Image is { } image)
+{
+@* shown whole, as a card: the careers picture is often a hiring post with text on it *@
+<div class="page-top-art">
+<img src="@image.Path" alt="@Model.T(section.ImageAlt)" class="page-card" width="@image.Width" height="@image.Height" fetchpriority="high">
+</div>
+}
+</div>
 }
 else
 {

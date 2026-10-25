@@ -64,17 +64,31 @@ namespace YelG.WebSite.Controllers
         [EnableRateLimiting(RateLimits.Application)]
         [RequestSizeLimit(8 * 1024 * 1024)]
         [RequestFormLimits(MultipartBodyLengthLimit = 8 * 1024 * 1024)]
-        public async Task<IActionResult> Apply(string lang, string slug, [FromForm] ApplicationInput input, IFormFile? cv, CancellationToken ct)
+        public Task<IActionResult> Apply(string lang, string slug, [FromForm] ApplicationInput input, IFormFile? cv, CancellationToken ct) =>
+            SubmitAsync(lang, slug, input, cv, ct);
+
+        /// <summary>A general application: a CV for future roles, from the careers page.</summary>
+        [HttpPost("apply")]
+        [ValidateAntiForgeryToken]
+        [EnableRateLimiting(RateLimits.Application)]
+        [RequestSizeLimit(8 * 1024 * 1024)]
+        [RequestFormLimits(MultipartBodyLengthLimit = 8 * 1024 * 1024)]
+        public Task<IActionResult> ApplyGeneral(string lang, [FromForm] ApplicationInput input, IFormFile? cv, CancellationToken ct) =>
+            SubmitAsync(lang, null, input, cv, ct);
+
+        private async Task<IActionResult> SubmitAsync(string lang, string? slug, ApplicationInput input, IFormFile? cv, CancellationToken ct)
         {
             var content = await _content.GetAsync(cancellationToken: ct);
-            var consent = RichText.Plain(CareerTexts.Or(content.Careers?.ApplyConsentText, "consent", lang));
+            if (content.Careers is null) return NotFound();
+            var consent = RichText.Plain(CareerTexts.Or(content.Careers.ApplyConsentText, "consent", lang));
             ApplicationResult result;
             try
             {
                 await using var stream = cv?.OpenReadStream();
                 var upload = cv is null || stream is null ? null : new CvUpload(stream, cv.FileName, cv.Length);
                 result = await _applications.SubmitAsync(slug, input, upload, lang, consent,
-                    HttpContext.Connection.RemoteIpAddress?.ToString(), Request.Headers.UserAgent.ToString(), ct);
+                    HttpContext.Connection.RemoteIpAddress?.ToString(), Request.Headers.UserAgent.ToString(), ct,
+                    generalTitle: CareerTexts.Get("generalApplication", lang));
             }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {
@@ -109,11 +123,11 @@ namespace YelG.WebSite.Controllers
             _ => CareerTexts.Get("err." + error, lang).Replace("{max}", $"{_applications.MaxCvBytes / (1024 * 1024)} {(lang == "en" ? "MB" : "ميجابايت")}")
         };
 
-        private IActionResult Answer(string lang, string slug, int status, string outcome)
+        private IActionResult Answer(string lang, string? slug, int status, string outcome)
         {
             if (WantsJson) return StatusCode(status, new { ok = status == StatusCodes.Status200OK });
             TempData[OutcomeKey] = outcome;
-            return Redirect($"/{lang}/careers/{slug}#apply");
+            return Redirect(slug is null ? $"/{lang}/careers#apply" : $"/{lang}/careers/{slug}#apply");
         }
     }
 }
