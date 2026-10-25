@@ -1,0 +1,83 @@
+@model InsightsPageModel
+@{
+    var post = Model.Post!;
+    var blocks = Model.Blocks(post.Body);
+    var hasExternal = Uri.TryCreate(post.ExternalUrl, UriKind.Absolute, out _);
+}
+<a href="#main" class="skip">@Model.S("skip")</a>
+<section id="top" class="heroB page-top" aria-labelledby="pageTitle">
+<div aria-hidden="true" class="heroB-pat"></div>
+<partial name="~/Views/Shared/_SiteHeader.cshtml" model="Model" />
+<div class="wrap page-top-body">
+<nav class="crumbs" aria-label="@(Model.IsArabic ? "المسار" : "Breadcrumb")">
+<a href="/@Model.Lang">YelG Advisory</a><span aria-hidden="true">/</span><a href="@Model.ListUrl">@Model.I("pageTitle")</a><span aria-hidden="true">/</span><span aria-current="page">@Model.R(post.CategoryLabel)</span>
+</nav>
+<div class="page-top-copy news-top">
+<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.R(post.CategoryLabel) · <time datetime="@post.PublishedOn.ToString("yyyy-MM-dd")">@Model.Date(post.PublishedOn)</time></span>
+<h1 id="pageTitle" class="page-title">@Model.R(post.Title)</h1>
+@if (!post.Summary.IsEmpty){<p class="page-lead">@Model.R(post.Summary)</p>}
+</div>
+</div>
+</section>
+
+<main id="main">
+<article class="sec article-page" aria-labelledby="pageTitle">
+<div class="wrap article-wrap">
+@if (post.Video is { } video)
+{
+<div class="article-media">
+<video controls preload="metadata" playsinline poster="@post.Image?.Path" aria-label="@Model.T(post.ImageAlt)"><source src="@video.Path" type="@video.ContentType"></video>
+</div>
+}
+else if (post.Image is { } image)
+{
+<figure class="article-media"><img src="@image.Path" alt="@Model.T(post.ImageAlt)" width="@image.Width" height="@image.Height"></figure>
+}
+
+@if (blocks.Count > 0)
+{
+<div class="article-body">
+@foreach (var (isHeading, html) in blocks)
+{
+if (isHeading){<h2 class="h3">@html</h2>}else{<p>@html</p>}
+}
+</div>
+}
+
+<footer class="article-foot">
+@if (hasExternal)
+{
+<a href="@post.ExternalUrl" target="_blank" rel="noopener" class="tlink">@Model.I("alsoOn").Replace("{source}", string.IsNullOrWhiteSpace(post.Source) ? Model.I("source") : post.Source) <span aria-hidden="true">@Model.ArrowExternal</span><span class="sr">@Model.S("opensNewTab")</span></a>
+}
+<a href="@Model.ListUrl" class="tlink">@Model.I("viewAll") <span aria-hidden="true">@Model.ArrowNext</span></a>
+</footer>
+</div>
+</article>
+
+@if (Model.MorePosts.Count > 0)
+{
+<section class="sec news-more" aria-labelledby="moreTitle">
+<div class="wrap news-wrap">
+<h2 id="moreTitle" class="h2">@Model.I("more")</h2>
+<ul class="news-grid">
+@foreach (var other in Model.MorePosts)
+{
+<li><partial name="_PostCard" model="(Model, other, false)" /></li>
+}
+</ul>
+</div>
+</section>
+}
+</main>
+<script type="application/ld+json">@Html.Raw(System.Text.Json.JsonSerializer.Serialize(new Dictionary<string, object?>
+{
+    ["@context"] = "https://schema.org",
+    ["@type"] = "NewsArticle",
+    ["headline"] = YelG.WebSite.Rendering.RichText.Plain(Model.T(post.Title)),
+    ["datePublished"] = post.PublishedOn.ToString("yyyy-MM-dd"),
+    ["image"] = post.Image is null ? null : Model.BaseUrl + post.Image.Path,
+    ["inLanguage"] = Model.Lang,
+    ["publisher"] = new Dictionary<string, object> { ["@type"] = "Organization", ["name"] = "YelG Advisory" }
+}).Replace("</", "<\\/"))</script>
+
+<partial name="~/Views/Home/Sections/_Footer.cshtml" model="Model" />

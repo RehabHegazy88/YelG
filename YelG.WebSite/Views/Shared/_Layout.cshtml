@@ -4,7 +4,7 @@
     var site = Model.Content.Site;
     var title = Model.PageTitle ?? Model.T(site.SeoTitle);
     var description = Model.PageDescription ?? Model.T(site.SeoDescription);
-    var ogImage = site.OgImage?.Path ?? Model.Content.Hero?.Image?.Path;
+    var ogImage = Model.PageImage ?? site.OgImage?.Path ?? Model.Content.Hero?.Image?.Path;
     var defaultLang = SiteLanguage.IsSupported(site.DefaultLanguage) ? site.DefaultLanguage : SiteLanguage.Arabic;
 }
 <!doctype html>

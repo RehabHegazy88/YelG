@@ -125,6 +125,53 @@ namespace YelG.WebSite.Tests
             Assert.Null(home.QuerySelector(".mnav a[href='#insights']"));
         }
 
+        [LocalDbFact]
+        public async Task A_post_with_a_text_has_its_own_page_and_one_without_opens_where_it_was_published()
+        {
+            long id;
+            string slug;
+            await using (var scope = _site.Services.CreateAsyncScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<WebSiteDbContext>();
+                var post = await db.InsightPosts.OrderBy(p => p.Id).FirstAsync();
+                (id, slug) = (post.Id, post.Slug);
+                post.Summary = new LocalizedText("ملخص الخبر", "News summary");
+                post.Body = new LocalizedText("الفقرة الأولى *مهمة*.\n\n## عنوان فرعي\nالفقرة الثانية.", "First paragraph, *highlighted*.\n\n## A subheading\nSecond paragraph.");
+                await db.SaveChangesAsync();
+            }
+            try
+            {
+                _site.Services.GetRequiredService<YelG.WebSite.Application.Content.IContentVersion>().Bump();
+                var client = _site.Browser();
+                var page = await Html.GetAsync(client, $"/en/insights/{slug}");
+                Assert.Equal(new[] { "First paragraph, highlighted.", "Second paragraph." },
+                    page.QuerySelectorAll(".article-body p").Select(p => p.TextContent.Trim()));
+                Assert.Equal("A subheading", page.QuerySelector(".article-body h2")!.TextContent.Trim());
+                Assert.NotNull(page.QuerySelector(".article-body em"));
+                Assert.Equal($"/en/insights/{slug}", (await Html.GetAsync(client, "/en/insights")).QuerySelector($".news-feature[href='/en/insights/{slug}'], .news-card[href='/en/insights/{slug}']")?.GetAttribute("href"));
+                Assert.Contains($"/ar/insights/{slug}", await client.GetStringAsync("/sitemap.xml"));
+
+                // another post without a text: its address sends visitors to where it was published
+                await using var scope = _site.Services.CreateAsyncScope();
+                var other = await scope.ServiceProvider.GetRequiredService<WebSiteDbContext>().InsightPosts.AsNoTracking()
+                    .FirstAsync(p => p.Id != id && p.Body.Ar == "" && p.VideoId == null);
+                var redirect = await client.GetAsync($"/ar/insights/{other.Slug}");
+                Assert.Equal(HttpStatusCode.Redirect, redirect.StatusCode);
+                Assert.Equal(other.ExternalUrl, redirect.Headers.Location!.ToString());
+                Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync("/ar/insights/no-such-post")).StatusCode);
+            }
+            finally
+            {
+                await using var scope = _site.Services.CreateAsyncScope();
+                var db = scope.ServiceProvider.GetRequiredService<WebSiteDbContext>();
+                var post = await db.InsightPosts.FirstAsync(p => p.Id == id);
+                post.Summary = new LocalizedText();
+                post.Body = new LocalizedText();
+                await db.SaveChangesAsync();
+                _site.Services.GetRequiredService<YelG.WebSite.Application.Content.IContentVersion>().Bump();
+            }
+        }
+
         private static async Task<HttpResponseMessage> ApplyAsync(HttpClient client, byte[] cv, string cvName, string email,
             string pageUrl = "/en/careers/test-senior-accountant", string action = "/en/careers/test-senior-accountant/apply")
         {

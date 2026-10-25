@@ -74,6 +74,9 @@ namespace YelG.WebSite.Models
         public virtual string? PageTitle => null;
         public virtual string? PageDescription => null;
 
+        /// <summary>The page's own share picture (a path on this site); null for the site's.</summary>
+        public virtual string? PageImage => null;
+
         public bool IsHome => PagePath.Length == 0;
 
         /// <summary>A link to a homepage section ("#about") that also works from the site's other pages ("/ar#about").</summary>

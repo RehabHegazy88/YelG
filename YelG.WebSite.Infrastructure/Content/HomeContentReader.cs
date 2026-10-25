@@ -85,7 +85,7 @@ namespace YelG.WebSite.Infrastructure.Content
                 ConsultSteps = await Items<ConsultStep>(all).ToListAsync(ct),
 
                 Insights = await Section<InsightsSection>(all).FirstOrDefaultAsync(ct),
-                InsightPosts = await Items<InsightPost>(all).Include(p => p.Image).ToListAsync(ct),
+                InsightPosts = await Items<InsightPost>(all).Include(p => p.Image).Include(p => p.Video).ToListAsync(ct),
 
                 Careers = await Section<CareersSection>(all).Include(c => c.Image).FirstOrDefaultAsync(ct),
                 CareerRoles = await Items<CareerRole>(all).Where(r => r.IsActive)

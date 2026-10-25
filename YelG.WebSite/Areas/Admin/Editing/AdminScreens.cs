@@ -424,18 +424,37 @@ namespace YelG.WebSite.Areas.Admin.Editing
             var form = Section<InsightsSection>("المقالات")
                 .Text(x => x.FollowLinkLabel, "رابط المتابعة")
                 .Url(x => x.FollowLinkUrl, "عنوان رابط المتابعة");
-            var posts = new EntityEditor<InsightPost>("مقال")
+            var posts = new EntityEditor<InsightPost>("خبر أو مقال")
                 .Area(x => x.Title, "العنوان", required: true, rows: 2)
-                .Url(x => x.ExternalUrl, "رابط المقال", required: true)
+                .Plain(x => x.Slug, "عنوان الصفحة", hint: "يظهر في الرابط: /ar/insights/from-insight-to-action. حروف إنجليزية صغيرة وأرقام وشرطات؛ اتركه فارغًا ليُنشأ من العنوان الإنجليزي. لا تغيّره بعد النشر.")
                 .Date(x => x.PublishedOn, "تاريخ النشر", hint: "يظهر الشهر والسنة.")
-                .Text(x => x.CategoryLabel, "التصنيف", required: true, hint: "مثل «رؤية» أو «سلسلة».")
+                .Text(x => x.CategoryLabel, "التصنيف", required: true, hint: "مثل «خبر» أو «رؤية» أو «سلسلة».")
                 .Choice(x => x.CategoryColor, "لون التصنيف", Colors.Take(2))
-                .Plain(x => x.Source, "المصدر", hint: "مثل LinkedIn.")
-                .Media(x => x.ImageId, "الصورة")
+                .Group("المحتوى")
+                .Area(x => x.Summary, "الملخص", rows: 2, hint: "جملة أو جملتان تظهران تحت العنوان وفي بطاقة الخبر.")
+                .Area(x => x.Body, "نص الخبر", markup: true, rows: 14, hint: "افصل الفقرات بسطر فارغ. الفقرة التي تبدأ بـ «## » عنوان فرعي. عندما يكون للخبر نص أو فيديو تكون له صفحة في الموقع؛ وبدونهما تفتح بطاقته الرابط الخارجي.")
+                .Media(x => x.ImageId, "الصورة", hint: "تظهر في البطاقة وأعلى صفحة الخبر، وغلافًا للفيديو.")
                 .Text(x => x.ImageAlt, "وصف الصورة")
-                .Bool(x => x.IsPublished, "ظاهر في الموقع");
+                .Media(x => x.VideoId, "الفيديو (اختياري)", MediaKind.Video, hint: "يظهر أعلى صفحة الخبر بدل الصورة. ارفعه أولًا في مكتبة الوسائط (MP4 أو WebM).")
+                .Group("النشر الخارجي")
+                .Url(x => x.ExternalUrl, "رابط الخبر على LinkedIn أو غيره", hint: "اختياري عندما يكون للخبر نص في الموقع؛ يظهر رابطًا «اقرأه على …».")
+                .Plain(x => x.Source, "المصدر", hint: "مثل LinkedIn.")
+                .Bool(x => x.IsPublished, "ظاهر في الموقع")
+                .Rule((p, c) =>
+                {
+                    if (string.IsNullOrWhiteSpace(p.Slug)) p.Slug = Slugify(p.Title.En);
+                    if (string.IsNullOrWhiteSpace(p.Slug)) c.Errors.Add(nameof(p.Slug), "أدخل عنوانًا للصفحة بالحروف الإنجليزية.");
+                    else if (!SlugPattern().IsMatch(p.Slug)) c.Errors.Add(nameof(p.Slug), "حروف إنجليزية صغيرة وأرقام وشرطات فقط، مثل from-insight-to-action.");
+                    if (p.Body.IsEmpty && p.VideoId is null && string.IsNullOrWhiteSpace(p.ExternalUrl))
+                        c.Errors.Add(nameof(p.Body), "اكتب نص الخبر، أو أضف فيديو، أو رابطًا خارجيًا.");
+                })
+                .Unique(x => x.Slug, "هذا العنوان مستخدم لخبر آخر.");
 
-            var screen = EditorScreen.For("insights", "المقالات", form) with { Anchor = "#insights" };
+            var screen = EditorScreen.For("insights", "الأخبار والمقالات", form) with
+            {
+                Anchor = "#insights",
+                Description = "قسم المقالات في الصفحة الرئيسية، وصفحة الأخبار والمقالات (/ar/insights)، وصفحة كل خبر له نص أو فيديو."
+            };
             screen.Lists.Add(new ListEditor<InsightPost>("posts", "المقالات", posts)
                 .Show("التاريخ", p => p.PublishedOn.ToString("yyyy-MM")));
             return screen;

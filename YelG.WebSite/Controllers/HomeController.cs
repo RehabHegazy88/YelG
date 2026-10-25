@@ -46,7 +46,11 @@ namespace YelG.WebSite.Controllers
             // the homepage, the news page, the careers page and each open role, in both languages
             var today = DateOnly.FromDateTime(DateTime.UtcNow);
             var paths = new List<string> { "" };
-            if (content.Insights is not null) paths.Add("/insights");
+            if (content.Insights is not null)
+            {
+                paths.Add("/insights");
+                paths.AddRange(content.InsightPosts.Where(p => p.HasPage).Select(p => "/insights/" + Uri.EscapeDataString(p.Slug)));
+            }
             if (content.Careers is not null)
             {
                 paths.Add("/careers");

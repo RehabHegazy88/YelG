@@ -1,0 +1,16 @@
+@model (InsightsPageModel Page, InsightPost Post, bool Featured)
+@{
+    // a post's card on the news page: its own page when it has one, else where it was published (new tab)
+    var (m, post, featured) = Model;
+    var external = !post.HasPage;
+}
+<a href="@InsightsPageModel.Link(post, m.Lang)" class="@(featured ? "news-feature" : "news-card")" target="@(external ? "_blank" : null)" rel="@(external ? "noopener" : null)">
+<span class="photo photo-flat @(featured ? "news-feature-photo" : "post-photo") @HomePageModel.FocusClass(post.Image)">@if (post.Image is { } image){<img src="@image.Path" alt="@m.T(post.ImageAlt)" loading="@(featured ? null : "lazy")">}@if (post.VideoId is not null){<span class="news-play" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>}</span>
+<span class="@(featured ? "news-feature-body" : "news-card-body")">
+<span class="post-meta post-meta-@post.CategoryColor">@m.R(post.CategoryLabel) · @m.MonthYear(post.PublishedOn)@if (post.VideoId is not null){<text> · @m.I("video")</text>}</span>
+<span class="@(featured ? "news-feature-title" : "post-title")">@m.R(post.Title)</span>
+@if (!post.Summary.IsEmpty){<span class="news-summary">@m.R(post.Summary)</span>}
+<span class="tlink news-read">@(external ? m.ReadOn(post) : m.I("readMore")) <span aria-hidden="true">@(external ? m.ArrowExternal : m.ArrowNext)</span></span>
+</span>
+@if (external){<span class="sr">@m.S("opensNewTab")</span>}
+</a>

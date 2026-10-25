@@ -49,29 +49,13 @@
 }
 else
 {
-<a href="@featured.ExternalUrl" target="_blank" rel="noopener" class="news-feature">
-<span class="photo photo-flat news-feature-photo @HomePageModel.FocusClass(featured.Image)">@if (featured.Image is { } featuredImg){<img src="@featuredImg.Path" alt="@Model.T(featured.ImageAlt)">}</span>
-<span class="news-feature-body">
-<span class="post-meta post-meta-@featured.CategoryColor">@Model.R(featured.CategoryLabel) · @Model.MonthYear(featured.PublishedOn)</span>
-<span class="news-feature-title">@Model.R(featured.Title)</span>
-<span class="tlink news-read">@Model.I("readOn").Replace("{source}", featured.Source) <span aria-hidden="true">@Model.ArrowExternal</span></span>
-</span>
-<span class="sr">@Model.S("opensNewTab")</span>
-</a>
+<partial name="_PostCard" model="(Model, featured, true)" />
 @if (posts.Count > 1)
 {
 <ul class="news-grid">
 @foreach (var post in posts.Skip(1))
 {
-<li>
-<a href="@post.ExternalUrl" target="_blank" rel="noopener" class="news-card">
-<span class="photo photo-flat post-photo @HomePageModel.FocusClass(post.Image)">@if (post.Image is { } img){<img src="@img.Path" alt="@Model.T(post.ImageAlt)" loading="lazy">}</span>
-<span class="post-meta post-meta-@post.CategoryColor">@Model.R(post.CategoryLabel) · @Model.MonthYear(post.PublishedOn)</span>
-<span class="post-title">@Model.R(post.Title)</span>
-<span class="tlink news-read">@Model.I("readOn").Replace("{source}", post.Source) <span aria-hidden="true">@Model.ArrowExternal</span></span>
-<span class="sr">@Model.S("opensNewTab")</span>
-</a>
-</li>
+<li><partial name="_PostCard" model="(Model, post, false)" /></li>
 }
 </ul>
 }

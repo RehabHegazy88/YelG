@@ -198,8 +198,31 @@ namespace YelG.WebSite.Domain.Sections
         public string FollowLinkUrl { get; set; } = string.Empty;
     }
 
+    /// <summary>
+    /// A news item or article. With a text or a video it has its own page (/{lang}/insights/{slug}); without
+    /// them it opens <see cref="ExternalUrl"/> (where it was published, e.g. LinkedIn).
+    /// </summary>
     public class InsightPost : ContentItem
     {
+        /// <summary>The page address: lower-case Latin letters, digits and hyphens.</summary>
+        public string Slug { get; set; } = string.Empty;
+
+        /// <summary>One or two sentences under the title (the cards and search engines).</summary>
+        public LocalizedText Summary { get; set; } = new();
+
+        /// <summary>
+        /// The article: paragraphs separated by an empty line; a paragraph starting with "## " is a subheading.
+        /// The site's small markup works inside (*highlight*, [link](https://…)).
+        /// </summary>
+        public LocalizedText Body { get; set; } = new();
+
+        /// <summary>Optional video shown at the top of the page (the picture is its poster).</summary>
+        public long? VideoId { get; set; }
+        public MediaAsset? Video { get; set; }
+
+        /// <summary>Has its own page on the site.</summary>
+        public bool HasPage => !string.IsNullOrWhiteSpace(Slug) && (!Body.IsEmpty || VideoId is not null);
+
         public long? ImageId { get; set; }
         public MediaAsset? Image { get; set; }
         public LocalizedText ImageAlt { get; set; } = new();

@@ -16,7 +16,12 @@ namespace YelG.WebSite.Localization
             ["readOn"] = ("اقرأ على {source}", "Read on {source}"),
             ["latest"] = ("الأحدث", "Latest"),
             ["empty"] = ("لا توجد مقالات في هذا التصنيف بعد.", "Nothing in this category yet."),
-            ["count"] = ("{n} مقال", "{n} posts")
+            ["count"] = ("{n} مقال", "{n} posts"),
+            ["source"] = ("الموقع الأصلي", "the original site"),
+            ["alsoOn"] = ("نُشر هذا الخبر أيضًا على {source}", "Also published on {source}"),
+            ["more"] = ("أخبار ومقالات أخرى", "More news & insights"),
+            ["readMore"] = ("اقرأ الخبر", "Read more"),
+            ["video"] = ("فيديو", "Video")
         };
 
         public static string Get(string key, string lang) =>

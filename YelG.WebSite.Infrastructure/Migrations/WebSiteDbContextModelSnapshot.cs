@@ -2905,6 +2905,11 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.Property<DateOnly>("PublishedOn")
                         .HasColumnType("date");
 
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
 
@@ -2912,6 +2917,22 @@ namespace YelG.WebSite.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
+
+                    b.Property<long?>("VideoId")
+                        .HasColumnType("bigint");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Body", "YelG.WebSite.Domain.Sections.InsightPost.Body#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
 
                     b.ComplexProperty<Dictionary<string, object>>("CategoryLabel", "YelG.WebSite.Domain.Sections.InsightPost.CategoryLabel#LocalizedText", b1 =>
                         {
@@ -2927,6 +2948,19 @@ namespace YelG.WebSite.Infrastructure.Migrations
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("ImageAlt", "YelG.WebSite.Domain.Sections.InsightPost.ImageAlt#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Summary", "YelG.WebSite.Domain.Sections.InsightPost.Summary#LocalizedText", b1 =>
                         {
                             b1.IsRequired();
 
@@ -2959,6 +2993,12 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.HasIndex("ImageId");
 
                     b.HasIndex("ModifiedBy_PersonID");
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasFilter("[Deleted] = 0");
+
+                    b.HasIndex("VideoId");
 
                     b.ToTable("InsightPosts", (string)null);
                 });
@@ -5112,7 +5152,14 @@ namespace YelG.WebSite.Infrastructure.Migrations
                         .HasForeignKey("ModifiedBy_PersonID")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("YelG.WebSite.Domain.Media.MediaAsset", "Video")
+                        .WithMany()
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Image");
+
+                    b.Navigation("Video");
                 });
 
             modelBuilder.Entity("YelG.WebSite.Domain.Sections.InsightsSection", b =>

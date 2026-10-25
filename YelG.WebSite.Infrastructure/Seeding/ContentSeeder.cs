@@ -174,9 +174,20 @@ namespace YelG.WebSite.Infrastructure.Seeding
             await SingleAsync(_db.InsightsSections, () => Section(new InsightsSection { FollowLinkLabel = i0.FollowLinkLabel, FollowLinkUrl = i0.FollowLinkUrl }, i0), ct);
             await ListAsync(_db.InsightPosts, seed.InsightPosts.Select(x => new InsightPost
             {
-                Image = M(x.Image), ImageAlt = x.ImageAlt, CategoryLabel = x.CategoryLabel, CategoryColor = x.CategoryColor,
+                Slug = Slug(x.Title.En), Image = M(x.Image), ImageAlt = x.ImageAlt, CategoryLabel = x.CategoryLabel, CategoryColor = x.CategoryColor,
                 Source = x.Source, PublishedOn = x.PublishedOn, Title = x.Title, ExternalUrl = x.ExternalUrl
             }), ct);
+
+            // posts that had no address before their pages existed were given "post-{id}" by the migration
+            var unnamed = await _db.InsightPosts.IgnoreQueryFilters().ToListAsync(ct);
+            var taken = unnamed.Select(x => x.Slug).ToHashSet();
+            foreach (var post in unnamed.Where(x => x.Slug == $"post-{x.Id}"))
+            {
+                var slug = Slug(post.Title.En);
+                if (slug.Length == 0 || !taken.Add(slug)) continue;
+                post.Slug = slug;
+                Count("InsightPost (address)");
+            }
 
             var k = seed.Careers;
             await SingleAsync(_db.CareersSections, () => Section(new CareersSection
@@ -343,6 +354,13 @@ namespace YelG.WebSite.Infrastructure.Seeding
                 set.Add(item);
             }
             if (order > 0) Count(typeof(T).Name, order);
+        }
+
+        /// <summary>A page address from an English title ("From insight to action" -> "from-insight-to-action").</summary>
+        private static string Slug(string title)
+        {
+            var slug = System.Text.RegularExpressions.Regex.Replace(title.ToLowerInvariant(), "[^a-z0-9]+", "-").Trim('-');
+            return slug.Length > 80 ? slug[..80].TrimEnd('-') : slug;
         }
 
         private void Count(string table, int n = 1) => _added[table] = _added.GetValueOrDefault(table) + n;

@@ -187,7 +187,11 @@ namespace YelG.WebSite.Infrastructure.Maps
                 b.Property(x => x.CategoryColor).HasMaxLength(20).IsRequired();
                 b.Property(x => x.Source).HasMaxLength(60);
                 b.Property(x => x.ExternalUrl).HasMaxLength(500).IsRequired();
+                b.Property(x => x.Slug).HasMaxLength(80).IsRequired();
+                b.HasIndex(x => x.Slug).IsUnique().HasFilter(ActiveRowsFilter);
                 b.HasOne(x => x.Image).WithMany().HasForeignKey(x => x.ImageId).OnDelete(DeleteBehavior.Restrict);
+                b.HasOne(x => x.Video).WithMany().HasForeignKey(x => x.VideoId).OnDelete(DeleteBehavior.Restrict);
+                b.Ignore(x => x.HasPage);
             });
             builder.Entity<CareersSection>(b =>
             {

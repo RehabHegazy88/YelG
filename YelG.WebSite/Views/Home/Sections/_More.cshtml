@@ -29,7 +29,8 @@
 @* the latest three; the insights page has them all *@
 @foreach (var post in c.InsightPosts.OrderByDescending(p => p.PublishedOn).ThenBy(p => p.SortOrder).Take(3))
 {
-<a href="@post.ExternalUrl" target="_blank" rel="noopener" class="post"><span class="photo photo-flat post-photo @HomePageModel.FocusClass(post.Image)">@if (post.Image is { } img){<img src="@img.Path" alt="@Model.T(post.ImageAlt)" loading="lazy">}</span><span class="post-meta post-meta-@post.CategoryColor">@Model.R(post.CategoryLabel) · @Model.Iso(post.Source) · @Model.MonthYear(post.PublishedOn)</span><span class="post-title">@Model.R(post.Title)</span><span class="sr">@Model.S("opensNewTab")</span></a>
+var own = post.HasPage;
+<a href="@InsightsPageModel.Link(post, Model.Lang)" target="@(own ? null : "_blank")" rel="@(own ? null : "noopener")" class="post"><span class="photo photo-flat post-photo @HomePageModel.FocusClass(post.Image)">@if (post.Image is { } img){<img src="@img.Path" alt="@Model.T(post.ImageAlt)" loading="lazy">}</span><span class="post-meta post-meta-@post.CategoryColor">@Model.R(post.CategoryLabel) · @Model.Iso(post.Source) · @Model.MonthYear(post.PublishedOn)</span><span class="post-title">@Model.R(post.Title)</span>@if (!own){<span class="sr">@Model.S("opensNewTab")</span>}</a>
 }
 </div>
 }
