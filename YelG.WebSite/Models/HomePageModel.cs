@@ -79,6 +79,10 @@ namespace YelG.WebSite.Models
         /// <summary>A link to a homepage section ("#about") that also works from the site's other pages ("/ar#about").</summary>
         public string Href(string href) => !IsHome && href.StartsWith('#') && href != "#top" ? $"/{Lang}{href}" : href;
 
+        /// <summary>A menu or footer link: like <see cref="Href"/>, but "the insights" open the news page (/ar/insights).</summary>
+        public string MenuHref(string href) =>
+            href == "#insights" && Content.Insights is not null && Content.InsightPosts.Count > 0 ? $"/{Lang}/insights" : Href(href);
+
         public string Url(string lang) => $"{BaseUrl}/{lang}{PagePath}";
 
         public string OtherLang => SiteLanguage.Other(Lang);

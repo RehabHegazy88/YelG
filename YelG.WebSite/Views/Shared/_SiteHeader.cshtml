@@ -22,7 +22,7 @@ else
 <nav aria-label="@Model.S("mainNavLabel")" class="mnav">
 @foreach (var link in Model.Ui.Links("nav").Where(l => c.HasAnchor(l.Href)))
 {
-<a href="@Model.Href(link.Href)">@link.For(Model.Lang)</a>
+<a href="@Model.MenuHref(link.Href)">@link.For(Model.Lang)</a>
 }
 </nav>
 <div class="hd-actions">
@@ -35,4 +35,4 @@ else
 </div>
 </div>
 </header>
-<nav id="mobileNav" aria-label="@Model.S("mobileNavLabel")" class="mobNav" hidden><div class="wrap">@foreach (var link in Model.Ui.Links("mobileNav").Where(l => c.HasAnchor(l.Href))){<a href="@Model.Href(link.Href)" class="@(link.Href == "#consult" ? "mcta" : null)">@link.For(Model.Lang)</a>}</div></nav>
+<nav id="mobileNav" aria-label="@Model.S("mobileNavLabel")" class="mobNav" hidden><div class="wrap">@foreach (var link in Model.Ui.Links("mobileNav").Where(l => c.HasAnchor(l.Href))){<a href="@Model.MenuHref(link.Href)" class="@(link.Href == "#consult" ? "mcta" : null)">@link.For(Model.Lang)</a>}</div></nav>

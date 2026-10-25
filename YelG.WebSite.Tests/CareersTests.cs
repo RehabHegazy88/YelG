@@ -117,7 +117,12 @@ namespace YelG.WebSite.Tests
             var filtered = await Html.GetAsync(client, "/en/insights?category=" + Uri.EscapeDataString(category));
             Assert.Equal(published.Count(p => p.CategoryLabel.En == category), filtered.QuerySelectorAll(".news-feature, .news-card").Length);
             Assert.Contains("/en/insights", await client.GetStringAsync("/sitemap.xml"));
-            Assert.Contains((await Html.GetAsync(client, "/ar")).QuerySelectorAll("a"), a => a.GetAttribute("href") == "/ar/insights");
+            // the menu, the phone menu and the footer open the page too
+            var home = await Html.GetAsync(client, "/ar");
+            Assert.NotNull(home.QuerySelector(".mnav a[href='/ar/insights']"));
+            Assert.NotNull(home.QuerySelector("#mobileNav a[href='/ar/insights']"));
+            Assert.NotNull(home.QuerySelector(".foot-col a[href='/ar/insights']"));
+            Assert.Null(home.QuerySelector(".mnav a[href='#insights']"));
         }
 
         private static async Task<HttpResponseMessage> ApplyAsync(HttpClient client, byte[] cv, string cvName, string email,
