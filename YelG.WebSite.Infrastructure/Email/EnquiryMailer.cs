@@ -79,7 +79,7 @@ namespace YelG.WebSite.Infrastructure.Email
             html.Append("<h2 style=\"color:#0A3177;font-size:18px\">طلب استشارة جديد · New enquiry</h2><table cellpadding=\"6\" style=\"border-collapse:collapse\">");
             foreach (var (label, value) in rows)
                 html.Append("<tr><td style=\"color:#5B6890;white-space:nowrap\">").Append(Enc(label)).Append("</td><td dir=\"auto\"><b>").Append(Enc(value)).Append("</b></td></tr>");
-            html.Append("</table><p style=\"color:#5B6890;margin:16px 0 4px\">الرسالة / Message</p><div dir=\"auto\" style=\"white-space:pre-wrap;border-inline-start:3px solid #44D2EA;padding:8px 12px;background:#F4F7FD\">")
+            html.Append("</table><p style=\"color:#5B6890;margin:16px 0 4px\">الرسالة / Message</p><div dir=\"auto\" style=\"white-space:pre-wrap;border-inline-start:3px solid #82D0DC;padding:8px 12px;background:#F4F7FD\">")
                 .Append(Enc(e.Message)).Append("</div>");
             if (link is not null) html.Append("<p><a href=\"").Append(Enc(link)).Append("\">فتح الطلب في لوحة التحكم · Open in the admin panel</a></p>");
             html.Append("</div>");

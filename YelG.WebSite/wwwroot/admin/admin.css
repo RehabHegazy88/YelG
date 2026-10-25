@@ -4,7 +4,7 @@
    ===================================================================================================== */
 
 :root{
-  --navy:#0A3177;--navy-deep:#0A1F4E;--blue:#1B52CC;--cyan:#44D2EA;--coral:#DE8165;--coral-deep:#B4532F;
+  --navy:#0A3177;--navy-deep:#0A1F4E;--blue:#2F5EC6;--cyan:#82D0DC;--coral:#DB8169;--coral-deep:#B4532F;
   --text:#1F2A4D;--muted:#5B6890;--line:#E3E8F4;--line-strong:#C9D6F5;--bg:#F4F7FD;--panel:#FFFFFF;--soft:#EEF3FF;
   --ok:#1E7B4F;--ok-bg:#E7F6EE;--err:#B3261E;--err-bg:#FDECEA;--warn-bg:#FFF6F3;
   --radius:14px;--ff:'Alexandria',system-ui,sans-serif;
@@ -114,7 +114,7 @@ form.inline{display:inline-flex;margin:0;align-items:center}
 input[type=text],input[type=email],input[type=url],input[type=number],input[type=date],input[type=search],input[type=password],select,textarea{
   width:100%;min-height:44px;padding:10px 14px;border:1px solid var(--line-strong);border-radius:10px;background:#fff;color:var(--text);font:400 15px/1.6 var(--ff)}
 textarea{resize:vertical;min-height:88px}
-input:focus,select:focus,textarea:focus{border-color:var(--blue);outline:3px solid rgba(68,210,234,.45);outline-offset:0}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);outline:3px solid rgba(130,208,220,.45);outline-offset:0}
 input[dir=ltr],textarea[dir=ltr]{font-family:'Alexandria',system-ui,sans-serif}
 select{appearance:auto}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}

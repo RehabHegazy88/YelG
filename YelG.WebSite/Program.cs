@@ -78,6 +78,7 @@ builder.Services.Configure<MediaOptions>(builder.Configuration.GetSection(MediaO
 builder.Services.PostConfigure<MediaOptions>(o => o.StoragePath = Path.GetFullPath(o.StoragePath, builder.Environment.ContentRootPath));
 
 builder.Services.AddSingleton(AdminScreens.Build());
+builder.Services.AddSingleton<BrandFontsPreview>();
 
 // Cookie and form-token keys in the database, so sign-ins and open forms survive restarts and deployments.
 builder.Services.AddDataProtection().PersistKeysToDbContext<WebSiteDbContext>().SetApplicationName("YelG.WebSite");
@@ -187,6 +188,8 @@ app.UseStaticFiles(new StaticFileOptions
         ctx.Context.Response.Headers.CacheControl = "public, max-age=2592000";   // file names never change
     }
 });
+
+app.Services.GetRequiredService<BrandFontsPreview>().Map(app);
 
 app.MapStaticAssets();
 app.MapControllers().WithStaticAssets();

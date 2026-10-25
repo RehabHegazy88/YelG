@@ -1,3 +1,4 @@
+@inject YelG.WebSite.Infrastructure.BrandFontsPreview BrandFonts
 @using YelG.WebSite.Infrastructure.Identity
 @inject EditorRegistry Registry
 @inject YelG.WebSite.Application.Admin.IContentStore Store
@@ -27,9 +28,16 @@
 <link rel="icon" href="~/favicon.ico" sizes="48x48">
 <link rel="icon" href="~/brand/mark-512.png" type="image/png" sizes="512x512">
 <link rel="apple-touch-icon" href="~/brand/apple-touch-icon.png">
+@if (BrandFonts.Enabled)
+{
+<link rel="stylesheet" href="@BrandFonts.StylesheetUrl">
+}
+else
+{
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+}
 <link rel="stylesheet" href="~/admin/admin.css" asp-append-version="true">
 </head>
 <body class="@(bare ? "bare" : "")">
