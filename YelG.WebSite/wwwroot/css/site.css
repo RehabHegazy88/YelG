@@ -35,9 +35,6 @@
 .hd-logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#FFFFFF;min-height:48px}
 .hd-logo:hover{color:#FFFFFF}
 .hd-logo-img{display:block;height:44px;width:auto}
-.logo-word,.foot-logo{display:flex;flex-direction:column;line-height:1}
-.logo-word .logo-main{font-weight:800;font-size:22px}
-.logo-word .logo-sub{font-weight:300;font-size:13px;letter-spacing:.14em}
 .mnav{display:flex;gap:0;font:500 15px var(--ff),sans-serif}
 .hd-actions{display:flex;align-items:center;gap:8px}
 .hd-lang{font:600 15px var(--ff-alt),sans-serif;color:#FFFFFF;text-decoration:none;padding:0 12px;min-height:48px;display:inline-flex;align-items:center}
@@ -282,9 +279,7 @@ details.faq p a{color:#7FE3F1}
 .wrap.foot{position:relative;padding-block:64px 24px;display:flex;flex-direction:column;gap:40px}
 .foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:32px}
 .foot-brand{display:flex;flex-direction:column;gap:16px;min-width:0}
-.foot-logo{color:#FFFFFF;width:fit-content}
-.foot-logo .logo-main{font-weight:800;font-size:28px}
-.foot-logo .logo-sub{font-weight:300;font-size:15px;letter-spacing:.14em}
+.foot-logo-img{display:block;height:52px;width:auto;align-self:flex-start}
 .foot-tagline{margin:0;max-width:320px;line-height:1.7}
 .foot a.foot-social{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);justify-content:center;color:#FFFFFF}
 .foot-col{display:flex;flex-direction:column}

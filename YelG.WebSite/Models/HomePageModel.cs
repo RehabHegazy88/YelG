@@ -99,9 +99,5 @@ namespace YelG.WebSite.Models
         public IHtmlContent ArrowIcon => new HtmlString(
             "<svg aria-hidden=\"true\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\"><path d=\""
             + (IsArabic ? "M17 7 7 17M7 8v9h9" : "M7 17 17 7M8 7h9v9") + "\"></path></svg>");
-
-        /// <summary>The brand shape (logo mark, rotating badges).</summary>
-        public static readonly IHtmlContent MarkPath = new HtmlString(
-            "<path d=\"M14 10h26a16 16 0 0 1 16 16v14L42 56H14a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6z\" fill=\"url(#lgBE)\"></path>");
     }
 }
