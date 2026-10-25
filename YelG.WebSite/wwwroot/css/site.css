@@ -259,7 +259,8 @@ details.faq p a{color:#82D0DC}
 .careers-body{flex:1 1 220px;min-width:0;display:flex;flex-direction:column;gap:12px}
 .careers-p{margin:0;font-size:15px;line-height:1.6}
 .rtl .careers-p{line-height:1.8}
-.careers-links{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:auto}
+.careers-links{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:auto;padding-top:4px}
+.careers-more{display:flex;flex-wrap:wrap;gap:0 24px}
 .roles{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
 .role{display:flex;flex-direction:column;gap:4px;padding:16px;border-radius:16px;background:#FFFFFF;box-shadow:var(--sh-card)}
 .role-title{font:600 16px var(--ff),sans-serif;color:#0A3177}
@@ -278,12 +279,15 @@ details.faq p a{color:#82D0DC}
 .foot-glow{position:absolute;inset:0;background:radial-gradient(40% 60% at 0% 0%,rgba(130,208,220,.14),rgba(130,208,220,0) 70%)}
 .wrap.foot{position:relative;padding-block:64px 24px;display:flex;flex-direction:column;gap:40px}
 .foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:32px}
+@media (min-width:1000px){.foot-grid{grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr))}}
 .foot-brand{display:flex;flex-direction:column;gap:16px;min-width:0}
-.foot-logo-img{display:block;height:52px;width:auto;align-self:flex-start}
+.foot-logo-img{display:block;height:44px;width:auto;align-self:flex-start}
 .foot-tagline{margin:0;max-width:320px;line-height:1.7}
 .foot a.foot-social{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);justify-content:center;color:#FFFFFF}
 .foot-col{display:flex;flex-direction:column}
 .foot-col>strong{font:700 15px var(--ff),sans-serif;color:#FFFFFF;margin-bottom:8px}
+/* the email, phone and site read left to right but line up with the column's start in Arabic too */
+.rtl .foot-col a[dir=ltr]{justify-content:flex-end}
 .foot a.foot-book{color:#82D0DC}
 .foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);font-size:14px}
 
@@ -312,7 +316,12 @@ details.faq p a{color:#82D0DC}
 .page-top-grid{padding-bottom:56px;align-items:center}
 .page-top-art{position:relative;width:100%;max-width:330px;justify-self:center}
 .page-top-art::before{content:"";position:absolute;inset:-14px;border-radius:34px;border:1.5px solid rgba(130,208,220,.5)}
-.page-card{position:relative;display:block;width:100%;height:auto;border-radius:24px;box-shadow:0 32px 64px -24px rgba(0,0,0,.55)}
+.perks{position:relative;display:flex;flex-direction:column;gap:16px;padding:28px;border-radius:24px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px);box-shadow:0 32px 64px -24px rgba(0,0,0,.55)}
+.perks-mark{display:inline-flex;width:56px;height:56px;border-radius:16px;background:#FFFFFF;align-items:center;justify-content:center}
+.perks-title{margin:0;font:600 20px var(--ff),sans-serif;color:#FFFFFF}
+.perks-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.perks-list li{display:flex;align-items:center;gap:12px;color:#C9D6F5;font-size:15px;line-height:1.45}
+.perk-ic{flex:0 0 40px;height:40px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:rgba(130,208,220,.14);color:#82D0DC}
 .values-band{background:#FFFFFF;padding-block:clamp(48px,6vw,72px)}
 .values-wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(24px,4vw,64px);align-items:center}
 .general-apply{background:#FFFFFF}

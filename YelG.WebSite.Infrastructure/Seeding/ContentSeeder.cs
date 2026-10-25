@@ -184,7 +184,12 @@ namespace YelG.WebSite.Infrastructure.Seeding
                 Image = M(k.Image), ImageAlt = k.ImageAlt, SendCvLabel = k.SendCvLabel, CvEmailSubject = k.CvEmailSubject,
                 JobsLinkLabel = k.JobsLinkLabel, JobsUrl = k.JobsUrl
             }, k), ct);
-            // Open roles: none in the approved design.
+            // Open roles: the one in the company's hiring post (post-hiring.jpg).
+            await ListAsync(_db.CareerRoles, seed.CareerRoles.Select(r => new CareerRole
+            {
+                Slug = r.Slug, Title = r.Title, Department = r.Department, Summary = r.Summary, Description = r.Description,
+                Tags = r.Tags.Select((t, i) => new CareerRoleTag { Label = t, SortOrder = i + 1 }).ToList()
+            }), ct);
 
             var o0 = seed.Portal;
             await SingleAsync(_db.ClientPortalSections, () => new ClientPortalSection

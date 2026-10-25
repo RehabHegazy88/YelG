@@ -7,7 +7,8 @@ namespace YelG.WebSite.Tests
     /// <summary>
     /// The seed must not invent or reword any copy: every text in seed-content.json (editable content) and in
     /// ui-strings.json (interface wording) has to appear, character for character, in the approved prototype
-    /// of its language (docs/design/B-Ar.dc.html, B-En.dc.html).
+    /// of its language (docs/design/B-Ar.dc.html, B-En.dc.html). The one exception is the open roles, taken from
+    /// the company's hiring post (wwwroot/assets/post-hiring.jpg).
     /// </summary>
     public class SeedContentFidelityTests
     {
@@ -84,6 +85,8 @@ namespace YelG.WebSite.Tests
             var checkedCount = 0;
             foreach (var (path, ar, en) in Pairs(doc.RootElement, "$"))
             {
+                // The open roles are not in the prototype: they are transcribed from the company's hiring post.
+                if (path.StartsWith("$.careerRoles", StringComparison.Ordinal)) continue;
                 // Placeholders are filled when rendering: the copyright year, the prefill template, counters.
                 foreach (var (lang, value, haystack) in new[] { ("ar", ar, arabic), ("en", en, english) })
                 {

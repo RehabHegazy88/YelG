@@ -1723,6 +1723,31 @@
   },
   "jobsUrl": "https://www.linkedin.com/company/yelg-advisory/jobs/"
  },
+ "careerRoles": [
+  {
+   "slug": "senior-associate-accounting-reporting",
+   "title": {
+    "ar": "أخصائي أول – المحاسبة والتقارير المالية",
+    "en": "Senior Associate – Accounting & Reporting"
+   },
+   "department": {
+    "ar": "الخدمات المركزية للعملاء (CCS)",
+    "en": "Centralised Client Services (CCS)"
+   },
+   "summary": {
+    "ar": "عملاء متعددون. قطاعات مختلفة. فرص حقيقية.",
+    "en": "Multiple clients. Different industries. Real opportunities."
+   },
+   "description": {
+    "ar": "انضم إلى فريق الخدمات المركزية للعملاء في YelG Advisory: اعمل مع عملاء متعددين، واكتسب خبرة في قطاعات مختلفة، وطوّر خبرتك المهنية، وانمُ في مسارك الوظيفي.",
+    "en": "Join YelG Advisory's Centralised Client Services team: work with multiple clients, gain diverse industry exposure, develop your expertise and grow your career."
+   },
+   "tags": [
+    { "ar": "المحاسبة", "en": "Accounting" },
+    { "ar": "التقارير المالية", "en": "Reporting" }
+   ]
+  }
+ ],
  "portal": {
   "badgeLabel": {
    "ar": "قريبًا",

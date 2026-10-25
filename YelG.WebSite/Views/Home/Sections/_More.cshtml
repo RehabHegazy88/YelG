@@ -56,15 +56,15 @@
 </ul>
 }
 <div class="careers-links">
-<a href="/@Model.Lang/careers" class="tlink">@CareerTexts.Get(openRoles.Count > 0 ? "viewAll" : "pageTitle", Model.Lang) <span aria-hidden="true">@Model.ArrowNext</span></a>
-@if (!string.IsNullOrEmpty(site.CareersEmail))
-{
-<a href="mailto:@site.CareersEmail?subject=@Uri.EscapeDataString(car.CvEmailSubject)" class="tlink">@Model.R(car.SendCvLabel) <span aria-hidden="true">@Model.ArrowNext</span></a>
-}
+@* the careers page first (its roles and its CV form), then LinkedIn, where the roles are also posted *@
+<a href="/@Model.Lang/careers" class="btn btn-blue careers-cta">@CareerTexts.Get(openRoles.Count > 0 ? "viewAll" : "pageTitle", Model.Lang)<span class="ar">@Model.ArrowIcon</span></a>
+<span class="careers-more">
+<a href="/@Model.Lang/careers#apply" class="tlink">@Model.R(car.SendCvLabel) <span aria-hidden="true">@Model.ArrowNext</span></a>
 @if (!string.IsNullOrEmpty(car.JobsUrl))
 {
-<a href="@car.JobsUrl" target="_blank" rel="noopener" class="tlink">@Model.R(car.JobsLinkLabel) <span aria-hidden="true">@Model.ArrowExternal</span><span class="sr">@Model.SR("jobsOpensNewTab")</span></a>
+<a href="@car.JobsUrl" target="_blank" rel="noopener" class="tlink">@CareerTexts.Get("onLinkedIn", Model.Lang) <span aria-hidden="true">@Model.ArrowExternal</span><span class="sr">@Model.SR("jobsOpensNewTab")</span></a>
 }
+</span>
 </div>
 </div>
 </div>

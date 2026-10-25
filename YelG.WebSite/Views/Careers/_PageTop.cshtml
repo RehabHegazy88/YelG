@@ -4,6 +4,15 @@
     var section = Model.Content.Careers!;
     var role = Model.Role;
 }
+@functions {
+    private static readonly (string Key, string Icon)[] Perks =
+    {
+        ("perk1", "<circle cx=\"9\" cy=\"8\" r=\"3\"/><circle cx=\"17\" cy=\"9\" r=\"2.5\"/><path d=\"M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.2c3 .3 6 2.4 6 5.8\"/>"),
+        ("perk2", "<path d=\"M4 20V14M10 20V9M16 20V12M22 20V4M2 20h20\"/>"),
+        ("perk3", "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1\"/>"),
+        ("perk4", "<path d=\"M3 20h5v-4h5v-4h5V8h3M18 3v5M18 3l3 1.5L18 6\"/>")
+    };
+}
 <a href="#main" class="skip">@Model.S("skip")</a>
 <section id="top" class="heroB page-top" aria-labelledby="pageTitle">
 <div aria-hidden="true" class="heroB-pat"></div>
@@ -39,13 +48,19 @@ else
 }
 </div>
 </div>
-@if (section.Image is { } image)
-{
-@* shown whole, as a card: the careers picture is often a hiring post with text on it *@
+@* what working here offers (the points of the company's hiring post), instead of a picture *@
 <div class="page-top-art">
-<img src="@image.Path" alt="@Model.T(section.ImageAlt)" class="page-card" width="@image.Width" height="@image.Height" fetchpriority="high">
-</div>
+<div class="perks">
+<span class="perks-mark" aria-hidden="true"><img src="~/brand/mark-color.svg" alt="" width="40" height="40"></span>
+<h2 class="perks-title">@Model.C("perksTitle")</h2>
+<ul class="perks-list">
+@foreach (var (key, icon) in Perks)
+{
+<li><span class="perk-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">@Html.Raw(icon)</svg></span>@Model.C(key)</li>
 }
+</ul>
+</div>
+</div>
 </div>
 }
 else

@@ -57,6 +57,7 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public InsightsSeed Insights { get; set; } = new();
         public List<PostSeed> InsightPosts { get; set; } = new();
         public CareersSeed Careers { get; set; } = new();
+        public List<CareerRoleSeed> CareerRoles { get; set; } = new();
         public PortalSeed Portal { get; set; } = new();
         public List<string> Media { get; set; } = new();
 
@@ -306,6 +307,17 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public string CvEmailSubject { get; set; } = string.Empty;
         public LocalizedText JobsLinkLabel { get; set; } = new();
         public string JobsUrl { get; set; } = string.Empty;
+    }
+
+    /// <summary>An open role, transcribed from the company's own hiring post.</summary>
+    public sealed class CareerRoleSeed
+    {
+        public string Slug { get; set; } = string.Empty;
+        public LocalizedText Title { get; set; } = new();
+        public LocalizedText Department { get; set; } = new();
+        public LocalizedText Summary { get; set; } = new();
+        public LocalizedText Description { get; set; } = new();
+        public List<LocalizedText> Tags { get; set; } = new();
     }
 
     public sealed class PortalSeed

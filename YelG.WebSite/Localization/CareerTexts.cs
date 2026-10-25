@@ -56,6 +56,12 @@ namespace YelG.WebSite.Localization
             ["generalStep2"] = ("نراجعها مع فريق التوظيف", "Our team reviews it"),
             ["generalStep3"] = ("نتواصل معك عند توفر فرصة مناسبة", "We contact you when a suitable role opens"),
             ["formTitleGeneral"] = ("أرسل سيرتك الذاتية", "Send us your CV"),
+            ["onLinkedIn"] = ("تابع الوظائف على LinkedIn", "Follow our roles on LinkedIn"),
+            ["perksTitle"] = ("لماذا YelG؟", "Why YelG?"),
+            ["perk1"] = ("اعمل مع عملاء متعددين", "Work with multiple clients"),
+            ["perk2"] = ("اكتسب خبرة في قطاعات مختلفة", "Gain diverse industry exposure"),
+            ["perk3"] = ("طوّر خبرتك المهنية", "Develop your expertise"),
+            ["perk4"] = ("انمُ في مسارك الوظيفي", "Grow your career"),
             ["valuesTitle"] = ("ما نؤمن به", "What we stand for"),
             ["noOpeningsTitle"] = ("لا توجد وظائف متاحة الآن", "No open positions right now"),
             // the form's messages (name, email and phone reuse the consultation form's)
