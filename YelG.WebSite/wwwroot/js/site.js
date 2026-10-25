@@ -445,8 +445,29 @@
     });
   }
 
+  // news videos on YouTube: the player (youtube-nocookie) replaces the picture only when play is pressed
+  function youTube() {
+    document.querySelectorAll('[data-yt]').forEach(function (box) {
+      var start = box.querySelector('.yt-start');
+      if (!start) return;
+      start.addEventListener('click', function (e) {
+        e.preventDefault();
+        var frame = document.createElement('iframe');
+        frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(box.getAttribute('data-yt')) + '?autoplay=1&rel=0';
+        frame.title = box.getAttribute('data-yt-title') || 'YouTube';
+        frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        frame.allowFullscreen = true;
+        frame.referrerPolicy = 'strict-origin-when-cross-origin';
+        box.textContent = '';
+        box.appendChild(frame);
+        frame.focus();
+      });
+    });
+  }
+
   menu();
   languageSwitch();
+  youTube();
   consultForm();
   applyForm();
   services();

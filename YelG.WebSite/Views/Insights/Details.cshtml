@@ -23,7 +23,20 @@
 <main id="main">
 <article class="sec article-page" aria-labelledby="pageTitle">
 <div class="wrap article-wrap">
-@if (post.Video is { } video)
+@if (post.YouTubeId is { } youTube)
+{
+@* YouTube's player loads only when the visitor presses play (youtube-nocookie); without script the link opens YouTube *@
+var poster = post.Image?.Path ?? $"https://i.ytimg.com/vi/{youTube}/hqdefault.jpg";
+<div class="article-media yt" data-yt="@youTube" data-yt-title="@Model.T(post.Title)">
+<a href="https://www.youtube.com/watch?v=@youTube" target="_blank" rel="noopener" class="yt-start">
+<img src="@poster" alt="@Model.T(post.ImageAlt)">
+<span class="yt-play" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+<span class="sr">@Model.I("playVideo")</span>
+</a>
+<p class="yt-note">@Model.I("youTubeNote")</p>
+</div>
+}
+else if (post.Video is { } video)
 {
 <div class="article-media">
 <video controls preload="metadata" playsinline poster="@post.Image?.Path" aria-label="@Model.T(post.ImageAlt)"><source src="@video.Path" type="@video.ContentType"></video>

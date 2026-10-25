@@ -21,7 +21,9 @@ namespace YelG.WebSite.Localization
             ["alsoOn"] = ("نُشر هذا الخبر أيضًا على {source}", "Also published on {source}"),
             ["more"] = ("أخبار ومقالات أخرى", "More news & insights"),
             ["readMore"] = ("اقرأ الخبر", "Read more"),
-            ["video"] = ("فيديو", "Video")
+            ["video"] = ("فيديو", "Video"),
+            ["playVideo"] = ("تشغيل الفيديو", "Play the video"),
+            ["youTubeNote"] = ("يُشغَّل الفيديو من YouTube عند الضغط على تشغيل.", "The video plays from YouTube when you press play.")
         };
 
         public static string Get(string key, string lang) =>

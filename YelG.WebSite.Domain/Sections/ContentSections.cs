@@ -199,7 +199,7 @@ namespace YelG.WebSite.Domain.Sections
     }
 
     /// <summary>
-    /// A news item or article. With a text or a video it has its own page (/{lang}/insights/{slug}); without
+    /// A news item or article. With a text or a video (uploaded or on YouTube) it has its own page (/{lang}/insights/{slug}); without
     /// them it opens <see cref="ExternalUrl"/> (where it was published, e.g. LinkedIn).
     /// </summary>
     public class InsightPost : ContentItem
@@ -220,8 +220,16 @@ namespace YelG.WebSite.Domain.Sections
         public long? VideoId { get; set; }
         public MediaAsset? Video { get; set; }
 
+        /// <summary>Optional YouTube video (a link to it), played on the page instead of an uploaded one.</summary>
+        public string? YouTubeUrl { get; set; }
+
+        /// <summary>The YouTube video's id, when <see cref="YouTubeUrl"/> is a YouTube video link.</summary>
+        public string? YouTubeId => YouTubeLink.VideoId(YouTubeUrl);
+
+        public bool HasVideo => VideoId is not null || YouTubeId is not null;
+
         /// <summary>Has its own page on the site.</summary>
-        public bool HasPage => !string.IsNullOrWhiteSpace(Slug) && (!Body.IsEmpty || VideoId is not null);
+        public bool HasPage => !string.IsNullOrWhiteSpace(Slug) && (!Body.IsEmpty || HasVideo);
 
         public long? ImageId { get; set; }
         public MediaAsset? Image { get; set; }

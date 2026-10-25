@@ -2921,6 +2921,10 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.Property<long?>("VideoId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("YouTubeUrl")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.ComplexProperty<Dictionary<string, object>>("Body", "YelG.WebSite.Domain.Sections.InsightPost.Body#LocalizedText", b1 =>
                         {
                             b1.IsRequired();

@@ -2,7 +2,8 @@ namespace YelG.WebSite.Infrastructure
 {
     /// <summary>
     /// Response headers for every page: a Content Security Policy that allows only this site's scripts and
-    /// styles plus Google Fonts, no framing, no MIME sniffing, a strict referrer, no browser features the
+    /// styles plus Google Fonts (and YouTube's privacy-enhanced player for news videos, loaded on click), no
+    /// framing of this site, no MIME sniffing, a strict referrer, no browser features the
     /// site does not use, and no indexing of the admin panel. In Development the policy is report-only, so
     /// the developer error page (inline scripts) still works.
     /// </summary>
@@ -10,7 +11,8 @@ namespace YelG.WebSite.Infrastructure
     {
         private const string Policy =
             "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; " +
-            "font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; " +
+            "font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://i.ytimg.com; media-src 'self'; connect-src 'self'; " +
+            "frame-src https://www.youtube-nocookie.com; " +
             "form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'";
 
         public static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app, IWebHostEnvironment environment)

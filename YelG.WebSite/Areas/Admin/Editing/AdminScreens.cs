@@ -436,6 +436,7 @@ namespace YelG.WebSite.Areas.Admin.Editing
                 .Media(x => x.ImageId, "الصورة", hint: "تظهر في البطاقة وأعلى صفحة الخبر، وغلافًا للفيديو.")
                 .Text(x => x.ImageAlt, "وصف الصورة")
                 .Media(x => x.VideoId, "الفيديو (اختياري)", MediaKind.Video, hint: "يظهر أعلى صفحة الخبر بدل الصورة. ارفعه أولًا في مكتبة الوسائط (MP4 أو WebM).")
+                .Url(x => x.YouTubeUrl, "أو رابط فيديو YouTube", hint: "مثل https://www.youtube.com/watch?v=… أو https://youtu.be/… — يُشغَّل داخل صفحة الخبر، ولا يُحمَّل من YouTube إلا عندما يضغط الزائر تشغيل.")
                 .Group("النشر الخارجي")
                 .Url(x => x.ExternalUrl, "رابط الخبر على LinkedIn أو غيره", hint: "اختياري عندما يكون للخبر نص في الموقع؛ يظهر رابطًا «اقرأه على …».")
                 .Plain(x => x.Source, "المصدر", hint: "مثل LinkedIn.")
@@ -445,7 +446,11 @@ namespace YelG.WebSite.Areas.Admin.Editing
                     if (string.IsNullOrWhiteSpace(p.Slug)) p.Slug = Slugify(p.Title.En);
                     if (string.IsNullOrWhiteSpace(p.Slug)) c.Errors.Add(nameof(p.Slug), "أدخل عنوانًا للصفحة بالحروف الإنجليزية.");
                     else if (!SlugPattern().IsMatch(p.Slug)) c.Errors.Add(nameof(p.Slug), "حروف إنجليزية صغيرة وأرقام وشرطات فقط، مثل from-insight-to-action.");
-                    if (p.Body.IsEmpty && p.VideoId is null && string.IsNullOrWhiteSpace(p.ExternalUrl))
+                    if (!string.IsNullOrWhiteSpace(p.YouTubeUrl) && p.YouTubeId is null)
+                        c.Errors.Add(nameof(p.YouTubeUrl), "هذا ليس رابط فيديو على YouTube. انسخ الرابط من زر «مشاركة» تحت الفيديو.");
+                    else if (p.YouTubeId is not null && p.VideoId is not null)
+                        c.Errors.Add(nameof(p.YouTubeUrl), "اختر فيديو واحدًا: المرفوع أو رابط YouTube.");
+                    if (p.Body.IsEmpty && !p.HasVideo && string.IsNullOrWhiteSpace(p.ExternalUrl) && string.IsNullOrWhiteSpace(p.YouTubeUrl))
                         c.Errors.Add(nameof(p.Body), "اكتب نص الخبر، أو أضف فيديو، أو رابطًا خارجيًا.");
                 })
                 .Unique(x => x.Slug, "هذا العنوان مستخدم لخبر آخر.");

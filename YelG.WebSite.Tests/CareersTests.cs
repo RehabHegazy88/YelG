@@ -172,6 +172,43 @@ namespace YelG.WebSite.Tests
             }
         }
 
+        [LocalDbFact]
+        public async Task A_post_with_a_youtube_link_plays_it_on_its_page_only_after_a_click()
+        {
+            long id;
+            string slug;
+            await using (var scope = _site.Services.CreateAsyncScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<WebSiteDbContext>();
+                var post = await db.InsightPosts.OrderBy(p => p.Id).FirstAsync();
+                (id, slug) = (post.Id, post.Slug);
+                post.YouTubeUrl = "https://youtu.be/dQw4w9WgXcQ";
+                await db.SaveChangesAsync();
+            }
+            try
+            {
+                _site.Services.GetRequiredService<YelG.WebSite.Application.Content.IContentVersion>().Bump();
+                var client = _site.Browser();
+                var response = await client.GetAsync($"/ar/insights/{slug}");
+                var page = Html.Parse(await response.Content.ReadAsStringAsync());
+                var box = page.QuerySelector("[data-yt]")!;
+                Assert.Equal("dQw4w9WgXcQ", box.GetAttribute("data-yt"));
+                Assert.Null(page.QuerySelector("iframe"));   // nothing from YouTube until play is pressed
+                Assert.Equal("https://www.youtube.com/watch?v=dQw4w9WgXcQ", box.QuerySelector("a.yt-start")!.GetAttribute("href"));
+                var policy = string.Join(" ", response.Headers.TryGetValues("Content-Security-Policy", out var v) ? v
+                    : response.Headers.GetValues("Content-Security-Policy-Report-Only"));
+                Assert.Contains("frame-src https://www.youtube-nocookie.com", policy);
+            }
+            finally
+            {
+                await using var scope = _site.Services.CreateAsyncScope();
+                var db = scope.ServiceProvider.GetRequiredService<WebSiteDbContext>();
+                (await db.InsightPosts.FirstAsync(p => p.Id == id)).YouTubeUrl = null;
+                await db.SaveChangesAsync();
+                _site.Services.GetRequiredService<YelG.WebSite.Application.Content.IContentVersion>().Bump();
+            }
+        }
+
         private static async Task<HttpResponseMessage> ApplyAsync(HttpClient client, byte[] cv, string cvName, string email,
             string pageUrl = "/en/careers/test-senior-accountant", string action = "/en/careers/test-senior-accountant/apply")
         {
