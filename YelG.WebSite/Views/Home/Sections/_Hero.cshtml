@@ -60,7 +60,7 @@ else
 @if (!string.IsNullOrEmpty(hero.BadgeRingText))
 {
 <div class="heroBadge" aria-hidden="true">
-<svg class="spin ring-svg" viewBox="0 0 150 150"><defs><path id="circHE" d="M75 75 m-54 0 a54 54 0 1 1 108 0 a54 54 0 1 1 -108 0"></path></defs><text font-family="Sora, sans-serif" font-size="13" font-weight="600" letter-spacing="3" fill="#FFFFFF"><textPath href="#circHE">@hero.BadgeRingText</textPath></text></svg>
+<svg class="spin ring-svg" viewBox="0 0 150 150"><defs><path id="circHE" d="M75 75 m-54 0 a54 54 0 1 1 108 0 a54 54 0 1 1 -108 0"></path></defs><text font-family="Sora, sans-serif" font-size="13" font-weight="600" letter-spacing="3" fill="#FFFFFF"><textPath href="#circHE" textLength="337" lengthAdjust="spacing">@hero.BadgeRingText</textPath></text></svg>
 <img src="~/brand/mark-color.svg" alt="" width="40" height="40">
 </div>
 }
