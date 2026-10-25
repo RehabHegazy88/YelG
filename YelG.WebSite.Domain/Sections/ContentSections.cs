@@ -239,6 +239,10 @@ namespace YelG.WebSite.Domain.Sections
 
         // ---- the careers page (/{lang}/careers) and its application form; empty texts use the site's defaults
 
+        /// <summary>The careers page's own heading and lead (the homepage card keeps <see cref="SectionBase.Heading"/>).</summary>
+        public LocalizedText PageHeading { get; set; } = new();
+        public LocalizedText PageLead { get; set; } = new();
+
         /// <summary>Heading of the application form on a job's page ("قدّم على هذه الوظيفة").</summary>
         public LocalizedText ApplyTitle { get; set; } = new();
 

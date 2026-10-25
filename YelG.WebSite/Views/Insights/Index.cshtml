@@ -1,0 +1,83 @@
+@model InsightsPageModel
+@{
+    var ins = Model.Content.Insights!;
+    var posts = Model.ListedPosts;
+    var featured = posts.FirstOrDefault();
+}
+<a href="#main" class="skip">@Model.S("skip")</a>
+<section id="top" class="heroB page-top" aria-labelledby="pageTitle">
+<div aria-hidden="true" class="heroB-pat"></div>
+<partial name="~/Views/Shared/_SiteHeader.cshtml" model="Model" />
+<div class="wrap page-top-body">
+<nav class="crumbs" aria-label="@(Model.IsArabic ? "المسار" : "Breadcrumb")">
+<a href="/@Model.Lang">YelG Advisory</a><span aria-hidden="true">/</span><span aria-current="page">@Model.I("pageTitle")</span>
+</nav>
+<div class="page-top-copy news-top">
+<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.I("pageTitle")</span>
+<h1 id="pageTitle" class="page-title">@Model.Heading(ins)</h1>
+@if (!ins.Lead.IsEmpty){<p class="page-lead">@Model.R(ins.Lead)</p>}
+@if (!string.IsNullOrEmpty(ins.FollowLinkUrl))
+{
+<div class="heroCtas">
+<a href="@ins.FollowLinkUrl" target="_blank" rel="noopener" class="btn btn-line">@Model.R(ins.FollowLinkLabel) <span aria-hidden="true">@Model.ArrowExternal</span><span class="sr">@Model.S("opensNewTab")</span></a>
+</div>
+}
+</div>
+</div>
+</section>
+
+<main id="main">
+<section class="sec news-page" aria-labelledby="newsTitle">
+<div class="wrap news-wrap">
+<div class="jobs-head">
+<h2 id="newsTitle" class="h2">@Model.I(string.IsNullOrEmpty(Model.Category) ? "latest" : "pageTitle")@if (!string.IsNullOrEmpty(Model.Category)){<span class="jobs-count"> · @Model.Category</span>}</h2>
+@if (Model.Categories.Count > 1)
+{
+<nav class="ctabs" aria-label="@Model.I("filterLabel")">
+<a href="@Model.ListUrl" class="ctab@(string.IsNullOrEmpty(Model.Category) ? " ctab-on" : "")" aria-current="@(string.IsNullOrEmpty(Model.Category) ? "page" : null)">@Model.I("all")</a>
+@foreach (var category in Model.Categories)
+{
+<a href="@Model.ListUrl?category=@Uri.EscapeDataString(category)" class="ctab@(category == Model.Category ? " ctab-on" : "")" aria-current="@(category == Model.Category ? "page" : null)">@category</a>
+}
+</nav>
+}
+</div>
+
+@if (featured is null)
+{
+<p class="news-empty">@Model.I("empty")</p>
+}
+else
+{
+<a href="@featured.ExternalUrl" target="_blank" rel="noopener" class="news-feature">
+<span class="photo photo-flat news-feature-photo @HomePageModel.FocusClass(featured.Image)">@if (featured.Image is { } featuredImg){<img src="@featuredImg.Path" alt="@Model.T(featured.ImageAlt)">}</span>
+<span class="news-feature-body">
+<span class="post-meta post-meta-@featured.CategoryColor">@Model.R(featured.CategoryLabel) · @Model.MonthYear(featured.PublishedOn)</span>
+<span class="news-feature-title">@Model.R(featured.Title)</span>
+<span class="tlink news-read">@Model.I("readOn").Replace("{source}", featured.Source) <span aria-hidden="true">@Model.ArrowExternal</span></span>
+</span>
+<span class="sr">@Model.S("opensNewTab")</span>
+</a>
+@if (posts.Count > 1)
+{
+<ul class="news-grid">
+@foreach (var post in posts.Skip(1))
+{
+<li>
+<a href="@post.ExternalUrl" target="_blank" rel="noopener" class="news-card">
+<span class="photo photo-flat post-photo @HomePageModel.FocusClass(post.Image)">@if (post.Image is { } img){<img src="@img.Path" alt="@Model.T(post.ImageAlt)" loading="lazy">}</span>
+<span class="post-meta post-meta-@post.CategoryColor">@Model.R(post.CategoryLabel) · @Model.MonthYear(post.PublishedOn)</span>
+<span class="post-title">@Model.R(post.Title)</span>
+<span class="tlink news-read">@Model.I("readOn").Replace("{source}", post.Source) <span aria-hidden="true">@Model.ArrowExternal</span></span>
+<span class="sr">@Model.S("opensNewTab")</span>
+</a>
+</li>
+}
+</ul>
+}
+}
+</div>
+</section>
+</main>
+
+<partial name="~/Views/Home/Sections/_Footer.cshtml" model="Model" />

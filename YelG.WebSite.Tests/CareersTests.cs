@@ -102,6 +102,24 @@ namespace YelG.WebSite.Tests
             Assert.Contains("/ar/careers/test-senior-accountant", await client.GetStringAsync("/sitemap.xml"));
         }
 
+        [LocalDbFact]
+        public async Task The_news_page_lists_every_post_newest_first_and_filters_by_category()
+        {
+            var client = _site.Browser();
+            var page = await Html.GetAsync(client, "/ar/insights");
+            var links = page.QuerySelectorAll(".news-feature, .news-card").Select(a => a.GetAttribute("href")).ToList();
+            await using var scope = _site.Services.CreateAsyncScope();
+            var posts = await scope.ServiceProvider.GetRequiredService<WebSiteDbContext>().InsightPosts.AsNoTracking().ToListAsync();
+            var published = posts.Where(p => p.IsPublished).OrderByDescending(p => p.PublishedOn).ThenBy(p => p.SortOrder).ToList();
+            Assert.Equal(published.Select(p => p.ExternalUrl), links);
+
+            var category = published[0].CategoryLabel.En;
+            var filtered = await Html.GetAsync(client, "/en/insights?category=" + Uri.EscapeDataString(category));
+            Assert.Equal(published.Count(p => p.CategoryLabel.En == category), filtered.QuerySelectorAll(".news-feature, .news-card").Length);
+            Assert.Contains("/en/insights", await client.GetStringAsync("/sitemap.xml"));
+            Assert.Contains((await Html.GetAsync(client, "/ar")).QuerySelectorAll("a"), a => a.GetAttribute("href") == "/ar/insights");
+        }
+
         private static async Task<HttpResponseMessage> ApplyAsync(HttpClient client, byte[] cv, string cvName, string email,
             string pageUrl = "/en/careers/test-senior-accountant", string action = "/en/careers/test-senior-accountant/apply")
         {

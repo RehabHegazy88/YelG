@@ -34,8 +34,8 @@ else
 <div class="page-top-grid">
 <div class="page-top-copy">
 <span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.R(section.Eyebrow)</span>
-<h1 id="pageTitle" class="page-title">@Model.R(section.Heading)</h1>
-@if (!section.Lead.IsEmpty){<p class="page-lead">@Model.R(section.Lead)</p>}
+<h1 id="pageTitle" class="page-title">@CareerTexts.Or(section.PageHeading, "pageHeading", Model.Lang)</h1>
+<p class="page-lead">@Model.Text(section.PageLead, "pageLead")</p>
 <div class="heroCtas">
 @if (Model.OpenRoles.Count > 0)
 {

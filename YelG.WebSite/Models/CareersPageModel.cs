@@ -45,7 +45,7 @@ namespace YelG.WebSite.Models
             : $"{T(Role.Title)} — {C("pageTitle")} — YelG Advisory";
 
         public override string? PageDescription => Role is null
-            ? (Content.Careers is { } section && !section.Lead.IsEmpty ? T(section.Lead) : null)
+            ? CareerTexts.Or(Content.Careers?.PageLead, "pageLead", Lang)
             : (!Role.Summary.IsEmpty ? T(Role.Summary) : T(Role.Description).Split('\n')[0]);
 
         /// <summary>A careers label in this language.</summary>

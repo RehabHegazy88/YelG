@@ -16,7 +16,7 @@
 @if (!role.Description.IsEmpty)
 {
 <h2 class="h3">@Model.C("about")</h2>
-<p class="job-text">@Model.R(role.Description)</p>
+@foreach (var paragraph in Model.Lines(role.Description)){<p class="job-text">@Model.R(new YelG.WebSite.Domain.Common.LocalizedText(paragraph, paragraph))</p>}
 }
 @if (responsibilities.Count > 0)
 {

@@ -1739,13 +1739,32 @@
     "en": "Multiple clients. Different industries. Real opportunities."
    },
    "description": {
-    "ar": "انضم إلى فريق الخدمات المركزية للعملاء في YelG Advisory: اعمل مع عملاء متعددين، واكتسب خبرة في قطاعات مختلفة، وطوّر خبرتك المهنية، وانمُ في مسارك الوظيفي.",
-    "en": "Join YelG Advisory's Centralised Client Services team: work with multiple clients, gain diverse industry exposure, develop your expertise and grow your career."
+    "ar": "ضمن فريق الخدمات المركزية للعملاء (CCS)، تتولى المحاسبة وإعداد التقارير المالية لمجموعة من عملاء YelG Advisory في قطاعات ونماذج أعمال مختلفة. تدير دورة الإقفال من القيود حتى القوائم المالية، وتكون نقطة التواصل المالية للعميل، وتقدّم له أرقامًا دقيقة في موعدها يبني عليها قراراته.\nهذه الوظيفة لمن يريد خبرة أوسع من شركة واحدة: كل عميل نظام مختلف وتحدٍّ مختلف، مع فريق يراجع معك ويدعمك.",
+    "en": "In the Centralised Client Services (CCS) team you run accounting and financial reporting for a portfolio of YelG Advisory clients across different sectors and business models. You own the close cycle from journal entries to financial statements, act as the client's finance contact, and deliver accurate, on-time numbers they can base decisions on.\nThis role is for someone who wants more experience than one company can offer: every client brings a different system and a different challenge, with a team that reviews and supports your work."
    },
    "tags": [
-    { "ar": "المحاسبة", "en": "Accounting" },
-    { "ar": "التقارير المالية", "en": "Reporting" }
-   ]
+    {
+     "ar": "المحاسبة",
+     "en": "Accounting"
+    },
+    {
+     "ar": "التقارير المالية",
+     "en": "Reporting"
+    }
+   ],
+   "replacesDescriptionAr": "انضم إلى فريق الخدمات المركزية للعملاء في YelG Advisory: اعمل مع عملاء متعددين، واكتسب خبرة في قطاعات مختلفة، وطوّر خبرتك المهنية، وانمُ في مسارك الوظيفي.",
+   "experience": {
+    "ar": "من 3 إلى 5 سنوات",
+    "en": "3–5 years"
+   },
+   "responsibilities": {
+    "ar": "إدارة الدورة المحاسبية الكاملة لمجموعة من العملاء: القيود اليومية والتسويات والإقفال الشهري والسنوي.\nإعداد القوائم المالية والتقارير الإدارية الشهرية ومراجعتها قبل تسليمها للعميل.\nإعداد التسويات البنكية وتسويات حسابات العملاء والموردين ومتابعة الفروقات حتى إغلاقها.\nتحليل النتائج والانحرافات عن الموازنة وتقديم ملاحظات واضحة للعميل.\nدعم الالتزامات الضريبية (ضريبة القيمة المضافة والخصم والتحصيل) والتنسيق مع المراجع الخارجي.\nمراجعة عمل المحاسبين في الفريق وتوجيههم، والمساهمة في تحسين الإجراءات والضوابط.",
+    "en": "Run the full accounting cycle for a portfolio of clients: daily entries, reconciliations, month-end and year-end close.\nPrepare monthly financial statements and management reports, and review them before they reach the client.\nPrepare bank, customer and supplier reconciliations and follow differences until they are closed.\nAnalyse results and budget variances and give the client clear commentary.\nSupport tax compliance (VAT and withholding tax) and coordinate with external auditors.\nReview and guide the team's accountants and help improve procedures and controls."
+   },
+   "requirements": {
+    "ar": "بكالوريوس تجارة أو محاسبة؛ شهادة CMA أو ACCA أو CPA ميزة إضافية.\nخبرة من 3 إلى 5 سنوات في المحاسبة وإعداد التقارير، ويُفضَّل في مكتب محاسبة أو خدمات مالية لعملاء متعددين.\nمعرفة جيدة بمعايير المحاسبة المصرية والدولية (IFRS).\nإجادة Excel وأحد أنظمة ERP أو برامج المحاسبة (مثل Odoo أو SAP أو QuickBooks).\nلغة إنجليزية جيدة كتابةً وتحدثًا.\nدقة وتنظيم، والقدرة على إدارة أكثر من عميل وموعد تسليم في الوقت نفسه.",
+    "en": "Bachelor's degree in commerce or accounting; CMA, ACCA or CPA is a plus.\n3–5 years in accounting and reporting, ideally in an accounting firm or a multi-client finance service.\nGood knowledge of Egyptian Accounting Standards and IFRS.\nStrong Excel and experience with an ERP or accounting system (such as Odoo, SAP or QuickBooks).\nGood written and spoken English.\nAccurate and organised, able to handle several clients and deadlines at once."
+   }
   }
  ],
  "portal": {

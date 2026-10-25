@@ -316,8 +316,14 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public LocalizedText Title { get; set; } = new();
         public LocalizedText Department { get; set; } = new();
         public LocalizedText Summary { get; set; } = new();
+        public LocalizedText Experience { get; set; } = new();
         public LocalizedText Description { get; set; } = new();
+        public LocalizedText Responsibilities { get; set; } = new();
+        public LocalizedText Requirements { get; set; } = new();
         public List<LocalizedText> Tags { get; set; } = new();
+
+        /// <summary>The first, shorter transcription: a role still holding it gets the full text.</summary>
+        public string? ReplacesDescriptionAr { get; set; }
     }
 
     public sealed class PortalSeed

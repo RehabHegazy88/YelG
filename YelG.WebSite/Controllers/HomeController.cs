@@ -43,9 +43,10 @@ namespace YelG.WebSite.Controllers
             var modified = content.Site.LastModifiedDate == default ? "" : $"<lastmod>{content.Site.LastModifiedDate:yyyy-MM-dd}</lastmod>";
             var xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
                 .Append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">\n");
-            // the homepage, the careers page and each open role, in both languages
+            // the homepage, the news page, the careers page and each open role, in both languages
             var today = DateOnly.FromDateTime(DateTime.UtcNow);
             var paths = new List<string> { "" };
+            if (content.Insights is not null) paths.Add("/insights");
             if (content.Careers is not null)
             {
                 paths.Add("/careers");

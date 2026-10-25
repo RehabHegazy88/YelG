@@ -200,7 +200,8 @@ namespace YelG.WebSite.Tests
 
         /// <summary>
         /// For every screen: the section's own form, the first item of each list and of each child list. A text
-        /// is changed through the admin form, the public page must show it at once, then the text is put back.
+        /// is changed through the admin form, the public page (the homepage, else the careers or news page) must
+        /// show it at once, then the text is put back.
         /// </summary>
         [LocalDbFact]
         public async Task Every_admin_edit_appears_on_the_public_page_after_saving()
@@ -223,7 +224,11 @@ namespace YelG.WebSite.Tests
                 var saved = await form.PostAsync(admin);
                 Assert.True(saved.StatusCode == HttpStatusCode.Redirect, $"{formUrl}: save answered {(int)saved.StatusCode}");
 
-                var page = await _site.Browser().GetStringAsync("/ar");
+                // the homepage, or the site's other pages for what only they show (role tags, older posts)
+                var browser = _site.Browser();
+                var page = await browser.GetStringAsync("/ar");
+                foreach (var other in new[] { "/ar/careers", "/ar/insights" })
+                    if (!page.Contains(marker)) page = await browser.GetStringAsync(other);
                 if (!page.Contains(marker))
                 {
                     var preview = await admin.GetStringAsync("/admin/preview/ar");

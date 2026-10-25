@@ -62,7 +62,9 @@ namespace YelG.WebSite.Localization
             ["perk2"] = ("اكتسب خبرة في قطاعات مختلفة", "Gain diverse industry exposure"),
             ["perk3"] = ("طوّر خبرتك المهنية", "Develop your expertise"),
             ["perk4"] = ("انمُ في مسارك الوظيفي", "Grow your career"),
-            ["valuesTitle"] = ("ما نؤمن به", "What we stand for"),
+            ["pageHeading"] = ("مسيرة مالية أوسع من شركة واحدة", "A finance career bigger than one company"),
+            ["pageLead"] = ("في YelG Advisory تعمل كل يوم مع شركات من قطاعات ونماذج أعمال مختلفة: من القيود والإقفال الشهري والقوائم المالية إلى الموازنات والاستشارات. خبرة متنوعة في وقت أقصر، وفريق يراجع معك ويدعمك، ومسار واضح للنمو.",
+                "At YelG Advisory you work every day with companies across sectors and business models: from bookkeeping, month-end close and financial statements to budgets and advisory. Broader experience in less time, a team that reviews and supports your work, and a clear path to grow."),
             ["noOpeningsTitle"] = ("لا توجد وظائف متاحة الآن", "No open positions right now"),
             // the form's messages (name, email and phone reuse the consultation form's)
             ["err.linkedin"] = ("يرجى إدخال رابط صحيح يبدأ بـ https://، أو ترك الحقل فارغًا.", "Please enter a link starting with https://, or leave this blank."),

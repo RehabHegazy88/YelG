@@ -9,21 +9,6 @@
 <partial name="_PageTop" model="Model" />
 
 <main id="main">
-@if (c.AboutValues.Count > 0)
-{
-<section class="sec values-band" aria-labelledby="valuesTitle">
-<div class="wrap values-wrap">
-<h2 id="valuesTitle" class="h2">@Model.C("valuesTitle")</h2>
-<div class="about-values">
-@foreach (var value in c.AboutValues)
-{
-<span class="chk"><i><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.4"><path d="M20 6 9 17l-5-5"></path></svg></i>@Model.R(value.Label)</span>
-}
-</div>
-</div>
-</section>
-}
-
 <section id="roles" class="sec careers-page" aria-labelledby="rolesTitle">
 <div class="wrap">
 <div class="jobs-head">

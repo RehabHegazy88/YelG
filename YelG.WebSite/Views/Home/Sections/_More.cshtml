@@ -12,15 +12,22 @@
 {
 <div class="sec-headrow">
 <div class="head"><span class="eyebrow">@Model.R(ins.Eyebrow)</span><h2 id="insTitle" class="h2">@Model.Heading(ins)</h2>@if (!ins.Lead.IsEmpty){<p class="lead">@Model.R(ins.Lead)</p>}</div>
+<span class="sec-links">
+@if (c.InsightPosts.Count > 0)
+{
+<a href="/@Model.Lang/insights" class="btn btn-blue">@InsightTexts.Get("viewAll", Model.Lang)<span class="ar">@Model.ArrowIcon</span></a>
+}
 @if (!string.IsNullOrEmpty(ins.FollowLinkUrl))
 {
 <a href="@ins.FollowLinkUrl" target="_blank" rel="noopener" class="tlink">@Model.R(ins.FollowLinkLabel) <span aria-hidden="true">@Model.ArrowExternal</span><span class="sr">@Model.S("opensNewTab")</span></a>
 }
+</span>
 </div>
 @if (c.InsightPosts.Count > 0)
 {
 <div class="posts">
-@foreach (var post in c.InsightPosts)
+@* the latest three; the insights page has them all *@
+@foreach (var post in c.InsightPosts.OrderByDescending(p => p.PublishedOn).ThenBy(p => p.SortOrder).Take(3))
 {
 <a href="@post.ExternalUrl" target="_blank" rel="noopener" class="post"><span class="photo photo-flat post-photo @HomePageModel.FocusClass(post.Image)">@if (post.Image is { } img){<img src="@img.Path" alt="@Model.T(post.ImageAlt)" loading="lazy">}</span><span class="post-meta post-meta-@post.CategoryColor">@Model.R(post.CategoryLabel) · @Model.Iso(post.Source) · @Model.MonthYear(post.PublishedOn)</span><span class="post-title">@Model.R(post.Title)</span><span class="sr">@Model.S("opensNewTab")</span></a>
 }
@@ -33,7 +40,6 @@
 @if (car is not null)
 {
 <div id="careers" class="careers">
-<span class="photo photo-flat careers-photo @HomePageModel.FocusClass(car.Image)">@if (car.Image is { } img){<img src="@img.Path" alt="@Model.T(car.ImageAlt)" loading="lazy">}</span>
 <div class="careers-body">
 <span class="eyebrow">@Model.R(car.Eyebrow)</span>
 <h3 class="h3">@Model.R(car.Heading)</h3>
@@ -45,12 +51,16 @@
 @if (openRoles.Count > 0)
 {
 <ul class="roles">
-@foreach (var role in openRoles.Take(4))
+@foreach (var role in openRoles.Take(3))
 {
 <li class="role">
-<strong class="role-title"><a href="/@Model.Lang/careers/@role.Slug">@Model.R(role.Title)</a></strong>
-<span class="role-meta">@Model.R(role.Location)@if (!role.Location.IsEmpty && !role.Experience.IsEmpty){<text> · </text>}@Model.R(role.Experience)</span>
-@if (role.Tags.Count > 0){<span class="role-tags">@foreach (var tag in role.Tags){<span class="chip">@Model.R(tag.Label)</span>}</span>}
+<a href="/@Model.Lang/careers/@role.Slug" class="role-link">
+<span class="role-text">
+<strong class="role-title">@Model.R(role.Title)</strong>
+<span class="role-meta">@Model.R(role.Department.IsEmpty ? role.Location : role.Department)@if (!role.Experience.IsEmpty){<text> · </text>@Model.R(role.Experience)}</span>
+</span>
+<span class="role-go" aria-hidden="true">@Model.ArrowNext</span>
+</a>
 </li>
 }
 </ul>
@@ -79,6 +89,14 @@
 }
 <h3 class="h3 portal-title">@Model.R(portal.Title)</h3>
 <p class="portal-p">@Model.R(portal.Text)</p>
+@* a sketch of the portal (a report with its figures), for the card's empty space; decoration only *@
+<div class="portal-art" aria-hidden="true">
+<div class="pa-head"><span class="pa-lock"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span class="pa-line pa-w40"></span><span class="pa-dot"></span></div>
+<div class="pa-body">
+<div class="pa-kpis"><span class="pa-kpi"><i class="pa-line pa-w60"></i><b class="pa-line pa-w80"></b></span><span class="pa-kpi"><i class="pa-line pa-w50"></i><b class="pa-line pa-w70"></b></span><span class="pa-kpi"><i class="pa-line pa-w60"></i><b class="pa-line pa-w60"></b></span></div>
+<div class="pa-bars"><span style="height:38%"></span><span style="height:55%"></span><span style="height:46%"></span><span style="height:70%"></span><span style="height:62%"></span><span style="height:84%"></span><span style="height:76%"></span></div>
+</div>
+</div>
 @if (portal.ShowsSignIn)
 {
 <a href="@portal.PortalUrl" class="btn btn-cyan portal-cta">@Model.T(portal.SignInLabel)<span class="ar">@Model.ArrowIcon</span></a>

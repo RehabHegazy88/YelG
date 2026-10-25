@@ -1194,6 +1194,32 @@ namespace YelG.WebSite.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
+                    b.ComplexProperty<Dictionary<string, object>>("PageHeading", "YelG.WebSite.Domain.Sections.CareersSection.PageHeading#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("PageLead", "YelG.WebSite.Domain.Sections.CareersSection.PageLead#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
                     b.ComplexProperty<Dictionary<string, object>>("SendCvLabel", "YelG.WebSite.Domain.Sections.CareersSection.SendCvLabel#LocalizedText", b1 =>
                         {
                             b1.IsRequired();

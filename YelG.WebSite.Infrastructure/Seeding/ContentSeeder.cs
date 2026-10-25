@@ -187,9 +187,23 @@ namespace YelG.WebSite.Infrastructure.Seeding
             // Open roles: the one in the company's hiring post (post-hiring.jpg).
             await ListAsync(_db.CareerRoles, seed.CareerRoles.Select(r => new CareerRole
             {
-                Slug = r.Slug, Title = r.Title, Department = r.Department, Summary = r.Summary, Description = r.Description,
+                Slug = r.Slug, Title = r.Title, Department = r.Department, Summary = r.Summary, Experience = r.Experience,
+                Description = r.Description, Responsibilities = r.Responsibilities, Requirements = r.Requirements,
                 Tags = r.Tags.Select((t, i) => new CareerRoleTag { Label = t, SortOrder = i + 1 }).ToList()
             }), ct);
+            foreach (var r in seed.CareerRoles.Where(r => r.ReplacesDescriptionAr is not null))
+            {
+                // only while nobody has edited the role since it was seeded
+                var stale = await _db.CareerRoles.IgnoreQueryFilters().Where(x => x.Slug == r.Slug).ToListAsync(ct);
+                foreach (var role in stale.Where(x => x.Description.Ar == r.ReplacesDescriptionAr))
+                {
+                    role.Description = r.Description;
+                    role.Experience = r.Experience;
+                    role.Responsibilities = r.Responsibilities;
+                    role.Requirements = r.Requirements;
+                    Count("CareerRole (full text)");
+                }
+            }
 
             var o0 = seed.Portal;
             await SingleAsync(_db.ClientPortalSections, () => new ClientPortalSection
