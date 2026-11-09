@@ -535,9 +535,23 @@
     restart();
   }
 
+  // Client logos: a CSS strip; the button stops and restarts it (hover and focus pause it in CSS).
+  function logoMarquee() {
+    $$('[data-logo-marquee]').forEach(function (root) {
+      var pause = $('[data-logo-pause]', root);
+      if (!pause) return;
+      pause.addEventListener('click', function () {
+        var stopped = root.classList.toggle('is-paused');
+        pause.classList.toggle('is-paused', stopped);
+        pause.setAttribute('aria-label', pause.getAttribute(stopped ? 'data-label-play' : 'data-label-pause'));
+      });
+    });
+  }
+
   menu();
   languageSwitch();
   whySlider();
+  logoMarquee();
   youTube();
   consultForm();
   applyForm();

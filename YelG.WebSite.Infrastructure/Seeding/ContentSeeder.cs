@@ -146,7 +146,11 @@ namespace YelG.WebSite.Infrastructure.Seeding
             {
                 IconKey = c.IconKey, ColorVariant = c.ColorVariant, Title = c.Title, Text = c.Text
             }), ct);
-            // Client logos: none. They are published only with each client's written approval.
+            // Client logos from the company profile; each shows only while it is approved for the web.
+            await ListAsync(_db.ClientLogos, seed.ClientLogos.Select(l => new ClientLogo
+            {
+                Name = l.Name, Logo = M(l.Logo), IsApprovedForWeb = l.IsApprovedForWeb
+            }), ct);
 
             var q = seed.SelfCheck;
             await SingleAsync(_db.SelfCheckSections, () => Section(new SelfCheckSection

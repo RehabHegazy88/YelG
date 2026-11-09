@@ -39,12 +39,26 @@
 }
 @if (c.ClientLogos.Count > 0)
 {
-<ul class="ind-logos">
+@* A continuous strip: the list is written twice so the loop has no seam; the copy is hidden from
+   assistive technology and the keyboard. Hover, focus or the button stop it. *@
+<div class="logo-marquee" data-logo-marquee>
+<div class="logo-viewport">
+<div class="logo-track">
+@for (var copy = 0; copy < 2; copy++)
+{
+var first = copy == 0;
+<ul class="ind-logos" aria-label="@(first ? Model.S("clientLogosLabel") : null)" aria-hidden="@(first ? null : "true")">
 @foreach (var logo in c.ClientLogos)
 {
-<li>@if (!string.IsNullOrEmpty(logo.WebsiteUrl)){<a href="@logo.WebsiteUrl" target="_blank" rel="noopener"><img src="@logo.Logo!.Path" alt="@Model.T(logo.Name)" loading="lazy"></a>}else{<img src="@logo.Logo!.Path" alt="@Model.T(logo.Name)" loading="lazy">}</li>
+var alt = first ? Model.T(logo.Name) : "";
+<li>@if (!string.IsNullOrEmpty(logo.WebsiteUrl)){<a href="@logo.WebsiteUrl" target="_blank" rel="noopener" tabindex="@(first ? null : "-1")"><img src="@logo.Logo!.Path" alt="@alt" loading="lazy" width="@logo.Logo.Width" height="@logo.Logo.Height"></a>}else{<img src="@logo.Logo!.Path" alt="@alt" loading="lazy" width="@logo.Logo.Width" height="@logo.Logo.Height">}</li>
 }
 </ul>
+}
+</div>
+</div>
+<button type="button" class="why-arrow why-pause logo-pause" data-logo-pause aria-label="@Model.S("logoPause")" data-label-pause="@Model.S("logoPause")" data-label-play="@Model.S("logoPlay")"><svg class="i-pause" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg><svg class="i-play" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></button>
+</div>
 }
 @if (!ind.ApprovalNote.IsEmpty)
 {

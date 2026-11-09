@@ -329,5 +329,17 @@
  "slidePlay": {
   "ar": "تشغيل التقليب التلقائي",
   "en": "Play automatic slides"
+ },
+ "clientLogosLabel": {
+  "ar": "من عملائنا",
+  "en": "Some of our clients"
+ },
+ "logoPause": {
+  "ar": "إيقاف حركة الشعارات",
+  "en": "Pause the logos"
+ },
+ "logoPlay": {
+  "ar": "تشغيل حركة الشعارات",
+  "en": "Play the logos"
  }
 }

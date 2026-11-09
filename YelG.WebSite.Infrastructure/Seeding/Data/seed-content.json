@@ -1310,6 +1310,320 @@
    }
   }
  ],
+ "clientLogos": [
+  {
+   "name": {
+    "ar": "البنك التجاري الدولي (CIB)",
+    "en": "Commercial International Bank (CIB)"
+   },
+   "logo": "client-cib.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "بنك الكويت الوطني (NBK)",
+    "en": "National Bank of Kuwait (NBK)"
+   },
+   "logo": "client-nbk.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Barclays",
+    "en": "Barclays"
+   },
+   "logo": "client-barclays.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "التجاري وفا بنك",
+    "en": "Attijariwafa bank"
+   },
+   "logo": "client-attijariwafa.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "بنك مصر",
+    "en": "Banque Misr"
+   },
+   "logo": "client-banque-misr.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "المصرف المتحد",
+    "en": "The United Bank"
+   },
+   "logo": "client-united-bank.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "بنك القاهرة",
+    "en": "Banque du Caire"
+   },
+   "logo": "client-banque-du-caire.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "QNB",
+    "en": "QNB"
+   },
+   "logo": "client-qnb.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "البنك الأهلي المصري",
+    "en": "National Bank of Egypt"
+   },
+   "logo": "client-nbe.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "الجامعة الأمريكية بالقاهرة",
+    "en": "The American University in Cairo"
+   },
+   "logo": "client-auc.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "الأكاديمية العربية للعلوم والتكنولوجيا والنقل البحري",
+    "en": "Arab Academy for Science, Technology and Maritime Transport"
+   },
+   "logo": "client-aastmt.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "West Gate Consultants",
+    "en": "West Gate Consultants"
+   },
+   "logo": "client-west-gate.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Symbiosis Consulting Group",
+    "en": "Symbiosis Consulting Group"
+   },
+   "logo": "client-symbiosis.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Top Business Human Resources",
+    "en": "Top Business Human Resources"
+   },
+   "logo": "client-top-business.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Regional IT Institute (RITI)",
+    "en": "Regional IT Institute (RITI)"
+   },
+   "logo": "client-riti.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "O.R.C",
+    "en": "O.R.C"
+   },
+   "logo": "client-orc.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Prolong",
+    "en": "Prolong"
+   },
+   "logo": "client-prolong.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Fly Aviation",
+    "en": "Fly Aviation"
+   },
+   "logo": "client-fly-aviation.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Gulf Paper Company",
+    "en": "Gulf Paper Company"
+   },
+   "logo": "client-gulf-paper.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Murano Stone",
+    "en": "Murano Stone"
+   },
+   "logo": "client-murano-stone.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "DC Stores",
+    "en": "DC Stores"
+   },
+   "logo": "client-dc-stores.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Egypt Bolt",
+    "en": "Egypt Bolt"
+   },
+   "logo": "client-egypt-bolt.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Phoenix Food Distribution",
+    "en": "Phoenix Food Distribution"
+   },
+   "logo": "client-phoenix.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Les Secrets",
+    "en": "Les Secrets"
+   },
+   "logo": "client-les-secrets.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "El Joker",
+    "en": "El Joker"
+   },
+   "logo": "client-el-joker.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "ZO Skin Centre",
+    "en": "ZO Skin Centre"
+   },
+   "logo": "client-zo-skin-centre.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Cosmedics",
+    "en": "Cosmedics"
+   },
+   "logo": "client-cosmedics.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "OSISCO Engineering & Contracting",
+    "en": "OSISCO Engineering & Contracting"
+   },
+   "logo": "client-osisco.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "truelement",
+    "en": "truelement"
+   },
+   "logo": "client-truelement.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Protect Me",
+    "en": "Protect Me"
+   },
+   "logo": "client-protect-me.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Alouf Transport",
+    "en": "Alouf Transport"
+   },
+   "logo": "client-alouf-transport.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Alouf Travel",
+    "en": "Alouf Travel"
+   },
+   "logo": "client-alouf-travel.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Amana Plast",
+    "en": "Amana Plast"
+   },
+   "logo": "client-amana-plast.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "كابيتال انترناشيونال تريد",
+    "en": "Capital International Trade"
+   },
+   "logo": "client-capital-international-trade.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "JOX Salon",
+    "en": "JOX Salon"
+   },
+   "logo": "client-jox-salon.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Elsherif Aluminium Solutions",
+    "en": "Elsherif Aluminium Solutions"
+   },
+   "logo": "client-elsherif.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Scope Medical",
+    "en": "Scope Medical"
+   },
+   "logo": "client-scope-medical.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Dancing Goat Coffee",
+    "en": "Dancing Goat Coffee"
+   },
+   "logo": "client-dancing-goat.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Apollo",
+    "en": "Apollo"
+   },
+   "logo": "client-apollo.webp",
+   "isApprovedForWeb": true
+  }
+ ],
  "selfCheck": {
   "eyebrow": {
    "ar": "الفحص المالي السريع",
@@ -1921,6 +2235,45 @@
   "portalUrl": null
  },
  "media": [
+  "client-aastmt.webp",
+  "client-alouf-transport.webp",
+  "client-alouf-travel.webp",
+  "client-amana-plast.webp",
+  "client-apollo.webp",
+  "client-attijariwafa.webp",
+  "client-auc.webp",
+  "client-banque-du-caire.webp",
+  "client-banque-misr.webp",
+  "client-barclays.webp",
+  "client-capital-international-trade.webp",
+  "client-cib.webp",
+  "client-cosmedics.webp",
+  "client-dancing-goat.webp",
+  "client-dc-stores.webp",
+  "client-egypt-bolt.webp",
+  "client-el-joker.webp",
+  "client-elsherif.webp",
+  "client-fly-aviation.webp",
+  "client-gulf-paper.webp",
+  "client-jox-salon.webp",
+  "client-les-secrets.webp",
+  "client-murano-stone.webp",
+  "client-nbe.webp",
+  "client-nbk.webp",
+  "client-orc.webp",
+  "client-osisco.webp",
+  "client-phoenix.webp",
+  "client-prolong.webp",
+  "client-protect-me.webp",
+  "client-qnb.webp",
+  "client-riti.webp",
+  "client-scope-medical.webp",
+  "client-symbiosis.webp",
+  "client-top-business.webp",
+  "client-truelement.webp",
+  "client-united-bank.webp",
+  "client-west-gate.webp",
+  "client-zo-skin-centre.webp",
   "desk.jpg",
   "dr-yasser-avatar.jpg",
   "dr-yasser-cutout.png",

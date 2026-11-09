@@ -47,6 +47,7 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public IndustriesSeed Industries { get; set; } = new();
         public List<SectorSeed> Sectors { get; set; } = new();
         public List<ClientCategorySeed> ClientCategories { get; set; } = new();
+        public List<ClientLogoSeed> ClientLogos { get; set; } = new();
         public SelfCheckSeed SelfCheck { get; set; } = new();
         public List<QuestionSeed> SelfCheckQuestions { get; set; } = new();
         public List<OptionSeed> SelfCheckOptions { get; set; } = new();
@@ -235,6 +236,14 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public string ColorVariant { get; set; } = string.Empty;
         public LocalizedText Title { get; set; } = new();
         public LocalizedText Text { get; set; } = new();
+    }
+
+    /// <summary>A client logo from the company profile; published only when approved for the web.</summary>
+    public sealed class ClientLogoSeed
+    {
+        public LocalizedText Name { get; set; } = new();
+        public string Logo { get; set; } = string.Empty;
+        public bool IsApprovedForWeb { get; set; }
     }
 
     public sealed class SelfCheckSeed : SectionSeed

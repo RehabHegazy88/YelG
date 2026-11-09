@@ -213,9 +213,21 @@
 .ind-card-text .h3{font-size:18px}
 .ind-card-text>span{font-size:15px;line-height:1.6}
 .rtl .ind-card-text>span{line-height:1.8}
-.ind-logos{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
-.ind-logos li{display:flex;align-items:center;justify-content:center;min-height:72px;padding:12px 20px;border-radius:16px;background:#FFFFFF;box-shadow:var(--sh-card)}
-.ind-logos img{display:block;max-height:48px;max-width:160px;width:auto;height:auto}
+/* Client logos: a strip of two identical lists moving by half its width, so the loop has no seam.
+   Each list ends with the gap, so both halves are exactly as wide. */
+.logo-marquee{display:flex;flex-direction:column;gap:12px}
+.logo-marquee .logo-track{display:flex;width:max-content;animation:mq 110s linear infinite}
+.rtl .logo-marquee .logo-track{animation-name:mqr}
+.logo-viewport{overflow:hidden;padding-block:8px 12px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.logo-marquee:hover .logo-track,.logo-marquee:focus-within .logo-track,.logo-marquee.is-paused .logo-track{animation-play-state:paused}
+.ind-logos{list-style:none;margin:0;padding:0 16px 0 0;display:flex;gap:16px;align-items:center}
+.rtl .ind-logos{padding:0 0 0 16px}
+.ind-logos li{flex:none;display:flex;align-items:center;justify-content:center;width:184px;height:88px;padding:12px 16px;border-radius:16px;background:#FFFFFF;box-shadow:var(--sh-card)}
+.ind-logos img{display:block;max-height:56px;max-width:100%;width:auto;height:auto;object-fit:contain}
+.logo-pause{align-self:flex-end;margin:0}
+@media (max-width:760px){.ind-logos li{width:148px;height:76px;padding:10px 12px}.ind-logos img{max-height:48px}}
+/* Like the services strip, the logos keep moving when less motion is asked for (the client's choice); the button stops them. */
+}
 .ind-note{margin:0;font-size:14px;color:#5A6690}
 
 /* ---------- self-check ---------- */
