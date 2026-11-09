@@ -218,9 +218,21 @@ namespace YelG.WebSite.Areas.Admin.Editing
                 .Bool(x => x.IsHighlighted, "بطاقة مميزة (كحلية)")
                 .Bool(x => x.IsPublished, "ظاهرة في الموقع");
 
+            var slides = new EntityEditor<WhySlide>("شريحة")
+                .Area(x => x.Title, "العنوان", required: true, markup: true, rows: 2)
+                .Area(x => x.Text, "النص", markup: true)
+                .Area(x => x.Points, "النقاط", rows: 4, hint: "نقطة في كل سطر. اتركه فارغًا إن لم تكن هناك نقاط.")
+                .Media(x => x.ImageId, "الصورة", hint: "صورة بلا كتابة عليها؛ تُقص لتملأ الإطار.")
+                .Text(x => x.ImageAlt, "وصف الصورة", hint: "لقارئات الشاشة ومحركات البحث.")
+                .Bool(x => x.IsPublished, "ظاهرة في الموقع");
+
             var screen = EditorScreen.For("why", "لماذا YelG", form) with { Anchor = "#why" };
             screen.Lists.Add(new ListEditor<WhyCard>("cards", "المزايا", cards)
                 .Show("مميزة", c => c.IsHighlighted ? "نعم" : ""));
+            screen.Lists.Add(new ListEditor<WhySlide>("slides", "الشرائح", slides)
+                {
+                    Description = "عنوان القسم ومزاياه هما الشريحة الأولى دائمًا، وتأتي هذه الشرائح بعدها بالترتيب. بدون شرائح ظاهرة يظهر القسم بلا تقليب."
+                });
             return screen;
         }
 
@@ -240,13 +252,13 @@ namespace YelG.WebSite.Areas.Admin.Editing
 
         private static EditorScreen Purpose()
         {
-            var form = Section<PurposeSection>("المهمة والرؤية")
-                .Group("المهمة")
-                .Text(x => x.MissionTabLabel, "اسم التبويب", required: true)
-                .Area(x => x.Mission, "المهمة", required: true, markup: true)
+            var form = Section<PurposeSection>("الرؤية والمهمة")
                 .Group("الرؤية")
                 .Text(x => x.VisionTabLabel, "اسم التبويب", required: true)
                 .Area(x => x.Vision, "الرؤية", required: true, markup: true)
+                .Group("المهمة")
+                .Text(x => x.MissionTabLabel, "اسم التبويب", required: true)
+                .Area(x => x.Mission, "المهمة", required: true, markup: true)
                 .Group("الأهداف")
                 .Text(x => x.GoalsTabLabel, "اسم التبويب", required: true, hint: "الأهداف نفسها في القائمة أسفل الصفحة.")
                 .Group("الفيديو")
@@ -257,7 +269,7 @@ namespace YelG.WebSite.Areas.Admin.Editing
                 .Text(x => x.Label, "الهدف", required: true)
                 .Bool(x => x.IsPublished, "ظاهر في الموقع");
 
-            var screen = EditorScreen.For("purpose", "المهمة والرؤية", form) with { Anchor = "#pp" };
+            var screen = EditorScreen.For("purpose", "الرؤية والمهمة", form) with { Anchor = "#pp" };
             screen.Lists.Add(new ListEditor<PurposeGoal>("goals", "الأهداف", goals));
             return screen;
         }

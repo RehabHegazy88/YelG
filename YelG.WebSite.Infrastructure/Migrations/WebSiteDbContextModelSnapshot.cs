@@ -4375,6 +4375,104 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.ToTable("WhySections", (string)null);
                 });
 
+            modelBuilder.Entity("YelG.WebSite.Domain.Sections.WhySlide", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("AddedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ImageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("ModifiedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.ComplexProperty<Dictionary<string, object>>("ImageAlt", "YelG.WebSite.Domain.Sections.WhySlide.ImageAlt#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Points", "YelG.WebSite.Domain.Sections.WhySlide.Points#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Text", "YelG.WebSite.Domain.Sections.WhySlide.Text#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Title", "YelG.WebSite.Domain.Sections.WhySlide.Title#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedBy_PersonID");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("ModifiedBy_PersonID");
+
+                    b.ToTable("WhySlides", (string)null);
+                });
+
             modelBuilder.Entity("YelG.WebSite.Domain.Settings.SiteSettings", b =>
                 {
                     b.Property<long>("Id")
@@ -5386,6 +5484,26 @@ namespace YelG.WebSite.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("YelG.WebSite.Domain.Sections.WhySection", b =>
+                {
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("AddedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Domain.Media.MediaAsset", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("YelG.WebSite.Domain.Sections.WhySlide", b =>
                 {
                     b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
                         .WithMany()

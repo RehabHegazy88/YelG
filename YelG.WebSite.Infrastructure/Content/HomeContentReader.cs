@@ -54,6 +54,7 @@ namespace YelG.WebSite.Infrastructure.Content
 
                 Why = await Section<WhySection>(all).Include(w => w.Image).FirstOrDefaultAsync(ct),
                 WhyCards = await Items<WhyCard>(all).ToListAsync(ct),
+                WhySlides = await Items<WhySlide>(all).Include(s => s.Image).ToListAsync(ct),
 
                 How = await Section<HowSection>(all).FirstOrDefaultAsync(ct),
                 HowSteps = await Items<HowStep>(all).ToListAsync(ct),

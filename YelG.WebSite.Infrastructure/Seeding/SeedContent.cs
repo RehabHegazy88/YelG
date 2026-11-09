@@ -37,6 +37,7 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public List<ServiceSeed> Services { get; set; } = new();
         public WhySeed Why { get; set; } = new();
         public List<WhyCardSeed> WhyCards { get; set; } = new();
+        public List<WhySlideSeed> WhySlides { get; set; } = new();
         public SectionSeed How { get; set; } = new();
         public List<WhyCardSeed> HowSteps { get; set; } = new();
         public PurposeSeed Purpose { get; set; } = new();
@@ -174,6 +175,15 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public string Image { get; set; } = string.Empty;
         public LocalizedText ImageAlt { get; set; } = new();
         public LocalizedText FloatingCardText { get; set; } = new();
+    }
+
+    public sealed class WhySlideSeed
+    {
+        public LocalizedText Title { get; set; } = new();
+        public LocalizedText Text { get; set; } = new();
+        public LocalizedText Points { get; set; } = new();
+        public string Image { get; set; } = string.Empty;
+        public LocalizedText ImageAlt { get; set; } = new();
     }
 
     /// <summary>Title + text items (why cards, how steps, consultation steps).</summary>

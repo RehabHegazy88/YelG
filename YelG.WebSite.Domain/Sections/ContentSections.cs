@@ -23,6 +23,25 @@ namespace YelG.WebSite.Domain.Sections
         public bool IsHighlighted { get; set; }
     }
 
+    /// <summary>
+    /// A further slide of the Why YelG slider ("Infinite Financial Care" in the LinkedIn posts). The section's
+    /// own heading and cards are always the first slide; these follow it in order.
+    /// </summary>
+    public class WhySlide : ContentItem
+    {
+        /// <summary>The slide heading; may use *highlight*.</summary>
+        public LocalizedText Title { get; set; } = new();
+
+        public LocalizedText Text { get; set; } = new();
+
+        /// <summary>Short bullet points, one per line; empty for none.</summary>
+        public LocalizedText Points { get; set; } = new();
+
+        public long? ImageId { get; set; }
+        public MediaAsset? Image { get; set; }
+        public LocalizedText ImageAlt { get; set; } = new();
+    }
+
     // ---------------- How we work ----------------
 
     public class HowSection : SectionBase

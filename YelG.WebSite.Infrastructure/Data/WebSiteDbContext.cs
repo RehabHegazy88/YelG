@@ -42,6 +42,7 @@ namespace YelG.WebSite.Infrastructure.Data
         public DbSet<ServiceDeliverable> ServiceDeliverables => Set<ServiceDeliverable>();
         public DbSet<WhySection> WhySections => Set<WhySection>();
         public DbSet<WhyCard> WhyCards => Set<WhyCard>();
+        public DbSet<WhySlide> WhySlides => Set<WhySlide>();
         public DbSet<HowSection> HowSections => Set<HowSection>();
         public DbSet<HowStep> HowSteps => Set<HowStep>();
         public DbSet<PurposeSection> PurposeSections => Set<PurposeSection>();

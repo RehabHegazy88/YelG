@@ -6,7 +6,7 @@
 <section id="industries" class="sec industries">
 <div class="wrap ind-wrap">
 <div class="ind-top">
-<div class="head ind-head"><span class="eyebrow">@Model.R(ind.Eyebrow)</span><h2 class="h2">@Model.Heading(ind)</h2>@if (!ind.Lead.IsEmpty){<p class="lead">@Model.R(ind.Lead)</p>}</div>
+<div class="head ind-head"><span class="eyebrow"><span>@Model.R(ind.Eyebrow)</span></span><h2 class="h2">@Model.Heading(ind)</h2>@if (!ind.Lead.IsEmpty){<p class="lead">@Model.R(ind.Lead)</p>}</div>
 @if (c.Sectors.Count > 0)
 {
 <ul aria-label="@Model.S("sectorsLabel")" class="ind-sectors">

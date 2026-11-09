@@ -465,8 +465,79 @@
     });
   }
 
+  // Why YelG slider: arrows, dots, swipe and arrow keys; turns by itself slowly unless the visitor asked
+  // for less motion, paused it, or is pointing at / inside it.
+  function whySlider() {
+    var root = $('[data-slider]');
+    if (!root) return;
+    var slides = $$('.why-slide', root), dots = $$('[data-go]', root), track = $('.why-track', root);
+    var pause = $('[data-pause]', root), rtl = doc.documentElement.dir === 'rtl';
+    var current = 0, timer = null, stopped = false, hold = false, DELAY = 8000;
+    // Phones show one slide at a time at its own height, so turning by itself would move the page: no autoplay there.
+    var wide = window.matchMedia('(min-width: 761px)');
+    function auto() { return wide.matches && !reduced(); }
+
+    function show(n, fromUser) {
+      current = (n + slides.length) % slides.length;
+      slides.forEach(function (s, i) {
+        var on = i === current;
+        s.classList.toggle('is-on', on);
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+        s.inert = !on;
+      });
+      dots.forEach(function (d, i) { d.setAttribute('aria-current', i === current ? 'true' : 'false'); });
+      if (fromUser) restart();
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } track.setAttribute('aria-live', 'polite'); }
+    function restart() {
+      stop();
+      if (stopped || hold || !auto()) return;
+      track.setAttribute('aria-live', 'off');
+      timer = setInterval(function () { if (doc.visibilityState === 'visible') show(current + 1); }, DELAY);
+    }
+
+    $('[data-prev]', root).addEventListener('click', function () { show(current - 1, true); });
+    $('[data-next]', root).addEventListener('click', function () { show(current + 1, true); });
+    dots.forEach(function (d) { d.addEventListener('click', function () { show(+d.getAttribute('data-go'), true); }); });
+    root.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' || !e.target.closest('.why-ctrl')) return;
+      var forward = (e.key === 'ArrowRight') !== rtl;
+      show(current + (forward ? 1 : -1), true);
+      e.preventDefault();
+    });
+
+    var x0 = null;
+    track.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') x0 = e.clientX; });
+    track.addEventListener('pointerup', function (e) {
+      if (x0 === null) return;
+      var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) < 40) return;
+      show(current + ((dx < 0) !== rtl ? 1 : -1), true);
+    });
+
+    root.addEventListener('mouseenter', function () { hold = true; stop(); });
+    root.addEventListener('mouseleave', function () { hold = false; restart(); });
+    root.addEventListener('focusin', function () { hold = true; stop(); });
+    root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) { hold = false; restart(); } });
+
+    function syncPause() { if (pause) pause.hidden = !auto(); }
+    if (wide.addEventListener) wide.addEventListener('change', function () { syncPause(); restart(); });
+    syncPause();
+    if (pause) {
+      pause.addEventListener('click', function () {
+        stopped = !stopped;
+        pause.classList.toggle('is-paused', stopped);
+        pause.setAttribute('aria-label', pause.getAttribute(stopped ? 'data-label-play' : 'data-label-pause'));
+        if (stopped) stop(); else if (!hold) restart();
+      });
+    }
+    show(0);
+    restart();
+  }
+
   menu();
   languageSwitch();
+  whySlider();
   youTube();
   consultForm();
   applyForm();

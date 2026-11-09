@@ -113,7 +113,7 @@ namespace YelG.WebSite.Tests
             using var doc = JsonDocument.Parse(json);
             var files = doc.RootElement.GetProperty("media").EnumerateArray().Select(x => x.GetString()!).ToList();
 
-            Assert.Equal(11, files.Count);
+            Assert.Equal(16, files.Count);
             Assert.All(files, f => Assert.True(File.Exists(Path.Combine(Root, "YelG.WebSite", "wwwroot", "assets", f)), f));
         }
     }

@@ -2,10 +2,10 @@
 @{
     var c = Model.Content;
     var p = c.Purpose!;
-    // the tabs that have something to show, in the design's order
+    // the tabs that have something to show: vision first, then mission, then goals
     var tabs = new List<(string Label, string Kind)>();
-    if (!p.Mission.IsEmpty) tabs.Add((Model.T(p.MissionTabLabel), "mission"));
     if (!p.Vision.IsEmpty) tabs.Add((Model.T(p.VisionTabLabel), "vision"));
+    if (!p.Mission.IsEmpty) tabs.Add((Model.T(p.MissionTabLabel), "mission"));
     if (c.PurposeGoals.Count > 0) tabs.Add((Model.T(p.GoalsTabLabel), "goals"));
 }
 <section class="on-dark sec purpose" aria-labelledby="purposeTitle">
@@ -13,7 +13,7 @@
 <div class="wrap purpose-wrap">
 <div class="purpose-film">@if (p.Video is { } video){<video src="@video.Path" controls muted playsinline preload="none" poster="@p.Poster?.Path" aria-label="@Model.T(p.VideoLabel)"></video>}</div>
 <div class="purpose-text">
-<span class="eyebrow on-dark">@Model.R(p.Eyebrow)</span>
+<span class="eyebrow on-dark"><span>@Model.R(p.Eyebrow)</span></span>
 <h2 id="purposeTitle" class="h2">@Model.Heading(p)</h2>
 @if (tabs.Count > 0)
 {

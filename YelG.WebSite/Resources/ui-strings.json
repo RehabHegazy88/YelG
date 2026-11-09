@@ -297,5 +297,37 @@
  "validation.consent": {
   "ar": "يرجى الموافقة على استخدام بياناتك للرد على طلبك.",
   "en": "Please confirm we may use your details to respond."
+ },
+ "slideRole": {
+  "ar": "عرض شرائح",
+  "en": "carousel"
+ },
+ "slideItem": {
+  "ar": "شريحة",
+  "en": "slide"
+ },
+ "slideOf": {
+  "ar": "{n} من {total}",
+  "en": "{n} of {total}"
+ },
+ "slidePrev": {
+  "ar": "الشريحة السابقة",
+  "en": "Previous slide"
+ },
+ "slideNext": {
+  "ar": "الشريحة التالية",
+  "en": "Next slide"
+ },
+ "slideGo": {
+  "ar": "الانتقال إلى الشريحة {n}",
+  "en": "Go to slide {n}"
+ },
+ "slidePause": {
+  "ar": "إيقاف التقليب التلقائي",
+  "en": "Pause automatic slides"
+ },
+ "slidePlay": {
+  "ar": "تشغيل التقليب التلقائي",
+  "en": "Play automatic slides"
  }
 }

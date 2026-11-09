@@ -94,6 +94,11 @@ namespace YelG.WebSite.Infrastructure.Maps
                 b.HasOne(x => x.Image).WithMany().HasForeignKey(x => x.ImageId).OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<WhyCard>(b => b.ToTable("WhyCards"));
+            builder.Entity<WhySlide>(b =>
+            {
+                b.ToTable("WhySlides");
+                b.HasOne(x => x.Image).WithMany().HasForeignKey(x => x.ImageId).OnDelete(DeleteBehavior.Restrict);
+            });
             builder.Entity<HowSection>(b => b.ToTable("HowSections"));
             builder.Entity<HowStep>(b => b.ToTable("HowSteps"));
             builder.Entity<PurposeSection>(b =>

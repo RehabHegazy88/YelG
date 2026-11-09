@@ -11,7 +11,7 @@
 @if (ins is not null)
 {
 <div class="sec-headrow">
-<div class="head"><span class="eyebrow">@Model.R(ins.Eyebrow)</span><h2 id="insTitle" class="h2">@Model.Heading(ins)</h2>@if (!ins.Lead.IsEmpty){<p class="lead">@Model.R(ins.Lead)</p>}</div>
+<div class="head"><span class="eyebrow"><span>@Model.R(ins.Eyebrow)</span></span><h2 id="insTitle" class="h2">@Model.Heading(ins)</h2>@if (!ins.Lead.IsEmpty){<p class="lead">@Model.R(ins.Lead)</p>}</div>
 <span class="sec-links">
 @if (c.InsightPosts.Count > 0)
 {
@@ -42,7 +42,7 @@ var own = post.HasPage;
 {
 <div id="careers" class="careers">
 <div class="careers-body">
-<span class="eyebrow">@Model.R(car.Eyebrow)</span>
+<span class="eyebrow"><span>@Model.R(car.Eyebrow)</span></span>
 <h3 class="h3">@Model.R(car.Heading)</h3>
 @if (!car.Lead.IsEmpty){<p class="careers-p">@Model.R(car.Lead)</p>}
 @{

@@ -33,7 +33,7 @@ else
 {
 <div class="page-top-grid">
 <div class="page-top-copy">
-<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.R(section.Eyebrow)</span>
+<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span><span>@Model.R(section.Eyebrow)</span></span>
 <h1 id="pageTitle" class="page-title">@CareerTexts.Or(section.PageHeading, "pageHeading", Model.Lang)</h1>
 <p class="page-lead">@Model.Text(section.PageLead, "pageLead")</p>
 <div class="heroCtas">
@@ -67,7 +67,7 @@ else
 {
 @if (!role.Department.IsEmpty)
 {
-<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.R(role.Department)</span>
+<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span><span>@Model.R(role.Department)</span></span>
 }
 <h1 id="pageTitle" class="page-title">@Model.R(role.Title)</h1>
 <ul class="job-facts">

@@ -29,6 +29,7 @@ namespace YelG.WebSite.Application.Content
 
         public WhySection? Why { get; init; }
         public IReadOnlyList<WhyCard> WhyCards { get; init; } = [];
+        public IReadOnlyList<WhySlide> WhySlides { get; init; } = [];
 
         public HowSection? How { get; init; }
         public IReadOnlyList<HowStep> HowSteps { get; init; } = [];
