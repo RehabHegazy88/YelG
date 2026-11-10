@@ -1,3 +1,4 @@
+@using YelG.WebSite.Domain.Sections
 @using YelG.WebSite.Domain.Careers
 @model ApplicationListModel
 @{
@@ -5,6 +6,8 @@
     var f = Model.Filter;
     var isAdmin = User.IsInRole(AdminRoles.Admin);
     string StatusLink(ApplicationStatus? status) => "/admin/applications?" + (f with { Status = status }).Query();
+    // answer columns: the short answers (yes / no, choices, short text), at most four
+    var columns = Model.Questions.Where(q => q.Kind != QuestionKind.LongText).Take(4).ToList();
 }
 <div class="page-head">
     <div>
@@ -55,6 +58,41 @@
             <label class="field-label" for="fTo">إلى</label>
             <input type="date" id="fTo" name="to" value="@f.To?.ToString("yyyy-MM-dd")" dir="ltr">
         </div>
+        @if (Model.Questions.Count > 0)
+        {
+        <fieldset class="answer-filters">
+            <legend>تصفية بإجابات أسئلة الوظيفة</legend>
+            @foreach (var q in Model.Questions)
+            {
+            var fid = "fa" + q.Id;
+            var current = f.Answer(q.Id);
+            <div class="field">
+                <label class="field-label" for="@fid" dir="auto">@q.Text.Ar@(q.IsPublished ? "" : " (مخفي)")</label>
+                @if (q.Kind is QuestionKind.ShortText or QuestionKind.LongText)
+                {
+                <input type="search" id="@fid" name="a[@q.Id]" value="@current" placeholder="كلمة في الإجابة">
+                }
+                else
+                {
+                var options = q.Kind == QuestionKind.YesNo
+                    ? new List<(string Value, string Label)> { (JobApplicationAnswer.Yes, "نعم"), (JobApplicationAnswer.No, "لا") }
+                    : q.OptionList().Select(o => (o.Ar, o.Ar)).ToList();
+                <select id="@fid" name="a[@q.Id]">
+                    <option value="">الكل</option>
+                    @foreach (var (value, label) in options)
+                    {
+                    <option value="@value" selected="@(value == current)">@label</option>
+                    }
+                </select>
+                }
+            </div>
+            }
+        </fieldset>
+        }
+        else if (f.Role is null or "")
+        {
+        <p class="hint filters-note">اختر وظيفة لتظهر أسئلتها الإضافية وتصفّي الطلبات بإجاباتها.</p>
+        }
         <div class="filters-actions">
             <button type="submit" class="btn small">تصفية</button>
             <a class="link" href="/admin/applications">مسح</a>
@@ -69,7 +107,7 @@
     {
     <div class="table-wrap">
     <table class="rows">
-        <thead><tr><th scope="col">الوقت</th><th scope="col">الاسم</th><th scope="col" class="col-extra">الوظيفة</th><th scope="col">الحالة</th><th scope="col" class="col-extra">الإشعار</th></tr></thead>
+        <thead><tr><th scope="col">الوقت</th><th scope="col">الاسم</th><th scope="col" class="col-extra">الوظيفة</th>@foreach (var q in columns){<th scope="col" class="col-extra col-answer" dir="auto" title="@q.Text.Ar">@q.Text.Ar</th>}<th scope="col">الحالة</th><th scope="col" class="col-extra">الإشعار</th></tr></thead>
         <tbody>
         @foreach (var a in Model.Items)
         {
@@ -77,6 +115,11 @@
                 <td dir="ltr" class="nowrap">@AdminFormat.Time(a.AddedDate)</td>
                 <td class="col-name"><a href="/admin/applications/@a.Id" dir="auto">@a.Name</a></td>
                 <td class="col-extra" dir="auto">@a.RoleTitle</td>
+                @foreach (var q in columns)
+                {
+                var answer = ApplicationFormat.Answers(a.Answers.Where(x => x.CareerRoleQuestionId == q.Id));
+                <td class="col-extra col-answer" dir="auto">@(answer.Length > 0 ? answer : "—")</td>
+                }
                 <td><span class="state @ApplicationFormat.StatusClass(a.Status)">@ApplicationFormat.Status(a.Status)</span></td>
                 <td class="col-extra">@(a.NotificationSentAt is not null ? "أُرسل" : a.NotificationAttempts > 0 ? "تعذّر" : "قيد الإرسال")</td>
             </tr>

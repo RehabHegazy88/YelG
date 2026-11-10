@@ -67,6 +67,7 @@ namespace YelG.WebSite.Infrastructure.Data
         public DbSet<CareersSection> CareersSections => Set<CareersSection>();
         public DbSet<CareerRole> CareerRoles => Set<CareerRole>();
         public DbSet<CareerRoleTag> CareerRoleTags => Set<CareerRoleTag>();
+        public DbSet<CareerRoleQuestion> CareerRoleQuestions => Set<CareerRoleQuestion>();
         public DbSet<ClientPortalSection> ClientPortalSections => Set<ClientPortalSection>();
 
         // Enquiries

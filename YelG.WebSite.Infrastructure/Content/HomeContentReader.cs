@@ -91,6 +91,7 @@ namespace YelG.WebSite.Infrastructure.Content
                 Careers = await Section<CareersSection>(all).Include(c => c.Image).FirstOrDefaultAsync(ct),
                 CareerRoles = await Items<CareerRole>(all).Where(r => r.IsActive)
                     .Include(r => r.Tags.Where(t => all || t.IsPublished).OrderBy(t => t.SortOrder).ThenBy(t => t.Id))
+                    .Include(r => r.Questions.Where(q => all || q.IsPublished).OrderBy(q => q.SortOrder).ThenBy(q => q.Id))
                     .AsSplitQuery().ToListAsync(ct),
 
                 Portal = await _db.ClientPortalSections.AsNoTracking().Where(p => all || p.IsPublished).OrderBy(p => p.Id).FirstOrDefaultAsync(ct)

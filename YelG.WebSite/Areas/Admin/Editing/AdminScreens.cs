@@ -499,6 +499,31 @@ namespace YelG.WebSite.Areas.Admin.Editing
             var tags = new EntityEditor<CareerRoleTag>("وسم")
                 .Text(x => x.Label, "الوسم", required: true)
                 .Bool(x => x.IsPublished, "ظاهر في الموقع");
+            var questions = new EntityEditor<CareerRoleQuestion>("سؤال")
+                .Area(x => x.Text, "السؤال", required: true, rows: 2)
+                .Choice(x => x.Kind, "نوع الإجابة", new Dictionary<QuestionKind, string>
+                {
+                    [QuestionKind.YesNo] = "نعم / لا",
+                    [QuestionKind.ShortText] = "نص قصير (سطر واحد)",
+                    [QuestionKind.LongText] = "نص طويل (عدة أسطر)",
+                    [QuestionKind.SingleChoice] = "اختيار واحد من قائمة",
+                    [QuestionKind.MultipleChoice] = "اختيار متعدد من قائمة"
+                })
+                .Area(x => x.Options, "الاختيارات", rows: 5,
+                    hint: "لأسئلة الاختيار فقط: كل اختيار في سطر، وبالترتيب نفسه في العربية والإنجليزية. لا تغيّر ترتيبها بعد وصول طلبات.")
+                .Text(x => x.Hint, "توضيح تحت السؤال", hint: "اختياري.")
+                .Bool(x => x.IsRequired, "إجابة مطلوبة")
+                .Bool(x => x.IsPublished, "ظاهر في النموذج")
+                .Rule((q, c) =>
+                {
+                    if (!q.HasOptions) return;
+                    static int Count(string? s) => (s ?? "").Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length;
+                    var ar = Count(q.Options.Ar);
+                    var en = Count(q.Options.En);
+                    if (ar < 2) c.Errors.Add(nameof(q.Options), "أدخل اختيارين على الأقل، كل اختيار في سطر.");
+                    else if (en > 0 && en != ar) c.Errors.Add(nameof(q.Options), $"عدد الاختيارات بالإنجليزية ({en}) لا يساوي العربية ({ar}).");
+                })
+                .SummaryOf(q => q.Text.Ar);
             var roles = new EntityEditor<CareerRole>("وظيفة")
                 .Text(x => x.Title, "المسمى الوظيفي", required: true)
                 .Plain(x => x.Slug, "عنوان الصفحة", hint: "يظهر في الرابط: /ar/careers/senior-accountant. حروف إنجليزية صغيرة وأرقام وشرطات؛ اتركه فارغًا ليُنشأ من المسمى الإنجليزي. لا تغيّره بعد النشر.")
@@ -542,7 +567,20 @@ namespace YelG.WebSite.Areas.Admin.Editing
             screen.Lists.Add(new ListEditor<CareerRole>("roles", "الوظائف", roles)
                 .Show("القسم", r => r.Department.Ar)
                 .Show("الحالة", r => !r.IsActive ? "مغلقة" : r.ClosingOn is { } d && d < DateOnly.FromDateTime(DateTime.UtcNow) ? "انتهى موعدها" : "متاحة")
-                .Child(new ListEditor<CareerRoleTag>("tags", "الوسوم", tags, t => t.CareerRoleId)));
+                .Child(new ListEditor<CareerRoleTag>("tags", "الوسوم", tags, t => t.CareerRoleId))
+                .Child(new ListEditor<CareerRoleQuestion>("questions", "أسئلة إضافية في نموذج التقديم", questions, q => q.CareerRoleId)
+                    {
+                        Description = "تظهر بعد السيرة الذاتية في نموذج هذه الوظيفة، ويمكن تصفية الطلبات بإجاباتها في «طلبات التوظيف»."
+                    }
+                    .Show("النوع", q => q.Kind switch
+                    {
+                        QuestionKind.YesNo => "نعم / لا",
+                        QuestionKind.ShortText => "نص قصير",
+                        QuestionKind.LongText => "نص طويل",
+                        QuestionKind.SingleChoice => "اختيار واحد",
+                        _ => "اختيار متعدد"
+                    })
+                    .Show("مطلوب", q => q.IsRequired ? "نعم" : "لا")));
             return screen;
         }
 

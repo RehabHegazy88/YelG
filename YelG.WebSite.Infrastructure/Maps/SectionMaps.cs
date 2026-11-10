@@ -221,6 +221,12 @@ namespace YelG.WebSite.Infrastructure.Maps
                 b.ToTable("CareerRoleTags");
                 b.HasOne(x => x.CareerRole).WithMany(x => x.Tags).HasForeignKey(x => x.CareerRoleId).OnDelete(DeleteBehavior.Cascade);
             });
+            builder.Entity<CareerRoleQuestion>(b =>
+            {
+                b.ToTable("CareerRoleQuestions");
+                b.HasOne(x => x.CareerRole).WithMany(x => x.Questions).HasForeignKey(x => x.CareerRoleId).OnDelete(DeleteBehavior.Cascade);
+                b.Ignore(x => x.HasOptions);
+            });
             builder.Entity<ClientPortalSection>(b =>
             {
                 b.ToTable("ClientPortalSections");

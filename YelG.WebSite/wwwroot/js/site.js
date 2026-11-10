@@ -357,12 +357,22 @@
     var sent = $('[data-sent]', el), failed = $('[data-failed]', el), button = $('.cform-submit', el), busy = false;
     var fields = { name: 'aName', email: 'aEmail', phone: 'aPhone', linkedIn: 'aLinkedIn', cv: 'aCv', message: 'aMsg', consent: 'aConsent' };
     var keyOf = { linkedin: 'linkedIn' };
-    var order = ['name', 'email', 'phone', 'linkedIn', 'cv', 'message', 'consent'];
+    var order = ['name', 'email', 'phone', 'linkedIn', 'cv'];
+    // the role's extra questions (q{id}): a text field, or a group of radio buttons / checkboxes
+    var questions = $$('[data-q]', el).map(function (box) {
+      var q = { name: box.getAttribute('data-q'), kind: box.getAttribute('data-kind'), required: box.getAttribute('data-required') === 'true',
+        max: Number(box.getAttribute('data-max')) || 0, box: box };
+      fields[q.name] = q.kind === 'text' ? $('.in', box).id : box.id;
+      order.push(q.name);
+      return q;
+    });
+    order.push('message', 'consent');
 
     function field(name) { return doc.getElementById(fields[name]); }
     function err(name) { return doc.getElementById('e' + fields[name]); }
+    function inputs(name) { var f = field(name); return /^(INPUT|TEXTAREA|SELECT)$/.test(f.tagName) ? [f] : $$('input', f); }
     function clear(name) {
-      field(name).setAttribute('aria-invalid', 'false');
+      inputs(name).forEach(function (i) { i.setAttribute('aria-invalid', 'false'); });
       var e = err(name); e.hidden = true; e.textContent = '';
     }
 
@@ -378,6 +388,15 @@
       else if (file.size > maxBytes) e.cv = messages.cvSize;
       if (f.message.value.length > 3000) e.message = messages.message;
       if (!f.consent.checked) e.consent = messages.consent;
+      questions.forEach(function (q) {
+        if (q.kind === 'text') {
+          var v = field(q.name).value.trim();
+          if (q.required && !v) e[q.name] = messages.answer;
+          else if (q.max && v.length > q.max) e[q.name] = messages.answerLong;
+        } else if (q.required && !$$('input:checked', q.box).length) {
+          e[q.name] = messages.answer;
+        }
+      });
       return e;
     }
 
@@ -386,8 +405,8 @@
       order.forEach(function (name) {
         if (errs[name]) {
           count++;
-          if (!first) first = field(name);
-          field(name).setAttribute('aria-invalid', 'true');
+          if (!first) first = inputs(name)[0];
+          inputs(name).forEach(function (i) { i.setAttribute('aria-invalid', 'true'); });
           err(name).textContent = errs[name];
           err(name).hidden = false;
         } else {
@@ -407,8 +426,9 @@
     function done(box) { box.hidden = false; setTimeout(function () { box.focus(); }, 30); }
 
     order.forEach(function (name) {
-      var f = field(name);
-      f.addEventListener(f.type === 'checkbox' || f.type === 'file' ? 'change' : 'input', function () { clear(name); });
+      inputs(name).forEach(function (f) {
+        f.addEventListener(f.type === 'checkbox' || f.type === 'radio' || f.type === 'file' ? 'change' : 'input', function () { clear(name); });
+      });
     });
 
     el.addEventListener('submit', function (ev) {
