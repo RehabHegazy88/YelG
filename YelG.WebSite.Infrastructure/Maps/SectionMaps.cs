@@ -94,6 +94,11 @@ namespace YelG.WebSite.Infrastructure.Maps
                 b.HasOne(x => x.Image).WithMany().HasForeignKey(x => x.ImageId).OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<WhyCard>(b => b.ToTable("WhyCards"));
+            builder.Entity<WhySlide>(b =>
+            {
+                b.ToTable("WhySlides");
+                b.HasOne(x => x.Image).WithMany().HasForeignKey(x => x.ImageId).OnDelete(DeleteBehavior.Restrict);
+            });
             builder.Entity<HowSection>(b => b.ToTable("HowSections"));
             builder.Entity<HowStep>(b => b.ToTable("HowSteps"));
             builder.Entity<PurposeSection>(b =>
@@ -215,6 +220,12 @@ namespace YelG.WebSite.Infrastructure.Maps
             {
                 b.ToTable("CareerRoleTags");
                 b.HasOne(x => x.CareerRole).WithMany(x => x.Tags).HasForeignKey(x => x.CareerRoleId).OnDelete(DeleteBehavior.Cascade);
+            });
+            builder.Entity<CareerRoleQuestion>(b =>
+            {
+                b.ToTable("CareerRoleQuestions");
+                b.HasOne(x => x.CareerRole).WithMany(x => x.Questions).HasForeignKey(x => x.CareerRoleId).OnDelete(DeleteBehavior.Cascade);
+                b.Ignore(x => x.HasOptions);
             });
             builder.Entity<ClientPortalSection>(b =>
             {

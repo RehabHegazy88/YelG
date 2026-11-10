@@ -88,7 +88,7 @@ namespace YelG.WebSite.Controllers
                 var upload = cv is null || stream is null ? null : new CvUpload(stream, cv.FileName, cv.Length);
                 result = await _applications.SubmitAsync(slug, input, upload, lang, consent,
                     HttpContext.Connection.RemoteIpAddress?.ToString(), Request.Headers.UserAgent.ToString(), ct,
-                    generalTitle: CareerTexts.Get("generalApplication", lang));
+                    generalTitle: CareerTexts.Get("generalApplication", lang), answers: PostedAnswers());
             }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {
@@ -112,14 +112,27 @@ namespace YelG.WebSite.Controllers
             return Answer(lang, slug, StatusCodes.Status200OK, "sent");
         }
 
+        /// <summary>The extra questions' fields (q{id}), each with its values (several for a multiple choice).</summary>
+        private Dictionary<long, IReadOnlyList<string>> PostedAnswers()
+        {
+            var answers = new Dictionary<long, IReadOnlyList<string>>();
+            if (!Request.HasFormContentType) return answers;
+            foreach (var (key, values) in Request.Form)
+                if (key.Length > 1 && key[0] == 'q' && long.TryParse(key.AsSpan(1), out var id) && answers.Count < 100)
+                    answers[id] = values.Select(v => v ?? "").Take(50).ToList();
+            return answers;
+        }
+
         private bool WantsJson => Request.Headers.Accept.Any(a => a?.Contains("application/json") == true);
 
         /// <summary>The form field a rule belongs to (the three CV rules all point at the file field).</summary>
-        private static string FieldOf(string error) => error.StartsWith("cv", StringComparison.Ordinal) ? "cv" : error;
+        private static string FieldOf(string error) =>
+            error.StartsWith("cv", StringComparison.Ordinal) ? "cv" : error.StartsWith('q') ? error.Split(':')[0] : error;
 
         private string Message(string error, string lang) => error switch
         {
             "name" or "email" or "phone" => _ui.Validation(lang).GetValueOrDefault(error, error),
+            _ when error.StartsWith('q') => CareerTexts.Get(error.EndsWith(":long", StringComparison.Ordinal) ? "err.answerLong" : "err.answer", lang),
             _ => CareerTexts.Get("err." + error, lang).Replace("{max}", $"{_applications.MaxCvBytes / (1024 * 1024)} {(lang == "en" ? "MB" : "ميجابايت")}")
         };
 

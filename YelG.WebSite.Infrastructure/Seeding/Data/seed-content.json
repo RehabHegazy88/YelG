@@ -28,8 +28,8 @@
    "en": "Infinite Financial Care"
   },
   "heading": {
-   "ar": "خبرة مالية متكاملة،\n*قرارات أوضح* ونمو أقوى",
-   "en": "Integrated financial expertise. *Clearer decisions.* Stronger growth."
+   "ar": "شريكك المالي،\n*لقرارات أوضح* ونمو أقوى",
+   "en": "Your finance partner for *clearer decisions* and stronger growth."
   },
   "hideHeadingBreakOnMobile": false,
   "lead": {
@@ -100,7 +100,7 @@
     "ar": "المؤهلات",
     "en": "Qualifications"
    },
-   "chipCodes": "CMA,CIC,CWM",
+   "chipCodes": "CMA,CFA,CIC,CWM,MBA,DBA",
    "caption": {
     "ar": "كفاءات حاصلة على شهادات مهنية",
     "en": "Certified professionals"
@@ -157,8 +157,8 @@
    "en": "About YelG Advisory"
   },
   "heading": {
-   "ar": "شريكك المالي\n*على المدى الطويل*",
-   "en": "A trusted finance partner, *not a vendor for one task.*"
+   "ar": "خبرة مالية متكاملة\n*على المدى الطويل*",
+   "en": "Integrated financial expertise, *for the long term.*"
   },
   "hideHeadingBreakOnMobile": false,
   "lead": {
@@ -179,7 +179,7 @@
    "ar": "قوائم مالية وآلة حاسبة على مكتب",
    "en": "Financial statements and a calculator on a desk"
   },
-  "badgeRingText": "INFINITE FINANCIAL CARE • SINCE 2017 •"
+  "badgeRingText": ""
  },
  "aboutValues": [
   {
@@ -208,6 +208,13 @@
    }
   },
   {
+   "code": "CFA",
+   "description": {
+    "ar": "محلل مالي معتمد",
+    "en": "Chartered Financial Analyst"
+   }
+  },
+  {
    "code": "CIC",
    "description": {
     "ar": "مستشار استثمار معتمد",
@@ -226,6 +233,13 @@
    "description": {
     "ar": "ماجستير إدارة الأعمال",
     "en": "MBA holders"
+   }
+  },
+  {
+   "code": "DBA",
+   "description": {
+    "ar": "دكتوراه إدارة الأعمال",
+    "en": "Doctor of Business Administration"
    }
   },
   {
@@ -761,8 +775,8 @@
     "en": "Qualified expertise"
    },
    "text": {
-    "ar": "حاملو شهادات CMA وCIC وCWM وماجستير إدارة الأعمال، ودكتوراه في التمويل والاستثمار.",
-    "en": "CMA, CIC and CWM holders, MBAs and a doctorate in Finance & Investment."
+    "ar": "حاملو شهادات CMA وCFA وCIC وCWM، وماجستير ودكتوراه إدارة الأعمال، ودكتوراه في التمويل والاستثمار.",
+    "en": "CMA, CFA, CIC and CWM holders, MBAs, DBAs and a doctorate in Finance & Investment."
    },
    "isHighlighted": false
   },
@@ -820,6 +834,103 @@
     "en": "A team you can reach throughout the week, delivering on time."
    },
    "isHighlighted": true
+  }
+ ],
+ "whySlides": [
+  {
+   "title": {
+    "ar": "رعاية مالية بلا حدود\n*أكثر من مجرد شعار*",
+    "en": "Infinite Financial Care is *more than a slogan.*"
+   },
+   "text": {
+    "ar": "حين نعمل مع شركة، لا نعمل على أرقامها فقط؛ بل نهتم بالوجهة التي تأخذها إليها هذه الأرقام.",
+    "en": "When we work with a business, we don’t just work on its numbers. We care about where those numbers are taking it."
+   },
+   "points": {
+    "ar": "خبرة أوسع\nمعايير أعلى\nقيمة أكبر\nالتزام يدوم",
+    "en": "Broader expertise\nHigher standards\nGreater value\nLasting commitment"
+   },
+   "image": "why-meaning.webp",
+   "imageAlt": {
+    "ar": "أبراج حديثة على واجهة مائية عند الغروب",
+    "en": "Modern towers on a waterfront at sunset"
+   }
+  },
+  {
+   "title": {
+    "ar": "شركة رابحة\n*قد تنفد سيولتها*",
+    "en": "A profitable business *can still run out of cash.*"
+   },
+   "text": {
+    "ar": "الربح والسيولة ليسا شيئًا واحدًا. لذلك لا تتوقف الإدارة المالية عندنا عند قياس الربحية، بل تجيب عن الأسئلة التي تهم الإدارة:",
+    "en": "Profit and cash are not the same thing. That is why finance should not stop at reporting profitability. It should answer:"
+   },
+   "points": {
+    "ar": "أين السيولة؟\nلماذا هي محتجزة؟\nمتى تعود؟\nماذا تفعل الإدارة الآن؟",
+    "en": "Where is the cash?\nWhy is it tied up?\nWhen will it come back?\nWhat should management do now?"
+   },
+   "image": "why-expertise.webp",
+   "imageAlt": {
+    "ar": "مكتب يطل على أفق المدينة",
+    "en": "An office overlooking the city skyline"
+   }
+  },
+  {
+   "title": {
+    "ar": "هل يتحول نمو المبيعات\n*إلى أزمة سيولة؟*",
+    "en": "Can sales growth *turn into a cash crisis?*"
+   },
+   "text": {
+    "ar": "النمو المستدام لا يُقاس بالمبيعات والأرباح فقط، بل بالقدرة على تمويله دون تعريض الاستقرار المالي للخطر.",
+    "en": "Sustainable growth is not measured by sales and profit alone, but by the ability to fund it without putting financial stability at risk."
+   },
+   "points": {
+    "ar": "تقدير الاحتياجات التمويلية للنمو\nالتنبؤ بالتدفقات النقدية\nتقييم الفجوات التمويلية وبدائلها\nقرارات توسع مدروسة",
+    "en": "Estimating what growth will need\nCash flow forecasting\nAssessing financing gaps and options\nWell-planned expansion decisions"
+   },
+   "image": "why-value.webp",
+   "imageAlt": {
+    "ar": "مجسّم سهم صاعد عند شروق الشمس",
+    "en": "A rising arrow sculpture at sunrise"
+   }
+  },
+  {
+   "title": {
+    "ar": "من الرؤية\n*إلى التنفيذ*",
+    "en": "From insight *to action.*"
+   },
+   "text": {
+    "ar": "الإدارة المالية الناجحة لا تعني تقارير أكثر، بل قدرات مالية متكاملة تعمل معًا؛ لترى الإدارة بوضوح، وتتصرف بثقة، وتمضي بأعمالها إلى الأمام.",
+    "en": "Great financial management is not about having more reports. It is about the right financial capabilities working together, so management can see clearly, act confidently and move the business forward."
+   },
+   "points": {
+    "ar": "رؤية مالية واحدة\nقرارات أفضل\nأداء أقوى",
+    "en": "One financial perspective\nBetter decisions\nStronger performance"
+   },
+   "image": "why-partner.webp",
+   "imageAlt": {
+    "ar": "طريق ساحلي متعرّج بين الجبال",
+    "en": "A winding coastal road through the mountains"
+   }
+  },
+  {
+   "title": {
+    "ar": "الأرقام ليست الوجهة\n*بل نقطة البداية*",
+    "en": "Numbers are not the destination. *They are the starting point.*"
+   },
+   "text": {
+    "ar": "لا يكفي أن تسجّل المالية ما حدث؛ عليها أن تشرح لماذا حدث، وترى ما هو قادم، وتساعدك على اتخاذ قرار أفضل اليوم.",
+    "en": "Finance should do more than record what happened. It should explain why, see what is coming next, and help you make better decisions today."
+   },
+   "points": {
+    "ar": "الوضوح\nالفهم العميق\nالانضباط\nدعم القرار\nالأثر",
+    "en": "Clarity\nInsight\nDiscipline\nDecision support\nImpact"
+   },
+   "image": "why-care.webp",
+   "imageAlt": {
+    "ar": "شروق الشمس فوق سلاسل الجبال",
+    "en": "Sunrise over mountain ranges"
+   }
   }
  ],
  "how": {
@@ -1070,7 +1181,7 @@
   },
   "heading": {
    "ar": "خبرة تمتد إلى\n*أكثر من 10 قطاعات* في مصر",
-   "en": "Experience across *10+ sectors* in Egypt."
+   "en": "Experience across *10+ Industries* in Egypt."
   },
   "hideHeadingBreakOnMobile": true,
   "lead": {
@@ -1078,8 +1189,8 @@
    "en": "Our clientele spans industrial and service businesses, financial institutions and education — each with its own reporting, cost and control needs."
   },
   "approvalNote": {
-   "ar": "لا ننشر أسماء العملاء أو شعاراتهم إلا بموافقة كتابية مسبقة منهم.",
-   "en": "Client names and logos are published only with each client's written approval."
+   "ar": "",
+   "en": ""
   }
  },
  "sectors": [
@@ -1199,6 +1310,320 @@
    }
   }
  ],
+ "clientLogos": [
+  {
+   "name": {
+    "ar": "البنك التجاري الدولي (CIB)",
+    "en": "Commercial International Bank (CIB)"
+   },
+   "logo": "client-cib.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "بنك الكويت الوطني (NBK)",
+    "en": "National Bank of Kuwait (NBK)"
+   },
+   "logo": "client-nbk.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Barclays",
+    "en": "Barclays"
+   },
+   "logo": "client-barclays.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "التجاري وفا بنك",
+    "en": "Attijariwafa bank"
+   },
+   "logo": "client-attijariwafa.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "بنك مصر",
+    "en": "Banque Misr"
+   },
+   "logo": "client-banque-misr.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "المصرف المتحد",
+    "en": "The United Bank"
+   },
+   "logo": "client-united-bank.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "بنك القاهرة",
+    "en": "Banque du Caire"
+   },
+   "logo": "client-banque-du-caire.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "QNB",
+    "en": "QNB"
+   },
+   "logo": "client-qnb.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "البنك الأهلي المصري",
+    "en": "National Bank of Egypt"
+   },
+   "logo": "client-nbe.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "الجامعة الأمريكية بالقاهرة",
+    "en": "The American University in Cairo"
+   },
+   "logo": "client-auc.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "الأكاديمية العربية للعلوم والتكنولوجيا والنقل البحري",
+    "en": "Arab Academy for Science, Technology and Maritime Transport"
+   },
+   "logo": "client-aastmt.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "West Gate Consultants",
+    "en": "West Gate Consultants"
+   },
+   "logo": "client-west-gate.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Symbiosis Consulting Group",
+    "en": "Symbiosis Consulting Group"
+   },
+   "logo": "client-symbiosis.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Top Business Human Resources",
+    "en": "Top Business Human Resources"
+   },
+   "logo": "client-top-business.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Regional IT Institute (RITI)",
+    "en": "Regional IT Institute (RITI)"
+   },
+   "logo": "client-riti.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "O.R.C",
+    "en": "O.R.C"
+   },
+   "logo": "client-orc.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Prolong",
+    "en": "Prolong"
+   },
+   "logo": "client-prolong.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Fly Aviation",
+    "en": "Fly Aviation"
+   },
+   "logo": "client-fly-aviation.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Gulf Paper Company",
+    "en": "Gulf Paper Company"
+   },
+   "logo": "client-gulf-paper.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Murano Stone",
+    "en": "Murano Stone"
+   },
+   "logo": "client-murano-stone.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "DC Stores",
+    "en": "DC Stores"
+   },
+   "logo": "client-dc-stores.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Egypt Bolt",
+    "en": "Egypt Bolt"
+   },
+   "logo": "client-egypt-bolt.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Phoenix Food Distribution",
+    "en": "Phoenix Food Distribution"
+   },
+   "logo": "client-phoenix.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Les Secrets",
+    "en": "Les Secrets"
+   },
+   "logo": "client-les-secrets.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "El Joker",
+    "en": "El Joker"
+   },
+   "logo": "client-el-joker.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "ZO Skin Centre",
+    "en": "ZO Skin Centre"
+   },
+   "logo": "client-zo-skin-centre.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Cosmedics",
+    "en": "Cosmedics"
+   },
+   "logo": "client-cosmedics.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "OSISCO Engineering & Contracting",
+    "en": "OSISCO Engineering & Contracting"
+   },
+   "logo": "client-osisco.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "truelement",
+    "en": "truelement"
+   },
+   "logo": "client-truelement.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Protect Me",
+    "en": "Protect Me"
+   },
+   "logo": "client-protect-me.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Alouf Transport",
+    "en": "Alouf Transport"
+   },
+   "logo": "client-alouf-transport.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Alouf Travel",
+    "en": "Alouf Travel"
+   },
+   "logo": "client-alouf-travel.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Amana Plast",
+    "en": "Amana Plast"
+   },
+   "logo": "client-amana-plast.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "كابيتال انترناشيونال تريد",
+    "en": "Capital International Trade"
+   },
+   "logo": "client-capital-international-trade.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "JOX Salon",
+    "en": "JOX Salon"
+   },
+   "logo": "client-jox-salon.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Elsherif Aluminium Solutions",
+    "en": "Elsherif Aluminium Solutions"
+   },
+   "logo": "client-elsherif.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Scope Medical",
+    "en": "Scope Medical"
+   },
+   "logo": "client-scope-medical.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Dancing Goat Coffee",
+    "en": "Dancing Goat Coffee"
+   },
+   "logo": "client-dancing-goat.webp",
+   "isApprovedForWeb": true
+  },
+  {
+   "name": {
+    "ar": "Apollo",
+    "en": "Apollo"
+   },
+   "logo": "client-apollo.webp",
+   "isApprovedForWeb": true
+  }
+ ],
  "selfCheck": {
   "eyebrow": {
    "ar": "الفحص المالي السريع",
@@ -1210,8 +1635,8 @@
   },
   "hideHeadingBreakOnMobile": true,
   "lead": {
-   "ar": "عشرة أسئلة سريعة عن السجلات والتقارير والتخطيط والرقابة والأنظمة، تحصل بعدها على نتيجة استرشادية وأكثر الخدمات ارتباطًا باحتياجاتك.",
-   "en": "Ten quick questions on records, reporting, planning, controls and systems. You'll get an indicative score and the services most relevant to your gaps."
+   "ar": "اثنا عشر سؤالًا سريعًا عن السجلات والتقارير والتخطيط والتمويل والرقابة والأنظمة، تحصل بعدها على نتيجة استرشادية وأكثر الخدمات ارتباطًا باحتياجاتك.",
+   "en": "Twelve quick questions on records, reporting, planning, financing, controls and systems. You'll get an indicative score and the services most relevant to your gaps."
   },
   "disclaimer1": {
    "ar": "أداة استرشادية، وليست تقييمًا مهنيًا أو استشارة مالية.",
@@ -1239,7 +1664,7 @@
   },
   "methodNote": {
    "ar": "طريقة الاحتساب: «نعم» = 2، و«جزئيًا» = 1، و«ليس بعد» = 0 لكل سؤال. النتيجة مؤشر أولي للنقاش، وليست تشخيصًا مهنيًا.",
-   "en": "Scoring: Yes = 2, Partly = 1, Not yet = 0 for each of the 10 questions. This is a simple indicator for discussion, not a professional diagnosis."
+   "en": "Scoring: Yes = 2, Partly = 1, Not yet = 0 for each of the 12 questions. This is a simple indicator for discussion, not a professional diagnosis."
   },
   "discussCtaLabel": {
    "ar": "ناقش نتيجتك معنا",
@@ -1250,8 +1675,8 @@
    "en": "Start again"
   },
   "prefillTemplate": {
-   "ar": "نتيجتي في الفحص المالي السريع: {score} من 20 ({band}). أودّ مناقشة: ",
-   "en": "My financial self-check score was {score}/20 ({band}). I would like to discuss: "
+   "ar": "نتيجتي في الفحص المالي السريع: {score} من {max} ({band}). أودّ مناقشة: ",
+   "en": "My financial self-check score was {score}/{max} ({band}). I would like to discuss: "
   }
  },
  "selfCheckQuestions": [
@@ -1290,6 +1715,17 @@
   },
   {
    "area": {
+    "ar": "الأداء المالي",
+    "en": "Performance"
+   },
+   "text": {
+    "ar": "هل تتابعون كفاءة استغلال الأصول ومعدلات المديونية مقارنةً بمستهدفات واضحة؟",
+    "en": "Do you track how efficiently your assets are used and your debt ratios against clear targets?"
+   },
+   "linkedService": "fin"
+  },
+  {
+   "area": {
     "ar": "التخطيط",
     "en": "Planning"
    },
@@ -1312,12 +1748,23 @@
   },
   {
    "area": {
-    "ar": "السيولة",
-    "en": "Cash"
+    "ar": "الربحية",
+    "en": "Profitability"
    },
    "text": {
-    "ar": "هل تتوقعون التدفقات النقدية لثلاثة أشهر قادمة على الأقل؟",
-    "en": "Do you forecast your cash flow at least three months ahead?"
+    "ar": "هل تعرفون تكلفة وربحية كل فرع أو نشاط على حدة؟",
+    "en": "Do you know the cost and profitability of each branch or business line?"
+   },
+   "linkedService": "bud"
+  },
+  {
+   "area": {
+    "ar": "التمويل",
+    "en": "Financing"
+   },
+   "text": {
+    "ar": "هل تُدار التسهيلات والتمويلات البنكية بفعالية، من حيث تكلفتها وآجالها وملاءمتها لاحتياجاتكم؟",
+    "en": "Are your bank facilities and financing managed effectively, in terms of cost, tenor and fit with your needs?"
    },
    "linkedService": "treas"
   },
@@ -1391,7 +1838,7 @@
  ],
  "selfCheckBands": [
   {
-   "minScore": 16,
+   "minScore": 19,
    "title": {
     "ar": "أساس متين",
     "en": "Solid foundations"
@@ -1402,7 +1849,7 @@
    }
   },
   {
-   "minScore": 9,
+   "minScore": 11,
    "title": {
     "ar": "فرص واضحة للتطوير",
     "en": "Room to strengthen"
@@ -1447,7 +1894,7 @@
    },
    "answer": {
     "ar": "نعمل مع الشركات الصغيرة والمتوسطة والكبيرة، وتمتد محفظة عملائنا إلى أكثر من 10 قطاعات في مصر، منها الصناعة والمقاولات والمعادن والنقل والسياحة والصناعات الغذائية، إلى جانب البنوك والمؤسسات التعليمية.",
-    "en": "SMEs and large-sized companies. Our client portfolio spans 10+ sectors in Egypt — including industrial, construction, metals, transportation, tourism and food — as well as banks and educational institutions."
+    "en": "SMEs and large-sized companies. Our client portfolio spans 10+ industries in Egypt — including industrial, construction, metals, transportation, tourism and food — as well as banks and educational institutions."
    },
    "isOpenByDefault": true
   },
@@ -1788,6 +2235,45 @@
   "portalUrl": null
  },
  "media": [
+  "client-aastmt.webp",
+  "client-alouf-transport.webp",
+  "client-alouf-travel.webp",
+  "client-amana-plast.webp",
+  "client-apollo.webp",
+  "client-attijariwafa.webp",
+  "client-auc.webp",
+  "client-banque-du-caire.webp",
+  "client-banque-misr.webp",
+  "client-barclays.webp",
+  "client-capital-international-trade.webp",
+  "client-cib.webp",
+  "client-cosmedics.webp",
+  "client-dancing-goat.webp",
+  "client-dc-stores.webp",
+  "client-egypt-bolt.webp",
+  "client-el-joker.webp",
+  "client-elsherif.webp",
+  "client-fly-aviation.webp",
+  "client-gulf-paper.webp",
+  "client-jox-salon.webp",
+  "client-les-secrets.webp",
+  "client-murano-stone.webp",
+  "client-nbe.webp",
+  "client-nbk.webp",
+  "client-orc.webp",
+  "client-osisco.webp",
+  "client-phoenix.webp",
+  "client-prolong.webp",
+  "client-protect-me.webp",
+  "client-qnb.webp",
+  "client-riti.webp",
+  "client-scope-medical.webp",
+  "client-symbiosis.webp",
+  "client-top-business.webp",
+  "client-truelement.webp",
+  "client-united-bank.webp",
+  "client-west-gate.webp",
+  "client-zo-skin-centre.webp",
   "desk.jpg",
   "dr-yasser-avatar.jpg",
   "dr-yasser-cutout.png",
@@ -1797,6 +2283,11 @@
   "post-hiring.jpg",
   "post-infinite-financial-care.jpg",
   "post-insight-to-action.jpg",
+  "why-care.webp",
+  "why-expertise.webp",
+  "why-meaning.webp",
+  "why-partner.webp",
+  "why-value.webp",
   "yelg-brand-film-poster.jpg",
   "yelg-brand-film.webm"
  ]

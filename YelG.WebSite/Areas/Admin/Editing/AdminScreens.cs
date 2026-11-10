@@ -218,9 +218,21 @@ namespace YelG.WebSite.Areas.Admin.Editing
                 .Bool(x => x.IsHighlighted, "بطاقة مميزة (كحلية)")
                 .Bool(x => x.IsPublished, "ظاهرة في الموقع");
 
+            var slides = new EntityEditor<WhySlide>("شريحة")
+                .Area(x => x.Title, "العنوان", required: true, markup: true, rows: 2)
+                .Area(x => x.Text, "النص", markup: true)
+                .Area(x => x.Points, "النقاط", rows: 4, hint: "نقطة في كل سطر. اتركه فارغًا إن لم تكن هناك نقاط.")
+                .Media(x => x.ImageId, "الصورة", hint: "صورة بلا كتابة عليها؛ تُقص لتملأ الإطار.")
+                .Text(x => x.ImageAlt, "وصف الصورة", hint: "لقارئات الشاشة ومحركات البحث.")
+                .Bool(x => x.IsPublished, "ظاهرة في الموقع");
+
             var screen = EditorScreen.For("why", "لماذا YelG", form) with { Anchor = "#why" };
             screen.Lists.Add(new ListEditor<WhyCard>("cards", "المزايا", cards)
                 .Show("مميزة", c => c.IsHighlighted ? "نعم" : ""));
+            screen.Lists.Add(new ListEditor<WhySlide>("slides", "الشرائح", slides)
+                {
+                    Description = "عنوان القسم ومزاياه هما الشريحة الأولى دائمًا، وتأتي هذه الشرائح بعدها بالترتيب. بدون شرائح ظاهرة يظهر القسم بلا تقليب."
+                });
             return screen;
         }
 
@@ -240,13 +252,13 @@ namespace YelG.WebSite.Areas.Admin.Editing
 
         private static EditorScreen Purpose()
         {
-            var form = Section<PurposeSection>("المهمة والرؤية")
-                .Group("المهمة")
-                .Text(x => x.MissionTabLabel, "اسم التبويب", required: true)
-                .Area(x => x.Mission, "المهمة", required: true, markup: true)
+            var form = Section<PurposeSection>("الرؤية والمهمة")
                 .Group("الرؤية")
                 .Text(x => x.VisionTabLabel, "اسم التبويب", required: true)
                 .Area(x => x.Vision, "الرؤية", required: true, markup: true)
+                .Group("المهمة")
+                .Text(x => x.MissionTabLabel, "اسم التبويب", required: true)
+                .Area(x => x.Mission, "المهمة", required: true, markup: true)
                 .Group("الأهداف")
                 .Text(x => x.GoalsTabLabel, "اسم التبويب", required: true, hint: "الأهداف نفسها في القائمة أسفل الصفحة.")
                 .Group("الفيديو")
@@ -257,7 +269,7 @@ namespace YelG.WebSite.Areas.Admin.Editing
                 .Text(x => x.Label, "الهدف", required: true)
                 .Bool(x => x.IsPublished, "ظاهر في الموقع");
 
-            var screen = EditorScreen.For("purpose", "المهمة والرؤية", form) with { Anchor = "#pp" };
+            var screen = EditorScreen.For("purpose", "الرؤية والمهمة", form) with { Anchor = "#pp" };
             screen.Lists.Add(new ListEditor<PurposeGoal>("goals", "الأهداف", goals));
             return screen;
         }
@@ -487,6 +499,31 @@ namespace YelG.WebSite.Areas.Admin.Editing
             var tags = new EntityEditor<CareerRoleTag>("وسم")
                 .Text(x => x.Label, "الوسم", required: true)
                 .Bool(x => x.IsPublished, "ظاهر في الموقع");
+            var questions = new EntityEditor<CareerRoleQuestion>("سؤال")
+                .Area(x => x.Text, "السؤال", required: true, rows: 2)
+                .Choice(x => x.Kind, "نوع الإجابة", new Dictionary<QuestionKind, string>
+                {
+                    [QuestionKind.YesNo] = "نعم / لا",
+                    [QuestionKind.ShortText] = "نص قصير (سطر واحد)",
+                    [QuestionKind.LongText] = "نص طويل (عدة أسطر)",
+                    [QuestionKind.SingleChoice] = "اختيار واحد من قائمة",
+                    [QuestionKind.MultipleChoice] = "اختيار متعدد من قائمة"
+                })
+                .Area(x => x.Options, "الاختيارات", rows: 5,
+                    hint: "لأسئلة الاختيار فقط: كل اختيار في سطر، وبالترتيب نفسه في العربية والإنجليزية. لا تغيّر ترتيبها بعد وصول طلبات.")
+                .Text(x => x.Hint, "توضيح تحت السؤال", hint: "اختياري.")
+                .Bool(x => x.IsRequired, "إجابة مطلوبة")
+                .Bool(x => x.IsPublished, "ظاهر في النموذج")
+                .Rule((q, c) =>
+                {
+                    if (!q.HasOptions) return;
+                    static int Count(string? s) => (s ?? "").Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Length;
+                    var ar = Count(q.Options.Ar);
+                    var en = Count(q.Options.En);
+                    if (ar < 2) c.Errors.Add(nameof(q.Options), "أدخل اختيارين على الأقل، كل اختيار في سطر.");
+                    else if (en > 0 && en != ar) c.Errors.Add(nameof(q.Options), $"عدد الاختيارات بالإنجليزية ({en}) لا يساوي العربية ({ar}).");
+                })
+                .SummaryOf(q => q.Text.Ar);
             var roles = new EntityEditor<CareerRole>("وظيفة")
                 .Text(x => x.Title, "المسمى الوظيفي", required: true)
                 .Plain(x => x.Slug, "عنوان الصفحة", hint: "يظهر في الرابط: /ar/careers/senior-accountant. حروف إنجليزية صغيرة وأرقام وشرطات؛ اتركه فارغًا ليُنشأ من المسمى الإنجليزي. لا تغيّره بعد النشر.")
@@ -530,7 +567,20 @@ namespace YelG.WebSite.Areas.Admin.Editing
             screen.Lists.Add(new ListEditor<CareerRole>("roles", "الوظائف", roles)
                 .Show("القسم", r => r.Department.Ar)
                 .Show("الحالة", r => !r.IsActive ? "مغلقة" : r.ClosingOn is { } d && d < DateOnly.FromDateTime(DateTime.UtcNow) ? "انتهى موعدها" : "متاحة")
-                .Child(new ListEditor<CareerRoleTag>("tags", "الوسوم", tags, t => t.CareerRoleId)));
+                .Child(new ListEditor<CareerRoleTag>("tags", "الوسوم", tags, t => t.CareerRoleId))
+                .Child(new ListEditor<CareerRoleQuestion>("questions", "أسئلة إضافية في نموذج التقديم", questions, q => q.CareerRoleId)
+                    {
+                        Description = "تظهر بعد السيرة الذاتية في نموذج هذه الوظيفة، ويمكن تصفية الطلبات بإجاباتها في «طلبات التوظيف»."
+                    }
+                    .Show("النوع", q => q.Kind switch
+                    {
+                        QuestionKind.YesNo => "نعم / لا",
+                        QuestionKind.ShortText => "نص قصير",
+                        QuestionKind.LongText => "نص طويل",
+                        QuestionKind.SingleChoice => "اختيار واحد",
+                        _ => "اختيار متعدد"
+                    })
+                    .Show("مطلوب", q => q.IsRequired ? "نعم" : "لا")));
             return screen;
         }
 

@@ -10,6 +10,8 @@
 
 :root{--ff:'Sora';--ff-alt:'Alexandria'}
 .rtl{--ff:'Alexandria';--ff-alt:'Sora'}
+/* The brand is always "YelG", also inside labels set in capitals (eyebrows, badges); RichText wraps it. */
+.brand{text-transform:none}
 [hidden]{display:none!important}
 /* consultation form: the honeypot field, kept off screen */
 .hp{position:absolute;inset-inline-start:-10000px;width:1px;height:1px;overflow:hidden}
@@ -61,7 +63,7 @@
 .arch-ring2{position:absolute;inset:-48px -48px 0;border:1px dashed rgba(255,255,255,.2);border-bottom:0;border-radius:500px 500px 0 0}
 .arch-photo{position:relative;height:520px;border-radius:500px 500px 0 0}
 .arch-photo>img{object-position:64% center}
-.heroBadge{position:absolute;top:72px;inset-inline-end:-24px;width:120px;height:120px;border-radius:50%;background:#0A3177;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px -16px rgba(0,0,0,.5)}
+.heroBadge{position:absolute;top:-12px;inset-inline-end:-24px;width:120px;height:120px;border-radius:50%;background:#0A3177;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px -16px rgba(0,0,0,.5)}
 .ring-svg{direction:ltr;position:absolute;inset:0;width:100%;height:100%}
 .heroStats{min-width:0;align-self:center;padding-bottom:56px;margin:0}
 .stat{padding-block:24px;border-bottom:1px solid rgba(255,255,255,.16)}
@@ -72,8 +74,8 @@
 .stat-caption{margin:8px 0 0;font-size:15px;line-height:1.6;color:#D6E2FF}
 .stat-chips{display:flex;flex-direction:column;gap:8px}
 .stat-chips-caption{font:600 15px/1.5 var(--ff),sans-serif;color:#FFFFFF}
-.stat-chip-row{display:flex;flex-wrap:wrap;gap:8px}
-.stat-chip{font:600 13px var(--ff),sans-serif;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.1)}
+.stat-chip-row{display:grid;grid-template-columns:repeat(3,max-content);gap:8px}
+.stat-chip{text-align:center;font:600 13px var(--ff),sans-serif;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.1)}
 .strip{position:relative;z-index:4;background:#82D0DC;color:#0A1F4E;overflow:hidden}
 .strip-track{padding-block:16px;font:600 16px var(--ff),sans-serif;letter-spacing:-.01em}
 .strip-group{display:flex;gap:40px;padding-inline:20px;white-space:nowrap;align-items:center}
@@ -94,6 +96,9 @@
 .creds-row{display:flex;flex-wrap:wrap;gap:8px}
 .founder{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));border-radius:32px;overflow:hidden;background:#0A3177;color:#C9D6F5;position:relative}
 /* the gradients of .yasserArch stay; the cut-out portrait sits on them as in the design (bottom, 94% high) */
+/* The photo stays on the left in both languages so the founder faces the quote (the photo is not mirrored). */
+.rtl .founder{direction:ltr}
+.rtl .founder>*{direction:rtl}
 .founder-photo{min-height:360px;position:relative;background:radial-gradient(120% 90% at 0% 0%,#DB8169 0%,rgba(219,129,105,0) 55%),radial-gradient(90% 80% at 100% 0%,#FFD5C5 0%,rgba(255,213,197,0) 60%),radial-gradient(100% 100% at 0% 100%,#2F5EC6 0%,rgba(47,94,198,0) 60%),radial-gradient(100% 100% at 100% 100%,#82D0DC 0%,rgba(130,208,220,0) 60%),#6F7CBA}
 .founder-photo>img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:94%;width:auto;max-width:none;display:block}
 .founder-text{padding:clamp(32px,5vw,64px);display:flex;flex-direction:column;gap:24px;justify-content:center}
@@ -135,6 +140,32 @@
 .why-float{position:absolute;bottom:24px;inset-inline:24px;max-width:300px;background:#FFFFFF;border-radius:20px;padding:20px 24px;box-shadow:0 30px 60px -24px rgba(10,49,119,.45);display:flex;align-items:center;gap:16px;z-index:2}
 .why-float-ico{width:48px;height:48px;border-radius:50%;background:#2F5EC6;display:flex;align-items:center;justify-content:center;flex:none}
 .why-float-text{font:700 17px/1.35 var(--ff),sans-serif;color:#0A3177}
+/* Slider: every slide sits in the same grid cell, so the section keeps the height of the tallest one. */
+.why-track{display:grid}
+.why-slide{grid-area:1/1;transition:opacity .6s ease,visibility .6s}
+.why-slide:not(.is-on){opacity:0;visibility:hidden;pointer-events:none}
+.why-points{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.why-points li{display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:var(--r-md);background:#F4F7FD;font:600 16px/1.4 var(--ff),sans-serif;color:#0A3177}
+.why-points li::before{content:"";width:28px;height:28px;flex:none;border-radius:50%;background:#2F5EC6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/15px no-repeat}
+.why-ctrl{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:clamp(32px,4vw,48px)}
+.why-arrow{width:48px;height:48px;border-radius:50%;border:1px solid #D3DDF2;background:#FFFFFF;color:#0A3177;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,color .2s}
+.why-arrow:hover{background:#0A3177;color:#FFFFFF;border-color:#0A3177}
+.why-arrow[hidden]{display:none}
+.rtl .why-arrow svg{transform:scaleX(-1)}
+.why-pause{margin-inline-start:8px}
+.why-pause .i-play,.why-pause.is-paused .i-pause{display:none}
+.why-pause.is-paused .i-play{display:block}
+.why-dots{display:flex;align-items:center}
+.why-dot{height:32px;min-width:24px;padding:0 4px;border:0;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.why-dot::before{content:"";width:10px;height:10px;border-radius:999px;background:#C9D6F5;transition:width .3s,background .3s}
+.why-dot[aria-current=true]::before{width:28px;background:#2F5EC6}
+/* Phones: the first slide is far taller than the others, so only the current slide takes space. */
+@media (max-width:760px){
+  .why-slide:not(.is-on){display:none}
+  .why-slide.is-on{animation:why-in .5s ease}
+}
+@keyframes why-in{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.why-slide,.why-dot::before{transition:none}.why-slide.is-on{animation:none}}
 
 /* ---------- how ---------- */
 .how-sec{background:#F4F7FD}
@@ -182,9 +213,21 @@
 .ind-card-text .h3{font-size:18px}
 .ind-card-text>span{font-size:15px;line-height:1.6}
 .rtl .ind-card-text>span{line-height:1.8}
-.ind-logos{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
-.ind-logos li{display:flex;align-items:center;justify-content:center;min-height:72px;padding:12px 20px;border-radius:16px;background:#FFFFFF;box-shadow:var(--sh-card)}
-.ind-logos img{display:block;max-height:48px;max-width:160px;width:auto;height:auto}
+/* Client logos: a strip of two identical lists moving by half its width, so the loop has no seam.
+   Each list ends with the gap, so both halves are exactly as wide. */
+.logo-marquee{display:flex;flex-direction:column;gap:12px}
+.logo-marquee .logo-track{display:flex;width:max-content;animation:mq 110s linear infinite}
+.rtl .logo-marquee .logo-track{animation-name:mqr}
+.logo-viewport{overflow:hidden;padding-block:8px 12px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.logo-marquee:hover .logo-track,.logo-marquee:focus-within .logo-track,.logo-marquee.is-paused .logo-track{animation-play-state:paused}
+.ind-logos{list-style:none;margin:0;padding:0 16px 0 0;display:flex;gap:16px;align-items:center}
+.rtl .ind-logos{padding:0 0 0 16px}
+.ind-logos li{flex:none;display:flex;align-items:center;justify-content:center;width:184px;height:88px;padding:12px 16px;border-radius:16px;background:#FFFFFF;box-shadow:var(--sh-card)}
+.ind-logos img{display:block;max-height:56px;max-width:100%;width:auto;height:auto;object-fit:contain}
+.logo-pause{align-self:flex-end;margin:0}
+@media (max-width:760px){.ind-logos li{width:148px;height:76px;padding:10px 12px}.ind-logos img{max-height:48px}}
+/* Like the services strip, the logos keep moving when less motion is asked for (the client's choice); the button stops them. */
+}
 .ind-note{margin:0;font-size:14px;color:#5A6690}
 
 /* ---------- self-check ---------- */
@@ -355,12 +398,13 @@ details.faq p a{color:#82D0DC}
 /* Smaller headings than the design on tablets and computers (the client found them too large);
    phones keep the design's own sizes. Arabic rules repeat the RTL layer's .rtl prefix to win over it. */
 @media (min-width:761px){
-  .h1en{font-size:clamp(30px,2.6vw,40px)}
+  .h1en{font-size:clamp(25px,2.2vw,33px)}   /* the English hero takes about the same height as the Arabic one */
   .rtl .h1ar{font-size:clamp(28px,2.5vw,38px)}
   .h2{font-size:clamp(26px,2.4vw,36px)}
   .rtl .h2{font-size:clamp(24px,2.2vw,34px)}
   .stat-num{font-size:40px}
 }
+@media (max-width:760px){.h1en{font-size:25px}}   /* phones: same height as the Arabic hero heading */
 /* The badges and the services strip keep moving even when the device asks for less motion (the client
    wants them to move; both are slow). The Arabic strip keeps its own direction (mqr). */
 @media (prefers-reduced-motion: reduce){
@@ -429,6 +473,16 @@ a.ctab{display:inline-flex;align-items:center;text-decoration:none}
 .job-apply>.h3{margin:0}
 .job-apply .cform-head .h3,.general-apply .cform-head .h3{font-size:19px}
 .job-form{border-radius:28px;background:#FFFFFF;box-shadow:var(--sh-card);padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:20px}
+/* A role's extra questions: yes / no and choices as large tappable options. */
+.qset{border:0;margin:0;padding:0;min-width:0}
+.qset legend{padding:0;margin-bottom:8px}
+.qopts{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr))}
+.qopts-row{grid-template-columns:repeat(2,minmax(0,1fr));max-width:360px}
+.qopt{display:flex;align-items:center;gap:12px;min-height:48px;padding:10px 16px;border-radius:14px;background:#F4F7FD;box-shadow:inset 0 0 0 1px #CBD5EC;font-size:15px;line-height:1.5;color:#0A1F4E;cursor:pointer}
+.qopt input{width:20px;height:20px;margin:0;flex:none;accent-color:#2F5EC6}
+.qopt:has(input:checked){background:#EAF0FC;box-shadow:inset 0 0 0 2px #2F5EC6}
+.qopt:has(input:focus-visible){outline:3px solid #44D2EA;outline-offset:2px}
+.qopt:has(input[aria-invalid="true"]){box-shadow:inset 0 0 0 2px #C4320A;background:#FFF6F3}
 .job-fields{grid-template-columns:minmax(0,1fr)}
 .in-file{padding-block:10px;cursor:pointer}
 @media (max-width:900px){

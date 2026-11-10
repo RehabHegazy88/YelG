@@ -118,7 +118,7 @@ namespace YelG.WebSite.Infrastructure.Email
             }
             else
             {
-                var application = await db.JobApplications.FirstOrDefaultAsync(a => a.Id == item.Id, ct);
+                var application = await db.JobApplications.Include(a => a.Answers).FirstOrDefaultAsync(a => a.Id == item.Id, ct);
                 if (application is null || application.NotificationSentAt is not null) return;
                 var (sentAt, error) = await TryAsync(async () => await mailer.SendApplicationAsync(application, await SiteAsync(db, ct), ct), "application", item.Id, application.NotificationAttempts, ct);
                 application.NotificationSentAt = sentAt;

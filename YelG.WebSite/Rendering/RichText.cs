@@ -122,21 +122,28 @@ namespace YelG.WebSite.Rendering
             href.StartsWith('#') || href.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
             || href.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase) || href.StartsWith("tel:", StringComparison.OrdinalIgnoreCase);
 
+        // The brand is always written "YelG": the span keeps it so inside labels the CSS sets in capitals.
+        [GeneratedRegex(@"\bYelG\b")]
+        private static partial Regex Brand();
+
+        private static string Encode(string text) =>
+            Brand().Replace(Encoder.Encode(text), "<span class=\"brand\">YelG</span>");
+
         private static void AppendPlain(StringBuilder sb, string text, RichTextOptions o)
         {
             if (!o.IsolateLatin)
             {
-                sb.Append(Encoder.Encode(text));
+                sb.Append(Encode(text));
                 return;
             }
             var last = 0;
             foreach (Match m in LatinRun().Matches(text))
             {
-                sb.Append(Encoder.Encode(text[last..m.Index]));
-                sb.Append("<bdi class=\"lat\">").Append(Encoder.Encode(m.Value)).Append("</bdi>");
+                sb.Append(Encode(text[last..m.Index]));
+                sb.Append("<bdi class=\"lat\">").Append(Encode(m.Value)).Append("</bdi>");
                 last = m.Index + m.Length;
             }
-            sb.Append(Encoder.Encode(text[last..]));
+            sb.Append(Encode(text[last..]));
         }
     }
 }

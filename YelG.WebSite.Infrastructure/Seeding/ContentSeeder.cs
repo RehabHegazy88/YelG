@@ -116,6 +116,10 @@ namespace YelG.WebSite.Infrastructure.Seeding
                 Image = M(w.Image), ImageAlt = w.ImageAlt, FloatingCardText = w.FloatingCardText
             }, w), ct);
             await ListAsync(_db.WhyCards, seed.WhyCards.Select(c => new WhyCard { Title = c.Title, Text = c.Text, IsHighlighted = c.IsHighlighted }), ct);
+            await ListAsync(_db.WhySlides, seed.WhySlides.Select(s => new WhySlide
+            {
+                Title = s.Title, Text = s.Text, Points = s.Points, Image = M(s.Image), ImageAlt = s.ImageAlt
+            }), ct);
 
             await SingleAsync(_db.HowSections, () => Section(new HowSection(), seed.How), ct);
             await ListAsync(_db.HowSteps, seed.HowSteps.Select(c => new HowStep { Title = c.Title, Text = c.Text, IsHighlighted = c.IsHighlighted }), ct);
@@ -142,7 +146,11 @@ namespace YelG.WebSite.Infrastructure.Seeding
             {
                 IconKey = c.IconKey, ColorVariant = c.ColorVariant, Title = c.Title, Text = c.Text
             }), ct);
-            // Client logos: none. They are published only with each client's written approval.
+            // Client logos from the company profile; each shows only while it is approved for the web.
+            await ListAsync(_db.ClientLogos, seed.ClientLogos.Select(l => new ClientLogo
+            {
+                Name = l.Name, Logo = M(l.Logo), IsApprovedForWeb = l.IsApprovedForWeb
+            }), ct);
 
             var q = seed.SelfCheck;
             await SingleAsync(_db.SelfCheckSections, () => Section(new SelfCheckSection

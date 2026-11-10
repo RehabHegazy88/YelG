@@ -357,12 +357,22 @@
     var sent = $('[data-sent]', el), failed = $('[data-failed]', el), button = $('.cform-submit', el), busy = false;
     var fields = { name: 'aName', email: 'aEmail', phone: 'aPhone', linkedIn: 'aLinkedIn', cv: 'aCv', message: 'aMsg', consent: 'aConsent' };
     var keyOf = { linkedin: 'linkedIn' };
-    var order = ['name', 'email', 'phone', 'linkedIn', 'cv', 'message', 'consent'];
+    var order = ['name', 'email', 'phone', 'linkedIn', 'cv'];
+    // the role's extra questions (q{id}): a text field, or a group of radio buttons / checkboxes
+    var questions = $$('[data-q]', el).map(function (box) {
+      var q = { name: box.getAttribute('data-q'), kind: box.getAttribute('data-kind'), required: box.getAttribute('data-required') === 'true',
+        max: Number(box.getAttribute('data-max')) || 0, box: box };
+      fields[q.name] = q.kind === 'text' ? $('.in', box).id : box.id;
+      order.push(q.name);
+      return q;
+    });
+    order.push('message', 'consent');
 
     function field(name) { return doc.getElementById(fields[name]); }
     function err(name) { return doc.getElementById('e' + fields[name]); }
+    function inputs(name) { var f = field(name); return /^(INPUT|TEXTAREA|SELECT)$/.test(f.tagName) ? [f] : $$('input', f); }
     function clear(name) {
-      field(name).setAttribute('aria-invalid', 'false');
+      inputs(name).forEach(function (i) { i.setAttribute('aria-invalid', 'false'); });
       var e = err(name); e.hidden = true; e.textContent = '';
     }
 
@@ -378,6 +388,15 @@
       else if (file.size > maxBytes) e.cv = messages.cvSize;
       if (f.message.value.length > 3000) e.message = messages.message;
       if (!f.consent.checked) e.consent = messages.consent;
+      questions.forEach(function (q) {
+        if (q.kind === 'text') {
+          var v = field(q.name).value.trim();
+          if (q.required && !v) e[q.name] = messages.answer;
+          else if (q.max && v.length > q.max) e[q.name] = messages.answerLong;
+        } else if (q.required && !$$('input:checked', q.box).length) {
+          e[q.name] = messages.answer;
+        }
+      });
       return e;
     }
 
@@ -386,8 +405,8 @@
       order.forEach(function (name) {
         if (errs[name]) {
           count++;
-          if (!first) first = field(name);
-          field(name).setAttribute('aria-invalid', 'true');
+          if (!first) first = inputs(name)[0];
+          inputs(name).forEach(function (i) { i.setAttribute('aria-invalid', 'true'); });
           err(name).textContent = errs[name];
           err(name).hidden = false;
         } else {
@@ -407,8 +426,9 @@
     function done(box) { box.hidden = false; setTimeout(function () { box.focus(); }, 30); }
 
     order.forEach(function (name) {
-      var f = field(name);
-      f.addEventListener(f.type === 'checkbox' || f.type === 'file' ? 'change' : 'input', function () { clear(name); });
+      inputs(name).forEach(function (f) {
+        f.addEventListener(f.type === 'checkbox' || f.type === 'radio' || f.type === 'file' ? 'change' : 'input', function () { clear(name); });
+      });
     });
 
     el.addEventListener('submit', function (ev) {
@@ -465,8 +485,93 @@
     });
   }
 
+  // Why YelG slider: arrows, dots, swipe and arrow keys; turns by itself slowly unless the visitor asked
+  // for less motion, paused it, or is pointing at / inside it.
+  function whySlider() {
+    var root = $('[data-slider]');
+    if (!root) return;
+    var slides = $$('.why-slide', root), dots = $$('[data-go]', root), track = $('.why-track', root);
+    var pause = $('[data-pause]', root), rtl = doc.documentElement.dir === 'rtl';
+    var current = 0, timer = null, stopped = false, hold = false, DELAY = 8000;
+    // Phones show one slide at a time at its own height, so turning by itself would move the page: no autoplay there.
+    var wide = window.matchMedia('(min-width: 761px)');
+    function auto() { return wide.matches && !reduced(); }
+
+    function show(n, fromUser) {
+      current = (n + slides.length) % slides.length;
+      slides.forEach(function (s, i) {
+        var on = i === current;
+        s.classList.toggle('is-on', on);
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+        s.inert = !on;
+      });
+      dots.forEach(function (d, i) { d.setAttribute('aria-current', i === current ? 'true' : 'false'); });
+      if (fromUser) restart();
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } track.setAttribute('aria-live', 'polite'); }
+    function restart() {
+      stop();
+      if (stopped || hold || !auto()) return;
+      track.setAttribute('aria-live', 'off');
+      timer = setInterval(function () { if (doc.visibilityState === 'visible') show(current + 1); }, DELAY);
+    }
+
+    $('[data-prev]', root).addEventListener('click', function () { show(current - 1, true); });
+    $('[data-next]', root).addEventListener('click', function () { show(current + 1, true); });
+    dots.forEach(function (d) { d.addEventListener('click', function () { show(+d.getAttribute('data-go'), true); }); });
+    root.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' || !e.target.closest('.why-ctrl')) return;
+      var forward = (e.key === 'ArrowRight') !== rtl;
+      show(current + (forward ? 1 : -1), true);
+      e.preventDefault();
+    });
+
+    var x0 = null;
+    track.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') x0 = e.clientX; });
+    track.addEventListener('pointerup', function (e) {
+      if (x0 === null) return;
+      var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) < 40) return;
+      show(current + ((dx < 0) !== rtl ? 1 : -1), true);
+    });
+
+    root.addEventListener('mouseenter', function () { hold = true; stop(); });
+    root.addEventListener('mouseleave', function () { hold = false; restart(); });
+    root.addEventListener('focusin', function () { hold = true; stop(); });
+    root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) { hold = false; restart(); } });
+
+    function syncPause() { if (pause) pause.hidden = !auto(); }
+    if (wide.addEventListener) wide.addEventListener('change', function () { syncPause(); restart(); });
+    syncPause();
+    if (pause) {
+      pause.addEventListener('click', function () {
+        stopped = !stopped;
+        pause.classList.toggle('is-paused', stopped);
+        pause.setAttribute('aria-label', pause.getAttribute(stopped ? 'data-label-play' : 'data-label-pause'));
+        if (stopped) stop(); else if (!hold) restart();
+      });
+    }
+    show(0);
+    restart();
+  }
+
+  // Client logos: a CSS strip; the button stops and restarts it (hover and focus pause it in CSS).
+  function logoMarquee() {
+    $$('[data-logo-marquee]').forEach(function (root) {
+      var pause = $('[data-logo-pause]', root);
+      if (!pause) return;
+      pause.addEventListener('click', function () {
+        var stopped = root.classList.toggle('is-paused');
+        pause.classList.toggle('is-paused', stopped);
+        pause.setAttribute('aria-label', pause.getAttribute(stopped ? 'data-label-play' : 'data-label-pause'));
+      });
+    });
+  }
+
   menu();
   languageSwitch();
+  whySlider();
+  logoMarquee();
   youTube();
   consultForm();
   applyForm();

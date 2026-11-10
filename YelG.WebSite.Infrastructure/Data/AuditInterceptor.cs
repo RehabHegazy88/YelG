@@ -108,7 +108,7 @@ namespace YelG.WebSite.Infrastructure.Data
             foreach (var entry in context.ChangeTracker.Entries().ToList())
             {
                 if (entry.State is EntityState.Unchanged or EntityState.Detached || entry.Entity is AuditLog) continue;
-                if (entry.Entity is BaseEntity and not (Enquiry or EnquiryNote or JobApplication or JobApplicationNote)) _contentChanged = true;
+                if (entry.Entity is BaseEntity and not (Enquiry or EnquiryNote or JobApplication or JobApplicationNote or JobApplicationAnswer)) _contentChanged = true;
                 var action = entry.State switch
                 {
                     EntityState.Added => "Created",

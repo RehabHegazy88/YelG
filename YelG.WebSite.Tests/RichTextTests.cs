@@ -39,10 +39,18 @@ namespace YelG.WebSite.Tests
         [Fact]
         public void Latin_runs_are_isolated_on_Arabic_pages_but_digits_are_not()
         {
-            Assert.Equal("انطلقت <bdi class=\"lat\">YelG Advisory</bdi> عام 2017.",
+            Assert.Equal("انطلقت <bdi class=\"lat\"><span class=\"brand\">YelG</span> Advisory</bdi> عام 2017.",
                 Html("انطلقت YelG Advisory عام 2017.", new RichTextOptions { IsolateLatin = true }));
             Assert.Equal("أنظمة <bdi class=\"lat\">ERP</bdi> و<bdi class=\"lat\">SaaS</bdi>",
                 Html("أنظمة ERP وSaaS", new RichTextOptions { IsolateLatin = true }));
+        }
+
+        [Fact]
+        public void The_brand_keeps_its_casing_inside_capitalised_labels()
+        {
+            Assert.Equal("Why <span class=\"brand\">YelG</span>", Html("Why YelG"));
+            // Only the brand word itself: e-mail addresses and hashtags are left alone.
+            Assert.Equal("info@yelgadvisory.com #YelGAdvisory", Html("info@yelgadvisory.com #YelGAdvisory"));
         }
 
         [Fact]
