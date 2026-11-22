@@ -88,7 +88,7 @@
       if (field) field.setAttribute('aria-invalid', 'false');
       if (err) { err.hidden = true; err.textContent = ''; }
     },
-    error: function (name) { return doc.getElementById({ name: 'eName', email: 'eEmail', company: 'eCompany', phone: 'ePhone', service: 'eService', message: 'eMsg', consent: 'eConsent' }[name]); }
+    error: function (name) { return doc.getElementById({ name: 'eName', email: 'eEmail', company: 'eCompany', phone: 'ePhone', service: 'eService', message: 'eMsg' }[name]); }
   };
 
   function consultForm() {
@@ -98,11 +98,11 @@
     var messages = JSON.parse(el.getAttribute('data-messages') || '{}');
     var summaryTemplate = el.getAttribute('data-error-summary') || '';
     var summary = $('[data-error-summary-box]', el);
-    var order = ['name', 'email', 'company', 'phone', 'service', 'message', 'consent'];
+    var order = ['name', 'email', 'company', 'phone', 'service', 'message'];
 
     function values() {
       var f = el.elements;
-      return { name: f.name.value, email: f.email.value, company: f.company.value, phone: f.phone.value, service: f.service.value, message: f.message.value, consent: f.consent.checked };
+      return { name: f.name.value, email: f.email.value, company: f.company.value, phone: f.phone.value, service: f.service.value, message: f.message.value };
     }
 
     // the prototype's validate(), with the same rules and messages
@@ -114,7 +114,6 @@
       if (f.phone && !/^[+0-9][0-9\s()\-]{6,}$/.test(f.phone.trim())) e.phone = messages.phone;
       if (!f.service) e.service = messages.service;
       if (!f.message || f.message.trim().length < 20) e.message = messages.message;
-      if (!f.consent) e.consent = messages.consent;
       return e;
     }
 
@@ -491,6 +490,8 @@
     var root = $('[data-slider]');
     if (!root) return;
     var slides = $$('.why-slide', root), dots = $$('[data-go]', root), track = $('.why-track', root);
+    // Razor writes data-slider even when there is nothing to turn (one page, no published slides)
+    if (slides.length < 2) return;
     var pause = $('[data-pause]', root), rtl = doc.documentElement.dir === 'rtl';
     var current = 0, timer = null, stopped = false, hold = false, DELAY = 8000;
     // Phones show one slide at a time at its own height, so turning by itself would move the page: no autoplay there.

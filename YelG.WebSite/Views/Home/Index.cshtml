@@ -8,6 +8,7 @@
 
 <main id="main">
 @if (c.About is not null || c.Founder is not null) { <partial name="~/Views/Home/Sections/_About.cshtml" model="Model" /> }
+@if (c.Team is not null) { <partial name="~/Views/Home/Sections/_Team.cshtml" model="Model" /> }
 @if (c.Services is not null && c.ServiceList.Count > 0) { <partial name="~/Views/Home/Sections/_Services.cshtml" model="Model" /> }
 @if (c.Why is not null) { <partial name="~/Views/Home/Sections/_Why.cshtml" model="Model" /> }
 @if (c.How is not null) { <partial name="~/Views/Home/Sections/_How.cshtml" model="Model" /> }

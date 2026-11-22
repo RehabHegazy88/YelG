@@ -86,9 +86,10 @@ namespace YelG.WebSite.Infrastructure.Email
                 ("الشركة / Company", e.Company),
                 ("الهاتف / Phone", e.Phone ?? "—"),
                 ("الخدمة / Service", e.ServiceLabel),
-                ("لغة الصفحة / Page language", e.Culture == "en" ? "English" : "العربية"),
-                ("الموافقة / Consent", e.ConsentAt.ToString("yyyy-MM-dd HH:mm 'UTC'", CultureInfo.InvariantCulture))
+                ("لغة الصفحة / Page language", e.Culture == "en" ? "English" : "العربية")
             };
+            if (!string.IsNullOrWhiteSpace(e.ConsentText))
+                rows.Add(("الموافقة / Consent", e.ConsentAt.ToString("yyyy-MM-dd HH:mm 'UTC'", CultureInfo.InvariantCulture)));
             if (e.SelfCheckScore is { } score) rows.Add(("نتيجة الفحص المالي / Self-check score", score.ToString(CultureInfo.InvariantCulture)));
 
             message.Body = Body("طلب استشارة جديد · New enquiry", rows, e.Message, link);

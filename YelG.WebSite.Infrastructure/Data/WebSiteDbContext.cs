@@ -36,6 +36,9 @@ namespace YelG.WebSite.Infrastructure.Data
         public DbSet<AboutValue> AboutValues => Set<AboutValue>();
         public DbSet<Credential> Credentials => Set<Credential>();
         public DbSet<FounderSection> FounderSections => Set<FounderSection>();
+        public DbSet<TeamSection> TeamSections => Set<TeamSection>();
+        public DbSet<TeamPractice> TeamPractices => Set<TeamPractice>();
+        public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
         public DbSet<ServicesSection> ServicesSections => Set<ServicesSection>();
         public DbSet<ServiceCategory> ServiceCategories => Set<ServiceCategory>();
         public DbSet<Service> Services => Set<Service>();

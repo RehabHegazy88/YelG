@@ -31,8 +31,8 @@ namespace YelG.WebSite.Rendering
         // Arabic stays readable in the page source (only markup characters are escaped), like the rest of the site.
         private static readonly HtmlEncoder Encoder = HtmlEncoder.Create(System.Text.Unicode.UnicodeRanges.All);
 
-        // A Latin word or a run of Latin words ("YelG Advisory", "Infinite Financial Care", "ERP"); digits alone stay Arabic.
-        [GeneratedRegex(@"[A-Za-z][A-Za-z0-9]*(?:[ &'’.\-][A-Za-z0-9]+)*")]
+        // A Latin word or a run of Latin words ("YelG Advisory", "Cost Efficiency & Value", "ERP"); digits alone stay Arabic.
+        [GeneratedRegex(@"[A-Za-z][A-Za-z0-9]*(?:[ &'’.\-]+[A-Za-z0-9]+)*")]
         private static partial Regex LatinRun();
 
         [GeneratedRegex(@"\G\[([^\]\n]+)\]\(([^)\s]+)\)")]

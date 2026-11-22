@@ -43,6 +43,9 @@ namespace YelG.WebSite.Tests
                 Html("انطلقت YelG Advisory عام 2017.", new RichTextOptions { IsolateLatin = true }));
             Assert.Equal("أنظمة <bdi class=\"lat\">ERP</bdi> و<bdi class=\"lat\">SaaS</bdi>",
                 Html("أنظمة ERP وSaaS", new RichTextOptions { IsolateLatin = true }));
+            // " & " keeps an English phrase in one piece, so it is not reordered when it wraps
+            Assert.Equal("القيمة (<bdi class=\"lat\">Cost Efficiency &amp; Value</bdi>)",
+                Html("القيمة (Cost Efficiency & Value)", new RichTextOptions { IsolateLatin = true }));
         }
 
         [Fact]

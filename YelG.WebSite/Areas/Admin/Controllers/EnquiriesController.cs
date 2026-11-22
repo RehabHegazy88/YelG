@@ -145,7 +145,7 @@ namespace YelG.WebSite.Areas.Admin.Controllers
             foreach (var e in items)
                 Row(csv, e.Id.ToString(CultureInfo.InvariantCulture), AdminFormat.Time(e.AddedDate), e.Status.ToString(), e.Name, e.Email,
                     e.Company, e.Phone ?? "", e.ServiceLabel, e.Culture, e.Message, e.SelfCheckScore?.ToString(CultureInfo.InvariantCulture) ?? "",
-                    e.ConsentAt.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
+                    string.IsNullOrWhiteSpace(e.ConsentText) ? "" : e.ConsentAt.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture),
                     e.NotificationSentAt?.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture) ?? "");
 
             _db.AuditLogs.Add(new AuditLog

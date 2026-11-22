@@ -106,11 +106,14 @@
             </form>
         </section>
 
+        @if (!string.IsNullOrWhiteSpace(e.ConsentText))
+        {
         <section class="panel">
             <header class="panel-head"><h2>الموافقة</h2></header>
             <p>وافق صاحب الطلب في <span dir="ltr">@AdminFormat.Time(e.ConsentAt)</span> على النص:</p>
             <blockquote class="message" dir="auto">@e.ConsentText</blockquote>
         </section>
+        }
 
         @if (isAdmin)
         {

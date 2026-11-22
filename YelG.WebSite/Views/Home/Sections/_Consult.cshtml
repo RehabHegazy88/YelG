@@ -66,7 +66,6 @@
 </select>
 <p id="eService" class="err" hidden></p></div>
 <div class="fld fld-full"><label for="fMsg">@Model.S("formMessage") <i>*</i></label><textarea id="fMsg" name="message" class="in" rows="5" aria-invalid="false" aria-describedby="eMsg hMsg" aria-required="true"></textarea><span id="hMsg" class="hint">@Model.S("formMessageHint")</span><p id="eMsg" class="err" hidden></p></div>
-<div class="fld fld-full"><label class="consent" for="fConsent"><input id="fConsent" name="consent" type="checkbox" value="true" aria-invalid="false" aria-describedby="eConsent"><span>@Model.R(con.ConsentText)</span></label><p id="eConsent" class="err" hidden></p></div>
 </div>
 <div class="alert alert-ok" role="status" tabindex="-1" data-sent hidden="@(outcome != "sent")"><strong>@successTitle</strong><span>@successText</span></div>
 <div class="alert alert-err" role="alert" tabindex="-1" data-failed hidden="@(outcome is not ("failed" or "invalid"))"><strong>@failure</strong></div>

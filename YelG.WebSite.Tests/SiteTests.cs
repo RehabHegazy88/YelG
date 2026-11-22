@@ -49,6 +49,50 @@ namespace YelG.WebSite.Tests
         }
 
         [LocalDbFact]
+        public async Task The_team_is_one_list_of_cards_with_each_members_practice()
+        {
+            long memberId;
+            long practiceId;
+            await using (var scope = _site.Services.CreateAsyncScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<WebSiteDbContext>();
+                practiceId = (await db.TeamPractices.OrderBy(p => p.SortOrder).ThenBy(p => p.Id).FirstAsync()).Id;
+                var member = new Domain.Sections.TeamMember
+                {
+                    Name = new Domain.Common.LocalizedText("منى أحمد", "Mona Ahmed"), Role = new Domain.Common.LocalizedText("رئيس الحسابات", "Chief Accountant"),
+                    Credentials = "CMA, CPA", TeamPracticeId = practiceId, LinkedInUrl = "https://www.linkedin.com/in/test"
+                };
+                db.TeamMembers.Add(member);
+                await db.SaveChangesAsync();
+                memberId = member.Id;
+            }
+            _site.Services.GetRequiredService<YelG.WebSite.Application.Content.IContentVersion>().Bump();
+            try
+            {
+                var page = await Html.GetAsync(_site.Browser(), "/en");
+                Assert.Empty(page.QuerySelectorAll("#team [role=tab]"));         // no orbit of practices
+                var card = page.QuerySelectorAll("#team .team-list .tcard").Single(c => c.TextContent.Contains("Mona Ahmed"));
+                Assert.Contains("Accounting", card.QuerySelector(".tcard-practice")!.TextContent);   // the member's practice
+                Assert.Equal(new[] { "CMA", "CPA" }, card.QuerySelectorAll(".tcard-creds span").Select(s => s.TextContent));
+                Assert.Equal("MA", card.QuerySelector(".tcard-photo")!.TextContent.Trim());     // initials without a photo
+            }
+            finally
+            {
+                await using var scope = _site.Services.CreateAsyncScope();
+                await scope.ServiceProvider.GetRequiredService<WebSiteDbContext>().TeamMembers.IgnoreQueryFilters().Where(m => m.Id == memberId).ExecuteDeleteAsync();
+                _site.Services.GetRequiredService<YelG.WebSite.Application.Content.IContentVersion>().Bump();
+            }
+        }
+
+        [Fact]
+        public void Team_initials_skip_titles()
+        {
+            Assert.Equal("يج", Domain.Sections.TeamMember.Initials("د. ياسر الجمل"));
+            Assert.Equal("YG", Domain.Sections.TeamMember.Initials("Dr. Yasser El Gamal"));
+            Assert.Equal("M", Domain.Sections.TeamMember.Initials("Mona"));
+        }
+
+        [LocalDbFact]
         public async Task Pages_carry_the_security_headers()
         {
             var response = await _site.Browser().GetAsync("/en");
@@ -251,6 +295,8 @@ namespace YelG.WebSite.Tests
                 {
                     var first = screenPage.QuerySelector($"#list-{list.Path.Replace('.', '-')} tbody tr[data-id]");
                     if (first is null) continue;   // an empty list (client logos, open roles)
+                    // a practice shows only as the label on its members' cards (checked in the team test)
+                    if (list.Item.EntityType == typeof(Domain.Sections.TeamPractice)) continue;
                     var itemUrl = $"{url}/{list.Path}/{first.GetAttribute("data-id")}";
                     await CheckAsync(itemUrl, list.Item);
 

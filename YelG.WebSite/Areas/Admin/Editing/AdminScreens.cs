@@ -31,7 +31,7 @@ namespace YelG.WebSite.Areas.Admin.Editing
         {
             var screens = new List<EditorScreen>
             {
-                Hero(), Marquee(), About(), Founder(), Services(), Why(), How(), Purpose(), Engage(), Industries(),
+                Hero(), Marquee(), About(), Founder(), Team(), Services(), Why(), How(), Purpose(), Engage(), Industries(),
                 SelfCheck(), Faq(), Consult(), Insights(), Careers(), Portal(), Settings()
             };
             return new EditorRegistry(screens);
@@ -202,6 +202,40 @@ namespace YelG.WebSite.Areas.Admin.Editing
                 .Show<ServiceCategory>("التصنيف", s => s.CategoryId, c => c.Name.Ar)
                 .Show("الرمز", s => s.Key)
                 .Child(new ListEditor<ServiceDeliverable>("deliverables", "نطاق الخدمة", deliverables, d => d.ServiceId)));
+            return screen;
+        }
+
+        private static EditorScreen Team()
+        {
+            var form = Section<TeamSection>("فريقنا")
+                .Group("الرقم")
+                .Plain(x => x.StatValue, "الرقم", hint: "مثل 100+. اتركه فارغًا لإخفائه.", max: 20)
+                .Text(x => x.StatLabel, "وصف الرقم", hint: "مثل «عام من الخبرة المشتركة».");
+            var practices = new EntityEditor<TeamPractice>("تخصص")
+                .Text(x => x.Title, "التخصص", required: true)
+                .Bool(x => x.IsPublished, "ظاهر على بطاقات أعضائه");
+            var members = new EntityEditor<TeamMember>("عضو")
+                .Text(x => x.Name, "الاسم", required: true)
+                .Text(x => x.Role, "المسمى الوظيفي", required: true)
+                .Reference<TeamPractice>(x => x.TeamPracticeId, "التخصص", p => p.Title.Ar, emptyLabel: "بدون")
+                .Media(x => x.PhotoId, "الصورة", hint: "صورة شخصية بخلفية هادئة؛ تُقص دائرة ومستطيلًا. بدونها تظهر الحروف الأولى من الاسم.")
+                .Area(x => x.Bio, "نبذة", rows: 3, hint: "جملة أو جملتان.")
+                .Plain(x => x.Credentials, "الشهادات", hint: "مفصولة بفاصلة، مثل: CMA, CFA", max: 200)
+                .Url(x => x.LinkedInUrl, "رابط LinkedIn")
+                .Bool(x => x.IsPublished, "ظاهر في الموقع");
+
+            var screen = EditorScreen.For("team", "فريقنا", form) with
+            {
+                Anchor = "#team",
+                Description = "الفريق قائمة بطاقات: المؤسس أولًا (اسمه وصورته الدائرية من «كلمة المؤسس») ثم الأعضاء، ويظهر تخصص كل عضو على بطاقته."
+            };
+            screen.Lists.Add(new ListEditor<TeamPractice>("practices", "التخصصات", practices)
+                {
+                    Description = "يظهر اسم التخصص على بطاقة كل عضو فيه."
+                });
+            screen.Lists.Add(new ListEditor<TeamMember>("members", "أعضاء الفريق", members)
+                .Show<TeamPractice>("التخصص", m => m.TeamPracticeId, p => p.Title.Ar)
+                .Show("المسمى", m => m.Role.Ar));
             return screen;
         }
 
@@ -414,7 +448,7 @@ namespace YelG.WebSite.Areas.Admin.Editing
                 .Group("النموذج")
                 .Text(x => x.FormTitle, "عنوان النموذج", required: true)
                 .Text(x => x.RequiredNote, "ملاحظة الحقول الإلزامية", markup: true, hint: @"اكتب \* لإظهار علامة النجمة.")
-                .Area(x => x.ConsentText, "نص الموافقة", required: true, markup: true, rows: 2)
+                .Area(x => x.ConsentText, "نص الموافقة", markup: true, rows: 2, hint: "لا يظهر في النموذج حاليًا: خانة الموافقة أُزيلت منه.")
                 .Text(x => x.NotSureLabel, "خيار «لست متأكدًا بعد»", required: true)
                 .Text(x => x.SubmitLabel, "زر الإرسال", required: true)
                 .Group("رسائل الإرسال")

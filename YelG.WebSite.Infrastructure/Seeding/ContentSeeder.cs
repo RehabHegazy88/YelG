@@ -103,6 +103,14 @@ namespace YelG.WebSite.Infrastructure.Seeding
                 Photo = M(f.Photo), PhotoAlt = f.PhotoAlt, Avatar = M(f.Avatar)
             }, ct);
 
+            // the team: the practices from the company profile (named on members' cards); members are added in the admin panel
+            var t = seed.Team;
+            await SingleAsync(_db.TeamSections, () => Section(new TeamSection
+            {
+                StatValue = t.StatValue, StatLabel = t.StatLabel
+            }, t), ct);
+            await ListAsync(_db.TeamPractices, seed.TeamPractices.Select(x => new TeamPractice { Title = x.Title }), ct);
+
             var s0 = seed.ServicesSection;
             await SingleAsync(_db.ServicesSections, () => Section(new ServicesSection
             {

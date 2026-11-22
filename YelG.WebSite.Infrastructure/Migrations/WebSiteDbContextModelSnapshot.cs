@@ -4346,6 +4346,257 @@ namespace YelG.WebSite.Infrastructure.Migrations
                     b.ToTable("ServicesSections", (string)null);
                 });
 
+            modelBuilder.Entity("YelG.WebSite.Domain.Sections.TeamMember", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("AddedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Credentials")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LinkedInUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<long?>("ModifiedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PhotoId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("TeamPracticeId")
+                        .HasColumnType("bigint");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Bio", "YelG.WebSite.Domain.Sections.TeamMember.Bio#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Name", "YelG.WebSite.Domain.Sections.TeamMember.Name#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Role", "YelG.WebSite.Domain.Sections.TeamMember.Role#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedBy_PersonID");
+
+                    b.HasIndex("ModifiedBy_PersonID");
+
+                    b.HasIndex("PhotoId");
+
+                    b.HasIndex("TeamPracticeId");
+
+                    b.ToTable("TeamMembers", (string)null);
+                });
+
+            modelBuilder.Entity("YelG.WebSite.Domain.Sections.TeamPractice", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("AddedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("ModifiedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Title", "YelG.WebSite.Domain.Sections.TeamPractice.Title#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedBy_PersonID");
+
+                    b.HasIndex("ModifiedBy_PersonID");
+
+                    b.ToTable("TeamPractices", (string)null);
+                });
+
+            modelBuilder.Entity("YelG.WebSite.Domain.Sections.TeamSection", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("AddedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HideHeadingBreakOnMobile")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("ModifiedBy_PersonID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StatValue")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Eyebrow", "YelG.WebSite.Domain.Sections.TeamSection.Eyebrow#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Heading", "YelG.WebSite.Domain.Sections.TeamSection.Heading#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Lead", "YelG.WebSite.Domain.Sections.TeamSection.Lead#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("StatLabel", "YelG.WebSite.Domain.Sections.TeamSection.StatLabel#LocalizedText", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Ar")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedBy_PersonID");
+
+                    b.HasIndex("ModifiedBy_PersonID");
+
+                    b.ToTable("TeamSections", (string)null);
+                });
+
             modelBuilder.Entity("YelG.WebSite.Domain.Sections.WhyCard", b =>
                 {
                     b.Property<long>("Id")
@@ -5652,6 +5903,59 @@ namespace YelG.WebSite.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("YelG.WebSite.Domain.Sections.ServicesSection", b =>
+                {
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("AddedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("YelG.WebSite.Domain.Sections.TeamMember", b =>
+                {
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("AddedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Domain.Media.MediaAsset", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Domain.Sections.TeamPractice", "Practice")
+                        .WithMany()
+                        .HasForeignKey("TeamPracticeId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Photo");
+
+                    b.Navigation("Practice");
+                });
+
+            modelBuilder.Entity("YelG.WebSite.Domain.Sections.TeamPractice", b =>
+                {
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("AddedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy_PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("YelG.WebSite.Domain.Sections.TeamSection", b =>
                 {
                     b.HasOne("YelG.WebSite.Infrastructure.Identity.AdminUser", null)
                         .WithMany()

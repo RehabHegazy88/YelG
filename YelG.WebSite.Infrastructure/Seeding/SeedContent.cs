@@ -32,6 +32,8 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public List<LocalizedText> AboutValues { get; set; } = new();
         public List<CredentialSeed> Credentials { get; set; } = new();
         public FounderSeed Founder { get; set; } = new();
+        public TeamSeed Team { get; set; } = new();
+        public List<TeamPracticeSeed> TeamPractices { get; set; } = new();
         public ServicesSectionSeed ServicesSection { get; set; } = new();
         public List<CategorySeed> ServiceCategories { get; set; } = new();
         public List<ServiceSeed> Services { get; set; } = new();
@@ -132,6 +134,17 @@ namespace YelG.WebSite.Infrastructure.Seeding
     {
         public string Code { get; set; } = string.Empty;
         public LocalizedText Description { get; set; } = new();
+    }
+
+    public sealed class TeamSeed : SectionSeed
+    {
+        public string StatValue { get; set; } = string.Empty;
+        public LocalizedText StatLabel { get; set; } = new();
+    }
+
+    public sealed class TeamPracticeSeed
+    {
+        public LocalizedText Title { get; set; } = new();
     }
 
     public sealed class FounderSeed

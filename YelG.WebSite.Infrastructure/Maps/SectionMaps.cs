@@ -54,6 +54,24 @@ namespace YelG.WebSite.Infrastructure.Maps
                 b.HasOne(x => x.Photo).WithMany().HasForeignKey(x => x.PhotoId).OnDelete(DeleteBehavior.Restrict);
                 b.HasOne(x => x.Avatar).WithMany().HasForeignKey(x => x.AvatarId).OnDelete(DeleteBehavior.Restrict);
             });
+            builder.Entity<TeamSection>(b =>
+            {
+                b.ToTable("TeamSections");
+                b.Property(x => x.StatValue).HasMaxLength(20);
+            });
+            builder.Entity<TeamPractice>(b =>
+            {
+                b.ToTable("TeamPractices");
+            });
+            builder.Entity<TeamMember>(b =>
+            {
+                b.ToTable("TeamMembers");
+                b.Property(x => x.Credentials).HasMaxLength(200);
+                b.Property(x => x.LinkedInUrl).HasMaxLength(500);
+                b.HasOne(x => x.Photo).WithMany().HasForeignKey(x => x.PhotoId).OnDelete(DeleteBehavior.Restrict);
+                // a removed practice leaves its members with the whole team
+                b.HasOne(x => x.Practice).WithMany().HasForeignKey(x => x.TeamPracticeId).OnDelete(DeleteBehavior.SetNull);
+            });
         }
     }
 

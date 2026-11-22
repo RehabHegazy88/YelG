@@ -48,6 +48,10 @@ namespace YelG.WebSite.Infrastructure.Content
                 Founder = await _db.FounderSections.AsNoTracking().Include(f => f.Photo).Include(f => f.Avatar)
                     .Where(f => all || f.IsPublished).OrderBy(f => f.Id).FirstOrDefaultAsync(ct),
 
+                Team = await Section<TeamSection>(all).FirstOrDefaultAsync(ct),
+                TeamPractices = await Items<TeamPractice>(all).ToListAsync(ct),
+                TeamMembers = await Items<TeamMember>(all).Include(m => m.Photo).ToListAsync(ct),
+
                 Services = await Section<ServicesSection>(all).FirstOrDefaultAsync(ct),
                 ServiceCategories = categories,
                 ServiceList = services,
