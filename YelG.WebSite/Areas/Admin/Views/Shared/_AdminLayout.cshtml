@@ -28,9 +28,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>@(string.IsNullOrEmpty(title) ? "" : title + " · ")لوحة تحكم YelG</title>
-<link rel="icon" href="~/favicon.ico" sizes="48x48">
-<link rel="icon" href="~/brand/mark-512.png" type="image/png" sizes="512x512">
-<link rel="apple-touch-icon" href="~/brand/apple-touch-icon.png">
+<link rel="icon" href="~/favicon.ico" sizes="16x16 32x32 48x48" asp-append-version="true">
+<link rel="icon" href="~/favicon.png" type="image/png" sizes="32x32" asp-append-version="true">
+<link rel="icon" href="~/brand/mark-512.png" type="image/png" sizes="512x512" asp-append-version="true">
+<link rel="apple-touch-icon" href="~/brand/apple-touch-icon.png" sizes="180x180" asp-append-version="true">
+<link rel="manifest" href="~/site.webmanifest" asp-append-version="true">
 @if (BrandFonts.Enabled)
 {
 <link rel="stylesheet" href="@BrandFonts.StylesheetUrl">

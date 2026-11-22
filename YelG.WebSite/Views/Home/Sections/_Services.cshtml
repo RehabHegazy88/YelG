@@ -17,7 +17,7 @@
 <section id="services" class="sec svc-sec">
 <div class="wrap svc-wrap">
 <div class="sec-headrow">
-<div class="head"><span class="eyebrow">@Model.R(s.Eyebrow)</span><h2 class="h2">@Model.Heading(s)</h2>@if (!s.Lead.IsEmpty){<p class="lead">@Model.R(s.Lead)</p>}</div>
+<div class="head"><span class="eyebrow"><span>@Model.R(s.Eyebrow)</span></span><h2 class="h2">@Model.Heading(s)</h2>@if (!s.Lead.IsEmpty){<p class="lead">@Model.R(s.Lead)</p>}</div>
 </div>
 <div role="tablist" aria-label="@Model.S("serviceTabsLabel")" class="ctabs">
 <button type="button" role="tab" id="cat-all" aria-selected="true" aria-controls="svcPanel" class="ctab ctab-on" data-cat="all">@Model.Data(s.AllTabLabel)<small>@c.ServiceList.Count</small></button>

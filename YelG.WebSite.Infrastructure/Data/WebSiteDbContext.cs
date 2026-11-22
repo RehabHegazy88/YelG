@@ -36,12 +36,16 @@ namespace YelG.WebSite.Infrastructure.Data
         public DbSet<AboutValue> AboutValues => Set<AboutValue>();
         public DbSet<Credential> Credentials => Set<Credential>();
         public DbSet<FounderSection> FounderSections => Set<FounderSection>();
+        public DbSet<TeamSection> TeamSections => Set<TeamSection>();
+        public DbSet<TeamPractice> TeamPractices => Set<TeamPractice>();
+        public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
         public DbSet<ServicesSection> ServicesSections => Set<ServicesSection>();
         public DbSet<ServiceCategory> ServiceCategories => Set<ServiceCategory>();
         public DbSet<Service> Services => Set<Service>();
         public DbSet<ServiceDeliverable> ServiceDeliverables => Set<ServiceDeliverable>();
         public DbSet<WhySection> WhySections => Set<WhySection>();
         public DbSet<WhyCard> WhyCards => Set<WhyCard>();
+        public DbSet<WhySlide> WhySlides => Set<WhySlide>();
         public DbSet<HowSection> HowSections => Set<HowSection>();
         public DbSet<HowStep> HowSteps => Set<HowStep>();
         public DbSet<PurposeSection> PurposeSections => Set<PurposeSection>();
@@ -66,6 +70,7 @@ namespace YelG.WebSite.Infrastructure.Data
         public DbSet<CareersSection> CareersSections => Set<CareersSection>();
         public DbSet<CareerRole> CareerRoles => Set<CareerRole>();
         public DbSet<CareerRoleTag> CareerRoleTags => Set<CareerRoleTag>();
+        public DbSet<CareerRoleQuestion> CareerRoleQuestions => Set<CareerRoleQuestion>();
         public DbSet<ClientPortalSection> ClientPortalSections => Set<ClientPortalSection>();
 
         // Enquiries

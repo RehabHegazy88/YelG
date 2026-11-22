@@ -57,7 +57,7 @@ namespace YelG.WebSite.Tests
         }
 
         [Fact]
-        public void Consent_is_required() => Assert.Equal(new[] { "consent" }, EnquiryRules.Validate(new EnquiryInput
+        public void Consent_is_not_asked_for() => Assert.Empty(EnquiryRules.Validate(new EnquiryInput
         {
             Name = "Sara", Email = "sara@company.com", Company = "Co", Service = "acc", Message = new string('x', 20)
         }, Keys));
@@ -157,7 +157,7 @@ namespace YelG.WebSite.Tests
                 Assert.Equal(14, saved.SelfCheckScore);
                 Assert.Equal(EnquiryStatus.New, saved.Status);
                 Assert.NotEqual(default, saved.ConsentAt);
-                Assert.StartsWith("أوافق على أن تستخدم YelG Advisory", saved.ConsentText);
+                Assert.Empty(saved.ConsentText);                // the form no longer asks for consent
                 Assert.Equal(64, saved.IpHash!.Length);
                 Assert.DoesNotContain("203.0.113.9", saved.IpHash);
                 Assert.Equal(new[] { id }, queue.Ids);

@@ -47,7 +47,6 @@ namespace YelG.WebSite.Application.Enquiries
             var service = Trim(input.Service);
             if (service != EnquiryInput.NotSure && !serviceKeys.Contains(service)) errors.Add("service");
             if (Trim(input.Message).Length is < MessageMinLength or > 5000) errors.Add("message");
-            if (!input.Consent) errors.Add("consent");
             return errors;
         }
 

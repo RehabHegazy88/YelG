@@ -21,6 +21,9 @@ namespace YelG.WebSite.Application.Content
         public IReadOnlyList<AboutValue> AboutValues { get; init; } = [];
         public IReadOnlyList<Credential> Credentials { get; init; } = [];
         public FounderSection? Founder { get; init; }
+        public TeamSection? Team { get; init; }
+        public IReadOnlyList<TeamPractice> TeamPractices { get; init; } = [];
+        public IReadOnlyList<TeamMember> TeamMembers { get; init; } = [];
 
         public ServicesSection? Services { get; init; }
         public IReadOnlyList<ServiceCategory> ServiceCategories { get; init; } = [];
@@ -29,6 +32,7 @@ namespace YelG.WebSite.Application.Content
 
         public WhySection? Why { get; init; }
         public IReadOnlyList<WhyCard> WhyCards { get; init; } = [];
+        public IReadOnlyList<WhySlide> WhySlides { get; init; } = [];
 
         public HowSection? How { get; init; }
         public IReadOnlyList<HowStep> HowSteps { get; init; } = [];

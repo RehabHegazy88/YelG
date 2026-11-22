@@ -11,7 +11,7 @@
 @if (ins is not null)
 {
 <div class="sec-headrow">
-<div class="head"><span class="eyebrow">@Model.R(ins.Eyebrow)</span><h2 id="insTitle" class="h2">@Model.Heading(ins)</h2>@if (!ins.Lead.IsEmpty){<p class="lead">@Model.R(ins.Lead)</p>}</div>
+<div class="head"><span class="eyebrow"><span>@Model.R(ins.Eyebrow)</span></span><h2 id="insTitle" class="h2">@Model.Heading(ins)</h2>@if (!ins.Lead.IsEmpty){<p class="lead">@Model.R(ins.Lead)</p>}</div>
 <span class="sec-links">
 @if (c.InsightPosts.Count > 0)
 {
@@ -42,7 +42,7 @@ var own = post.HasPage;
 {
 <div id="careers" class="careers">
 <div class="careers-body">
-<span class="eyebrow">@Model.R(car.Eyebrow)</span>
+<span class="eyebrow"><span>@Model.R(car.Eyebrow)</span></span>
 <h3 class="h3">@Model.R(car.Heading)</h3>
 @if (!car.Lead.IsEmpty){<p class="careers-p">@Model.R(car.Lead)</p>}
 @{
@@ -95,7 +95,7 @@ var own = post.HasPage;
 <div class="pa-head"><span class="pa-lock"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span class="pa-line pa-w40"></span><span class="pa-dot"></span></div>
 <div class="pa-body">
 <div class="pa-kpis"><span class="pa-kpi"><i class="pa-line pa-w60"></i><b class="pa-line pa-w80"></b></span><span class="pa-kpi"><i class="pa-line pa-w50"></i><b class="pa-line pa-w70"></b></span><span class="pa-kpi"><i class="pa-line pa-w60"></i><b class="pa-line pa-w60"></b></span></div>
-<div class="pa-bars"><span style="height:38%"></span><span style="height:55%"></span><span style="height:46%"></span><span style="height:70%"></span><span style="height:62%"></span><span style="height:84%"></span><span style="height:76%"></span></div>
+<div class="pa-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 </div>
 </div>
 @if (portal.ShowsSignIn)

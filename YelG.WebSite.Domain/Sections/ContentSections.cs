@@ -23,6 +23,25 @@ namespace YelG.WebSite.Domain.Sections
         public bool IsHighlighted { get; set; }
     }
 
+    /// <summary>
+    /// A further slide of the Why YelG slider ("Infinite Financial Care" in the LinkedIn posts). The section's
+    /// own heading and cards are always the first slide; these follow it in order.
+    /// </summary>
+    public class WhySlide : ContentItem
+    {
+        /// <summary>The slide heading; may use *highlight*.</summary>
+        public LocalizedText Title { get; set; } = new();
+
+        public LocalizedText Text { get; set; } = new();
+
+        /// <summary>Short bullet points, one per line; empty for none.</summary>
+        public LocalizedText Points { get; set; } = new();
+
+        public long? ImageId { get; set; }
+        public MediaAsset? Image { get; set; }
+        public LocalizedText ImageAlt { get; set; } = new();
+    }
+
     // ---------------- How we work ----------------
 
     public class HowSection : SectionBase
@@ -341,6 +360,9 @@ namespace YelG.WebSite.Domain.Sections
         public bool IsOpenOn(DateOnly today) => IsActive && (ClosingOn is null || ClosingOn >= today);
 
         public ICollection<CareerRoleTag> Tags { get; set; } = new List<CareerRoleTag>();
+
+        /// <summary>Extra questions on the role's application form, after the standard fields.</summary>
+        public ICollection<CareerRoleQuestion> Questions { get; set; } = new List<CareerRoleQuestion>();
     }
 
     public class CareerRoleTag : ContentItem
@@ -349,6 +371,52 @@ namespace YelG.WebSite.Domain.Sections
         public CareerRole CareerRole { get; set; } = null!;
 
         public LocalizedText Label { get; set; } = new();
+    }
+
+    /// <summary>How an extra application question is answered.</summary>
+    public enum QuestionKind
+    {
+        YesNo = 0,
+        ShortText = 1,
+        LongText = 2,
+        SingleChoice = 3,
+        MultipleChoice = 4
+    }
+
+    /// <summary>
+    /// An extra question on a role's application form (years of experience, a certificate, availability…).
+    /// The answers are kept with each application and can filter the applications inbox.
+    /// </summary>
+    public class CareerRoleQuestion : ContentItem
+    {
+        public const int TextAnswerMaxLength = 2000;
+
+        public long CareerRoleId { get; set; }
+        public CareerRole CareerRole { get; set; } = null!;
+
+        public LocalizedText Text { get; set; } = new();
+
+        /// <summary>Optional help under the question.</summary>
+        public LocalizedText Hint { get; set; } = new();
+
+        public QuestionKind Kind { get; set; } = QuestionKind.YesNo;
+
+        /// <summary>The choices, one per line, in the same order in both languages (choice questions only).</summary>
+        public LocalizedText Options { get; set; } = new();
+
+        public bool IsRequired { get; set; } = true;
+
+        public bool HasOptions => Kind is QuestionKind.SingleChoice or QuestionKind.MultipleChoice;
+
+        /// <summary>The choices in order; a missing English line falls back to the Arabic one.</summary>
+        public IReadOnlyList<LocalizedText> OptionList()
+        {
+            if (!HasOptions) return [];
+            static string[] Lines(string? s) => (s ?? "").Replace("\r\n", "\n").Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var ar = Lines(Options.Ar);
+            var en = Lines(Options.En);
+            return ar.Select((a, i) => new LocalizedText(a, i < en.Length ? en[i] : a)).ToList();
+        }
     }
 
     // ---------------- Client portal ----------------

@@ -17,7 +17,7 @@
 <div class="consult-panel">
 <div aria-hidden="true" class="consult-glow"></div>
 <div class="consult-inner">
-<span class="eyebrow on-dark">@Model.R(con.Eyebrow)</span>
+<span class="eyebrow on-dark"><span>@Model.R(con.Eyebrow)</span></span>
 <h2 id="consultTitle" class="h2 light">@Model.Heading(con)</h2>
 @if (!con.Lead.IsEmpty){<p class="consult-lead">@Model.R(con.Lead)</p>}
 @if (c.ConsultSteps.Count > 0)
@@ -66,7 +66,6 @@
 </select>
 <p id="eService" class="err" hidden></p></div>
 <div class="fld fld-full"><label for="fMsg">@Model.S("formMessage") <i>*</i></label><textarea id="fMsg" name="message" class="in" rows="5" aria-invalid="false" aria-describedby="eMsg hMsg" aria-required="true"></textarea><span id="hMsg" class="hint">@Model.S("formMessageHint")</span><p id="eMsg" class="err" hidden></p></div>
-<div class="fld fld-full"><label class="consent" for="fConsent"><input id="fConsent" name="consent" type="checkbox" value="true" aria-invalid="false" aria-describedby="eConsent"><span>@Model.R(con.ConsentText)</span></label><p id="eConsent" class="err" hidden></p></div>
 </div>
 <div class="alert alert-ok" role="status" tabindex="-1" data-sent hidden="@(outcome != "sent")"><strong>@successTitle</strong><span>@successText</span></div>
 <div class="alert alert-err" role="alert" tabindex="-1" data-failed hidden="@(outcome is not ("failed" or "invalid"))"><strong>@failure</strong></div>

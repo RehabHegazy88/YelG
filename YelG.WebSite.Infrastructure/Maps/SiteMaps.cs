@@ -3,6 +3,7 @@ using YelG.WebSite.Domain.Audit;
 using YelG.WebSite.Domain.Careers;
 using YelG.WebSite.Domain.Enquiries;
 using YelG.WebSite.Domain.Media;
+using YelG.WebSite.Domain.Sections;
 using YelG.WebSite.Domain.Settings;
 using YelG.WebSite.Infrastructure.Identity;
 
@@ -135,6 +136,16 @@ namespace YelG.WebSite.Infrastructure.Maps
                 b.ToTable("JobApplicationNotes");
                 b.Property(x => x.Text).HasMaxLength(4000).IsRequired();
                 b.HasOne(x => x.JobApplication).WithMany(x => x.Notes).HasForeignKey(x => x.JobApplicationId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<JobApplicationAnswer>(b =>
+            {
+                b.ToTable("JobApplicationAnswers");
+                b.Property(x => x.Question).HasMaxLength(500).IsRequired();
+                b.Property(x => x.Value).HasMaxLength(CareerRoleQuestion.TextAnswerMaxLength).IsRequired();
+                b.HasOne(x => x.JobApplication).WithMany(x => x.Answers).HasForeignKey(x => x.JobApplicationId).OnDelete(DeleteBehavior.Cascade);
+                // No foreign key to the question: questions are soft-deleted and the answer keeps its own copy of the wording.
+                b.HasIndex(x => new { x.CareerRoleQuestionId, x.JobApplicationId });
             });
         }
     }

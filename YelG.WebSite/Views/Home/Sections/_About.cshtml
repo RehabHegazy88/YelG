@@ -21,7 +21,7 @@
 }
 </div>
 <div class="about-text">
-<span class="eyebrow">@Model.R(about.Eyebrow)</span>
+<span class="eyebrow"><span>@Model.R(about.Eyebrow)</span></span>
 <h2 class="h2">@Model.Heading(about)</h2>
 <p class="p">@Model.R(about.Lead)</p>
 @if (c.AboutValues.Count > 0)
@@ -53,7 +53,7 @@
 <figure class="founder">
 <div class="yasserArch founder-photo">@if (founder.Photo is { } photo){<img src="@photo.Path" alt="@Model.T(founder.PhotoAlt)" loading="lazy">}</div>
 <div class="founder-text">
-<span class="eyebrow on-dark">@Model.R(founder.Eyebrow)</span>
+<span class="eyebrow on-dark"><span>@Model.R(founder.Eyebrow)</span></span>
 <blockquote class="founder-quote">@Model.R(founder.Quote)</blockquote>
 <p class="founder-line">@Model.R(founder.SupportingLine)</p>
 <figcaption class="founder-cap">

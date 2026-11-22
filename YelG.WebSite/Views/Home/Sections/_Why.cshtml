@@ -2,11 +2,18 @@
 @{
     var c = Model.Content;
     var why = c.Why!;
+    var slides = c.WhySlides;
+    var slider = slides.Count > 0;
+    var total = slides.Count + 1;
+    string Of(int n) => Model.S("slideOf").Replace("{n}", n.ToString()).Replace("{total}", total.ToString());
 }
 <section id="why" class="sec why-sec">
-<div class="wrap why-wrap">
+<div class="wrap">
+<div class="why-slider" data-slider="@(slider ? "" : null)" role="@(slider ? "region" : null)" aria-roledescription="@(slider ? Model.S("slideRole") : null)" aria-label="@(slider ? Model.T(why.Eyebrow) : null)">
+<div class="why-track" aria-live="@(slider ? "polite" : null)">
+<div class="why-wrap why-slide is-on" role="@(slider ? "group" : null)" aria-roledescription="@(slider ? Model.S("slideItem") : null)" aria-label="@(slider ? Of(1) : null)">
 <div class="why-main">
-<div class="head"><span class="eyebrow">@Model.R(why.Eyebrow)</span><h2 class="h2">@Model.Heading(why)</h2>@if (!why.Lead.IsEmpty){<p class="lead">@Model.R(why.Lead)</p>}</div>
+<div class="head"><span class="eyebrow"><span>@Model.R(why.Eyebrow)</span></span><h2 class="h2">@Model.Heading(why)</h2>@if (!why.Lead.IsEmpty){<p class="lead">@Model.R(why.Lead)</p>}</div>
 @if (c.WhyCards.Count > 0)
 {
 <div class="why-grid">
@@ -24,6 +31,45 @@
 <div class="why-float">
 <span aria-hidden="true" class="why-float-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"></path><path d="M14 7h7v7"></path></svg></span>
 <span class="why-float-text">@Model.R(why.FloatingCardText)</span>
+</div>
+}
+</div>
+</div>
+@for (var i = 0; i < slides.Count; i++)
+{
+    var slide = slides[i];
+    var points = slide.Points.For(Model.Lang).Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+<div class="why-wrap why-slide" role="group" aria-roledescription="@Model.S("slideItem")" aria-label="@Of(i + 2)" aria-hidden="true" inert>
+<div class="why-main">
+<div class="head"><span class="eyebrow"><span>@Model.R(why.Eyebrow)</span></span><h3 class="h2">@Model.R(slide.Title, "hide-sm")</h3>@if (!slide.Text.IsEmpty){<p class="lead">@Model.R(slide.Text)</p>}</div>
+@if (points.Length > 0)
+{
+<ul class="why-points">
+@foreach (var point in points)
+{
+<li>@Model.R(new YelG.WebSite.Domain.Common.LocalizedText(point, point))</li>
+}
+</ul>
+}
+</div>
+<div class="why-media">
+<div class="photo why-photo @HomePageModel.FocusClass(slide.Image)">@if (slide.Image is { } slideImg){<img src="@slideImg.Path" alt="@Model.T(slide.ImageAlt)" loading="lazy">}</div>
+</div>
+</div>
+}
+</div>
+@if (slider)
+{
+<div class="why-ctrl">
+<button type="button" class="why-arrow" data-prev aria-label="@Model.S("slidePrev")"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<div class="why-dots">
+@for (var n = 1; n <= total; n++)
+{
+<button type="button" class="why-dot" data-go="@(n - 1)" aria-label="@Model.S("slideGo").Replace("{n}", n.ToString())" aria-current="@(n == 1 ? "true" : "false")"></button>
+}
+</div>
+<button type="button" class="why-arrow" data-next aria-label="@Model.S("slideNext")"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+<button type="button" class="why-arrow why-pause" data-pause hidden aria-label="@Model.S("slidePause")" data-label-pause="@Model.S("slidePause")" data-label-play="@Model.S("slidePlay")"><svg class="i-pause" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg><svg class="i-play" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></button>
 </div>
 }
 </div>

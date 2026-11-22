@@ -32,11 +32,14 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public List<LocalizedText> AboutValues { get; set; } = new();
         public List<CredentialSeed> Credentials { get; set; } = new();
         public FounderSeed Founder { get; set; } = new();
+        public TeamSeed Team { get; set; } = new();
+        public List<TeamPracticeSeed> TeamPractices { get; set; } = new();
         public ServicesSectionSeed ServicesSection { get; set; } = new();
         public List<CategorySeed> ServiceCategories { get; set; } = new();
         public List<ServiceSeed> Services { get; set; } = new();
         public WhySeed Why { get; set; } = new();
         public List<WhyCardSeed> WhyCards { get; set; } = new();
+        public List<WhySlideSeed> WhySlides { get; set; } = new();
         public SectionSeed How { get; set; } = new();
         public List<WhyCardSeed> HowSteps { get; set; } = new();
         public PurposeSeed Purpose { get; set; } = new();
@@ -46,6 +49,7 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public IndustriesSeed Industries { get; set; } = new();
         public List<SectorSeed> Sectors { get; set; } = new();
         public List<ClientCategorySeed> ClientCategories { get; set; } = new();
+        public List<ClientLogoSeed> ClientLogos { get; set; } = new();
         public SelfCheckSeed SelfCheck { get; set; } = new();
         public List<QuestionSeed> SelfCheckQuestions { get; set; } = new();
         public List<OptionSeed> SelfCheckOptions { get; set; } = new();
@@ -132,6 +136,17 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public LocalizedText Description { get; set; } = new();
     }
 
+    public sealed class TeamSeed : SectionSeed
+    {
+        public string StatValue { get; set; } = string.Empty;
+        public LocalizedText StatLabel { get; set; } = new();
+    }
+
+    public sealed class TeamPracticeSeed
+    {
+        public LocalizedText Title { get; set; } = new();
+    }
+
     public sealed class FounderSeed
     {
         public LocalizedText Eyebrow { get; set; } = new();
@@ -174,6 +189,15 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public string Image { get; set; } = string.Empty;
         public LocalizedText ImageAlt { get; set; } = new();
         public LocalizedText FloatingCardText { get; set; } = new();
+    }
+
+    public sealed class WhySlideSeed
+    {
+        public LocalizedText Title { get; set; } = new();
+        public LocalizedText Text { get; set; } = new();
+        public LocalizedText Points { get; set; } = new();
+        public string Image { get; set; } = string.Empty;
+        public LocalizedText ImageAlt { get; set; } = new();
     }
 
     /// <summary>Title + text items (why cards, how steps, consultation steps).</summary>
@@ -225,6 +249,14 @@ namespace YelG.WebSite.Infrastructure.Seeding
         public string ColorVariant { get; set; } = string.Empty;
         public LocalizedText Title { get; set; } = new();
         public LocalizedText Text { get; set; } = new();
+    }
+
+    /// <summary>A client logo from the company profile; published only when approved for the web.</summary>
+    public sealed class ClientLogoSeed
+    {
+        public LocalizedText Name { get; set; } = new();
+        public string Logo { get; set; } = string.Empty;
+        public bool IsApprovedForWeb { get; set; }
     }
 
     public sealed class SelfCheckSeed : SectionSeed

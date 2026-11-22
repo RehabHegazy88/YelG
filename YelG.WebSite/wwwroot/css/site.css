@@ -10,6 +10,10 @@
 
 :root{--ff:'Sora';--ff-alt:'Alexandria'}
 .rtl{--ff:'Alexandria';--ff-alt:'Sora'}
+/* The section labels' mark: the real YelG symbol (from the logo), not the design's simplified shape */
+.eyebrow::before{background:url("/brand/symbol-72.png") center/contain no-repeat}
+/* The brand is always "YelG", also inside labels set in capitals (eyebrows, badges); RichText wraps it. */
+.brand{text-transform:none}
 [hidden]{display:none!important}
 /* consultation form: the honeypot field, kept off screen */
 .hp{position:absolute;inset-inline-start:-10000px;width:1px;height:1px;overflow:hidden}
@@ -30,6 +34,24 @@
 /* ---------- header ---------- */
 .heroB{position:relative;overflow:hidden;color:#FFFFFF;display:flex;flex-direction:column}
 .heroB-pat{position:absolute;inset:0;z-index:1}
+/* The brand pattern (brand book, slide 3): the logo's tile as thin white lines in a staggered grid, with two glass
+   tiles in every 3 x 3 block for rhythm. Faint below the menu bar, so the white copy on it keeps a 4.5:1 contrast.
+   Drawn once and still (a cursor light was tried: a moving mask made the browser redraw it coarsely). */
+.heroB-pat{--brand-pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='525' height='525' viewBox='0 0 636 636'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.5' stop-color='%23fff' stop-opacity='.6'/%3E%3Cstop offset='1' stop-color='%23fff' stop-opacity='.08'/%3E%3C/linearGradient%3E%3ClinearGradient id='f' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23fff' stop-opacity='.5'/%3E%3Cstop offset='.6' stop-color='%23BFF3FA' stop-opacity='.16'/%3E%3Cstop offset='1' stop-color='%23FFD5C5' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='b' x='-3%' y='-3%' width='106%' height='106%'%3E%3CfeGaussianBlur stdDeviation='3'/%3E%3C/filter%3E%3Cfilter id='c' x='-1%' y='-1%' width='102%' height='102%'%3E%3CfeGaussianBlur stdDeviation='.35'/%3E%3C/filter%3E%3C/defs%3E%3Cg fill='url(%23f)' stroke='none' filter='url(%23b)'%3E%3Cpath d='M425 213V148Q425 135 432 128L446 114Q453 107 466 107H531V172Q531 185 524 192L510 206Q503 213 490 213Z'/%3E%3Cpath d='M107 566V501Q107 488 114 481L128 467Q135 460 148 460H213V525Q213 538 206 545L192 559Q185 566 172 566Z'/%3E%3C/g%3E%3Cg fill='none' stroke='url(%23g)' stroke-width='3.2' stroke-opacity='.28' filter='url(%23b)'%3E%3Cpath d='M1 -105V-170Q1 -183 8 -190L22 -204Q29 -211 42 -211H107V-146Q107 -133 100 -126L86 -112Q79 -105 66 -105Z'/%3E%3Cpath d='M1 1V-64Q1 -77 8 -84L22 -98Q29 -105 42 -105H107V-40Q107 -27 100 -20L86 -6Q79 1 66 1Z'/%3E%3Cpath d='M107 -70V-135Q107 -148 114 -155L128 -169Q135 -176 148 -176H213V-111Q213 -98 206 -91L192 -77Q185 -70 172 -70Z'/%3E%3Cpath d='M1 107V42Q1 29 8 22L22 8Q29 1 42 1H107V66Q107 79 100 86L86 100Q79 107 66 107Z'/%3E%3Cpath d='M1 213V148Q1 135 8 128L22 114Q29 107 42 107H107V172Q107 185 100 192L86 206Q79 213 66 213Z'/%3E%3Cpath d='M107 142V77Q107 64 114 57L128 43Q135 36 148 36H213V101Q213 114 206 121L192 135Q185 142 172 142Z'/%3E%3Cpath d='M1 319V254Q1 241 8 234L22 220Q29 213 42 213H107V278Q107 291 100 298L86 312Q79 319 66 319Z'/%3E%3Cpath d='M1 425V360Q1 347 8 340L22 326Q29 319 42 319H107V384Q107 397 100 404L86 418Q79 425 66 425Z'/%3E%3Cpath d='M107 354V289Q107 276 114 269L128 255Q135 248 148 248H213V313Q213 326 206 333L192 347Q185 354 172 354Z'/%3E%3Cpath d='M1 531V466Q1 453 8 446L22 432Q29 425 42 425H107V490Q107 503 100 510L86 524Q79 531 66 531Z'/%3E%3Cpath d='M1 637V572Q1 559 8 552L22 538Q29 531 42 531H107V596Q107 609 100 616L86 630Q79 637 66 637Z'/%3E%3Cpath d='M107 566V501Q107 488 114 481L128 467Q135 460 148 460H213V525Q213 538 206 545L192 559Q185 566 172 566Z'/%3E%3Cpath d='M1 743V678Q1 665 8 658L22 644Q29 637 42 637H107V702Q107 715 100 722L86 736Q79 743 66 743Z'/%3E%3Cpath d='M1 849V784Q1 771 8 764L22 750Q29 743 42 743H107V808Q107 821 100 828L86 842Q79 849 66 849Z'/%3E%3Cpath d='M107 778V713Q107 700 114 693L128 679Q135 672 148 672H213V737Q213 750 206 757L192 771Q185 778 172 778Z'/%3E%3Cpath d='M213 -105V-170Q213 -183 220 -190L234 -204Q241 -211 254 -211H319V-146Q319 -133 312 -126L298 -112Q291 -105 278 -105Z'/%3E%3Cpath d='M213 1V-64Q213 -77 220 -84L234 -98Q241 -105 254 -105H319V-40Q319 -27 312 -20L298 -6Q291 1 278 1Z'/%3E%3Cpath d='M319 -70V-135Q319 -148 326 -155L340 -169Q347 -176 360 -176H425V-111Q425 -98 418 -91L404 -77Q397 -70 384 -70Z'/%3E%3Cpath d='M213 107V42Q213 29 220 22L234 8Q241 1 254 1H319V66Q319 79 312 86L298 100Q291 107 278 107Z'/%3E%3Cpath d='M213 213V148Q213 135 220 128L234 114Q241 107 254 107H319V172Q319 185 312 192L298 206Q291 213 278 213Z'/%3E%3Cpath d='M319 142V77Q319 64 326 57L340 43Q347 36 360 36H425V101Q425 114 418 121L404 135Q397 142 384 142Z'/%3E%3Cpath d='M213 319V254Q213 241 220 234L234 220Q241 213 254 213H319V278Q319 291 312 298L298 312Q291 319 278 319Z'/%3E%3Cpath d='M213 425V360Q213 347 220 340L234 326Q241 319 254 319H319V384Q319 397 312 404L298 418Q291 425 278 425Z'/%3E%3Cpath d='M319 354V289Q319 276 326 269L340 255Q347 248 360 248H425V313Q425 326 418 333L404 347Q397 354 384 354Z'/%3E%3Cpath d='M213 531V466Q213 453 220 446L234 432Q241 425 254 425H319V490Q319 503 312 510L298 524Q291 531 278 531Z'/%3E%3Cpath d='M213 637V572Q213 559 220 552L234 538Q241 531 254 531H319V596Q319 609 312 616L298 630Q291 637 278 637Z'/%3E%3Cpath d='M319 566V501Q319 488 326 481L340 467Q347 460 360 460H425V525Q425 538 418 545L404 559Q397 566 384 566Z'/%3E%3Cpath d='M213 743V678Q213 665 220 658L234 644Q241 637 254 637H319V702Q319 715 312 722L298 736Q291 743 278 743Z'/%3E%3Cpath d='M213 849V784Q213 771 220 764L234 750Q241 743 254 743H319V808Q319 821 312 828L298 842Q291 849 278 849Z'/%3E%3Cpath d='M319 778V713Q319 700 326 693L340 679Q347 672 360 672H425V737Q425 750 418 757L404 771Q397 778 384 778Z'/%3E%3Cpath d='M425 -105V-170Q425 -183 432 -190L446 -204Q453 -211 466 -211H531V-146Q531 -133 524 -126L510 -112Q503 -105 490 -105Z'/%3E%3Cpath d='M425 1V-64Q425 -77 432 -84L446 -98Q453 -105 466 -105H531V-40Q531 -27 524 -20L510 -6Q503 1 490 1Z'/%3E%3Cpath d='M531 -70V-135Q531 -148 538 -155L552 -169Q559 -176 572 -176H637V-111Q637 -98 630 -91L616 -77Q609 -70 596 -70Z'/%3E%3Cpath d='M425 107V42Q425 29 432 22L446 8Q453 1 466 1H531V66Q531 79 524 86L510 100Q503 107 490 107Z'/%3E%3Cpath d='M425 213V148Q425 135 432 128L446 114Q453 107 466 107H531V172Q531 185 524 192L510 206Q503 213 490 213Z'/%3E%3Cpath d='M531 142V77Q531 64 538 57L552 43Q559 36 572 36H637V101Q637 114 630 121L616 135Q609 142 596 142Z'/%3E%3Cpath d='M425 319V254Q425 241 432 234L446 220Q453 213 466 213H531V278Q531 291 524 298L510 312Q503 319 490 319Z'/%3E%3Cpath d='M425 425V360Q425 347 432 340L446 326Q453 319 466 319H531V384Q531 397 524 404L510 418Q503 425 490 425Z'/%3E%3Cpath d='M531 354V289Q531 276 538 269L552 255Q559 248 572 248H637V313Q637 326 630 333L616 347Q609 354 596 354Z'/%3E%3Cpath d='M425 531V466Q425 453 432 446L446 432Q453 425 466 425H531V490Q531 503 524 510L510 524Q503 531 490 531Z'/%3E%3Cpath d='M425 637V572Q425 559 432 552L446 538Q453 531 466 531H531V596Q531 609 524 616L510 630Q503 637 490 637Z'/%3E%3Cpath d='M531 566V501Q531 488 538 481L552 467Q559 460 572 460H637V525Q637 538 630 545L616 559Q609 566 596 566Z'/%3E%3Cpath d='M425 743V678Q425 665 432 658L446 644Q453 637 466 637H531V702Q531 715 524 722L510 736Q503 743 490 743Z'/%3E%3Cpath d='M425 849V784Q425 771 432 764L446 750Q453 743 466 743H531V808Q531 821 524 828L510 842Q503 849 490 849Z'/%3E%3Cpath d='M531 778V713Q531 700 538 693L552 679Q559 672 572 672H637V737Q637 750 630 757L616 771Q609 778 596 778Z'/%3E%3C/g%3E%3Cg fill='none' stroke='url(%23g)' stroke-width='.7' filter='url(%23c)'%3E%3Cpath d='M1 -105V-170Q1 -183 8 -190L22 -204Q29 -211 42 -211H107V-146Q107 -133 100 -126L86 -112Q79 -105 66 -105Z'/%3E%3Cpath d='M1 1V-64Q1 -77 8 -84L22 -98Q29 -105 42 -105H107V-40Q107 -27 100 -20L86 -6Q79 1 66 1Z'/%3E%3Cpath d='M107 -70V-135Q107 -148 114 -155L128 -169Q135 -176 148 -176H213V-111Q213 -98 206 -91L192 -77Q185 -70 172 -70Z'/%3E%3Cpath d='M1 107V42Q1 29 8 22L22 8Q29 1 42 1H107V66Q107 79 100 86L86 100Q79 107 66 107Z'/%3E%3Cpath d='M1 213V148Q1 135 8 128L22 114Q29 107 42 107H107V172Q107 185 100 192L86 206Q79 213 66 213Z'/%3E%3Cpath d='M107 142V77Q107 64 114 57L128 43Q135 36 148 36H213V101Q213 114 206 121L192 135Q185 142 172 142Z'/%3E%3Cpath d='M1 319V254Q1 241 8 234L22 220Q29 213 42 213H107V278Q107 291 100 298L86 312Q79 319 66 319Z'/%3E%3Cpath d='M1 425V360Q1 347 8 340L22 326Q29 319 42 319H107V384Q107 397 100 404L86 418Q79 425 66 425Z'/%3E%3Cpath d='M107 354V289Q107 276 114 269L128 255Q135 248 148 248H213V313Q213 326 206 333L192 347Q185 354 172 354Z'/%3E%3Cpath d='M1 531V466Q1 453 8 446L22 432Q29 425 42 425H107V490Q107 503 100 510L86 524Q79 531 66 531Z'/%3E%3Cpath d='M1 637V572Q1 559 8 552L22 538Q29 531 42 531H107V596Q107 609 100 616L86 630Q79 637 66 637Z'/%3E%3Cpath d='M107 566V501Q107 488 114 481L128 467Q135 460 148 460H213V525Q213 538 206 545L192 559Q185 566 172 566Z'/%3E%3Cpath d='M1 743V678Q1 665 8 658L22 644Q29 637 42 637H107V702Q107 715 100 722L86 736Q79 743 66 743Z'/%3E%3Cpath d='M1 849V784Q1 771 8 764L22 750Q29 743 42 743H107V808Q107 821 100 828L86 842Q79 849 66 849Z'/%3E%3Cpath d='M107 778V713Q107 700 114 693L128 679Q135 672 148 672H213V737Q213 750 206 757L192 771Q185 778 172 778Z'/%3E%3Cpath d='M213 -105V-170Q213 -183 220 -190L234 -204Q241 -211 254 -211H319V-146Q319 -133 312 -126L298 -112Q291 -105 278 -105Z'/%3E%3Cpath d='M213 1V-64Q213 -77 220 -84L234 -98Q241 -105 254 -105H319V-40Q319 -27 312 -20L298 -6Q291 1 278 1Z'/%3E%3Cpath d='M319 -70V-135Q319 -148 326 -155L340 -169Q347 -176 360 -176H425V-111Q425 -98 418 -91L404 -77Q397 -70 384 -70Z'/%3E%3Cpath d='M213 107V42Q213 29 220 22L234 8Q241 1 254 1H319V66Q319 79 312 86L298 100Q291 107 278 107Z'/%3E%3Cpath d='M213 213V148Q213 135 220 128L234 114Q241 107 254 107H319V172Q319 185 312 192L298 206Q291 213 278 213Z'/%3E%3Cpath d='M319 142V77Q319 64 326 57L340 43Q347 36 360 36H425V101Q425 114 418 121L404 135Q397 142 384 142Z'/%3E%3Cpath d='M213 319V254Q213 241 220 234L234 220Q241 213 254 213H319V278Q319 291 312 298L298 312Q291 319 278 319Z'/%3E%3Cpath d='M213 425V360Q213 347 220 340L234 326Q241 319 254 319H319V384Q319 397 312 404L298 418Q291 425 278 425Z'/%3E%3Cpath d='M319 354V289Q319 276 326 269L340 255Q347 248 360 248H425V313Q425 326 418 333L404 347Q397 354 384 354Z'/%3E%3Cpath d='M213 531V466Q213 453 220 446L234 432Q241 425 254 425H319V490Q319 503 312 510L298 524Q291 531 278 531Z'/%3E%3Cpath d='M213 637V572Q213 559 220 552L234 538Q241 531 254 531H319V596Q319 609 312 616L298 630Q291 637 278 637Z'/%3E%3Cpath d='M319 566V501Q319 488 326 481L340 467Q347 460 360 460H425V525Q425 538 418 545L404 559Q397 566 384 566Z'/%3E%3Cpath d='M213 743V678Q213 665 220 658L234 644Q241 637 254 637H319V702Q319 715 312 722L298 736Q291 743 278 743Z'/%3E%3Cpath d='M213 849V784Q213 771 220 764L234 750Q241 743 254 743H319V808Q319 821 312 828L298 842Q291 849 278 849Z'/%3E%3Cpath d='M319 778V713Q319 700 326 693L340 679Q347 672 360 672H425V737Q425 750 418 757L404 771Q397 778 384 778Z'/%3E%3Cpath d='M425 -105V-170Q425 -183 432 -190L446 -204Q453 -211 466 -211H531V-146Q531 -133 524 -126L510 -112Q503 -105 490 -105Z'/%3E%3Cpath d='M425 1V-64Q425 -77 432 -84L446 -98Q453 -105 466 -105H531V-40Q531 -27 524 -20L510 -6Q503 1 490 1Z'/%3E%3Cpath d='M531 -70V-135Q531 -148 538 -155L552 -169Q559 -176 572 -176H637V-111Q637 -98 630 -91L616 -77Q609 -70 596 -70Z'/%3E%3Cpath d='M425 107V42Q425 29 432 22L446 8Q453 1 466 1H531V66Q531 79 524 86L510 100Q503 107 490 107Z'/%3E%3Cpath d='M425 213V148Q425 135 432 128L446 114Q453 107 466 107H531V172Q531 185 524 192L510 206Q503 213 490 213Z'/%3E%3Cpath d='M531 142V77Q531 64 538 57L552 43Q559 36 572 36H637V101Q637 114 630 121L616 135Q609 142 596 142Z'/%3E%3Cpath d='M425 319V254Q425 241 432 234L446 220Q453 213 466 213H531V278Q531 291 524 298L510 312Q503 319 490 319Z'/%3E%3Cpath d='M425 425V360Q425 347 432 340L446 326Q453 319 466 319H531V384Q531 397 524 404L510 418Q503 425 490 425Z'/%3E%3Cpath d='M531 354V289Q531 276 538 269L552 255Q559 248 572 248H637V313Q637 326 630 333L616 347Q609 354 596 354Z'/%3E%3Cpath d='M425 531V466Q425 453 432 446L446 432Q453 425 466 425H531V490Q531 503 524 510L510 524Q503 531 490 531Z'/%3E%3Cpath d='M425 637V572Q425 559 432 552L446 538Q453 531 466 531H531V596Q531 609 524 616L510 630Q503 637 490 637Z'/%3E%3Cpath d='M531 566V501Q531 488 538 481L552 467Q559 460 572 460H637V525Q637 538 630 545L616 559Q609 566 596 566Z'/%3E%3Cpath d='M425 743V678Q425 665 432 658L446 644Q453 637 466 637H531V702Q531 715 524 722L510 736Q503 743 490 743Z'/%3E%3Cpath d='M425 849V784Q425 771 432 764L446 750Q453 743 466 743H531V808Q531 821 524 828L510 842Q503 849 490 849Z'/%3E%3Cpath d='M531 778V713Q531 700 538 693L552 679Q559 672 572 672H637V737Q637 750 630 757L616 771Q609 778 596 778Z'/%3E%3C/g%3E%3C/svg%3E");background:none;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent 0,transparent 96px,#000 190px,#000 82%,transparent 100%),linear-gradient(90deg,#000 0,#000 max(0px,calc(50% - 760px)),rgba(0,0,0,.3) calc(50% - 440px),rgba(0,0,0,.3) calc(50% + 440px),#000 min(100%,calc(50% + 760px)),#000 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(180deg,transparent 0,transparent 96px,#000 190px,#000 82%,transparent 100%),linear-gradient(90deg,#000 0,#000 max(0px,calc(50% - 760px)),rgba(0,0,0,.3) calc(50% - 440px),rgba(0,0,0,.3) calc(50% + 440px),#000 min(100%,calc(50% + 760px)),#000 100%);mask-composite:intersect}
+.heroB-pat::before{content:"";position:absolute;inset:0;background:var(--brand-pat) center 124px/525px 525px repeat}
+.heroB-pat::before{opacity:.15}
+/* below the content width the column fills the screen: the edges fade by proportion instead */
+@media (max-width:1180px){.heroB-pat{-webkit-mask-image:linear-gradient(180deg,transparent 0,transparent 96px,#000 190px,#000 82%,transparent 100%),linear-gradient(90deg,#000 0,rgba(0,0,0,.3) 24%,rgba(0,0,0,.3) 76%,#000 100%);mask-image:linear-gradient(180deg,transparent 0,transparent 96px,#000 190px,#000 82%,transparent 100%),linear-gradient(90deg,#000 0,rgba(0,0,0,.3) 24%,rgba(0,0,0,.3) 76%,#000 100%)}}
+/* --brand-sky: the brand identity's gradient (coral and peach at the top, royal blue to cyan below), in place of the design's navy.
+   Softened and with a navy shade at the top so white text keeps a 4.5:1 contrast; on the Arabic page it is mirrored, so the light peach sits
+   behind the photo and the copy over the coral. */
+:root{--brand-sky:linear-gradient(180deg,rgba(10,31,78,.5) 0%,rgba(10,31,78,0) 34%),radial-gradient(58% 72% at 100% 0%,rgba(254,222,197,.32) 0%,rgba(254,222,197,0) 72%),radial-gradient(55% 70% at 0% 0%,rgba(223,129,100,.78) 0%,rgba(223,129,100,0) 72%),radial-gradient(60% 75% at 100% 100%,#44D2EA 0%,rgba(68,210,234,0) 72%),linear-gradient(180deg,#8A6A93 0%,#5A62AC 38%,#2C59C2 68%,#1B5CCE 100%)}
+.heroB{background:linear-gradient(rgba(10,31,78,.12),rgba(10,31,78,.12)),linear-gradient(0deg,rgba(10,31,78,.4) 0%,rgba(10,31,78,0) 45%),var(--brand-sky)}
+.rtl{--brand-sky:linear-gradient(180deg,rgba(10,31,78,.5) 0%,rgba(10,31,78,0) 34%),radial-gradient(58% 72% at 0% 0%,rgba(254,222,197,.32) 0%,rgba(254,222,197,0) 72%),radial-gradient(55% 70% at 100% 0%,rgba(223,129,100,.78) 0%,rgba(223,129,100,0) 72%),radial-gradient(60% 75% at 0% 100%,#44D2EA 0%,rgba(68,210,234,0) 72%),linear-gradient(180deg,#8A6A93 0%,#5A62AC 38%,#2C59C2 68%,#1B5CCE 100%)}
+.heroB .hero-eyebrow{color:#FFFFFF}
+.heroB .hero-eyebrow-line{background:#FFD5C5}
+.heroB .hero-lead,.heroB .hero-check,.heroB .stat-caption{color:#FFFFFF}
+.heroB .stat-chip{background:rgba(10,31,78,.22)}
 .hd{position:relative;z-index:5;border-bottom:1px solid rgba(255,255,255,.14)}
 .hd-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:88px}
 .hd-logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#FFFFFF;min-height:48px}
@@ -61,7 +83,7 @@
 .arch-ring2{position:absolute;inset:-48px -48px 0;border:1px dashed rgba(255,255,255,.2);border-bottom:0;border-radius:500px 500px 0 0}
 .arch-photo{position:relative;height:520px;border-radius:500px 500px 0 0}
 .arch-photo>img{object-position:64% center}
-.heroBadge{position:absolute;top:72px;inset-inline-end:-24px;width:120px;height:120px;border-radius:50%;background:#0A3177;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px -16px rgba(0,0,0,.5)}
+.heroBadge{position:absolute;top:-12px;inset-inline-end:-24px;width:120px;height:120px;border-radius:50%;background:#0A3177;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px -16px rgba(0,0,0,.5)}
 .ring-svg{direction:ltr;position:absolute;inset:0;width:100%;height:100%}
 .heroStats{min-width:0;align-self:center;padding-bottom:56px;margin:0}
 .stat{padding-block:24px;border-bottom:1px solid rgba(255,255,255,.16)}
@@ -72,8 +94,8 @@
 .stat-caption{margin:8px 0 0;font-size:15px;line-height:1.6;color:#D6E2FF}
 .stat-chips{display:flex;flex-direction:column;gap:8px}
 .stat-chips-caption{font:600 15px/1.5 var(--ff),sans-serif;color:#FFFFFF}
-.stat-chip-row{display:flex;flex-wrap:wrap;gap:8px}
-.stat-chip{font:600 13px var(--ff),sans-serif;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.1)}
+.stat-chip-row{display:grid;grid-template-columns:repeat(3,max-content);gap:8px}
+.stat-chip{text-align:center;font:600 13px var(--ff),sans-serif;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.1)}
 .strip{position:relative;z-index:4;background:#82D0DC;color:#0A1F4E;overflow:hidden}
 .strip-track{padding-block:16px;font:600 16px var(--ff),sans-serif;letter-spacing:-.01em}
 .strip-group{display:flex;gap:40px;padding-inline:20px;white-space:nowrap;align-items:center}
@@ -94,6 +116,9 @@
 .creds-row{display:flex;flex-wrap:wrap;gap:8px}
 .founder{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));border-radius:32px;overflow:hidden;background:#0A3177;color:#C9D6F5;position:relative}
 /* the gradients of .yasserArch stay; the cut-out portrait sits on them as in the design (bottom, 94% high) */
+/* The photo stays on the left in both languages so the founder faces the quote (the photo is not mirrored). */
+.rtl .founder{direction:ltr}
+.rtl .founder>*{direction:rtl}
 .founder-photo{min-height:360px;position:relative;background:radial-gradient(120% 90% at 0% 0%,#DB8169 0%,rgba(219,129,105,0) 55%),radial-gradient(90% 80% at 100% 0%,#FFD5C5 0%,rgba(255,213,197,0) 60%),radial-gradient(100% 100% at 0% 100%,#2F5EC6 0%,rgba(47,94,198,0) 60%),radial-gradient(100% 100% at 100% 100%,#82D0DC 0%,rgba(130,208,220,0) 60%),#6F7CBA}
 .founder-photo>img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:94%;width:auto;max-width:none;display:block}
 .founder-text{padding:clamp(32px,5vw,64px);display:flex;flex-direction:column;gap:24px;justify-content:center}
@@ -125,7 +150,13 @@
 .why-sec{background:#FFFFFF}
 .why-wrap{display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,80px);align-items:center}
 .why-main{flex:1.1 1 480px;min-width:0;display:flex;flex-direction:column;gap:32px}
-.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
+/* The pillars: one under the other, numbered 01, 02… (side by side they ended up uneven: one text is much longer) */
+.why-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;counter-reset:pillar}
+.why-grid .why{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:18px;row-gap:2px;align-items:center;padding:14px 22px;counter-increment:pillar}
+.why-grid .why::before{content:counter(pillar,decimal-leading-zero);grid-row:1/span 2;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 14px 'Sora',sans-serif;letter-spacing:.02em;color:#2F5EC6;background:#FFFFFF;box-shadow:inset 0 0 0 1.5px #D3DDF2}
+.why-grid .why b,.why-grid .why span{grid-column:2}
+.why-grid .why.why-on::before{color:#FFFFFF;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.45)}
+@media (max-width:480px){.why-grid .why{column-gap:14px;padding:18px}.why-grid .why::before{width:40px;height:40px;font-size:13px}}
 .why.why-on{background:#0A3177}
 .why.why-on b{color:#FFFFFF}
 .why.why-on span{color:#C9D6F5}
@@ -135,6 +166,32 @@
 .why-float{position:absolute;bottom:24px;inset-inline:24px;max-width:300px;background:#FFFFFF;border-radius:20px;padding:20px 24px;box-shadow:0 30px 60px -24px rgba(10,49,119,.45);display:flex;align-items:center;gap:16px;z-index:2}
 .why-float-ico{width:48px;height:48px;border-radius:50%;background:#2F5EC6;display:flex;align-items:center;justify-content:center;flex:none}
 .why-float-text{font:700 17px/1.35 var(--ff),sans-serif;color:#0A3177}
+/* Slider: every slide sits in the same grid cell, so the section keeps the height of the tallest one. */
+.why-track{display:grid}
+.why-slide{grid-area:1/1;transition:opacity .6s ease,visibility .6s}
+.why-slide:not(.is-on){opacity:0;visibility:hidden;pointer-events:none}
+.why-points{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.why-points li{display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:var(--r-md);background:#F4F7FD;font:600 16px/1.4 var(--ff),sans-serif;color:#0A3177}
+.why-points li::before{content:"";width:28px;height:28px;flex:none;border-radius:50%;background:#2F5EC6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/15px no-repeat}
+.why-ctrl{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:clamp(32px,4vw,48px)}
+.why-arrow{width:48px;height:48px;border-radius:50%;border:1px solid #D3DDF2;background:#FFFFFF;color:#0A3177;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,color .2s}
+.why-arrow:hover{background:#0A3177;color:#FFFFFF;border-color:#0A3177}
+.why-arrow[hidden]{display:none}
+.rtl .why-arrow svg{transform:scaleX(-1)}
+.why-pause{margin-inline-start:8px}
+.why-pause .i-play,.why-pause.is-paused .i-pause{display:none}
+.why-pause.is-paused .i-play{display:block}
+.why-dots{display:flex;align-items:center}
+.why-dot{height:32px;min-width:24px;padding:0 4px;border:0;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.why-dot::before{content:"";width:10px;height:10px;border-radius:999px;background:#C9D6F5;transition:width .3s,background .3s}
+.why-dot[aria-current=true]::before{width:28px;background:#2F5EC6}
+/* Phones: the first slide is far taller than the others, so only the current slide takes space. */
+@media (max-width:760px){
+  .why-slide:not(.is-on){display:none}
+  .why-slide.is-on{animation:why-in .5s ease}
+}
+@keyframes why-in{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.why-slide,.why-dot::before{transition:none}.why-slide.is-on{animation:none}}
 
 /* ---------- how ---------- */
 .how-sec{background:#F4F7FD}
@@ -182,9 +239,21 @@
 .ind-card-text .h3{font-size:18px}
 .ind-card-text>span{font-size:15px;line-height:1.6}
 .rtl .ind-card-text>span{line-height:1.8}
-.ind-logos{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
-.ind-logos li{display:flex;align-items:center;justify-content:center;min-height:72px;padding:12px 20px;border-radius:16px;background:#FFFFFF;box-shadow:var(--sh-card)}
-.ind-logos img{display:block;max-height:48px;max-width:160px;width:auto;height:auto}
+/* Client logos: a strip of two identical lists moving by half its width, so the loop has no seam.
+   Each list ends with the gap, so both halves are exactly as wide. */
+.logo-marquee{display:flex;flex-direction:column;gap:12px}
+.logo-marquee .logo-track{display:flex;width:max-content;animation:mq 110s linear infinite}
+.rtl .logo-marquee .logo-track{animation-name:mqr}
+.logo-viewport{overflow:hidden;padding-block:8px 12px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.logo-marquee:hover .logo-track,.logo-marquee:focus-within .logo-track,.logo-marquee.is-paused .logo-track{animation-play-state:paused}
+.ind-logos{list-style:none;margin:0;padding:0 16px 0 0;display:flex;gap:16px;align-items:center}
+.rtl .ind-logos{padding:0 0 0 16px}
+.ind-logos li{flex:none;display:flex;align-items:center;justify-content:center;width:184px;height:88px;padding:12px 16px;border-radius:16px;background:#FFFFFF;box-shadow:var(--sh-card)}
+.ind-logos img{display:block;max-height:56px;max-width:100%;width:auto;height:auto;object-fit:contain}
+.logo-pause{align-self:flex-end;margin:0}
+@media (max-width:760px){.ind-logos li{width:148px;height:76px;padding:10px 12px}.ind-logos img{max-height:48px}}
+/* Like the services strip, the logos keep moving when less motion is asked for (the client's choice); the button stops them. */
+}
 .ind-note{margin:0;font-size:14px;color:#5A6690}
 
 /* ---------- self-check ---------- */
@@ -219,6 +288,10 @@
 .faq-head{flex:1 1 360px}
 .faq-list{flex:1.4 1 520px;min-width:0;display:flex;flex-direction:column;gap:12px}
 details.faq p a{color:#82D0DC}
+/* the open question: the brand gradient (as the hero), white text; a navy shade at its foot keeps the answer readable */
+details.faq[open]{background:linear-gradient(0deg,rgba(10,31,78,.55) 0%,rgba(10,31,78,0) 45%),var(--brand-sky)}
+details.faq[open] p{color:#FFFFFF}
+details.faq[open] p a{color:#E6FAFD}
 
 /* ---------- consultation ---------- */
 .consult{background:#F4F7FD}
@@ -288,6 +361,8 @@ details.faq p a{color:#82D0DC}
 .pa-bars{flex:1;min-height:80px;display:flex;align-items:flex-end;gap:10px;padding-top:8px;border-bottom:1px solid rgba(255,255,255,.14)}
 .pa-bars span{flex:1;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(130,208,220,.75),rgba(47,94,198,.35))}
 .pa-bars span:last-child{background:linear-gradient(180deg,#FFD5C5,rgba(219,129,105,.4))}
+/* the bar heights live here: the CSP (style-src 'self') drops inline style attributes */
+.pa-bars span:nth-child(1){height:38%}.pa-bars span:nth-child(2){height:55%}.pa-bars span:nth-child(3){height:46%}.pa-bars span:nth-child(4){height:70%}.pa-bars span:nth-child(5){height:62%}.pa-bars span:nth-child(6){height:84%}.pa-bars span:nth-child(7){height:76%}
 
 .sec-links{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px}
 
@@ -355,12 +430,13 @@ details.faq p a{color:#82D0DC}
 /* Smaller headings than the design on tablets and computers (the client found them too large);
    phones keep the design's own sizes. Arabic rules repeat the RTL layer's .rtl prefix to win over it. */
 @media (min-width:761px){
-  .h1en{font-size:clamp(30px,2.6vw,40px)}
+  .h1en{font-size:clamp(25px,2.2vw,33px)}   /* the English hero takes about the same height as the Arabic one */
   .rtl .h1ar{font-size:clamp(28px,2.5vw,38px)}
   .h2{font-size:clamp(26px,2.4vw,36px)}
   .rtl .h2{font-size:clamp(24px,2.2vw,34px)}
   .stat-num{font-size:40px}
 }
+@media (max-width:760px){.h1en{font-size:25px}}   /* phones: same height as the Arabic hero heading */
 /* The badges and the services strip keep moving even when the device asks for less motion (the client
    wants them to move; both are slow). The Arabic strip keeps its own direction (mqr). */
 @media (prefers-reduced-motion: reduce){
@@ -429,9 +505,81 @@ a.ctab{display:inline-flex;align-items:center;text-decoration:none}
 .job-apply>.h3{margin:0}
 .job-apply .cform-head .h3,.general-apply .cform-head .h3{font-size:19px}
 .job-form{border-radius:28px;background:#FFFFFF;box-shadow:var(--sh-card);padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:20px}
+/* A role's extra questions: yes / no and choices as large tappable options. */
+.qset{border:0;margin:0;padding:0;min-width:0}
+.qset legend{padding:0;margin-bottom:8px}
+.qopts{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr))}
+.qopts-row{grid-template-columns:repeat(2,minmax(0,1fr));max-width:360px}
+.qopt{display:flex;align-items:center;gap:12px;min-height:48px;padding:10px 16px;border-radius:14px;background:#F4F7FD;box-shadow:inset 0 0 0 1px #CBD5EC;font-size:15px;line-height:1.5;color:#0A1F4E;cursor:pointer}
+.qopt input{width:20px;height:20px;margin:0;flex:none;accent-color:#2F5EC6}
+.qopt:has(input:checked){background:#EAF0FC;box-shadow:inset 0 0 0 2px #2F5EC6}
+.qopt:has(input:focus-visible){outline:3px solid #44D2EA;outline-offset:2px}
+.qopt:has(input[aria-invalid="true"]){box-shadow:inset 0 0 0 2px #C4320A;background:#FFF6F3}
 .job-fields{grid-template-columns:minmax(0,1fr)}
 .in-file{padding-block:10px;cursor:pointer}
 @media (max-width:900px){
   .job-grid{grid-template-columns:minmax(0,1fr)}
   .job-apply{position:static}
 }
+
+/* =====================================================================================================
+   Meet our team: the heading and a figure, then the team as one list of cards (the founder first).
+   ===================================================================================================== */
+.team-sec{background:linear-gradient(160deg,#0A1F4E 0%,#0A3177 55%,#123E8F 100%);color:#FFFFFF;position:relative;overflow:hidden}
+.team-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(38% 55% at 18% 52%,rgba(68,210,234,.16),rgba(68,210,234,0) 70%),radial-gradient(35% 50% at 100% 0%,rgba(219,129,105,.16),rgba(219,129,105,0) 70%)}
+.team-wrap{position:relative;display:flex;flex-direction:column;gap:clamp(32px,4vw,56px)}
+.team-head{max-width:760px}
+.team-head .lead{color:#C9D6F5}
+.team-stat{display:flex;align-items:baseline;gap:12px;margin:8px 0 0;color:#C9D6F5}
+.team-stat b{font:700 clamp(36px,4vw,52px)/1 var(--ff),sans-serif;background:linear-gradient(90deg,#82D0DC,#44D2EA 50%,#FFD5C5);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.team-cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:14px}
+.tcard{position:relative;display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:20px;background:#FFFFFF;color:#0A1F4E;transition:transform .3s,box-shadow .3s}
+.tcard:hover{transform:translateY(-3px);box-shadow:0 22px 40px -24px rgba(0,0,0,.6)}
+.tcard-photo{width:64px;height:64px;border-radius:50%;flex:none;padding:3px;background:linear-gradient(135deg,#44D2EA,#2F5EC6 60%,#FFD5C5)}
+.tcard-photo img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:#EEF3FF}
+.tcard-photo.is-initials{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:#FFFFFF}
+.tcard-body{display:flex;flex-direction:column;gap:4px;min-width:0;padding-inline-end:28px}
+.tcard-name{font-size:16px;line-height:1.35}
+.tcard-role{font-size:13px;color:#4A5784;line-height:1.5}
+.tcard-practice{color:#2F5EC6}
+.tcard-bio{font-size:13px;line-height:1.6;color:#4A5784;margin-top:4px}
+.tcard-creds{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tcard-creds span{padding:3px 10px;border-radius:999px;background:#EEF3FF;color:#0A3177;font:700 11px 'Sora',sans-serif;letter-spacing:.04em}
+.tcard-in{position:absolute;top:14px;inset-inline-end:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#2F5EC6;background:#EEF3FF}
+.tcard-in:hover{background:#2F5EC6;color:#FFFFFF}
+.tcard-lead{background:linear-gradient(135deg,#FFFFFF 55%,#E6FAFD)}
+/* the team as one list under the heading (the orbit of practices was removed) */
+.team-list{grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:16px}
+
+/* =====================================================================================================
+   The brand gradient (--brand-sky, as in the hero) on the homepage's large dark surfaces, in place of the
+   design's navy. Small dark accents (active tabs and chips, step dots, buttons, the open FAQ) stay navy.
+   Their light-blue text becomes white and the cyan labels lighter, for a 4.5:1 contrast on the gradient.
+   ===================================================================================================== */
+.team-sec,.purpose,.founder,.detail,.consult-panel,.portal,.foot-sec,.way-dark,.why.why-on{background:var(--brand-sky)}
+.team-glow,.purpose-glow,.consult-glow,.portal-glow,.foot-glow,.detail::before{display:none}
+.founder,.founder-line,.founder-who>span,.detail,.consult-panel,.consult-lead,.consult-step,.portal,.portal-p,.foot-sec,.foot a,.foot-tagline,
+.way-dark,.why.why-on span,.purpose-p,.detail-cat,.detail-scope-title,.team-head .lead,.team-stat{color:#FFFFFF}
+.consult-direct-label,.eyebrow.on-dark,.foot a.foot-book,.way-dark li::marker{color:#E6FAFD}
+.on-dark .h2 em,.heroB h1 em,.consult-panel .h2 em,.detail .h2 em{color:#BFF3FA}
+/* the footer ends the page: a navy shade at its foot keeps the bright cyan corner off the small print */
+.foot-sec{background:linear-gradient(0deg,rgba(10,31,78,.62) 0%,rgba(10,31,78,.2) 45%,rgba(10,31,78,0) 70%),var(--brand-sky)}
+/* cards: their last lines sit on the bright cyan corner, so they get a lighter shade at the foot too */
+.founder,.detail,.way-dark,.why.why-on,.consult-panel,.portal{background:linear-gradient(0deg,rgba(10,31,78,.55) 0%,rgba(10,31,78,0) 45%),var(--brand-sky)}
+/* the highlighted pillar is a short, wide strip: the full gradient squeezes into bands there, so it gets one
+   smooth sweep along its length instead (brand plum to royal blue), dark enough for white text end to end */
+.why.why-on{background:linear-gradient(90deg,#7C5F97 0%,#4E60B2 34%,#2C59C2 68%,#2470CE 100%)}
+.rtl .why.why-on{background:linear-gradient(270deg,#7C5F97 0%,#4E60B2 34%,#2C59C2 68%,#2470CE 100%)}
+.consult-direct a:hover,.foot a:hover{color:#FFD5C5}
+.way-dark li::before{background:#FFD5C5}
+
+/* Hover: the service cards fill with the brand gradient (not navy), their text turns white and the icon becomes
+   a white disc with the gradient drawn in it. Small hovers (buttons, arrows) keep the design's navy. */
+.svc::before{background:linear-gradient(0deg,rgba(10,31,78,.55) 0%,rgba(10,31,78,0) 45%),var(--brand-sky)}
+.svc:hover p,.svc:focus-within p{color:#FFFFFF}
+.svc:hover .cat,.svc:focus-within .cat{color:#FFFFFF}
+.svc:hover .tlink,.svc:focus-within .tlink{color:#E6FAFD}
+.svc:hover .ico,.svc:focus-within .ico{background:#FFFFFF;color:#2F5EC6;box-shadow:0 10px 24px -10px rgba(10,31,78,.6)}
+.svc:hover .ico::after,.svc:focus-within .ico::after{background:linear-gradient(135deg,#DF8164 0%,#2F5EC6 55%,#1E9FC0 100%)}
+.why-arrow:hover{background:var(--brand-sky);border-color:transparent}

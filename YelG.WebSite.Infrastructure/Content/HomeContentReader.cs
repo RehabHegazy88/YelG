@@ -48,12 +48,17 @@ namespace YelG.WebSite.Infrastructure.Content
                 Founder = await _db.FounderSections.AsNoTracking().Include(f => f.Photo).Include(f => f.Avatar)
                     .Where(f => all || f.IsPublished).OrderBy(f => f.Id).FirstOrDefaultAsync(ct),
 
+                Team = await Section<TeamSection>(all).FirstOrDefaultAsync(ct),
+                TeamPractices = await Items<TeamPractice>(all).ToListAsync(ct),
+                TeamMembers = await Items<TeamMember>(all).Include(m => m.Photo).ToListAsync(ct),
+
                 Services = await Section<ServicesSection>(all).FirstOrDefaultAsync(ct),
                 ServiceCategories = categories,
                 ServiceList = services,
 
                 Why = await Section<WhySection>(all).Include(w => w.Image).FirstOrDefaultAsync(ct),
                 WhyCards = await Items<WhyCard>(all).ToListAsync(ct),
+                WhySlides = await Items<WhySlide>(all).Include(s => s.Image).ToListAsync(ct),
 
                 How = await Section<HowSection>(all).FirstOrDefaultAsync(ct),
                 HowSteps = await Items<HowStep>(all).ToListAsync(ct),
@@ -90,6 +95,7 @@ namespace YelG.WebSite.Infrastructure.Content
                 Careers = await Section<CareersSection>(all).Include(c => c.Image).FirstOrDefaultAsync(ct),
                 CareerRoles = await Items<CareerRole>(all).Where(r => r.IsActive)
                     .Include(r => r.Tags.Where(t => all || t.IsPublished).OrderBy(t => t.SortOrder).ThenBy(t => t.Id))
+                    .Include(r => r.Questions.Where(q => all || q.IsPublished).OrderBy(q => q.SortOrder).ThenBy(q => q.Id))
                     .AsSplitQuery().ToListAsync(ct),
 
                 Portal = await _db.ClientPortalSections.AsNoTracking().Where(p => all || p.IsPublished).OrderBy(p => p.Id).FirstOrDefaultAsync(ct)

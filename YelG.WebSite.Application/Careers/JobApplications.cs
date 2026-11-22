@@ -115,6 +115,63 @@ namespace YelG.WebSite.Application.Careers
         private static partial Regex PhonePattern();
     }
 
+    /// <summary>
+    /// Checks the answers to a role's extra questions. The form posts them as q{id}: "yes"/"no", the text, or the
+    /// chosen option numbers (from 0; several for a multiple choice). Error keys: "q{id}" (missing or not one of the
+    /// options) and "q{id}:long" (text too long).
+    /// </summary>
+    public static class AnswerRules
+    {
+        public const int ShortTextMaxLength = 300;
+
+        public static (List<string> Errors, List<JobApplicationAnswer> Answers) Check(IReadOnlyList<CareerRoleQuestion> questions,
+            IReadOnlyDictionary<long, IReadOnlyList<string>> posted)
+        {
+            var errors = new List<string>();
+            var answers = new List<JobApplicationAnswer>();
+            var order = 0;
+            foreach (var q in questions)
+            {
+                order++;
+                var values = posted.TryGetValue(q.Id, out var v) ? v.Select(x => (x ?? "").Trim()).Where(x => x.Length > 0).ToList() : [];
+                var key = "q" + q.Id;
+                JobApplicationAnswer Row(string value) => new() { CareerRoleQuestionId = q.Id, Question = Cut(q.Text.Ar, 500), Kind = q.Kind, Value = value, SortOrder = order };
+
+                switch (q.Kind)
+                {
+                    case QuestionKind.YesNo:
+                        if (values.Count == 0) { if (q.IsRequired) errors.Add(key); break; }
+                        if (values.Count != 1 || values[0] is not (JobApplicationAnswer.Yes or JobApplicationAnswer.No)) { errors.Add(key); break; }
+                        answers.Add(Row(values[0]));
+                        break;
+
+                    case QuestionKind.ShortText or QuestionKind.LongText:
+                        var text = string.Join("\n", values).Replace("\r\n", "\n");
+                        if (text.Length == 0) { if (q.IsRequired) errors.Add(key); break; }
+                        if (text.Length > (q.Kind == QuestionKind.ShortText ? ShortTextMaxLength : CareerRoleQuestion.TextAnswerMaxLength)) { errors.Add(key + ":long"); break; }
+                        answers.Add(Row(text));
+                        break;
+
+                    default:
+                        var options = q.OptionList();
+                        var picked = new List<int>();
+                        foreach (var value in values)
+                        {
+                            if (!int.TryParse(value, out var i) || i < 0 || i >= options.Count) { picked = null; break; }
+                            if (!picked.Contains(i)) picked.Add(i);
+                        }
+                        if (picked is null || (q.Kind == QuestionKind.SingleChoice && picked.Count > 1)) { errors.Add(key); break; }
+                        if (picked.Count == 0) { if (q.IsRequired) errors.Add(key); break; }
+                        answers.AddRange(picked.Order().Select(i => Row(Cut(options[i].Ar, CareerRoleQuestion.TextAnswerMaxLength))));
+                        break;
+                }
+            }
+            return (errors, answers);
+        }
+
+        private static string Cut(string value, int max) => value.Length <= max ? value : value[..max];
+    }
+
     public enum ApplicationOutcome
     {
         Saved,
@@ -163,8 +220,10 @@ namespace YelG.WebSite.Application.Careers
         /// <param name="roleSlug">The role applied for; null for a general application (a CV for future roles).</param>
         /// <param name="generalTitle">How a general application is named in the inbox ("طلب عام").</param>
         /// <param name="consentText">The consent wording the form showed (plain text).</param>
+        /// <param name="answers">The extra questions' answers by question id (see <see cref="AnswerRules"/>).</param>
         public async Task<ApplicationResult> SubmitAsync(string? roleSlug, ApplicationInput input, CvUpload? cv, string culture, string consentText,
-            string? ipAddress, string? userAgent, CancellationToken ct = default, string generalTitle = "طلب عام")
+            string? ipAddress, string? userAgent, CancellationToken ct = default, string generalTitle = "طلب عام",
+            IReadOnlyDictionary<long, IReadOnlyList<string>>? answers = null)
         {
             if (!string.IsNullOrWhiteSpace(input.Website)) return new ApplicationResult(ApplicationOutcome.Ignored, []);
             CareerRole? role = null;
@@ -175,6 +234,14 @@ namespace YelG.WebSite.Application.Careers
             }
 
             var (errors, type) = await ApplicationRules.ValidateAsync(input, cv, _options.MaxCvBytes, ct);
+            var rows = new List<JobApplicationAnswer>();
+            if (role is not null)
+            {
+                var questions = await QuestionsAsync(role.Id, ct);
+                var (answerErrors, answerRows) = AnswerRules.Check(questions, answers ?? new Dictionary<long, IReadOnlyList<string>>());
+                errors.AddRange(answerErrors);
+                rows = answerRows;
+            }
             if (errors.Count > 0) return new ApplicationResult(ApplicationOutcome.Invalid, errors);
 
             var stored = await _cvs.SaveAsync(cv!.Content, type!.Extension, ct);
@@ -201,7 +268,8 @@ namespace YelG.WebSite.Application.Careers
                     ConsentAt = _clock.GetUtcNow().UtcDateTime,
                     ConsentText = Cut(consentText, 1000),
                     IpHash = HashIp(ipAddress),
-                    UserAgent = userAgent is null ? null : Cut(userAgent, 500)
+                    UserAgent = userAgent is null ? null : Cut(userAgent, 500),
+                    Answers = rows
                 };
                 _store.Add(application);
                 await _store.SaveChangesAsync(ct);
@@ -214,6 +282,11 @@ namespace YelG.WebSite.Application.Careers
                 throw;
             }
         }
+
+        /// <summary>The role's published questions, in their order on the form.</summary>
+        public async Task<IReadOnlyList<CareerRoleQuestion>> QuestionsAsync(long roleId, CancellationToken ct = default) =>
+            (await _store.ListAsync<CareerRoleQuestion>(q => q.CareerRoleId == roleId && q.IsPublished, ct))
+                .OrderBy(q => q.SortOrder).ThenBy(q => q.Id).ToList();
 
         private string? HashIp(string? ip)
         {

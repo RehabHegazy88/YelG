@@ -11,7 +11,7 @@ namespace YelG.WebSite.Infrastructure.Data
     /// </summary>
     public static class SoftDelete
     {
-        private static readonly HashSet<Type> HardDeleted = new() { typeof(Enquiry), typeof(EnquiryNote), typeof(JobApplication), typeof(JobApplicationNote) };
+        private static readonly HashSet<Type> HardDeleted = new() { typeof(Enquiry), typeof(EnquiryNote), typeof(JobApplication), typeof(JobApplicationNote), typeof(JobApplicationAnswer) };
 
         public static bool Applies(Type type) => typeof(BaseEntity).IsAssignableFrom(type) && !HardDeleted.Contains(type);
 

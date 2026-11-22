@@ -1,3 +1,4 @@
+@using YelG.WebSite.Domain.Sections
 @using YelG.WebSite.Domain.Careers
 @model ApplicationDetailsModel
 @{
@@ -34,6 +35,18 @@
                 <dt>السيرة الذاتية</dt><dd><a href="/admin/applications/@a.Id/cv" dir="auto">@a.CvFileName</a> <span class="muted" dir="ltr">(@ApplicationFormat.Size(a.CvSizeBytes))</span></dd>
                 <dt>لغة الصفحة</dt><dd>@(a.Culture == "en" ? "الإنجليزية" : "العربية")</dd>
             </dl>
+            @if (a.Answers.Count > 0)
+            {
+            <h3 class="sub">إجابات أسئلة الوظيفة</h3>
+            <dl class="facts answers">
+                @foreach (var g in a.Answers.GroupBy(x => (x.SortOrder, x.Question)))
+                {
+                var kind = g.First().Kind;
+                <dt dir="auto">@g.Key.Question</dt>
+                <dd>@if (kind == QuestionKind.LongText){<div class="message" dir="auto">@ApplicationFormat.Answers(g)</div>}else{<span dir="auto">@ApplicationFormat.Answers(g)</span>}</dd>
+                }
+            </dl>
+            }
             <h3 class="sub">الرسالة التعريفية</h3>
             <div class="message" dir="auto">@(a.Message ?? "—")</div>
         </section>

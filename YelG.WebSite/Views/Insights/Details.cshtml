@@ -13,7 +13,7 @@
 <a href="/@Model.Lang">YelG Advisory</a><span aria-hidden="true">/</span><a href="@Model.ListUrl">@Model.I("pageTitle")</a><span aria-hidden="true">/</span><span aria-current="page">@Model.R(post.CategoryLabel)</span>
 </nav>
 <div class="page-top-copy news-top">
-<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span>@Model.R(post.CategoryLabel) · <time datetime="@post.PublishedOn.ToString("yyyy-MM-dd")">@Model.Date(post.PublishedOn)</time></span>
+<span class="hero-eyebrow"><span aria-hidden="true" class="hero-eyebrow-line"></span><span>@Model.R(post.CategoryLabel) · <time datetime="@post.PublishedOn.ToString("yyyy-MM-dd")">@Model.Date(post.PublishedOn)</time></span></span>
 <h1 id="pageTitle" class="page-title">@Model.R(post.Title)</h1>
 @if (!post.Summary.IsEmpty){<p class="page-lead">@Model.R(post.Summary)</p>}
 </div>

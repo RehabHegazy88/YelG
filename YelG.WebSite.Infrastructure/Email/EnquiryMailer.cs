@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using YelG.WebSite.Domain.Careers;
 using YelG.WebSite.Domain.Enquiries;
+using YelG.WebSite.Domain.Sections;
 using YelG.WebSite.Domain.Settings;
 
 namespace YelG.WebSite.Infrastructure.Email
@@ -85,9 +86,10 @@ namespace YelG.WebSite.Infrastructure.Email
                 ("الشركة / Company", e.Company),
                 ("الهاتف / Phone", e.Phone ?? "—"),
                 ("الخدمة / Service", e.ServiceLabel),
-                ("لغة الصفحة / Page language", e.Culture == "en" ? "English" : "العربية"),
-                ("الموافقة / Consent", e.ConsentAt.ToString("yyyy-MM-dd HH:mm 'UTC'", CultureInfo.InvariantCulture))
+                ("لغة الصفحة / Page language", e.Culture == "en" ? "English" : "العربية")
             };
+            if (!string.IsNullOrWhiteSpace(e.ConsentText))
+                rows.Add(("الموافقة / Consent", e.ConsentAt.ToString("yyyy-MM-dd HH:mm 'UTC'", CultureInfo.InvariantCulture)));
             if (e.SelfCheckScore is { } score) rows.Add(("نتيجة الفحص المالي / Self-check score", score.ToString(CultureInfo.InvariantCulture)));
 
             message.Body = Body("طلب استشارة جديد · New enquiry", rows, e.Message, link);
@@ -114,6 +116,11 @@ namespace YelG.WebSite.Infrastructure.Email
                 ("لغة الصفحة / Page language", a.Culture == "en" ? "English" : "العربية"),
                 ("الموافقة / Consent", a.ConsentAt.ToString("yyyy-MM-dd HH:mm 'UTC'", CultureInfo.InvariantCulture))
             };
+            // the role's extra questions, in their order on the form (a multiple choice has one row per option)
+            foreach (var g in a.Answers.OrderBy(x => x.SortOrder).ThenBy(x => x.Id).GroupBy(x => (x.SortOrder, x.Question)))
+                rows.Add((g.Key.Question, string.Join("، ", g.Select(x => x.Kind == QuestionKind.YesNo
+                    ? x.Value == JobApplicationAnswer.Yes ? "نعم / Yes" : "لا / No"
+                    : x.Value))));
             message.Body = Body("طلب توظيف جديد · New job application", rows, a.Message ?? "—", link);
             return message;
         }

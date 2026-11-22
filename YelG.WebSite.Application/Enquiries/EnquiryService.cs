@@ -1,6 +1,5 @@
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using YelG.WebSite.Application.Admin;
 using YelG.WebSite.Domain.Enquiries;
@@ -89,7 +88,8 @@ namespace YelG.WebSite.Application.Enquiries
                 ServiceLabel = Cut(service?.Name.For(culture) ?? consult?.NotSureLabel.For(culture) ?? EnquiryInput.NotSure, 200),
                 Message = EnquiryRules.Trim(input.Message).Replace("\r\n", "\n"),
                 ConsentAt = now,
-                ConsentText = Cut(Plain(consult?.ConsentText.For(culture)), 1000),
+                // the form no longer asks for consent: no wording is kept (older requests keep theirs)
+                ConsentText = string.Empty,
                 SelfCheckScore = input.SelfCheckScore is >= 0 and <= 10000 ? input.SelfCheckScore : null,
                 IpHash = HashIp(origin.IpAddress),
                 UserAgent = origin.UserAgent is null ? null : Cut(origin.UserAgent, 500)
@@ -110,17 +110,5 @@ namespace YelG.WebSite.Application.Enquiries
         }
 
         private static string Cut(string value, int max) => value.Length <= max ? value : value[..max];
-
-        /// <summary>The consent wording as the visitor read it: the site markup removed.</summary>
-        private static string Plain(string? text)
-        {
-            if (string.IsNullOrEmpty(text)) return string.Empty;
-            var plain = LinkMarkup().Replace(text, "$1");
-            plain = plain.Replace("\\*", "\u0000").Replace("*", "").Replace("\u0000", "*");
-            return Regex.Replace(plain, @"\s+", " ").Trim();
-        }
-
-        [GeneratedRegex(@"\[([^\]]*)\]\([^)]*\)")]
-        private static partial Regex LinkMarkup();
     }
 }

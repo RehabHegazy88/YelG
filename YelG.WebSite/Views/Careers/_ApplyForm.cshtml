@@ -1,3 +1,5 @@
+@using YelG.WebSite.Domain.Careers
+@using YelG.WebSite.Domain.Sections
 @model ApplyFormModel
 @{
     // the application form: on a role's page, or the general one (a CV for future roles) on the careers page
@@ -15,8 +17,12 @@
         ["cv"] = P.C("err.cv"),
         ["cvType"] = P.C("err.cvType"),
         ["cvSize"] = P.C("err.cvSize"),
-        ["consent"] = P.C("err.consent")
+        ["consent"] = P.C("err.consent"),
+        ["answer"] = P.C("err.answer"),
+        ["answerLong"] = P.C("err.answerLong")
     };
+    // the role's extra questions, after the CV (none on the general form)
+    var questions = Model.General || P.Role is null ? new List<CareerRoleQuestion>() : P.Role.Questions.Where(q => q.IsPublished).ToList();
 }
 <form id="applyForm" class="cform job-form" method="post" action="@Model.Action" enctype="multipart/form-data" novalidate aria-labelledby="applyTitle"
       data-messages="@System.Text.Json.JsonSerializer.Serialize(messages)" data-error-summary="@P.S("formErrorSummary")" data-max-bytes="@P.MaxCvBytes">
@@ -33,6 +39,49 @@
 <div class="fld@(Model.General ? "" : " fld-full")"><label for="aPhone">@P.S("formPhone") <span class="hint">@P.S("formOptional")</span></label><input id="aPhone" name="phone" dir="@(P.IsArabic ? "ltr" : null)" class="in" type="tel" autocomplete="tel" aria-invalid="false" aria-describedby="eaPhone"><p id="eaPhone" class="err" hidden></p></div>
 <div class="fld@(Model.General ? "" : " fld-full")"><label for="aLinkedIn">@P.C("linkedIn") <span class="hint">@P.S("formOptional")</span></label><input id="aLinkedIn" name="linkedIn" dir="ltr" class="in" type="url" placeholder="@P.C("linkedInPlaceholder")" aria-invalid="false" aria-describedby="eaLinkedIn"><p id="eaLinkedIn" class="err" hidden></p></div>
 <div class="fld fld-full"><label for="aCv">@P.C("cv") <i>*</i></label><input id="aCv" name="cv" class="in in-file" type="file" accept="@YelG.WebSite.Application.Careers.CvFileType.Accept" aria-invalid="false" aria-describedby="haCv eaCv" aria-required="true"><span id="haCv" class="hint">@P.C("cvHint")</span><p id="eaCv" class="err" hidden></p></div>
+@foreach (var q in questions)
+{
+    var id = "aq" + q.Id;
+    var name = "q" + q.Id;
+    var hasHint = !q.Hint.IsEmpty;
+    var describedBy = (hasHint ? "h" + id + " " : "") + "e" + id;
+    var mark = q.IsRequired ? Html.Raw(" <i>*</i>") : Html.Raw(" <span class=\"hint\">" + System.Net.WebUtility.HtmlEncode(P.S("formOptional")) + "</span>");
+    if (q.Kind is QuestionKind.ShortText or QuestionKind.LongText)
+    {
+        var max = q.Kind == QuestionKind.ShortText ? YelG.WebSite.Application.Careers.AnswerRules.ShortTextMaxLength : CareerRoleQuestion.TextAnswerMaxLength;
+<div class="fld fld-full" data-q="@name" data-kind="text" data-required="@(q.IsRequired ? "true" : null)" data-max="@max">
+<label for="@id">@P.R(q.Text)@mark</label>
+@if (q.Kind == QuestionKind.ShortText)
+{
+<input id="@id" name="@name" class="in" type="text" maxlength="@max" aria-invalid="false" aria-describedby="@describedBy" aria-required="@(q.IsRequired ? "true" : null)">
+}
+else
+{
+<textarea id="@id" name="@name" class="in" rows="4" maxlength="@max" aria-invalid="false" aria-describedby="@describedBy" aria-required="@(q.IsRequired ? "true" : null)"></textarea>
+}
+@if (hasHint){<span id="h@(id)" class="hint">@P.R(q.Hint)</span>}
+<p id="e@(id)" class="err" hidden></p>
+</div>
+    }
+    else
+    {
+        var multiple = q.Kind == QuestionKind.MultipleChoice;
+        var choices = q.Kind == QuestionKind.YesNo
+            ? new List<(string Value, string Label)> { (JobApplicationAnswer.Yes, P.C("yes")), (JobApplicationAnswer.No, P.C("no")) }
+            : q.OptionList().Select((o, i) => (Value: i.ToString(), Label: o.For(P.Lang))).ToList();
+<fieldset id="@id" class="fld fld-full qset" data-q="@name" data-kind="@(multiple ? "check" : "radio")" data-required="@(q.IsRequired ? "true" : null)" aria-describedby="@describedBy">
+<legend class="lbl">@P.R(q.Text)@mark</legend>
+@if (hasHint){<span id="h@(id)" class="hint">@P.R(q.Hint)</span>}
+<div class="qopts@(q.Kind == QuestionKind.YesNo ? " qopts-row" : "")">
+@for (var i = 0; i < choices.Count; i++)
+{
+<label class="qopt"><input type="@(multiple ? "checkbox" : "radio")" name="@name" value="@choices[i].Value" aria-invalid="false"><span>@P.Iso(choices[i].Label)</span></label>
+}
+</div>
+<p id="e@(id)" class="err" hidden></p>
+</fieldset>
+    }
+}
 <div class="fld fld-full"><label for="aMsg">@P.C("coverLetter") <span class="hint">@P.S("formOptional")</span></label><textarea id="aMsg" name="message" class="in" rows="4" maxlength="3000" aria-invalid="false" aria-describedby="eaMsg"></textarea><p id="eaMsg" class="err" hidden></p></div>
 <div class="fld fld-full"><label class="consent" for="aConsent"><input id="aConsent" name="consent" type="checkbox" value="true" aria-invalid="false" aria-describedby="eaConsent"><span>@P.Text(section.ApplyConsentText, "consent")</span></label><p id="eaConsent" class="err" hidden></p></div>
 </div>

@@ -9,6 +9,7 @@ using YelG.WebSite.Application.Common;
 using YelG.WebSite.Areas.Admin.Models;
 using YelG.WebSite.Domain.Audit;
 using YelG.WebSite.Domain.Careers;
+using YelG.WebSite.Domain.Sections;
 using YelG.WebSite.Infrastructure.Data;
 
 namespace YelG.WebSite.Areas.Admin.Controllers
@@ -45,15 +46,17 @@ namespace YelG.WebSite.Areas.Admin.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index([FromQuery] ApplicationFilter filter, int page = 1, CancellationToken ct = default)
         {
-            var query = Filter(filter);
+            var questions = await QuestionsAsync(filter, ct);
+            var query = Filter(filter, questions);
             var total = await query.CountAsync(ct);
             var pages = Math.Max(1, (total + PageSize - 1) / PageSize);
             page = Math.Clamp(page, 1, pages);
+            var ordered = query.OrderByDescending(a => a.AddedDate).ThenByDescending(a => a.Id).Skip((page - 1) * PageSize).Take(PageSize);
             return View(new ApplicationListModel
             {
                 Filter = filter,
-                Items = await query.OrderByDescending(a => a.AddedDate).ThenByDescending(a => a.Id)
-                    .Skip((page - 1) * PageSize).Take(PageSize).ToListAsync(ct),
+                Questions = questions,
+                Items = questions.Count > 0 ? await ordered.Include(a => a.Answers).ToListAsync(ct) : await ordered.ToListAsync(ct),
                 Total = total,
                 Page = page,
                 PageCount = pages,
@@ -67,6 +70,7 @@ namespace YelG.WebSite.Areas.Admin.Controllers
         public async Task<IActionResult> Details(long id, CancellationToken ct)
         {
             var application = await _db.JobApplications.AsNoTracking().Include(a => a.Notes.OrderBy(n => n.AddedDate))
+                .Include(a => a.Answers.OrderBy(x => x.SortOrder).ThenBy(x => x.Id)).AsSplitQuery()
                 .FirstOrDefaultAsync(a => a.Id == id, ct);
             if (application is null) return NotFound();
 
@@ -163,14 +167,22 @@ namespace YelG.WebSite.Areas.Admin.Controllers
         [Authorize(Policy = AdminPolicies.AdminOnly)]
         public async Task<IActionResult> Export([FromQuery] ApplicationFilter filter, CancellationToken ct)
         {
-            var items = await Filter(filter).OrderByDescending(a => a.AddedDate).ThenByDescending(a => a.Id).ToListAsync(ct);
+            var questions = await QuestionsAsync(filter, ct);
+            var items = await Filter(filter, questions).OrderByDescending(a => a.AddedDate).ThenByDescending(a => a.Id)
+                .Include(a => a.Answers.OrderBy(x => x.SortOrder).ThenBy(x => x.Id)).ToListAsync(ct);
             var csv = new StringBuilder();
-            Row(csv, "Id", "Received (Cairo)", "Status", "Role", "Name", "Email", "Phone", "LinkedIn", "Page language", "CV file", "Message",
-                "Consent (UTC)");
+            // With a role selected, one column per question; otherwise all answers in one column.
+            Row(csv, new[] { "Id", "Received (Cairo)", "Status", "Role", "Name", "Email", "Phone", "LinkedIn", "Page language", "CV file", "Message",
+                "Consent (UTC)" }.Concat(questions.Count > 0 ? questions.Select(q => q.Text.Ar) : ["Answers"]).ToArray());
             foreach (var a in items)
-                Row(csv, a.Id.ToString(CultureInfo.InvariantCulture), AdminFormat.Time(a.AddedDate), a.Status.ToString(), a.RoleTitle, a.Name, a.Email,
+            {
+                var answers = questions.Count > 0
+                    ? questions.Select(q => ApplicationFormat.Answers(a.Answers.Where(x => x.CareerRoleQuestionId == q.Id)))
+                    : [string.Join(" | ", a.Answers.GroupBy(x => (x.SortOrder, x.Question)).Select(g => g.Key.Question + ": " + ApplicationFormat.Answers(g)))];
+                Row(csv, new[] { a.Id.ToString(CultureInfo.InvariantCulture), AdminFormat.Time(a.AddedDate), a.Status.ToString(), a.RoleTitle, a.Name, a.Email,
                     a.Phone ?? "", a.LinkedInUrl ?? "", a.Culture, a.CvFileName, a.Message ?? "",
-                    a.ConsentAt.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture));
+                    a.ConsentAt.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture) }.Concat(answers).ToArray());
+            }
 
             Audit("Exported", null, new { count = items.Count, filter = filter.ToString() });
             await _db.SaveChangesAsync(ct);
@@ -189,9 +201,23 @@ namespace YelG.WebSite.Areas.Admin.Controllers
             return options;
         }
 
-        private IQueryable<JobApplication> Filter(ApplicationFilter f)
+        /// <summary>The selected role's questions (also hidden ones, which older applications may have answered).</summary>
+        private async Task<List<CareerRoleQuestion>> QuestionsAsync(ApplicationFilter f, CancellationToken ct) =>
+            long.TryParse(f.Role, out var roleId)
+                ? await _db.CareerRoleQuestions.AsNoTracking().Where(q => q.CareerRoleId == roleId).OrderBy(q => q.SortOrder).ThenBy(q => q.Id).ToListAsync(ct)
+                : [];
+
+        private IQueryable<JobApplication> Filter(ApplicationFilter f, IReadOnlyList<CareerRoleQuestion> questions)
         {
             var query = _db.JobApplications.AsNoTracking();
+            foreach (var q in questions)
+            {
+                if (f.Answer(q.Id) is not { } value) continue;
+                var questionId = q.Id;
+                query = q.Kind is QuestionKind.ShortText or QuestionKind.LongText
+                    ? query.Where(a => a.Answers.Any(x => x.CareerRoleQuestionId == questionId && x.Value.Contains(value)))
+                    : query.Where(a => a.Answers.Any(x => x.CareerRoleQuestionId == questionId && x.Value == value));
+            }
             if (f.Status is { } status) query = query.Where(a => a.Status == status);
             if (f.Role == GeneralRole) query = query.Where(a => a.CareerRoleId == null);
             else if (long.TryParse(f.Role, out var roleId)) query = query.Where(a => a.CareerRoleId == roleId);

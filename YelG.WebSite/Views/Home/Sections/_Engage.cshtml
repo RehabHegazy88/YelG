@@ -5,7 +5,7 @@
 }
 <section id="engage" class="sec engage">
 <div class="wrap engage-wrap">
-<div class="head head-center"><span class="eyebrow">@Model.R(e.Eyebrow)</span><h2 class="h2">@Model.Heading(e)</h2>@if (!e.Lead.IsEmpty){<p class="lead">@Model.R(e.Lead)</p>}</div>
+<div class="head head-center"><span class="eyebrow"><span>@Model.R(e.Eyebrow)</span></span><h2 class="h2">@Model.Heading(e)</h2>@if (!e.Lead.IsEmpty){<p class="lead">@Model.R(e.Lead)</p>}</div>
 <div class="engage-grid">
 @foreach (var m in c.EngagementModels)
 {

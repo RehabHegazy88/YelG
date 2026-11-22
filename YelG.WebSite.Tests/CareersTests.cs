@@ -36,6 +36,33 @@ namespace YelG.WebSite.Tests
         }
 
         [Fact]
+        public void Extra_questions_check_required_answers_options_and_length()
+        {
+            var questions = new List<CareerRoleQuestion>
+            {
+                new() { Id = 1, Kind = QuestionKind.YesNo, Text = new LocalizedText("هل لديك CMA؟", "Do you hold a CMA?") },
+                new() { Id = 2, Kind = QuestionKind.MultipleChoice, Text = new LocalizedText("الأنظمة", "Systems"), Options = new LocalizedText("Odoo\nSAP\nOracle", "Odoo\nSAP\nOracle") },
+                new() { Id = 3, Kind = QuestionKind.ShortText, Text = new LocalizedText("الراتب المتوقع", "Expected salary"), IsRequired = false },
+                new() { Id = 4, Kind = QuestionKind.SingleChoice, Text = new LocalizedText("متى تبدأ؟", "Start"), Options = new LocalizedText("فورًا\nبعد شهر", "Now\nIn a month") }
+            };
+            static Dictionary<long, IReadOnlyList<string>> Posted(params (long Id, string[] Values)[] values) =>
+                values.ToDictionary(v => v.Id, v => (IReadOnlyList<string>)v.Values);
+
+            // nothing answered: the three required questions are missing, the optional one is fine
+            Assert.Equal(new[] { "q1", "q2", "q4" }, AnswerRules.Check(questions, Posted()).Errors);
+
+            // a value that is not one of the choices, two answers to a single choice, a text too long
+            var (bad, _) = AnswerRules.Check(questions, Posted((1, ["maybe"]), (2, ["7"]), (3, [new string('x', 301)]), (4, ["0", "1"])));
+            Assert.Equal(new[] { "q1", "q2", "q3:long", "q4" }, bad);
+
+            // answered: one row per chosen option, kept in Arabic with the question's wording
+            var (errors, rows) = AnswerRules.Check(questions, Posted((1, ["yes"]), (2, ["2", "0", "2"]), (4, ["1"])));
+            Assert.Empty(errors);
+            Assert.Equal(new[] { "yes", "Odoo", "Oracle", "بعد شهر" }, rows.Select(r => r.Value));
+            Assert.All(rows.Where(r => r.CareerRoleQuestionId == 2), r => Assert.Equal("الأنظمة", r.Question));
+        }
+
+        [Fact]
         public void A_role_is_listed_until_its_closing_day()
         {
             var role = new CareerRole { IsActive = true, ClosingOn = new DateOnly(2026, 10, 25) };
@@ -210,7 +237,8 @@ namespace YelG.WebSite.Tests
         }
 
         private static async Task<HttpResponseMessage> ApplyAsync(HttpClient client, byte[] cv, string cvName, string email,
-            string pageUrl = "/en/careers/test-senior-accountant", string action = "/en/careers/test-senior-accountant/apply")
+            string pageUrl = "/en/careers/test-senior-accountant", string action = "/en/careers/test-senior-accountant/apply",
+            params (string Name, string Value)[] extra)
         {
             var page = await Html.GetAsync(client, pageUrl);
             var token = ((IHtmlInputElement)page.QuerySelector("#applyForm input[name=__RequestVerificationToken]")!).Value;
@@ -222,6 +250,7 @@ namespace YelG.WebSite.Tests
                 { new StringContent("true"), "consent" },
                 { new StringContent("Six years in accounting."), "message" }
             };
+            foreach (var (name, value) in extra) form.Add(new StringContent(value), name);
             var file = new ByteArrayContent(cv);
             file.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
             form.Add(file, "cv", cvName);
@@ -280,6 +309,68 @@ namespace YelG.WebSite.Tests
                 new FormUrlEncodedContent(new Dictionary<string, string> { ["__RequestVerificationToken"] = adminToken }));
             Assert.Equal("/admin/applications", deleted.Headers.Location?.OriginalString);
             Assert.Null(_site.Services.GetRequiredService<ICvStore>().OpenRead(stored));
+        }
+
+        [LocalDbFact]
+        public async Task A_roles_extra_questions_are_asked_saved_and_filter_the_applications()
+        {
+            long yesNo, choice;
+            await using (var scope = _site.Services.CreateAsyncScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<WebSiteDbContext>();
+                var q1 = new CareerRoleQuestion { CareerRoleId = _roleId, Kind = QuestionKind.YesNo, Text = new LocalizedText("هل لديك شهادة CMA؟", "Do you hold a CMA?"), SortOrder = 1 };
+                var q2 = new CareerRoleQuestion
+                {
+                    CareerRoleId = _roleId, Kind = QuestionKind.MultipleChoice, Text = new LocalizedText("الأنظمة التي استخدمتها", "Systems you have used"),
+                    Options = new LocalizedText("Odoo\nSAP\nOracle", "Odoo\nSAP\nOracle"), SortOrder = 2
+                };
+                db.CareerRoleQuestions.AddRange(q1, q2);
+                await db.SaveChangesAsync();
+                (yesNo, choice) = (q1.Id, q2.Id);
+            }
+            _site.Services.GetRequiredService<YelG.WebSite.Application.Content.IContentVersion>().Bump();
+
+            var client = _site.Browser();
+            var page = await Html.GetAsync(client, "/en/careers/test-senior-accountant");
+            Assert.Equal(2, page.QuerySelectorAll($"#applyForm input[name=q{yesNo}]").Length);
+            Assert.Equal(3, page.QuerySelectorAll($"#applyForm input[type=checkbox][name=q{choice}]").Length);
+
+            var pdf = "%PDF-1.4\n%%EOF"u8.ToArray();
+            var missing = await ApplyAsync(client, pdf, "cv.pdf", $"q-{Guid.NewGuid():N}@test.local");
+            Assert.Equal(HttpStatusCode.UnprocessableEntity, missing.StatusCode);
+            var errors = JsonDocument.Parse(await missing.Content.ReadAsStringAsync()).RootElement.GetProperty("errors");
+            Assert.Equal("Please answer this question.", errors.GetProperty($"q{yesNo}").GetString());
+
+            var withCma = $"cma-{Guid.NewGuid():N}@test.local";
+            var without = $"nocma-{Guid.NewGuid():N}@test.local";
+            Assert.Equal(HttpStatusCode.OK, (await ApplyAsync(client, pdf, "cv.pdf", withCma, extra: [($"q{yesNo}", "yes"), ($"q{choice}", "0"), ($"q{choice}", "1")])).StatusCode);
+            Assert.Equal(HttpStatusCode.OK, (await ApplyAsync(client, pdf, "cv.pdf", without, extra: [($"q{yesNo}", "no"), ($"q{choice}", "2")])).StatusCode);
+
+            await using (var scope = _site.Services.CreateAsyncScope())
+            {
+                var saved = await scope.ServiceProvider.GetRequiredService<WebSiteDbContext>().JobApplications.AsNoTracking()
+                    .Include(a => a.Answers).SingleAsync(a => a.Email == withCma);
+                Assert.Equal(new[] { "yes", "Odoo", "SAP" }, saved.Answers.OrderBy(a => a.SortOrder).ThenBy(a => a.Value).Select(a => a.Value));
+            }
+
+            // the inbox: with the role selected, each question filters the applications
+            var editor = await _site.SignedInAsync(SiteFactory.EditorEmail);
+            async Task<string> Inbox(string query) => (await Html.GetAsync(editor, $"/admin/applications?role={_roleId}&{query}")).QuerySelector("table.rows")?.TextContent ?? "";
+            var cma = await Inbox($"a%5B{yesNo}%5D=yes");
+            Assert.Contains("Mona Test", cma);
+            Assert.Equal(1, (await Html.GetAsync(editor, $"/admin/applications?role={_roleId}&a%5B{yesNo}%5D=yes")).QuerySelectorAll("table.rows tbody tr").Length);
+            Assert.Equal(1, (await Html.GetAsync(editor, $"/admin/applications?role={_roleId}&a%5B{choice}%5D=Oracle")).QuerySelectorAll("table.rows tbody tr").Length);
+            Assert.Equal(2, (await Html.GetAsync(editor, $"/admin/applications?role={_roleId}")).QuerySelectorAll("table.rows tbody tr").Length);
+            var filters = await Html.GetAsync(editor, $"/admin/applications?role={_roleId}");
+            Assert.NotNull(filters.QuerySelector($"select[name='a[{yesNo}]']"));
+
+            // the CVs of this test (the applications themselves go with the role in DisposeAsync)
+            await using (var scope = _site.Services.CreateAsyncScope())
+            {
+                var stored = await scope.ServiceProvider.GetRequiredService<WebSiteDbContext>().JobApplications.AsNoTracking()
+                    .Where(a => a.CareerRoleId == _roleId).Select(a => a.CvStoredPath).ToListAsync();
+                stored.ForEach(_site.Services.GetRequiredService<ICvStore>().Delete);
+            }
         }
 
         [LocalDbFact]

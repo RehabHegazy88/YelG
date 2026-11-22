@@ -1,0 +1,43 @@
+@using YelG.WebSite.Domain.Sections
+@model HomePageModel
+@{
+    // "Meet our team": the heading, then the team as one list of cards (the founder first); each member's practice
+    // is named on their card.
+    var c = Model.Content;
+    var t = c.Team!;
+    var founder = c.Founder;
+    var practices = c.TeamPractices;
+    var shown = practices.Select(p => p.Id).ToHashSet();
+    var members = c.TeamMembers;
+    var founderName = founder is null ? "" : Model.T(founder.Name);
+}
+@functions {
+    private Microsoft.AspNetCore.Html.IHtmlContent Face(string? path, string name, string css) =>
+        path is not null
+            ? Html.Raw($"<span class=\"{css}\"><img src=\"{System.Net.WebUtility.HtmlEncode(path)}\" alt=\"\" loading=\"lazy\"></span>")
+            : Html.Raw($"<span class=\"{css} is-initials\">{System.Net.WebUtility.HtmlEncode(TeamMember.Initials(name))}</span>");
+}
+<section id="team" class="on-dark sec team-sec" aria-labelledby="teamTitle">
+<div aria-hidden="true" class="team-glow"></div>
+<div class="wrap team-wrap">
+<div class="head team-head">
+<span class="eyebrow on-dark"><span>@Model.R(t.Eyebrow)</span></span>
+<h2 id="teamTitle" class="h2">@Model.Heading(t)</h2>
+@if (!t.Lead.IsEmpty){<p class="lead">@Model.R(t.Lead)</p>}
+@if (!string.IsNullOrWhiteSpace(t.StatValue))
+{
+<p class="team-stat"><b dir="ltr">@t.StatValue</b><span>@Model.R(t.StatLabel)</span></p>
+}
+</div>
+<ul class="team-cards team-list">
+@if (founder is not null)
+{
+<li class="tcard tcard-lead">@Face(founder.Avatar?.Path ?? founder.Photo?.Path, founderName, "tcard-photo")<span class="tcard-body"><b class="tcard-name">@Model.R(founder.Name)</b><span class="tcard-role">@Model.R(founder.Title)</span></span></li>
+}
+@foreach (var m in members)
+{
+    @await Html.PartialAsync("~/Views/Home/Sections/_TeamCard.cshtml", new TeamCardModel(Model, m, shown.Contains(m.TeamPracticeId ?? 0) ? practices.First(p => p.Id == m.TeamPracticeId) : null))
+}
+</ul>
+</div>
+</section>

@@ -60,6 +60,33 @@ namespace YelG.WebSite.Domain.Careers
         public string? UserAgent { get; set; }
 
         public ICollection<JobApplicationNote> Notes { get; set; } = new List<JobApplicationNote>();
+
+        /// <summary>The answers to the role's extra questions (one row per chosen option for a multiple choice).</summary>
+        public ICollection<JobApplicationAnswer> Answers { get; set; } = new List<JobApplicationAnswer>();
+    }
+
+    /// <summary>
+    /// An answer to one of the role's extra questions. The question's wording (Arabic) and kind are copied, so the
+    /// answer still reads right if the question is changed or removed. <see cref="Value"/> is "yes" or "no", the
+    /// text written, or one chosen option in Arabic.
+    /// </summary>
+    public class JobApplicationAnswer : BaseEntity
+    {
+        public const string Yes = "yes";
+        public const string No = "no";
+
+        public long JobApplicationId { get; set; }
+        public JobApplication JobApplication { get; set; } = null!;
+
+        /// <summary>The question, while it exists.</summary>
+        public long? CareerRoleQuestionId { get; set; }
+
+        public string Question { get; set; } = string.Empty;
+        public QuestionKind Kind { get; set; }
+        public string Value { get; set; } = string.Empty;
+
+        /// <summary>The question's place on the form, to show the answers in the same order.</summary>
+        public int SortOrder { get; set; }
     }
 
     /// <summary>An internal note on an application (who wrote it is AddedBy_PersonID).</summary>

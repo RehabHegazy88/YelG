@@ -54,6 +54,24 @@ namespace YelG.WebSite.Infrastructure.Maps
                 b.HasOne(x => x.Photo).WithMany().HasForeignKey(x => x.PhotoId).OnDelete(DeleteBehavior.Restrict);
                 b.HasOne(x => x.Avatar).WithMany().HasForeignKey(x => x.AvatarId).OnDelete(DeleteBehavior.Restrict);
             });
+            builder.Entity<TeamSection>(b =>
+            {
+                b.ToTable("TeamSections");
+                b.Property(x => x.StatValue).HasMaxLength(20);
+            });
+            builder.Entity<TeamPractice>(b =>
+            {
+                b.ToTable("TeamPractices");
+            });
+            builder.Entity<TeamMember>(b =>
+            {
+                b.ToTable("TeamMembers");
+                b.Property(x => x.Credentials).HasMaxLength(200);
+                b.Property(x => x.LinkedInUrl).HasMaxLength(500);
+                b.HasOne(x => x.Photo).WithMany().HasForeignKey(x => x.PhotoId).OnDelete(DeleteBehavior.Restrict);
+                // a removed practice leaves its members with the whole team
+                b.HasOne(x => x.Practice).WithMany().HasForeignKey(x => x.TeamPracticeId).OnDelete(DeleteBehavior.SetNull);
+            });
         }
     }
 
@@ -94,6 +112,11 @@ namespace YelG.WebSite.Infrastructure.Maps
                 b.HasOne(x => x.Image).WithMany().HasForeignKey(x => x.ImageId).OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<WhyCard>(b => b.ToTable("WhyCards"));
+            builder.Entity<WhySlide>(b =>
+            {
+                b.ToTable("WhySlides");
+                b.HasOne(x => x.Image).WithMany().HasForeignKey(x => x.ImageId).OnDelete(DeleteBehavior.Restrict);
+            });
             builder.Entity<HowSection>(b => b.ToTable("HowSections"));
             builder.Entity<HowStep>(b => b.ToTable("HowSteps"));
             builder.Entity<PurposeSection>(b =>
@@ -215,6 +238,12 @@ namespace YelG.WebSite.Infrastructure.Maps
             {
                 b.ToTable("CareerRoleTags");
                 b.HasOne(x => x.CareerRole).WithMany(x => x.Tags).HasForeignKey(x => x.CareerRoleId).OnDelete(DeleteBehavior.Cascade);
+            });
+            builder.Entity<CareerRoleQuestion>(b =>
+            {
+                b.ToTable("CareerRoleQuestions");
+                b.HasOne(x => x.CareerRole).WithMany(x => x.Questions).HasForeignKey(x => x.CareerRoleId).OnDelete(DeleteBehavior.Cascade);
+                b.Ignore(x => x.HasOptions);
             });
             builder.Entity<ClientPortalSection>(b =>
             {
